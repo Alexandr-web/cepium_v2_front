@@ -1,0 +1,40 @@
+{
+  "name": "cepium_v2",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "test": "vitest",
+    "test-unit": "vitest --project unit",
+    "test-nuxt": "vitest --project nuxt",
+    "test-watch": "vitest --watch",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@nuxt/eslint": "1.15.2",
+    "@nuxt/icon": "2.2.2",
+    "@nuxt/image": "2.0.0",
+    "@nuxtjs/device": "4.0.0",
+    "@nuxtjs/eslint-module": "4.1.0",
+    "@nuxtjs/tailwindcss": "6.14.0",
+    "@peterbud/nuxt-query": "1.8.0",
+    "@pinia/nuxt": "0.11.3",
+    "@vueuse/nuxt": "14.3.0",
+    "eslint": "^9.0.0 || ^10.0.0",
+    "nuxt": "^4.4.6",
+    "pinia": "^3.0.4",
+    "vue": "^3.5.34",
+    "vue-router": "^5.0.7"
+  },
+  "devDependencies": {
+    "@nuxt/test-utils": "^4.0.3",
+    "@vue/test-utils": "^2.4.10",
+    "happy-dom": "^20.9.0",
+    "playwright-core": "^1.60.0",
+    "vitest": "^4.1.7"
+  }
+}
