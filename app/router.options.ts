@@ -5,6 +5,11 @@ export default {
 			name: "home",
 			path: "/",
 			component: () => import("./pages/index.vue"),
+			meta: {
+				seo: {
+					title: "Главная",
+				},
+			},
 		},
 	],
 };

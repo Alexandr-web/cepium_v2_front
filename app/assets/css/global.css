@@ -1,0 +1,142 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		--spacing: 100vw / 360;
+		@media (min-width: 1025px) {
+			--spacing: 100vw / 1920;
+		}
+	}
+}
+
+@utility text-* {
+	font-size: calc(var(--spacing) * --value(integer));
+}
+
+@utility rounded-* {
+	border-radius: calc(var(--spacing) * --value(integer));
+}
+
+@utility rounded-t-* {
+	border-top-left-radius: calc(var(--spacing) * --value(integer));
+	border-top-right-radius: calc(var(--spacing) * --value(integer));
+}
+
+@utility rounded-b-* {
+	border-bottom-left-radius: calc(var(--spacing) * --value(integer));
+	border-bottom-right-radius: calc(var(--spacing) * --value(integer));
+}
+
+@utility rounded-r-* {
+	border-top-right-radius: calc(var(--spacing) * --value(integer));
+	border-bottom-right-radius: calc(var(--spacing) * --value(integer));
+}
+
+@utility rounded-l-* {
+	border-top-left-radius: calc(var(--spacing) * --value(integer));
+	border-bottom-left-radius: calc(var(--spacing) * --value(integer));
+}
+
+@utility rounded-tr-* {
+	border-top-right-radius: calc(var(--spacing) * --value(integer));
+}
+
+@utility rounded-tl-* {
+	border-top-left-radius: calc(var(--spacing) * --value(integer));
+}
+
+@utility rounded-br-* {
+	border-bottom-right-radius: calc(var(--spacing) * --value(integer));
+}
+
+@utility rounded-bl-* {
+	border-bottom-left-radius: calc(var(--spacing) * --value(integer));
+}
+
+@utility border-* {
+	border-width: calc(var(--spacing) * --value(integer));
+}
+
+@utility gap-* {
+	gap: calc(var(--spacing) * --value(integer));
+}
+
+@utility scrollbar-visible-* {
+	&::-webkit-scrollbar {
+		width: calc(var(--spacing) * --value(integer));
+	}
+}
+
+@utility border-t-* {
+	border-top-color: --value(--color-*);
+}
+
+@utility border-l-* {
+	border-left-color: --value(--color-*);
+}
+
+@utility truncle-lines-* {
+	display: -webkit-box;
+	-webkit-line-clamp: --value(integer);
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+@theme {
+	--breakpoint-lg: 1024px;
+	--breakpoint-sm: 360px;
+
+	--default-transition-duration: 0.3s;
+
+	--font-display: "Inter";
+
+	--color-primary-100: #031F23;
+	--color-primary-200: #1A3438;
+	--color-primary-300: #314B4F;
+	--color-primary-400: #496367;
+	--color-primary-500: #617C80;
+	--color-primary-600: #7A959A;
+	--color-primary-700: #95B0B5;
+	--color-primary-800: #B0CBD0;
+	--color-primary-900: #CBE8EC;
+	--color-primary-950: #D9F6FB;
+
+	--color-secondary-100: #20182A;
+	--color-secondary-200: #352D40;
+	--color-secondary-300: #4C4357;
+	--color-secondary-400: #645A6F;
+	--color-secondary-500: #7E7389;
+	--color-secondary-600: #988CA3;
+	--color-secondary-700: #B3A6BE;
+	--color-secondary-800: #CFC2DA;
+	--color-secondary-900: #EBDDF7;
+	--color-secondary-950: #F8EDFF;
+
+	--color-tertiary-100: #020F5C;
+	--color-tertiary-200: #1D2871;
+	--color-tertiary-300: #354088;
+	--color-tertiary-400: #4D58A2;
+	--color-tertiary-500: #6671BD;
+	--color-tertiary-600: #808BD9;
+	--color-tertiary-700: #9BA6F5;
+	--color-tertiary-800: #BBC3FF;
+	--color-tertiary-900: #DFE0FF;
+	--color-tertiary-950: #F0EFFF;
+
+	--color-neutral-100: #171C1F;
+	--color-neutral-200: #2B3134;
+	--color-neutral-300: #42484B;
+	--color-neutral-400: #595F62;
+	--color-neutral-500: #72787B;
+	--color-neutral-600: #8C9295;
+	--color-neutral-700: #A6ACB0;
+	--color-neutral-800: #C2C7CB;
+	--color-neutral-900: #DEE3E7;
+	--color-neutral-950: #ECF1F5;
+}
