@@ -1,5 +1,6 @@
 // @ts-check
 import withNuxt from "./.nuxt/eslint.config.mjs";
+import tseslint from "typescript-eslint";
 
 export default withNuxt([
 	{
@@ -10,6 +11,12 @@ export default withNuxt([
 			"node_modules/**",
 			"public/**",
 		],
+	},
+	{
+		files: ["app/**/*.ts", "test/**/*.ts"],
+		languageOptions: {
+			parser: tseslint.parser,
+		},
 	},
 	{
 		rules: {

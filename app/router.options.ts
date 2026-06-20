@@ -11,5 +11,15 @@ export default {
 				},
 			},
 		},
+		{
+			name: "login",
+			path: "/login",
+			component: () => import("./pages/login.vue"),
+			meta: {
+				seo: {
+					title: "Вход",
+				},
+			},
+		},
 	],
 };

@@ -4,9 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
 	compatibilityDate: "2025-07-15",
 	devtools: { enabled: true },
-	imports: {
-		dirs: ["app/types"],
-	},
 	modules: [
 		"@nuxt/eslint",
 		"@nuxt/icon",
@@ -16,6 +13,7 @@ export default defineNuxtConfig({
 		"@pinia/nuxt",
 		"@vueuse/nuxt",
 		"@nuxt/test-utils/module",
+		"nuxt-svgo",
 	],
 	css: ["@/assets/css/global.css"],
 	vite: {
@@ -25,7 +23,13 @@ export default defineNuxtConfig({
 		mode: "css",
 		cssLayer: "base",
 	},
+	svgo: {
+		defaultImport: "component",
+	},
 	nuxtQuery: {
 		devtools: true,
+	},
+	image: {
+		format: ["webp"],
 	},
 });
