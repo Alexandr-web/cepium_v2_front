@@ -5,7 +5,10 @@
 			preset === 'mob' && 'flex flex-col gap-36'
 		]"
 	>
-		<nav>
+		<nav :class="[
+			preset === 'mob' && 'scroll-block max-h-350 overflow-auto',
+			preset === 'desk' && 'scroll-block grow overflow-auto'
+		]">
 			<ul
 				:class="[
 					preset === 'desk' && 'flex flex-col gap-10',
@@ -97,6 +100,11 @@ const menu = [
 		icon: "material-symbols:monitoring",
 	},
 	{
+		route: "settings",
+		label: "Настройки",
+		icon: "material-symbols:settings-outline",
+	},
+	{
 		route: "statistics",
 		label: "Статистика",
 		icon: "uil:statistics",
@@ -105,6 +113,11 @@ const menu = [
 		route: "orders",
 		label: "Ордера",
 		icon: "tdesign:work-history",
+	},
+	{
+		route: "profile",
+		label: "Профиль",
+		icon: "material-symbols:person-outline-rounded",
 	},
 ];
 
