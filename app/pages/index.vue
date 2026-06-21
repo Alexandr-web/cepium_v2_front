@@ -1,6 +1,6 @@
 <template>
-	<div>
-		Hello, world!
+	<div class="h-2000">
+		Home
 	</div>
 </template>
 <script setup lang="ts">
