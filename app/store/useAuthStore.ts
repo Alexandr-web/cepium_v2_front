@@ -6,8 +6,7 @@ export const useAuthStore = defineStore("auth-store", () => {
 		watch: true,
 	});
 
-	// const isAuthenticated = computed(() => !!token.value);
-	const isAuthenticated = computed(() => true); // тест
+	const isAuthenticated = computed(() => !!token.value);
 
 	return { token, isAuthenticated };
 });

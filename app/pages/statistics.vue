@@ -1,6 +1,6 @@
 <template>
-	<div class="bg-black h-screen">
-		<NuxtPage />
+	<div>
+		Statistics
 	</div>
 </template>
 <script setup lang="ts">

@@ -1,9 +1,9 @@
 <template>
 	<div class="flex flex-col h-screen bg-black relative z-1">
-		<LazyOrganismsLoginForm />
+		<LazyOrganismsLoginForm hydrate-on-visible />
 		<NuxtImg
 			class="hidden lg:block top-0 left-0 w-screen h-screen -z-1 absolute object-cover"
-			src="/login/bg.webp"
+			src="/images/login/bg.webp"
 			:preload="{ fetchPriority: 'high' }"
 			alt=""
 		/>
