@@ -22,8 +22,12 @@
 				<div
 					v-show="show"
 					ref="target"
-					class="bg-neutral-100 rounded-t-8 border-t-1 border-solid border-t-white/10 py-32 px-16"
+					class="bg-neutral-100 rounded-t-8 border-t-1 border-solid border-t-white/10 py-32 px-16 relative"
 				>
+					<div
+						v-if="$device.isMobile"
+						class="absolute top-16 right-0 left-0 mx-auto w-36 h-2 bg-white/50 rounded-8"
+					></div>
 					<slot />
 				</div>
 			</Transition>

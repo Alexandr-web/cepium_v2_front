@@ -37,13 +37,13 @@
 							:name="item.icon"
 							:class="[
 								preset === 'desk' && 'w-20 h-20 text-primary-700 group-hover:text-primary-800 transition',
-								preset === 'mob' && 'w-25 h-25 text-primary-700'
+								preset === 'mob' && 'w-20 h-20 text-primary-700'
 							]"
 						/>
 						<span
 							:class="[
 								preset === 'desk' && 'group-hover:text-primary-800 text-primary-700 transition text-14',
-								preset === 'mob' && 'text-neutral-900 font-medium'
+								preset === 'mob' && 'text-white/80 font-medium text-14'
 							]"
 						>{{ item.label }}</span>
 					</NuxtLink>
@@ -52,8 +52,8 @@
 		</nav>
 		<div
 			:class="[
-				preset === 'desk' && 'flex items-center justify-between mx-16 pt-8 border-t-1 border-solid border-t-white/5',
-				preset === 'mob' && 'flex items-center justify-between mx-16 pt-8 border-t-1 border-solid border-t-white/5'
+				preset === 'desk' && 'flex items-center justify-between px-8 pt-8 border-t-1 border-solid border-t-white/5',
+				preset === 'mob' && 'flex items-center justify-between pt-8 border-t-1 border-solid border-t-white/5'
 			]"
 		>
 			<button
@@ -70,7 +70,12 @@
 						preset === 'mob' && 'w-18 h-18'
 					]"
 				/>
-				<span class="text-14 font-medium">Выйти</span>
+				<span 
+					:class="[
+						preset === 'desk' && 'text-14 font-medium',
+						preset === 'mob' && 'text-14 font-medium',
+					]"
+				>Выйти</span>
 			</button>
 			<span
 				:class="[
