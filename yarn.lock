@@ -814,20 +814,6 @@
   dependencies:
     "@iconify/types" "*"
 
-"@iconify-json/tdesign@^1.2.14":
-  version "1.2.14"
-  resolved "https://registry.yarnpkg.com/@iconify-json/tdesign/-/tdesign-1.2.14.tgz#0f27edfa5e86837b0f3ae407b67c7feaa24a39ff"
-  integrity sha512-cxiW56RvY4YxOgeyGAVQhoxynJgCYoskVjXYXVUv6B1dFjr6GYUnc59MPdh5P+LvrUlEOaiLOfsH3NYMQlsW/g==
-  dependencies:
-    "@iconify/types" "*"
-
-"@iconify-json/uil@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@iconify-json/uil/-/uil-1.2.3.tgz#d455746fe32491fa46a884b6d47e4b7a3cc9c76f"
-  integrity sha512-if91+UBhDQc6glPsIaXecGIcXnbQZfEO4Gdv89TV2xQ+V5e9GWbY5rNl2fsKZd8COsRQ5lRQAKimVQVL0CZZVg==
-  dependencies:
-    "@iconify/types" "*"
-
 "@iconify/collections@^1.0.679":
   version "1.0.688"
   resolved "https://registry.yarnpkg.com/@iconify/collections/-/collections-1.0.688.tgz#2c8f1d8a64e8ca8647a57ff9a3c6195871566b2d"

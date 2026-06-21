@@ -18,7 +18,7 @@
 			class="cursor-pointer w-20 h-20 text-primary-700 flex justify-center items-center lg:hidden"
 			@click="showMenu = true"
 		>
-			<Icon name="ci:hamburger-lg" class="w-full h-full" />
+			<Icon name="material-symbols:menu-rounded" class="w-full h-full" />
 		</button>
 	</nav>
 	<Teleport to="body">

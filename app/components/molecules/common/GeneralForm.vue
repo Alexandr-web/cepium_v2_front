@@ -11,7 +11,7 @@
 		/>
 		<button class="group hover:bg-primary-900 transition-colors flex items-center justify-center cursor-pointer gap-8 bg-primary-800 rounded-4 h-56 lg:mt-16">
 			<span class="uppercase text-primary-100 text-14 lg:text-16 font-bold">Войти</span>
-			<Icon class="group-hover:translate-x-[50%] transition w-16 lg:w-18 h-16 lg:h-18 text-black" name="memory:arrow-right" />
+			<Icon class="group-hover:translate-x-[50%] transition w-16 lg:w-18 h-16 lg:h-18 text-black" name="material-symbols:keyboard-double-arrow-right" />
 		</button>
 		<slot name="footer" />
 	</div>

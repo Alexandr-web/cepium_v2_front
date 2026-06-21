@@ -33,8 +33,6 @@
   },
   "devDependencies": {
     "@iconify-json/material-symbols": "^1.2.79",
-    "@iconify-json/tdesign": "^1.2.14",
-    "@iconify-json/uil": "^1.2.3",
     "@nuxt/test-utils": "^4.0.3",
     "@tailwindcss/vite": "^4.3.1",
     "@vue/test-utils": "^2.4.10",

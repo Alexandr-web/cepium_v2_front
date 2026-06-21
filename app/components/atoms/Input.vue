@@ -15,12 +15,12 @@
 			>
 			<button
 				v-if="type === 'password'"
-				class="cursor-pointer w-17 lg:w-20 h-12 lg:h-16 flex justify-center items-center ml-8"
+				class="cursor-pointer w-18 lg:w-22 h-16 lg:h-20 flex justify-center items-center ml-8"
 				type="button"
 				@click="showPassword = !showPassword"
 			>
-				<Icon v-show="showPassword" class="w-full h-full text-primary-700" name="entypo:eye-with-line" />
-				<Icon v-show="!showPassword" class="w-full h-full text-primary-700" name="entypo:eye" />
+				<Icon v-show="showPassword" class="w-full h-full text-primary-700" name="material-symbols:visibility-off-outline" />
+				<Icon v-show="!showPassword" class="w-full h-full text-primary-700" name="material-symbols:visibility-outline-rounded" />
 			</button>
 		</div>
 	</div>

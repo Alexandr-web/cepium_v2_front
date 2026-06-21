@@ -26,7 +26,7 @@ const fields = ref<TGeneralFormInput[]>([
 		placeholder: "Логин",
 		name: "login",
 		label: "Логин",
-		preppendIcon: "teenyicons:user-circle-solid",
+		preppendIcon: "material-symbols:account-circle",
 	},
 	{
 		value: "",
@@ -34,7 +34,7 @@ const fields = ref<TGeneralFormInput[]>([
 		name: "password",
 		type: "password",
 		label: "Пароль",
-		preppendIcon: "teenyicons:password-outline",
+		preppendIcon: "material-symbols:lock-outline",
 	},
 ]);
 </script>

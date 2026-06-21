@@ -97,7 +97,7 @@ const menu = [
 	{
 		route: "home",
 		label: "Главная",
-		icon: "material-symbols:monitoring",
+		icon: "material-symbols:home-outline-rounded",
 	},
 	{
 		route: "settings",
@@ -107,12 +107,12 @@ const menu = [
 	{
 		route: "statistics",
 		label: "Статистика",
-		icon: "uil:statistics",
+		icon: "material-symbols:monitoring",
 	},
 	{
 		route: "orders",
 		label: "Ордера",
-		icon: "tdesign:work-history",
+		icon: "material-symbols:work-history-outline-rounded",
 	},
 	{
 		route: "profile",

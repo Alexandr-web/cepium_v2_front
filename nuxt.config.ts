@@ -25,7 +25,7 @@ export default defineNuxtConfig({
 	icon: {
 		mode: "svg",
 		serverBundle: {
-			collections: ["material-symbols", "uil", "tdesign"],
+			collections: ["material-symbols"],
 		},
 	},
 	svgo: {
