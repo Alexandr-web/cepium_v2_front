@@ -6,6 +6,7 @@ export default {
 			path: "/",
 			component: () => import("./pages/index.vue"),
 			meta: {
+				middleware: "auth",
 				seo: {
 					title: "Главная",
 				},
@@ -16,6 +17,7 @@ export default {
 			path: "/login",
 			component: () => import("./pages/login.vue"),
 			meta: {
+				middleware: "login",
 				seo: {
 					title: "Вход",
 				},

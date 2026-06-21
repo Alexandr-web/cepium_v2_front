@@ -10,7 +10,4 @@
 	</div>
 </template>
 <script setup lang="ts">
-definePageMeta({
-	middleware: (from, to) => {},
-});
 </script>
