@@ -1,0 +1,116 @@
+<template>
+	<div
+		:class="[
+			preset === 'desk' && 'flex flex-col justify-between gap-16 py-8 bg-neutral-100/50 border-r-1 border-solid border-r-white/5 max-w-256 w-full',
+			preset === 'mob' && 'flex flex-col gap-36'
+		]"
+	>
+		<nav>
+			<ul
+				:class="[
+					preset === 'desk' && 'flex flex-col gap-10',
+					preset === 'mob' && 'flex flex-col gap-16'
+				]"
+			>
+				<li
+					v-for="item in menu"
+					:key="item.route"
+					:class="[
+						preset === 'desk' && 'w-full h-42'
+					]"
+				>
+					<NuxtLink
+						:class="[
+							preset === 'desk' && 'group transition flex w-full h-full items-center gap-12 p-8',
+							preset === 'mob' && 'flex items-center gap-16'
+						]"
+						:to="{ name: item.route }"
+						:exact-active-class="activeClass"
+						data-allow-mismatch="children"
+						@click="emits('clickByLink')"
+					>
+						<Icon
+							:name="item.icon"
+							:class="[
+								preset === 'desk' && 'w-20 h-20 text-primary-700 group-hover:text-primary-800 transition',
+								preset === 'mob' && 'w-25 h-25 text-primary-700'
+							]"
+						/>
+						<span
+							:class="[
+								preset === 'desk' && 'group-hover:text-primary-800 text-primary-700 transition text-14',
+								preset === 'mob' && 'text-neutral-900 font-semibold'
+							]"
+						>{{ item.label }}</span>
+					</NuxtLink>
+				</li>
+			</ul>
+		</nav>
+		<div
+			:class="[
+				preset === 'desk' && 'flex items-center justify-between mx-16 pt-8 border-t-1 border-solid border-t-white/5',
+				preset === 'mob' && 'flex items-center justify-between mx-16 pt-8 border-t-1 border-solid border-t-white/5'
+			]"
+		>
+			<button
+				data-allow-mismatch="children"
+				:class="[
+					preset === 'desk' && 'hover:text-secondary-600 transition text-secondary-500 cursor-pointer flex gap-12 items-center',
+					preset === 'mob' && 'hover:text-secondary-600 transition text-secondary-500 cursor-pointer flex gap-12 items-center'
+				]"
+			>
+				<Icon
+					name="material-symbols:logout-rounded"
+					:class="[
+						preset === 'desk' && 'w-18 h-18',
+						preset === 'mob' && 'w-18 h-18'
+					]"
+				/>
+				<span class="text-14 font-semibold">Выйти</span>
+			</button>
+			<span
+				:class="[
+					preset === 'desk' && 'text-neutral-600 text-14',
+					preset === 'mob' && 'text-neutral-600 text-14',
+				]"
+			>{{ VERSION }}</span>
+		</div>
+	</div>
+</template>
+<script setup lang="ts">
+import { VERSION } from "#imports";
+
+const { preset } = defineProps({
+	preset: {
+		type: String,
+		default: "mob",
+		validator: (s: string) => ["mob", "desk"].includes(s),
+	},
+});
+
+const emits = defineEmits(["clickByLink"]);
+
+const menu = [
+	{
+		route: "home",
+		label: "Главная",
+		icon: "material-symbols:monitoring",
+	},
+	{
+		route: "statistics",
+		label: "Статистика",
+		icon: "uil:statistics",
+	},
+	{
+		route: "orders",
+		label: "Ордера",
+		icon: "tdesign:work-history",
+	},
+];
+
+const activeClass = computed(() => 
+	preset === "desk"
+		? "hover:bg-neutral-300/50 bg-neutral-200/50 relative before:content-[''] before:absolute before:right-0 before:top-0 before:w-2 before:h-full before:bg-primary-700 hover:before:bg-primary-800 before:transition"
+		: ""
+);
+</script>

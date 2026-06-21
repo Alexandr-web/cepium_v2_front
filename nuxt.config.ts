@@ -23,8 +23,10 @@ export default defineNuxtConfig({
 		plugins: [tailwindcss()],
 	},
 	icon: {
-		mode: "css",
-		cssLayer: "base",
+		mode: "svg",
+		serverBundle: {
+			collections: ["material-symbols", "uil", "tdesign"],
+		},
 	},
 	svgo: {
 		defaultImport: "component",

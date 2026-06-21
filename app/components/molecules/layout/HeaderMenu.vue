@@ -23,14 +23,14 @@
 	</nav>
 	<Teleport to="body">
 		<Modal v-model="showMenu">
-			<MobMenu @click-by-link="showMenu = false" />
+			<Menu @click-by-link="showMenu = false" />
 		</Modal>
 	</Teleport>
 </template>
 <script setup lang="ts">
 import { useUserStore } from "@/store/useUserStore";
 import Modal from "@/components/molecules/common/Modal.vue";
-import MobMenu from "@/components/molecules/layout/MobMenu.vue";
+import Menu from "@/components/molecules/layout/Menu.vue";
 
 const userStore = useUserStore();
 
