@@ -5,17 +5,17 @@
 			<Icon
 				v-if="preppendIcon"
 				:name="preppendIcon"
-				class="text-primary-700 w-15 lg:w-18 h-15 lg:h-18 block mr-8"
+				class="text-primary-700 min-w-15 lg:min-w-18 max-w-15 lg:max-w-18 min-h-15 lg:min-h-18 max-h-15 lg:max-h-18 block mr-8"
 			/>
 			<input
 				v-model.trim="value"
-				class="border-none bg-transparent grow h-full text-14 lg:text-16 text-neutral-500"
+				class="grow min-w-0 h-full text-14 lg:text-16 text-neutral-500"
 				:placeholder="placeholder"
 				:type="inputType"
 			>
 			<button
 				v-if="type === 'password'"
-				class="cursor-pointer w-18 lg:w-22 h-16 lg:h-20 flex justify-center items-center ml-8"
+				class="cursor-pointer max-w-18 lg:max-w-22 min-w-18 lg:min-w-22 min-h-16 lg:min-h-20 max-h-16 lg:max-h-20 flex justify-center items-center ml-8"
 				type="button"
 				@click="showPassword = !showPassword"
 			>

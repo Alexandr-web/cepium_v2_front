@@ -3,7 +3,7 @@
 		<span
 			class="w-8 h-8 rounded-full"
 			:class="statusBg[connectionStore.status]"
-		></span>
+		/>
 		<p class="uppercase text-10">wss: {{ connectionStore.statusText }}</p>
 	</div>
 </template>

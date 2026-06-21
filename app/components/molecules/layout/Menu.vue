@@ -5,10 +5,11 @@
 			preset === 'mob' && 'flex flex-col gap-36'
 		]"
 	>
-		<nav :class="[
-			preset === 'mob' && 'scroll-block max-h-350 overflow-auto',
-			preset === 'desk' && 'scroll-block grow overflow-auto'
-		]">
+		<nav
+			:class="[
+				preset === 'mob' && 'scroll-block max-h-350 overflow-auto',
+				preset === 'desk' && 'scroll-block grow overflow-auto'
+			]">
 			<ul
 				:class="[
 					preset === 'desk' && 'flex flex-col gap-10',
@@ -42,7 +43,7 @@
 						<span
 							:class="[
 								preset === 'desk' && 'group-hover:text-primary-800 text-primary-700 transition text-14',
-								preset === 'mob' && 'text-neutral-900 font-semibold'
+								preset === 'mob' && 'text-neutral-900 font-medium'
 							]"
 						>{{ item.label }}</span>
 					</NuxtLink>
@@ -69,7 +70,7 @@
 						preset === 'mob' && 'w-18 h-18'
 					]"
 				/>
-				<span class="text-14 font-semibold">Выйти</span>
+				<span class="text-14 font-medium">Выйти</span>
 			</button>
 			<span
 				:class="[

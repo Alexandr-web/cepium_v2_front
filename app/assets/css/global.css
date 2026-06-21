@@ -97,7 +97,7 @@
 
 	--default-transition-duration: 0.3s;
 
-	--font-display: "Inter";
+	--default-font-family: "Inter";
 
 	--color-primary-100: #031F23;
 	--color-primary-200: #1A3438;
