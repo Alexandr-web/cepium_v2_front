@@ -1,16 +1,19 @@
 @import "tailwindcss";
 @import "./fonts.css";
 
-@tailwind base;
-@tailwind components;
 @tailwind utilities;
 
 @layer base {
 	:root {
 		--spacing: 100vw / 360;
+
 		@media (min-width: 1025px) {
 			--spacing: 100vw / 1920;
 		}
+	}
+
+	* {
+		outline: none;
 	}
 }
 

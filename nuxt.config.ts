@@ -3,10 +3,6 @@ import tailwindcss from "@tailwindcss/vite";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	compatibilityDate: "2025-07-15",
-	devtools: { enabled: true },
-	imports: {
-		dirs: ["app/types"],
-	},
 	modules: [
 		"@nuxt/eslint",
 		"@nuxt/icon",
@@ -16,7 +12,12 @@ export default defineNuxtConfig({
 		"@pinia/nuxt",
 		"@vueuse/nuxt",
 		"@nuxt/test-utils/module",
+		"nuxt-svgo",
 	],
+	runtimeConfig: {
+		apiUrl: process.env.API_URL,
+		wsUrl: process.env.WS_URL,
+	},
 	css: ["@/assets/css/global.css"],
 	vite: {
 		plugins: [tailwindcss()],
@@ -25,7 +26,13 @@ export default defineNuxtConfig({
 		mode: "css",
 		cssLayer: "base",
 	},
+	svgo: {
+		defaultImport: "component",
+	},
 	nuxtQuery: {
 		devtools: true,
+	},
+	image: {
+		format: ["webp"],
 	},
 });

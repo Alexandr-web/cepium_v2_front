@@ -8,10 +8,10 @@
 
 ## Архитектура
 
-Структура папки `app/`:
+Структура папок:
 
 - **components/**
-  - **atoms/** – кнопки, инпуты, иконки, заголовки
+  - **atoms/** – кнопки, инпуты, заголовки
   - **molecules/** – поисковая строка, карточка актива, форма входа
   - **organisms/** – Header, Dashboard, TradingPanel, OrderBook
 - **pages/** – страницы (index.vue, strategies.vue, logs.vue)
