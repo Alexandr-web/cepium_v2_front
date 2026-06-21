@@ -14,6 +14,10 @@ export default defineNuxtConfig({
 		"@nuxt/test-utils/module",
 		"nuxt-svgo",
 	],
+	runtimeConfig: {
+		apiUrl: process.env.API_URL,
+		wsUrl: process.env.WS_URL,
+	},
 	css: ["@/assets/css/global.css"],
 	vite: {
 		plugins: [tailwindcss()],
