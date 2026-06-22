@@ -12,6 +12,6 @@
 const route = useRoute();
 
 useHead({
-	title: route.meta?.seo?.title ?? "",
+	title: () => route.meta?.seo?.title ?? "",
 });
 </script>
