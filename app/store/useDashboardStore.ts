@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { TDashboard } from "~/types/api";
+import type { TDashboard } from "@/types/api";
 
 export const useDashboardStore = defineStore("dashboard-store", () => {
 	const data = ref<TDashboard>({

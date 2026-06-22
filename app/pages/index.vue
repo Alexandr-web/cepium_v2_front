@@ -5,14 +5,17 @@
 				<SummaryNote :card="card" />
 			</template>
 		</LazyOrganismsIndexSummary>
+		<LazyOrganismsIndexActiveTrades hydrate-on-visible :trades="tradeStore.trades" />
 	</div>
 </template>
 <script setup lang="ts">
 import type { TIndexCardSummary } from "@/types/components";
 import { useDashboardStore } from "@/store/useDashboardStore";
+import { useTradeStore } from "@/store/useTradeStore";
 import SummaryNote from "@/components/molecules/index/SummaryNote.vue";
 
 const dashboardStore = useDashboardStore();
+const tradeStore = useTradeStore();
 
 const summary = computed<TIndexCardSummary[]>(() => [
 	{

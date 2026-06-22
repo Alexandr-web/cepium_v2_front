@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { TUser } from "~/types/api";
+import type { TUser } from "@/types/api";
 
 export const useUserStore = defineStore("user-store", () => {
 	const user = ref<TUser>({
