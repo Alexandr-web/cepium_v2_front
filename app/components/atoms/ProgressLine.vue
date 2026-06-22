@@ -4,7 +4,7 @@
 			<div
 				class="bg-tertiary-800 h-full"
 				:style="{ width: `${percent * 100}%` }"
-			></div>
+			/>
 		</div>
 		<slot name="footer" v-bind="{ percent: percentFormat }" />
 	</div>

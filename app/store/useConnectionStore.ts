@@ -17,5 +17,7 @@ export const useConnectionStore = defineStore("connection-store", () => {
 		}
 	});
 
+	// TODO добавить работу WebSocket после появления бек
+
 	return { status, statusText };
 });

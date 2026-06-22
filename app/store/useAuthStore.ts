@@ -8,5 +8,7 @@ export const useAuthStore = defineStore("auth-store", () => {
 
 	const isAuthenticated = computed(() => !!token.value);
 
+	// TODO добавить после бека метод login для авторизации
+
 	return { token, isAuthenticated };
 });

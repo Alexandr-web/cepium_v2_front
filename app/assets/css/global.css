@@ -99,49 +99,52 @@
 
 	--default-font-family: "Inter";
 
-	--color-primary-100: #031F23;
-	--color-primary-200: #1A3438;
-	--color-primary-300: #314B4F;
-	--color-primary-400: #496367;
-	--color-primary-500: #617C80;
-	--color-primary-600: #7A959A;
-	--color-primary-700: #95B0B5;
-	--color-primary-800: #B0CBD0;
-	--color-primary-900: #CBE8EC;
-	--color-primary-950: #D9F6FB;
+  --color-primary-100: #0A0D14;
+  --color-primary-200: #111A2B;
+  --color-primary-300: #1A2A45;
+  --color-primary-400: #243D62;
+  --color-primary-500: #315282;
+  --color-primary-600: #4068A5;
+  --color-primary-700: #5482C9;
+  --color-primary-800: #7AA2E0;
+  --color-primary-900: #A8C5F0;
+  --color-primary-950: #D4E5FA;
 
-	--color-secondary-100: #20182A;
-	--color-secondary-200: #352D40;
-	--color-secondary-300: #4C4357;
-	--color-secondary-400: #645A6F;
-	--color-secondary-500: #7E7389;
-	--color-secondary-600: #988CA3;
-	--color-secondary-700: #B3A6BE;
-	--color-secondary-800: #CFC2DA;
-	--color-secondary-900: #EBDDF7;
-	--color-secondary-950: #F8EDFF;
+  /* тёмный пурпурно-фиолетовый */
+  --color-secondary-100: #140A14;
+  --color-secondary-200: #2A142B;
+  --color-secondary-300: #431F45;
+  --color-secondary-400: #5E2D62;
+  --color-secondary-500: #7C3D82;
+  --color-secondary-600: #9D52A5;
+  --color-secondary-700: #BF6FC9;
+  --color-secondary-800: #DA94E0;
+  --color-secondary-900: #ECBDF2;
+  --color-secondary-950: #F8E0FA;
 
-	--color-tertiary-100: #020F5C;
-	--color-tertiary-200: #1D2871;
-	--color-tertiary-300: #354088;
-	--color-tertiary-400: #4D58A2;
-	--color-tertiary-500: #6671BD;
-	--color-tertiary-600: #808BD9;
-	--color-tertiary-700: #9BA6F5;
-	--color-tertiary-800: #BBC3FF;
-	--color-tertiary-900: #DFE0FF;
-	--color-tertiary-950: #F0EFFF;
+  /* тёмный изумрудно-зелёный */
+  --color-tertiary-100: #0A140F;
+  --color-tertiary-200: #112A1D;
+  --color-tertiary-300: #1A422D;
+  --color-tertiary-400: #245C3F;
+  --color-tertiary-500: #317853;
+  --color-tertiary-600: #40966A;
+  --color-tertiary-700: #54B884;
+  --color-tertiary-800: #7AD6A5;
+  --color-tertiary-900: #A8ECCB;
+  --color-tertiary-950: #D4F8E8;
 
-	--color-neutral-100: #171C1F;
-	--color-neutral-200: #2B3134;
-	--color-neutral-300: #42484B;
-	--color-neutral-400: #595F62;
-	--color-neutral-500: #72787B;
-	--color-neutral-600: #8C9295;
-	--color-neutral-700: #A6ACB0;
-	--color-neutral-800: #C2C7CB;
-	--color-neutral-900: #DEE3E7;
-	--color-neutral-950: #ECF1F5;
+  /* почти чёрные, с плавным переходом к светло-серому */
+  --color-neutral-100: #0D0D0D;
+  --color-neutral-200: #1A1A1A;
+  --color-neutral-300: #2A2A2A;
+  --color-neutral-400: #3D3D3D;
+  --color-neutral-500: #555555;
+  --color-neutral-600: #737373;
+  --color-neutral-700: #999999;
+  --color-neutral-800: #BDBDBD;
+  --color-neutral-900: #E0E0E0;
+  --color-neutral-950: #F5F5F5;
 }
 
 .scroll-block {

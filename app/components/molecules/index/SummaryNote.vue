@@ -1,11 +1,19 @@
 <template>
 	<div
 		:class="[
-			card.type === 'balance' && 'text-11 lg:text-16 text-tertiary-800 font-medium',
+			card.type === 'balance' && 'text-11 lg:text-16 font-medium',
 			card.type === 'positions' && 'flex'
 		]"
 	>
-		<template v-if="card.type === 'balance'">{{ dailyBalancePercentage }} за сегодня</template>
+		<template v-if="card.type === 'balance'">
+			<p
+				:class="[
+					dashboardStore.data.balanceDailyChangePercent >= 0 && 'text-tertiary-800',
+					dashboardStore.data.balanceDailyChangePercent < 0 && 'text-secondary-600',
+				]">
+				{{ dailyBalancePercentage }} за сегодня
+			</p>
+		</template>
 		<template v-if="card.type === 'positions'">
 			<ul class="flex gap-16">
 				<li
@@ -22,10 +30,10 @@
 			</ul>
 		</template>
 		<template v-if="card.type === 'pnl'">
-			<ProgressLine :max="dailyGoal" :value="currentPNL">
+			<ProgressLine :max="dashboardStore.data.dailyGoalPNL" :value="dashboardStore.data.pnl24h">
 				<template #footer="{ percent }">
 					<div class="flex justify-between items-center text-11 lg:text-14 text-white/50 font-medium">
-						<p>Дневная цель: <span>{{ currentPNLFormat }}</span></p>
+						<p>Дневная цель: <span>{{ dailyGoalPNL }}</span></p>
 						<p>{{ percent }}</p>
 					</div>
 				</template>
@@ -35,25 +43,26 @@
 </template>
 <script setup lang="ts">
 import type { TIndexCardSummary } from "@/types/components";
+import { useDashboardStore } from "@/store/useDashboardStore";
 import ProgressLine from "@/components/atoms/ProgressLine.vue";
 
 defineProps<{
 	card: TIndexCardSummary;
 }>();
 
+const dashboardStore = useDashboardStore();
+
 const margin = computed(() => [
 	{
 		title: "Маржи используется",
-		value: formatNum(32000, { currency: "USD", style: "currency" }),
+		value: formatNum(dashboardStore.data.usedMargin, { currency: "USD", style: "currency" }),
 	},
 	{
 		title: "Маржи доступно",
-		value: formatNum(110000, { currency: "USD", style: "currency" }),
+		value: formatNum(dashboardStore.data.availableMargin, { currency: "USD", style: "currency" }),
 	},
 ]);
 
-const dailyBalancePercentage = computed(() => formatNum(0.042, { style: "percent" }));
-const dailyGoal = 4300;
-const currentPNL = 3120;
-const currentPNLFormat = computed(() => formatNum(currentPNL, { currency: "USD", style: "currency" }));
+const dailyBalancePercentage = computed(() => formatNum(dashboardStore.data.balanceDailyChangePercent, { style: "percent" }));
+const dailyGoalPNL = computed(() => formatNum(dashboardStore.data.dailyGoalPNL, { currency: "USD", style: "currency" }));
 </script>
