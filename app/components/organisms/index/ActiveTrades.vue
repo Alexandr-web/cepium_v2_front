@@ -5,12 +5,17 @@
 			<AButton class="py-4 px-12 rounded-12 text-12" mode="remove-border" @click="showModal = true">Закрыть все</AButton>
 		</div>
 		<div class="flex flex-col gap-12">
-			<TradeCard v-for="trade in trades" :key="trade.id" :trade="trade" />
+			<TradeCard
+				v-for="trade in trades"
+				:key="trade.id"
+				:trade="trade"
+				@click-by-controls="selectedTrade = trade"
+			/>
 		</div>
 	</section>
 	<Teleport to="body">
-		<Modal v-model="showModal">
-			<AButton class="w-full rounded-8 py-8 px-16" mode="remove-fill">Закрыть все позиции</AButton>
+		<Modal v-model="showModal" @close="selectedTrade = null">
+			<TradeControlsList :preset-menu="presetControlsList" :trade="selectedTrade" />
 		</Modal>
 	</Teleport>
 </template>
@@ -19,8 +24,14 @@ import type Trade from "@/models/Trade";
 import TradeCard from "@/components/molecules/index/TradeCard.vue";
 import Modal from "@/components/molecules/common/Modal.vue";
 import AButton from "@/components/atoms/AButton.vue";
+import TradeControlsList from "@/components/molecules/index/TradeControlsList.vue";
 
 defineProps<{ trades: Trade[] }>();
 
+const selectedTrade = ref<Trade|null>(null);
 const showModal = ref(false);
+
+const presetControlsList = computed(() => selectedTrade.value ? "trade" : "trades");
+
+watch(selectedTrade, (v) => showModal.value = !!v);
 </script>

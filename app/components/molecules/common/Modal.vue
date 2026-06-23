@@ -6,10 +6,11 @@
 		leave-active-class="duration-200 ease-in"
 		leave-from-class="opacity-100"
 		leave-to-class="opacity-0"
+		@after-leave="emits('close')"
 	>
 		<div
 			v-show="show"
-			class="fixed w-screen h-screen overflow-hidden z-999 bg-neutral-100/80 flex flex-col justify-end lg:justify-none"
+			class="fixed top-0 left-0 w-screen h-screen overflow-hidden z-999 bg-neutral-100/80 flex flex-col justify-end lg:justify-none"
 		>
 			<Transition
 				enter-active-class="duration-300 ease-out transform transition-all"
@@ -39,5 +40,9 @@ const target = useTemplateRef("target");
 
 const show = defineModel({ type: Boolean, default: false });
 
-onClickOutside(target, () => show.value = false);
+const emits = defineEmits(["close"]);
+
+onClickOutside(target, () => {
+	if (show.value) show.value = false;
+});
 </script>

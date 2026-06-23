@@ -13,19 +13,20 @@
 				:placeholder="placeholder"
 				:type="inputType"
 			>
-			<button
+			<AButton
 				v-if="type === 'password'"
-				class="cursor-pointer max-w-18 lg:max-w-22 min-w-18 lg:min-w-22 min-h-16 lg:min-h-20 max-h-16 lg:max-h-20 flex justify-center items-center ml-8"
-				type="button"
+				class="max-w-18 lg:max-w-22 min-w-18 lg:min-w-22 min-h-16 lg:min-h-20 max-h-16 lg:max-h-20 flex justify-center items-center ml-8"
 				@click="showPassword = !showPassword"
 			>
 				<Icon v-show="showPassword" class="w-full h-full text-primary-700" name="material-symbols:visibility-off-outline" />
 				<Icon v-show="!showPassword" class="w-full h-full text-primary-700" name="material-symbols:visibility-outline-rounded" />
-			</button>
+			</AButton>
 		</div>
 	</div>
 </template>
 <script setup lang="ts">
+import AButton from "@/components/atoms/AButton.vue";
+
 const { type } = defineProps({
 	label: {
 		type: String,

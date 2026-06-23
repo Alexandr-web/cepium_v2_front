@@ -30,16 +30,17 @@
 						]"
 						:to="{ name: item.route }"
 						:exact-active-class="activeClass"
-						data-allow-mismatch="children"
 						@click="emits('clickByLink')"
 					>
-						<Icon
-							:name="item.icon"
-							:class="[
-								preset === 'desk' && 'w-20 h-20 text-primary-700 group-hover:text-primary-800 transition',
-								preset === 'mob' && 'w-20 h-20 text-primary-700'
-							]"
-						/>
+						<ClientOnly>
+							<Icon
+								:name="item.icon"
+								:class="[
+									preset === 'desk' && 'w-20 h-20 text-primary-700 group-hover:text-primary-800 transition',
+									preset === 'mob' && 'w-20 h-20 text-primary-700'
+								]"
+							/>
+						</ClientOnly>
 						<span
 							:class="[
 								preset === 'desk' && 'group-hover:text-primary-800 text-primary-700 transition text-14',
@@ -56,27 +57,28 @@
 				preset === 'mob' && 'flex items-center justify-between pt-8 border-t-1 border-solid border-t-white/5'
 			]"
 		>
-			<button
-				data-allow-mismatch="children"
+			<AButton
 				:class="[
-					preset === 'desk' && 'hover:text-secondary-600 transition text-secondary-500 cursor-pointer flex gap-12 items-center',
-					preset === 'mob' && 'hover:text-secondary-600 transition text-secondary-500 cursor-pointer flex gap-12 items-center'
+					preset === 'desk' && 'hover:text-secondary-600 transition text-secondary-500 flex gap-12 items-center',
+					preset === 'mob' && 'hover:text-secondary-600 transition text-secondary-500 flex gap-12 items-center'
 				]"
 			>
-				<Icon
-					name="material-symbols:logout-rounded"
-					:class="[
-						preset === 'desk' && 'w-18 h-18',
-						preset === 'mob' && 'w-18 h-18'
-					]"
-				/>
+				<ClientOnly>
+					<Icon
+						name="material-symbols:logout-rounded"
+						:class="[
+							preset === 'desk' && 'w-18 h-18',
+							preset === 'mob' && 'w-18 h-18'
+						]"
+					/>
+				</ClientOnly>
 				<span 
 					:class="[
 						preset === 'desk' && 'text-14 font-medium',
 						preset === 'mob' && 'text-14 font-medium',
 					]"
 				>Выйти</span>
-			</button>
+			</AButton>
 			<span
 				:class="[
 					preset === 'desk' && 'text-neutral-600 text-14',
@@ -87,6 +89,7 @@
 	</div>
 </template>
 <script setup lang="ts">
+import AButton from "@/components/atoms/AButton.vue";
 import { VERSION } from "#imports";
 
 const { preset } = defineProps({

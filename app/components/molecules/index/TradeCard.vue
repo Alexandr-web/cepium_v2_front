@@ -37,25 +37,20 @@
 				</div>
 			</div>
 			<div class="flex">
-				<button
-					class="cursor-pointer transition text-white/80 hover:text-white/90 hover:bg-neutral-400 bg-neutral-300 py-6 px-16 rounded-4 text-12"
-					@click="showModal = true"
-				>Управление</button>
+				<AButton
+					class="py-6 px-16 rounded-4 text-12"
+					mode="neutral-fill"
+					@click="emits('clickByControls', trade)"
+				>Управление</AButton>
 			</div>
 		</div>
 	</div>
-	<Teleport to="body">
-		<Modal v-model="showModal">
-			<AButton class="w-full rounded-8 py-8 px-16" mode="remove-fill">Закрыть {{ trade.fullSymbol }}</AButton>
-		</Modal>
-	</Teleport>
 </template>
 <script setup lang="ts">
 import type Trade from "@/models/Trade";
-import Modal from "@/components/molecules/common/Modal.vue";
 import AButton from "@/components/atoms/AButton.vue";
 
 defineProps<{ trade: Trade }>();
 
-const showModal = ref(false);
+const emits = defineEmits(["clickByControls"]);
 </script>

@@ -14,12 +14,12 @@
 				</NuxtLink>
 			</li>
 		</ul>
-		<button
-			class="cursor-pointer w-20 h-20 text-primary-700 flex justify-center items-center lg:hidden"
+		<AButton
+			class="w-20 h-20 text-primary-700 flex justify-center items-center lg:hidden"
 			@click="showMenu = true"
 		>
 			<Icon name="material-symbols:menu-rounded" class="w-full h-full" />
-		</button>
+		</AButton>
 	</nav>
 	<Teleport to="body">
 		<Modal v-model="showMenu">
@@ -31,6 +31,7 @@
 import { useUserStore } from "@/store/useUserStore";
 import Modal from "@/components/molecules/common/Modal.vue";
 import Menu from "@/components/molecules/layout/Menu.vue";
+import AButton from "@/components/atoms/AButton.vue";
 
 const userStore = useUserStore();
 
