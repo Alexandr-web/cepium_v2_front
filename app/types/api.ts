@@ -15,6 +15,7 @@ export type TUser = {
 
 export type TTrade = {
 	symbol: string;
+	fullSymbol: string;
 	margin: string;
 	leverage: string;
 	amount: number;
@@ -23,4 +24,6 @@ export type TTrade = {
 	currentPrice: number;
 	timestamp: number;
 	id: number;
+	direction: string;
+	pnlPercent: number;
 };

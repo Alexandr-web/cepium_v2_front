@@ -1,5 +1,5 @@
 <template>
-	<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+	<section class="grid grid-cols-1 lg:grid-cols-3 gap-12">
 		<div
 			v-for="(item, idx) in summary"
 			:key="idx"
@@ -22,12 +22,10 @@
 				<slot name="note" v-bind="item" />
 			</div>
 		</div>
-	</div>
+	</section>
 </template>
 <script setup lang="ts">
 import type { TIndexCardSummary } from "@/types/components";
 
-defineProps<{
-	summary: TIndexCardSummary[];
-}>();
+defineProps<{ summary: TIndexCardSummary[]; }>();
 </script>

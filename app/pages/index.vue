@@ -1,11 +1,11 @@
 <template>
-	<div class="flex flex-col gap-16">
+	<div class="flex flex-col gap-16 lg:gap-32">
 		<LazyOrganismsIndexSummary hydrate-on-visible :summary="summary">
 			<template #note="card">
 				<SummaryNote :card="card" />
 			</template>
 		</LazyOrganismsIndexSummary>
-		<LazyOrganismsIndexActiveTrades hydrate-on-visible :trades="tradeStore.trades" />
+		<LazyOrganismsIndexActiveTrades hydrate-on-visible :trades="trades" />
 	</div>
 </template>
 <script setup lang="ts">
@@ -16,6 +16,8 @@ import SummaryNote from "@/components/molecules/index/SummaryNote.vue";
 
 const dashboardStore = useDashboardStore();
 const tradeStore = useTradeStore();
+
+const trades = computed(() => tradeStore.getAllTrades());
 
 const summary = computed<TIndexCardSummary[]>(() => [
 	{

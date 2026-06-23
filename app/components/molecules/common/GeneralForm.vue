@@ -9,15 +9,16 @@
 			:type="item.type"
 			:preppend-icon="item.preppendIcon"
 		/>
-		<button class="group hover:bg-primary-900 transition-colors flex items-center justify-center cursor-pointer gap-8 bg-primary-800 rounded-4 h-56 lg:mt-16">
+		<AButton class="group hover:bg-primary-900 transition-colors flex items-center justify-center cursor-pointer gap-8 bg-primary-800 rounded-4 h-56 lg:mt-16">
 			<span class="uppercase text-primary-100 text-14 lg:text-16 font-medium">Войти</span>
 			<Icon class="group-hover:translate-x-[50%] transition min-w-16 lg:min-w-18 max-w-16 lg:max-w-18 min-h-16 lg:min-h-18 max-h-16 lg:max-h-18 text-black" name="material-symbols:keyboard-double-arrow-right" />
-		</button>
+		</AButton>
 		<slot name="footer" />
 	</div>
 </template>
 <script setup lang="ts">
 import AInput from "@/components/atoms/AInput.vue";
+import AButton from "@/components/atoms/AButton.vue";
 import type { TGeneralFormInput } from "@/types/components";
 
 defineProps<{
