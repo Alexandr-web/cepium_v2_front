@@ -21,4 +21,6 @@ export type TTrade = {
 	pnl: number;
 	entryPrice: number;
 	currentPrice: number;
+	timestamp: number;
+	id: number;
 };

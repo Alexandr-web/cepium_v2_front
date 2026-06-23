@@ -2,32 +2,40 @@ import { defineStore } from "pinia";
 import Trade from "@/models/Trade";
 import type { TTrade } from "@/types/api";
 
-const mockTrades: TTrade[] = [
-	{
-		symbol: "SOL",
-		margin: "isolated",
-		leverage: "10",
-		amount: 123.2,
-		pnl: -23.2,
-		entryPrice: 120,
-		currentPrice: 112,
-	},
-	{
-		symbol: "BTC",
-		margin: "isolated",
-		leverage: "12",
-		amount: 0.23,
-		pnl: 321.2,
-		entryPrice: 89000,
-		currentPrice: 91000,
-	},
-];
-
 export const useTradeStore = defineStore("trade-store", () => {
-	const trades = ref(mockTrades.map((t) => new Trade(t)));
+	const trades = ref<TTrade[]>([
+		{
+			timestamp: Date.now(),
+			symbol: "SOL",
+			margin: "isolated",
+			leverage: "10",
+			amount: 123.2,
+			pnl: -23.2,
+			entryPrice: 120,
+			currentPrice: 112,
+			id: 1,
+		},
+		{
+			timestamp: Date.now(),
+			symbol: "BTC",
+			margin: "isolated",
+			leverage: "12",
+			amount: 0.23,
+			pnl: 321.2,
+			entryPrice: 89000,
+			currentPrice: 91000,
+			id: 2,
+		},
+	]);
 
-	// TODO добавить после бека fetch метод для актуальных данных
-	// также метод close для закрытия поз
+	const tradesMap = computed(() => 
+		trades.value.reduce<Map<TTrade["id"], Trade>>((map, t) => {
+			if (!map.has(t.id)) map.set(t.id, new Trade(t));
+			return map;
+		}, new Map())
+	);
+	
+	// TODO добавить после бека метод close для закрытия поз
 
-	return { trades };
+	return { trades, tradesMap };
 });
