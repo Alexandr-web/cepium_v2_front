@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col gap-16 bg-black-500 rounded-8 border-solid border-1 border-neutral-100 bg-neutral-100/50 p-24">
-		<Input
+		<AInput
 			v-for="item in fields"
 			:key="item.name"
 			v-model="item.value"
@@ -17,7 +17,7 @@
 	</div>
 </template>
 <script setup lang="ts">
-import Input from "@/components/atoms/Input.vue";
+import AInput from "@/components/atoms/AInput.vue";
 import type { TGeneralFormInput } from "@/types/components";
 
 defineProps<{
