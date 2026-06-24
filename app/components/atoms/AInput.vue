@@ -5,27 +5,28 @@
 			<Icon
 				v-if="preppendIcon"
 				:name="preppendIcon"
-				class="text-primary-700 w-15 lg:w-18 h-15 lg:h-18 block mr-8"
+				class="text-primary-700 min-w-15 lg:min-w-18 max-w-15 lg:max-w-18 min-h-15 lg:min-h-18 max-h-15 lg:max-h-18 block mr-8"
 			/>
 			<input
 				v-model.trim="value"
-				class="border-none bg-transparent grow h-full text-14 lg:text-16 text-neutral-500"
+				class="grow min-w-0 h-full text-14 lg:text-16 text-neutral-500"
 				:placeholder="placeholder"
 				:type="inputType"
 			>
-			<button
+			<AButton
 				v-if="type === 'password'"
-				class="cursor-pointer w-17 lg:w-20 h-12 lg:h-16 flex justify-center items-center ml-8"
-				type="button"
+				class="max-w-18 lg:max-w-22 min-w-18 lg:min-w-22 min-h-16 lg:min-h-20 max-h-16 lg:max-h-20 flex justify-center items-center ml-8"
 				@click="showPassword = !showPassword"
 			>
-				<Icon v-show="showPassword" class="w-full h-full text-primary-700" name="entypo:eye-with-line" />
-				<Icon v-show="!showPassword" class="w-full h-full text-primary-700" name="entypo:eye" />
-			</button>
+				<Icon v-show="showPassword" class="w-full h-full text-primary-700" name="material-symbols:visibility-off-outline" />
+				<Icon v-show="!showPassword" class="w-full h-full text-primary-700" name="material-symbols:visibility-outline-rounded" />
+			</AButton>
 		</div>
 	</div>
 </template>
 <script setup lang="ts">
+import AButton from "@/components/atoms/AButton.vue";
+
 const { type } = defineProps({
 	label: {
 		type: String,

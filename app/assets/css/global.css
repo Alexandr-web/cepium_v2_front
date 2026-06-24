@@ -97,49 +97,76 @@
 
 	--default-transition-duration: 0.3s;
 
-	--font-display: "Inter";
+	--default-font-family: "Inter";
 
-	--color-primary-100: #031F23;
-	--color-primary-200: #1A3438;
-	--color-primary-300: #314B4F;
-	--color-primary-400: #496367;
-	--color-primary-500: #617C80;
-	--color-primary-600: #7A959A;
-	--color-primary-700: #95B0B5;
-	--color-primary-800: #B0CBD0;
-	--color-primary-900: #CBE8EC;
-	--color-primary-950: #D9F6FB;
+  /* Синий цвет GitHub (акценты, ссылки, уведомления) */
+  --color-primary-100: #0d1117;
+  --color-primary-200: #161b22;
+  --color-primary-300: #0c2d6b;
+  --color-primary-400: #114ba8;
+  --color-primary-500: #1f6feb;
+  --color-primary-600: #388bfd;
+  --color-primary-700: #58a6ff;
+  --color-primary-800: #79c0ff;
+  --color-primary-900: #a5d6ff;
+  --color-primary-950: #cae8ff;
 
-	--color-secondary-100: #20182A;
-	--color-secondary-200: #352D40;
-	--color-secondary-300: #4C4357;
-	--color-secondary-400: #645A6F;
-	--color-secondary-500: #7E7389;
-	--color-secondary-600: #988CA3;
-	--color-secondary-700: #B3A6BE;
-	--color-secondary-800: #CFC2DA;
-	--color-secondary-900: #EBDDF7;
-	--color-secondary-950: #F8EDFF;
+  /* Пурпурный цвет GitHub (Pull Requests, ветки) */
+  --color-secondary-100: #0d1117;
+  --color-secondary-200: #1b1524;
+  --color-secondary-300: #3c1e5a;
+  --color-secondary-400: #4d2d76;
+  --color-secondary-500: #8957e5;
+  --color-secondary-600: #a371f7;
+  --color-secondary-700: #bc8cff;
+  --color-secondary-800: #d8b4fe;
+  --color-secondary-900: #eddeff;
+  --color-secondary-950: #f5f0ff;
 
-	--color-tertiary-100: #020F5C;
-	--color-tertiary-200: #1D2871;
-	--color-tertiary-300: #354088;
-	--color-tertiary-400: #4D58A2;
-	--color-tertiary-500: #6671BD;
-	--color-tertiary-600: #808BD9;
-	--color-tertiary-700: #9BA6F5;
-	--color-tertiary-800: #BBC3FF;
-	--color-tertiary-900: #DFE0FF;
-	--color-tertiary-950: #F0EFFF;
+  /* Зеленый цвет GitHub (успешные тесты, графики коммитов) */
+  --color-tertiary-100: #041107;
+  --color-tertiary-200: #0f1912;
+  --color-tertiary-300: #11341a;
+  --color-tertiary-400: #1f5b2e;
+  --color-tertiary-500: #238636;
+  --color-tertiary-600: #2ea043;
+  --color-tertiary-700: #3fb950;
+  --color-tertiary-800: #56d364;
+  --color-tertiary-900: #7ee787;
+  --color-tertiary-950: #aff5b4;
 
-	--color-neutral-100: #171C1F;
-	--color-neutral-200: #2B3134;
-	--color-neutral-300: #42484B;
-	--color-neutral-400: #595F62;
-	--color-neutral-500: #72787B;
-	--color-neutral-600: #8C9295;
-	--color-neutral-700: #A6ACB0;
-	--color-neutral-800: #C2C7CB;
-	--color-neutral-900: #DEE3E7;
-	--color-neutral-950: #ECF1F5;
+  /* Фирменные серые/нейтральные тона GitHub */
+  --color-neutral-100: #0d1117;
+  --color-neutral-200: #161b22;
+  --color-neutral-300: #21262d;
+  --color-neutral-400: #30363d;
+  --color-neutral-500: #484f58;
+  --color-neutral-600: #6e7681;
+  --color-neutral-700: #8b949e;
+  --color-neutral-800: #b1bac4;
+  --color-neutral-900: #c9d1d9;
+  --color-neutral-950: #f0f6fc;
+}
+
+.scroll-block {
+  scrollbar-color: var(--color-neutral-400) transparent;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-neutral-400);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-neutral-500);
+  }
 }
