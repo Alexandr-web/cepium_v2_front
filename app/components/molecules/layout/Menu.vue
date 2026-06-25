@@ -62,6 +62,7 @@
 					preset === 'desk' && 'hover:text-secondary-600 transition text-secondary-500 flex gap-12 items-center',
 					preset === 'mob' && 'hover:text-secondary-600 transition text-secondary-500 flex gap-12 items-center'
 				]"
+				@click="logout"
 			>
 				<ClientOnly>
 					<Icon
@@ -90,7 +91,7 @@
 </template>
 <script setup lang="ts">
 import AButton from "@/components/atoms/AButton.vue";
-import { VERSION } from "#imports";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const { preset } = defineProps({
 	preset: {
@@ -99,6 +100,10 @@ const { preset } = defineProps({
 		validator: (s: string) => ["mob", "desk"].includes(s),
 	},
 });
+
+const authStore = useAuthStore();
+
+const router = useRouter();
 
 const emits = defineEmits(["clickByLink"]);
 
@@ -135,4 +140,9 @@ const activeClass = computed(() =>
 		? "hover:bg-neutral-300/50 bg-neutral-200/50 relative before:content-[''] before:absolute before:right-0 before:top-0 before:w-2 before:h-full before:bg-primary-700 hover:before:bg-primary-800 before:transition"
 		: ""
 );
+
+const logout = () => {
+	authStore.clearToken();
+	router.push({ name: "login" });
+};
 </script>
