@@ -6,7 +6,7 @@ export default defineNuxtRouteMiddleware((to) => {
 	if (authStore.isAuthenticated && to.name === "login") {
 		throw createError({ 
 			status: 404, 
-			statusText: "Страница не найдена",
+			message: "Страница не найдена",
 			fatal: true,
 		});
 	}

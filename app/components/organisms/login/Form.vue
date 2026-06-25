@@ -6,35 +6,103 @@
 			</div>
 			<Logo />
 		</div>
-		<GeneralForm class="lg:max-w-420 lg:mx-auto lg:w-full" :fields="fields">
+		<!-- @vue-generic {TAuthLoginData} -->
+		<GeneralForm
+			class="lg:max-w-420 lg:mx-auto lg:w-full"
+			:fields="fields"
+			:normalized-data="normalizedData"
+			:disabled-btn="disabledBtn"
+			@send="login"
+			@keydown.enter="login"
+		>
 			<template #footer>
-				<p class="text-neutral-300 text-12 lg:text-14 text-right">{{ VERSION }}</p>
+				<div class="flex items-center">
+					<p v-if="message" class="text-secondary-500 text-14">{{ message }}</p>
+					<p class="text-neutral-300 text-12 lg:text-14 ml-auto">{{ VERSION }}</p>
+				</div>
 			</template>
 		</GeneralForm>
 	</section>
 </template>
 <script setup lang="ts">
-import type { TGeneralFormInput } from "@/types/components";
-import { VERSION } from "#imports";
+import * as z from "zod";
+import { useApi } from "@/composables/useApi";
+import type { TGeneralFormField } from "@/types/components";
+import type { TAuthLoginData, TAuthLoginResponse } from "@/types/api";
+import { useAuthStore } from "@/store/useAuthStore";
 import LogoIcon from "@/assets/icons/logo.svg";
 import Logo from "@/components/atoms/Logo.vue";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
+import AInput from "@/components/atoms/AInput.vue";
 
-const fields = ref<TGeneralFormInput[]>([
+const authStore = useAuthStore();
+
+const router = useRouter();
+const { isPending, req } = useApi();
+
+const message = ref<string|undefined>("");
+const fields = ref<TGeneralFormField[]>([
 	{
+		component: markRaw(AInput),
 		value: "",
-		placeholder: "Логин",
-		name: "login",
-		label: "Логин",
+		placeholder: "Эл. почта",
+		name: "email",
+		label: "Эл. почта",
 		preppendIcon: "material-symbols:account-circle",
+		check: z.string().min(1),
+		error: "",
 	},
 	{
+		component: markRaw(AInput),
 		value: "",
 		placeholder: "Пароль",
 		name: "password",
 		type: "password",
 		label: "Пароль",
 		preppendIcon: "material-symbols:lock-outline",
+		check: z.string().min(6),
+		error: "",
 	},
 ]);
+
+const hasInvalidFields = computed(() => fields.value.some(({ error }) => error));
+const disabledBtn = computed(() => !!(isPending.value || hasInvalidFields.value));
+
+// валидация всех полей
+const validateFields = () => {
+	fields.value.forEach((field) => {
+		if (field.check) {
+			field.error = field.check.safeParse(field.value).error?.message ?? "";
+		}
+	});
+
+	return fields.value.every(({ error }) => !error);
+};
+
+// нормализация данных для отправки на бек
+const normalizedData = (): TAuthLoginData => ({
+	email: fields.value.find((f) => f.name === "email")?.value ?? "",
+	password: fields.value.find((f) => f.name === "password")?.value ?? "",
+});
+
+const login = async (data: TAuthLoginData) => {
+	if (!validateFields()) return;
+
+	const res = await req<TAuthLoginResponse>("/auth/login", {
+		method: "POST",
+		body: data,
+	});
+
+	const token = res?.data?.token;
+
+	if (token) {
+		authStore.setToken(token);
+		router.push({ name: "home" });
+		return;
+	}
+
+	const resMessage = !Array.isArray(res?.message) ? res?.message : res?.message?.at(0);
+
+	message.value = resMessage ?? "Неверные данные";
+};
 </script>

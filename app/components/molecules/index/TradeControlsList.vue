@@ -12,8 +12,18 @@
 <script setup lang="ts">
 import type Trade from "@/models/Trade";
 import AButton from "@/components/atoms/AButton.vue";
+import type { PropType } from "vue";
 
-const { presetMenu, trade } = defineProps<{ presetMenu: string; trade?: Trade | null }>();
+const { presetMenu, trade } = defineProps({
+	presetMenu: {
+		type: String,
+		default: "",
+	},
+	trade: {
+		type: Object as PropType<Trade>,
+		default: null,
+	},
+});
 
 const tradeMenu = computed(() => [
 	{

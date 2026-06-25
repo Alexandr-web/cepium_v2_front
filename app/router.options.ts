@@ -6,7 +6,7 @@ export default {
 			path: "/",
 			component: () => import("@/pages/index.vue"),
 			meta: {
-				// middleware: "auth", отключаем до появления бека
+				middleware: "auth",
 				seo: {
 					title: "Главная",
 				},
@@ -17,7 +17,7 @@ export default {
 			path: "/settings",
 			component: () => import("@/pages/settings.vue"),
 			meta: {
-				// middleware: "auth", отключаем до появления бека
+				middleware: "auth",
 				seo: {
 					title: "Настройки",
 				},
@@ -28,7 +28,7 @@ export default {
 			path: "/profile",
 			component: () => import("@/pages/profile.vue"),
 			meta: {
-				// middleware: "auth", отключаем до появления бека
+				middleware: "auth",
 				seo: {
 					title: "Профиль",
 				},
@@ -39,7 +39,7 @@ export default {
 			path: "/statistics",
 			component: () => import("@/pages/statistics.vue"),
 			meta: {
-				// middleware: "auth", отключаем до появления бека
+				middleware: "auth",
 				seo: {
 					title: "Статистика",
 				},
@@ -50,7 +50,7 @@ export default {
 			path: "/orders",
 			component: () => import("@/pages/orders.vue"),
 			meta: {
-				// middleware: "auth", отключаем до появления бека
+				middleware: "auth",
 				seo: {
 					title: "История ордеров",
 				},
@@ -61,7 +61,7 @@ export default {
 			path: "/login",
 			component: () => import("@/pages/login.vue"),
 			meta: {
-				// middleware: "login", отключаем до появления бека
+				middleware: "login",
 				layout: false,
 				seo: {
 					title: "Вход",

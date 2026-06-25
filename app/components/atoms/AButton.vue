@@ -1,5 +1,10 @@
 <template>
-	<button class="cursor-pointer" :class="classesByMode">
+	<button
+		class="cursor-pointer disabled:cursor-default disabled:opacity-50 transition-opacity"
+		:class="classesByMode"
+		:disabled="disabled"
+		type="button"
+	>
 		<slot />
 	</button>
 </template>
@@ -9,6 +14,10 @@ const { mode } = defineProps({
 		type: String,
 		default: "default",
 		validator: (s: string) => ["default", "remove-fill", "remove-border", "neutral-fill"].includes(s),
+	},
+	disabled: {
+		type: Boolean,
+		default: false,
 	},
 });
 
