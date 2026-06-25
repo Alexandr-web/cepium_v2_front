@@ -20,6 +20,7 @@
 - **middleware/** – auth.global.ts, logger.ts
 - **composables/** – useApi, useWebSocket, useFormatter, useToast
 - **plugins/** – pinia, api-client, websocket client
+- **server/** - слой сервера между фронтом и внешним беком
 - **router.options.ts** – кастомизация маршрутизатора (добавление мета-полей, защита)
 - **assets/** – стили
 - **public/** – статика
