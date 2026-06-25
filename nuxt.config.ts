@@ -15,8 +15,12 @@ export default defineNuxtConfig({
 		"nuxt-svgo",
 	],
 	runtimeConfig: {
-		apiUrl: process.env.API_URL,
-		wsUrl: process.env.WS_URL,
+		apiKey: process.env.API_KEY,
+		public: {
+			apiUrl: process.env.API_URL,
+			wsUrl: process.env.WS_URL,
+			baseApiUrl: process.env.BASE_API_URL,
+		},
 	},
 	css: ["@/assets/css/global.css"],
 	vite: {

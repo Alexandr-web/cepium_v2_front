@@ -9,7 +9,7 @@ export type TDashboard = {
 };
 
 export type TUser = {
-    name: string|null;
+    email: string|null;
     avatar: string|null;
 };
 
@@ -26,4 +26,20 @@ export type TTrade = {
 	id: number;
 	direction: string;
 	pnlPercent: number;
+};
+
+export type TAuthLoginData = {
+	email: string;
+	password: string;
+};
+
+export type TAuthLoginResponseData = {
+	token?: string;
+};
+export type TAuthLoginResponse = {
+	message?: string|string[];
+	path?: string;
+	statusCode?: number;
+	timestamp?: string;
+	data?: TAuthLoginResponseData;
 };
