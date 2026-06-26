@@ -34,7 +34,7 @@
 				<template #footer="{ percent }">
 					<div class="flex justify-between items-center text-11 lg:text-14 text-white/50 font-medium">
 						<p>Дневная цель: <span>{{ dailyGoalPNL }}</span></p>
-						<p>{{ percent }}</p>
+						<p>{{ formatNum(percent, { style: "percent" }) }}</p>
 					</div>
 				</template>
 			</ProgressLine>

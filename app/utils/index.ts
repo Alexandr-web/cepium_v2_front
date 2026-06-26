@@ -17,11 +17,15 @@ export const formatNum = (value: number | string, options?: TFormatNumOptions): 
 
 	if (isNaN(num)) return defaultValue;
 
+	let minimumIntegerDigits = 1;
+
+	if (padZero && Math.abs(num) >= 1) minimumIntegerDigits = 2;
+
 	return new Intl.NumberFormat("ru-RU", {
 		style,
 		minimumFractionDigits: 0,
 		maximumFractionDigits: 2,
-		minimumIntegerDigits: padZero ? 2 : 1,
+		minimumIntegerDigits,
 		currency,
 	}).format(num);
 };

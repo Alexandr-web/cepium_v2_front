@@ -6,7 +6,7 @@
 				:style="{ width: `${percent * 100}%` }"
 			/>
 		</div>
-		<slot name="footer" v-bind="{ percent: percentFormat }" />
+		<slot name="footer" v-bind="{ percent }" />
 	</div>
 </template>
 <script setup lang="ts">
@@ -16,5 +16,4 @@ const { max, value } = defineProps<{
 }>();
 
 const percent = computed(() => value / max);
-const percentFormat = computed(() => formatNum(percent.value, { style: "percent" }));
 </script>
