@@ -1,14 +1,16 @@
 <template>
 	<button
-		class="cursor-pointer disabled:cursor-default disabled:opacity-50 transition-opacity"
+		class="cursor-pointer disabled:cursor-default disabled:opacity-50"
 		:class="classesByMode"
 		:disabled="disabled"
-		type="button"
+		:type="type"
 	>
 		<slot />
 	</button>
 </template>
 <script setup lang="ts">
+import type { ButtonHTMLAttributes } from "vue";
+
 const { mode } = defineProps({
 	mode: {
 		type: String,
@@ -20,6 +22,10 @@ const { mode } = defineProps({
 		default: false,
 	},
 });
+
+const attrs = useAttrs();
+
+const type = computed(() => (attrs.type as ButtonHTMLAttributes["type"]) ?? "button");
 
 const classesByMode = computed(() => {
 	switch (mode) {

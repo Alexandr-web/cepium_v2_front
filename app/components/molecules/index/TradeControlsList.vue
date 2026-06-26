@@ -21,7 +21,7 @@ const { presetMenu, trade } = defineProps({
 	},
 	trade: {
 		type: Object as PropType<Trade>,
-		default: null,
+		default: undefined,
 	},
 });
 

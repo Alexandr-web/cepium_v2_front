@@ -13,7 +13,6 @@
 			:normalized-data="normalizedData"
 			:disabled-btn="disabledBtn"
 			@send="login"
-			@keydown.enter="login"
 		>
 			<template #footer>
 				<div class="flex items-center">
