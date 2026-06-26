@@ -14,7 +14,7 @@
 		</div>
 	</section>
 	<Teleport to="body">
-		<Modal v-model="showModal" @close="selectedTrade = null">
+		<Modal v-model="showModal" @close="selectedTrade = undefined">
 			<TradeControlsList :preset-menu="presetControlsList" :trade="selectedTrade" />
 		</Modal>
 	</Teleport>
@@ -28,7 +28,7 @@ import TradeControlsList from "@/components/molecules/index/TradeControlsList.vu
 
 defineProps<{ trades: Trade[] }>();
 
-const selectedTrade = ref<Trade|null>(null);
+const selectedTrade = ref<Trade|undefined>(undefined);
 const showModal = ref(false);
 
 const presetControlsList = computed(() => selectedTrade.value ? "trade" : "trades");

@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col bg-neutral-200 h-screen max-h-screen">
+	<div class="flex flex-col bg-neutral-200 h-dvh max-h-dvh">
 		<Header />
 		<div class="flex grow min-h-0">
 			<Menu class="hidden lg:flex" preset="desk" />

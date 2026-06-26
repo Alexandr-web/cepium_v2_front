@@ -143,6 +143,6 @@ const activeClass = computed(() =>
 
 const logout = () => {
 	authStore.clearToken();
-	router.push({ name: "login" });
+	router.go(0);
 };
 </script>
