@@ -17,6 +17,9 @@ export const useTradeStore = defineStore("trade-store", () => {
 			id: 1,
 			direction: "long",
 			fullSymbol: "SOL/USDT",
+			change24hprct: 21,
+			price24h: 214,
+			volume24h: 321312,
 		},
 		{
 			timestamp: Date.now(),
@@ -31,6 +34,9 @@ export const useTradeStore = defineStore("trade-store", () => {
 			id: 2,
 			direction: "short",
 			fullSymbol: "BTC/USDT",
+			change24hprct: 2,
+			price24h: 98000,
+			volume24h: 2231312,
 		},
 	]);
 

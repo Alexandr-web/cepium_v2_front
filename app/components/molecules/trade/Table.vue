@@ -3,11 +3,15 @@
 	<MTable
 		class="hidden lg:flex"
 		head-icon="material-symbols:view-list"
+		title="Активные позиции"
 		:data="trades"
 		:columns="columns"
 	>
 		<template #head-controls>
-			<AButton class="rounded-4 px-12 py-6 text-14" mode="neutral-fill">Экспорт</AButton>
+			<div class="flex items-center gap-10">
+				<AButton class="rounded-4 px-12 py-6 text-14" mode="neutral-fill">Экспорт</AButton>
+				<AButton class="py-4 px-12 rounded-4 text-14" mode="remove-border" @click="emits('click-by-remove-all')">Закрыть все</AButton>
+			</div>
 		</template>
 		<template #cell-index="{ index }">{{ formatNum(index + 1, { padZero: true }) }}</template>
 		<template #cell-symbol="{ row }">
@@ -56,7 +60,7 @@ import MTable from "@/components/molecules/common/MTable.vue";
 
 defineProps<{ trades: Trade[] }>();
 
-const emits = defineEmits(["click-by-remove"]);
+const emits = defineEmits(["click-by-remove", "click-by-remove-all"]);
 
 const columns = computed<TTableColumn<Trade>[]>(() => [
 	{

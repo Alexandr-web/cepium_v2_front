@@ -13,17 +13,23 @@ export type TUser = {
     avatar: string|null;
 };
 
-export type TTrade = {
+export type TCoin = {
 	symbol: string;
 	fullSymbol: string;
+	timestamp: number;
+	price24h: number;
+	volume24h: number;
+	change24hprct: number;
+	currentPrice: number;
+	id: number;
+};
+
+export type TTrade = TCoin & {
 	margin: string;
 	leverage: string;
 	amount: number;
 	pnl: number;
 	entryPrice: number;
-	currentPrice: number;
-	timestamp: number;
-	id: number;
 	direction: string;
 	pnlPercent: number;
 };
