@@ -5,8 +5,13 @@
 				<SummaryNote :card="card" />
 			</template>
 		</LazyOrganismsIndexSummary>
-		<LazyOrganismsIndexActiveTrades hydrate-on-visible :trades="trades" />
-		<LazyOrganismsIndexPopularCoins hydrate-on-visible :coins="coins" />
+		<div class="flex flex-col lg:flex-row gap-16">
+			<div class="flex flex-col gap-16 lg:grow">
+				<LazyOrganismsIndexActiveTrades hydrate-on-visible :trades="trades" />
+				<LazyOrganismsIndexPopularCoins hydrate-on-visible :coins="coins" />
+			</div>
+			<LazyOrganismsIndexNews hydrate-on-visible />
+		</div>
 	</div>
 </template>
 <script setup lang="ts">
