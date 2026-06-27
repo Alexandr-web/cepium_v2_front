@@ -31,7 +31,7 @@
 				:type="inputType"
 			>
 			<AButton
-				v-if="type === 'password'"
+				v-if="$attrs.type === 'password'"
 				class="max-w-18 lg:max-w-22 min-w-18 lg:min-w-22 min-h-16 lg:min-h-20 max-h-16 lg:max-h-20 flex justify-center items-center ml-8"
 				@click="showPassword = !showPassword"
 			>
@@ -43,17 +43,13 @@
 </template>
 <script setup lang="ts">
 import AButton from "@/components/atoms/AButton.vue";
-import type { PropType } from "vue";
+import type { InputTypeHTMLAttribute, PropType } from "vue";
 import type z from "zod";
 
-const { type, check } = defineProps({
+const { check } = defineProps({
 	label: {
 		type: String,
 		default: "",
-	},
-	type: {
-		type: String,
-		default: "text",
 	},
 	placeholder: {
 		type: String,
@@ -69,14 +65,17 @@ const { type, check } = defineProps({
 	},
 });
 
+const attrs = useAttrs();
+
 const value = defineModel({ type: String, default: "" });
 const error = defineModel("error", { type: String, default: "" });
 
 const showPassword = ref(false);
 
 const checkValidMessage = computed(() => check?.safeParse(value.value)?.error?.message ?? "");
-const inputType = computed(() => {
-	if (type === "text") return type;
+const inputType = computed<InputTypeHTMLAttribute>(() => {
+	if (!attrs.type) return "text";
+	if (attrs.type !== "password") return String(attrs.type);
 	return !showPassword.value ? "password" : "text";
 });
 

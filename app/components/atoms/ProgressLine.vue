@@ -15,5 +15,9 @@ const { max, value } = defineProps<{
 	value: number;
 }>();
 
-const percent = computed(() => value / max);
+const correctValue = computed(() => value < 0 ? 0 : value);
+const percent = computed(() => {
+	if (isNaN(max) || max === 0) return 0;
+	return correctValue.value / max;
+});
 </script>

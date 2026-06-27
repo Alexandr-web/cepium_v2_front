@@ -1,7 +1,6 @@
-import type { Component } from "vue";
+import type { Component, InputTypeHTMLAttribute } from "vue";
 import type z from "zod";
 
-export type TInputType = "text" | "password";
 export type TSummaryType = "balance" | "pnl" | "positions";
 
 export type TGeneralFormField = {
@@ -10,10 +9,10 @@ export type TGeneralFormField = {
     placeholder?: string;
     preppendIcon?: string;
     component?: Component;
-    type?: TInputType;
     label?: string;
     check?: z.ZodType;
     error?: string;
+    type?: InputTypeHTMLAttribute;
 };
 
 export type TIndexCardSummary = {
