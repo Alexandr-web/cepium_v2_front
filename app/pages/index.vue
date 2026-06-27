@@ -10,7 +10,7 @@
 				<LazyOrganismsIndexActiveTrades hydrate-on-visible :trades="trades" />
 				<LazyOrganismsIndexPopularCoins hydrate-on-visible :coins="coins" />
 			</div>
-			<LazyOrganismsIndexNews hydrate-on-visible />
+			<LazyOrganismsIndexNews hydrate-on-visible :news="news" />
 		</div>
 	</div>
 </template>
@@ -19,14 +19,17 @@ import type { TIndexCardSummary } from "@/types/components";
 import { useDashboardStore } from "@/store/useDashboardStore";
 import { useTradeStore } from "@/store/useTradeStore";
 import { useCoinsStore } from "@/store/useCoinsStore";
+import { useNewsStore } from "@/store/useStoreNews";
 import SummaryNote from "@/components/molecules/index/SummaryNote.vue";
 
 const dashboardStore = useDashboardStore();
 const tradeStore = useTradeStore();
 const coinsStore = useCoinsStore();
+const newsStore = useNewsStore();
 
 const trades = computed(() => tradeStore.getAllTrades());
 const coins = computed(() => coinsStore.getAllCoins());
+const news = computed(() => newsStore.getAllNews());
 
 const summary = computed<TIndexCardSummary[]>(() => [
 	{

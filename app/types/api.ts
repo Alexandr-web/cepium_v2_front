@@ -49,3 +49,11 @@ export type TAuthLoginResponse = {
 	timestamp?: string;
 	data?: TAuthLoginResponseData;
 };
+
+export type TNews = {
+	id: number;
+	title: string;
+	timestamp: string;
+	content: string;
+	risk: "high" | "moderate" | "low";
+};
