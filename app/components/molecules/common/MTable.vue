@@ -15,6 +15,7 @@
 						:key="String(col.key)"
 						class="p-24 text-12 text-neutral-700 uppercase truncate"
 						:class="[
+							!col.align && 'text-left',
 							col.align === 'center' && 'text-center',
 							col.align === 'right' && 'text-right',
 						]"
