@@ -31,6 +31,8 @@ const classesByMode = computed(() => {
 			return "border-1 border-solid border-secondary-400 text-secondary-500 bg-primary-100 transition hover:border-secondary-500 hover:text-secondary-600";
 		case "neutral-fill":
 			return "transition text-white/80 hover:text-white/90 hover:bg-neutral-400 bg-neutral-300";
+		case "black-fill":
+			return "transition text-white/80 hover:text-white/90 hover:bg-black/90 bg-black";
 		default:
 			return "";
 	}

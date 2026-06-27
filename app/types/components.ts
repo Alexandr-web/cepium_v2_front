@@ -21,3 +21,9 @@ export type TIndexCardSummary = {
     value: number|string;
     type: TSummaryType;
 };
+
+export type TTableColumn<T> = {
+  key: keyof T | "controls" | "index";
+  label: string;
+  align?: "left" | "center" | "right";
+};
