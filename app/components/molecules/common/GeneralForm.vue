@@ -12,8 +12,8 @@
 			:check="item.check"
 			:placeholder="item.placeholder"
 			:label="item.label"
-			:type="item.type"
 			:preppend-icon="item.preppendIcon"
+			:type="item.type"
 		/>
 		<AButton
 			class="group hover:bg-primary-900 transition-colors flex items-center justify-center cursor-pointer gap-8 bg-primary-800 rounded-4 h-56 lg:mt-16"
