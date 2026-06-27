@@ -27,7 +27,7 @@
 			<input
 				v-model.trim="value"
 				class="grow min-w-0 h-full text-neutral-500 text-14 lg:text-16"
-				:placeholder="placeholder"
+				:placeholder="String($attrs.placeholder)"
 				:type="inputType"
 			>
 			<AButton
@@ -48,10 +48,6 @@ import type z from "zod";
 
 const { check } = defineProps({
 	label: {
-		type: String,
-		default: "",
-	},
-	placeholder: {
 		type: String,
 		default: "",
 	},
