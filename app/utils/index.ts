@@ -15,7 +15,9 @@ export const formatNum = (value: number | string, options?: TFormatNumOptions): 
 	const num = typeof value === "string" ? parseFloat(value) : value;
 	const { style, currency, padZero, defaultValue = "0" } = options ?? {};
 
-	if (isNaN(num)) return defaultValue;
+	if (isNaN(num) || !isFinite(num) || isNegativeZero(num) || String(value).includes(",")) return defaultValue;
+
+	if (Math.round(num * 100) / 100 === 0) return "0";
 
 	let minimumIntegerDigits = 1;
 
@@ -29,3 +31,18 @@ export const formatNum = (value: number | string, options?: TFormatNumOptions): 
 		currency,
 	}).format(num);
 };
+
+/**
+ * Проверяет, является ли переданное значение отрицательным нулём (`-0`).
+ * 
+ * Использует проверку `1 / value === -Infinity`, которая работает во всех средах,
+ * поддерживающих IEEE 754.
+ * 
+ * @param {unknown} value - Проверяемое значение.
+ * @returns {boolean} `true` для `-0`, иначе `false`.
+ * 
+ * @example
+ * isNegativeZero(-0); // true
+ * isNegativeZero(0);  // false
+ */
+export const isNegativeZero = (value: unknown) => Object.is(value, -0);
