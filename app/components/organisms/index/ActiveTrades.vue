@@ -4,14 +4,15 @@
 			<h2 class="font-bold text-20">Активные сделки</h2>
 			<AButton class="py-4 px-12 rounded-12 text-12" mode="remove-border" @click="showModal = true">Закрыть все</AButton>
 		</div>
-		<div class="flex flex-col gap-12">
-			<TradeCard
+		<div class="flex lg:hidden flex-col gap-12">
+			<MobTradeCard
 				v-for="trade in trades"
 				:key="trade.id"
 				:trade="trade"
 				@click-by-controls="selectedTrade = trade"
 			/>
 		</div>
+		<TradesTable :trades="trades" @click-by-remove="(t: Trade) => console.log('remove', t.id)" />
 	</section>
 	<Teleport to="body">
 		<Modal v-model="showModal" @close="selectedTrade = undefined">
@@ -21,10 +22,11 @@
 </template>
 <script setup lang="ts">
 import type Trade from "@/models/Trade";
-import TradeCard from "@/components/molecules/index/TradeCard.vue";
+import MobTradeCard from "@/components/molecules/trade/MobCard.vue";
 import Modal from "@/components/molecules/common/Modal.vue";
 import AButton from "@/components/atoms/AButton.vue";
-import TradeControlsList from "@/components/molecules/index/TradeControlsList.vue";
+import TradeControlsList from "@/components/molecules/trade/ControlsList.vue";
+import TradesTable from "@/components/molecules/trade/Table.vue";
 
 defineProps<{ trades: Trade[] }>();
 
