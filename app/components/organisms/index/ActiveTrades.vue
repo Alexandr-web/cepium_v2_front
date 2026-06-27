@@ -5,7 +5,7 @@
 			<AButton class="py-4 px-12 rounded-12 text-12" mode="remove-border" @click="showModal = true">Закрыть все</AButton>
 		</div>
 		<div class="flex flex-col gap-12">
-			<TradeCard
+			<MobTradeCard
 				v-for="trade in trades"
 				:key="trade.id"
 				:trade="trade"
@@ -21,7 +21,7 @@
 </template>
 <script setup lang="ts">
 import type Trade from "@/models/Trade";
-import TradeCard from "@/components/molecules/index/TradeCard.vue";
+import MobTradeCard from "@/components/molecules/index/MobTradeCard.vue";
 import Modal from "@/components/molecules/common/Modal.vue";
 import AButton from "@/components/atoms/AButton.vue";
 import TradeControlsList from "@/components/molecules/index/TradeControlsList.vue";
