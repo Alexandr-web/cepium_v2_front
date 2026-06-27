@@ -43,7 +43,7 @@
 						</ClientOnly>
 						<span
 							:class="[
-								preset === 'desk' && 'group-hover:text-primary-800 text-primary-700 transition text-14',
+								preset === 'desk' && 'group-hover:text-neutral-950 text-neutral-800 transition text-14',
 								preset === 'mob' && 'text-white/80 font-medium text-14'
 							]"
 						>{{ item.label }}</span>

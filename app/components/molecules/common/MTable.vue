@@ -3,7 +3,7 @@
 		<div class="flex items-center justify-between h-65 p-24 bg-neutral-100">
 			<div v-if="headIcon || title" class="flex items-center gap-8">
 				<Icon v-if="headIcon" :name="headIcon" class="text-primary-800 w-18 h-18" />
-				<h2 v-if="title" class="text-24 font-semibold leading-[1.2] text-neutral-800">{{ title }}</h2>
+				<h2 v-if="title" class="text-20 font-semibold leading-[1.2] text-neutral-800">{{ title }}</h2>
 			</div>
 			<slot name="head-controls" />
 		</div>
@@ -15,6 +15,7 @@
 						:key="String(col.key)"
 						class="p-24 text-12 text-neutral-700 uppercase truncate"
 						:class="[
+							!col.align && 'text-left',
 							col.align === 'center' && 'text-center',
 							col.align === 'right' && 'text-right',
 						]"
@@ -28,7 +29,7 @@
 					<td :colspan="columns.length" class="p-32 text-14">
 						<slot name="empty">
 							<div class="flex items-center justify-center gap-10">
-								<Icon name="mingcute:empty-box-line" class="text-neutral-800 w-20 h-20" />
+								<Icon name="material-symbols:sentiment-sad-outline-rounded" class="text-neutral-800 w-20 h-20" />
 								<p>Данные отсутствуют</p>
 							</div>
 						</slot>

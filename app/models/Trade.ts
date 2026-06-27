@@ -1,39 +1,28 @@
 import type { TTrade } from "@/types/api";
+import Coin from "@/models/Coin";
 
-export default class Trade {
-	symbol: string;
-	fullSymbol: string;
+export default class Trade extends Coin {
 	margin: string;
 	leverage: string;
 	amount: number;
 	pnl: number;
-	entryPrice: number;
-	currentPrice: number;
-	timestamp: number;
-	id: number;
-	direction: string;
 	pnlPercent: number;
 
+	readonly entryPrice: number;
+	readonly direction: string;
 	readonly trade: TTrade;
 
 	constructor(trade: TTrade) {
-		this.symbol = trade.symbol;
+		super(trade);
+
 		this.margin = trade.margin;
 		this.leverage = trade.leverage;
 		this.amount = trade.amount;
 		this.pnl = trade.pnl;
 		this.entryPrice = trade.entryPrice;
-		this.currentPrice = trade.currentPrice;
-		this.timestamp = trade.timestamp;
-		this.id = trade.id;
 		this.direction = trade.direction;
-		this.fullSymbol = trade.fullSymbol;
 		this.pnlPercent = trade.pnlPercent;
 		this.trade = trade;
-	}
-
-	get prettyCurrentPrice() {
-		return formatNum(this.currentPrice, { currency: "USD", style: "currency" });
 	}
 
 	get prettyEntryPrice() {
