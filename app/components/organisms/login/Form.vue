@@ -48,7 +48,7 @@ const fields = ref<TGeneralFormField[]>([
 		name: "email",
 		label: "Эл. почта",
 		preppendIcon: "material-symbols:account-circle",
-		check: z.string().min(1),
+		check: z.email(),
 		error: "",
 	},
 	{
