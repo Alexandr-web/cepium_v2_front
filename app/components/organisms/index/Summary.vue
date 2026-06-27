@@ -15,10 +15,11 @@
 					:class="[
 						item.type === 'balance' && 'lg:text-48',
 						item.type !== 'balance' && 'lg:text-36',
-						item.type === 'pnl' && 'text-tertiary-800',
+						(item.type === 'pnl' && Number(item.value) >= 0) && 'text-tertiary-800',
+						(item.type === 'pnl' && Number(item.value) < 0) && 'text-secondary-800',
 						item.type !== 'pnl' && 'text-white'
 					]"
-				>{{ item.value }}</span>
+				>{{ item.formattedValue }}</span>
 				<slot name="note" v-bind="item" />
 			</div>
 		</div>

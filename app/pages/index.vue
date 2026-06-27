@@ -32,19 +32,22 @@ const summary = computed<TIndexCardSummary[]>(() => [
 	{
 		title: "Баланс",
 		icon: "material-symbols:arrows-more-up-rounded",
-		value: formatNum(dashboardStore.data.balance, { currency: "USD", style: "currency" }),
+		value: dashboardStore.data.balance,
+		formattedValue: formatNum(dashboardStore.data.balance, { currency: "USD", style: "currency" }),
 		type: "balance",
 	},
 	{
 		title: "Активные позиции",
 		icon: "material-symbols:shelf-position-sharp",
-		value: formatNum(dashboardStore.data.activePositionsCount, { padZero: true }),
+		value: dashboardStore.data.activePositionsCount,
+		formattedValue: formatNum(dashboardStore.data.activePositionsCount, { padZero: true }),
 		type: "positions",
 	},
 	{
 		title: "24ч реализованный PNL",
 		icon: "material-symbols:money-bag-outline-rounded",
-		value: formatNum(dashboardStore.data.pnl24h, { currency: "USD", style: "currency" }),
+		value: dashboardStore.data.pnl24h,
+		formattedValue: formatNum(dashboardStore.data.pnl24h, { currency: "USD", style: "currency" }),
 		type: "pnl",
 	},
 ]);

@@ -1,8 +1,6 @@
 import type { Component, InputTypeHTMLAttribute } from "vue";
 import type z from "zod";
 
-export type TSummaryType = "balance" | "pnl" | "positions";
-
 export type TGeneralFormField = {
     value: string;
     name: string;
@@ -19,7 +17,8 @@ export type TIndexCardSummary = {
     title: string;
     icon?: string;
     value: number|string;
-    type: TSummaryType;
+    formattedValue: number|string;
+    type: "balance" | "pnl" | "positions";
 };
 
 export type TTableColumn<T> = {
