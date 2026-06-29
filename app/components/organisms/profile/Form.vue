@@ -1,5 +1,5 @@
 <template>
-	<section class="flex flex-col gap-16">
+	<section class="flex flex-col gap-16 w-full lg:max-w-1200 lg:mx-auto">
 		<UploadAvatar v-model="fileField!.value" />
 		<div class="flex flex-col gap-16">
 			<h3 class="flex items-center gap-8 text-14 uppercase text-neutral-600 font-light">
