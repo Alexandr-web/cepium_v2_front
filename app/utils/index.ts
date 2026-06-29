@@ -46,3 +46,23 @@ export const formatNum = (value: number | string, options?: TFormatNumOptions): 
  * isNegativeZero(0);  // false
  */
 export const isNegativeZero = (value: unknown) => Object.is(value, -0);
+
+/**
+ * Преобразует входное значение в строку URL.
+ * 
+ * Если передана строка, возвращает её без изменений.
+ * Если передан файл, создает для него временный Blob-URL.
+ * 
+ * @important 
+ * Если функция создает Blob-URL (`URL.createObjectURL`), этот URL остается в памяти, 
+ * пока документ открыт. Не забывайте освобождать память с помощью `URL.revokeObjectURL(url)`, 
+ * когда ссылка больше не нужна.
+ *
+ * @param {unknown} val - Входное значение.
+ * @returns {string} Строка URL или пустая строка, если значение отсутствует.
+ */
+export const getURLFile = (val: unknown): string => {
+	if (typeof val === "string") return val;
+	if (val instanceof File) return  URL.createObjectURL(val);
+	return "";
+};

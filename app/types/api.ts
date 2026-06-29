@@ -60,6 +60,7 @@ export type TNews = {
 };
 
 export type TUserEditData = {
+	avatar?: File;
 	email?: string;
 	password?: string;
 };

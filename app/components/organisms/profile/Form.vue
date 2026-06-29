@@ -1,23 +1,26 @@
 <template>
 	<section class="flex flex-col gap-16">
-		<h2 class="flex items-center gap-8 text-14 uppercase text-neutral-600 font-light">
-			<Icon name="material-symbols:person-edit-outline-rounded" class="w-20 h-20 text-primary-700" />
-			<span>Личная информация</span>
-		</h2>
-		<!-- @vue-generic {TUserEditData}-->
-		<GeneralForm
-			:fields="fields"
-			:normalized-data="normalizedData"
-			mode="user"
-			@send="save"
-		>
-			<template #content>
-				<AButton class="flex items-center justify-center gap-10 w-full lg:w-auto rounded-4 p-16 lg:px-24 transition hover:bg-primary-950 bg-primary-800 text-primary-200 text-14 font-bold lg:ml-auto" type="submit">
-					<span>Сохранить изменения</span>
-					<Icon name="material-symbols:save-outline" class="w-20 h-20 text-primary-300" />
-				</AButton>
-			</template>
-		</GeneralForm>
+		<UploadAvatar v-model="fileField!.value" />
+		<div class="flex flex-col gap-16">
+			<h3 class="flex items-center gap-8 text-14 uppercase text-neutral-600 font-light">
+				<Icon name="material-symbols:person-edit-outline-rounded" class="w-20 h-20 text-primary-700" />
+				<span>Личная информация</span>
+			</h3>
+			<!-- @vue-generic {TUserEditData}-->
+			<GeneralForm
+				:fields="inputFields"
+				:normalized-data="normalizedData"
+				mode="user"
+				@send="save"
+			>
+				<template #content>
+					<AButton class="flex items-center justify-center gap-10 w-full lg:w-auto rounded-4 p-16 lg:px-24 transition hover:bg-primary-950 bg-primary-800 text-primary-200 text-14 font-bold lg:ml-auto" type="submit">
+						<span>Сохранить изменения</span>
+						<Icon name="material-symbols:save-outline" class="w-20 h-20 text-primary-300" />
+					</AButton>
+				</template>
+			</GeneralForm>
+		</div>
 	</section>
 </template>
 <script setup lang="ts">
@@ -27,11 +30,17 @@ import { useUserStore } from "@/store/useUserStore";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import AInput from "@/components/atoms/AInput.vue";
 import AButton from "@/components/atoms/AButton.vue";
+import UploadAvatar from "@/components/molecules/profile/UploadAvatar.vue";
 import * as z from "zod";
 
 const userStore = useUserStore();
 
 const fields = ref<TGeneralFormField[]>([
+	{
+		name: "avatar",
+		value: String(userStore.avatar),
+		error: "",
+	},
 	{
 		name: "email",
 		value: String(userStore.user.email ?? ""),
@@ -53,16 +62,20 @@ const fields = ref<TGeneralFormField[]>([
 	},
 ]);
 
+const fileField = computed(() => fields.value.find(({ name }) => name === "avatar"));
+const inputFields = computed(() => fields.value.filter(({ name }) => ["email", "password"].includes(name)));
+
 // нормализация данных для отправки на бек
 const normalizedData = (): TUserEditData => ({
-	email: fields.value.find((f) => f.name === "email")?.value ?? "",
-	password: fields.value.find((f) => f.name === "password")?.value ?? "",
+	avatar: !(fileField.value?.value instanceof File) ? undefined : fileField.value?.value,
+	email: String(fields.value.find((f) => f.name === "email")?.value ?? ""),
+	password: String(fields.value.find((f) => f.name === "password")?.value ?? ""),
 });
 
 // валидация всех полей
 const validateFields = () => {
-	fields.value.forEach((field) => {
-		if (field.check) {
+	inputFields.value.forEach((field) => {
+		if (field.check && field.value) {
 			field.error = field.check.safeParse(field.value).error?.message ?? "";
 		}
 	});
