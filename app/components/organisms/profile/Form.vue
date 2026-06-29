@@ -72,7 +72,7 @@ const normalizedData = (): TUserEditData => ({
 	password: String(fields.value.find((f) => f.name === "password")?.value ?? ""),
 });
 
-// валидация всех полей
+// валидация полей
 const validateFields = () => {
 	inputFields.value.forEach((field) => {
 		if (field.check && field.value) {
