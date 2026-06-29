@@ -11,9 +11,18 @@
 			class="lg:max-w-420 lg:mx-auto lg:w-full"
 			:fields="fields"
 			:normalized-data="normalizedData"
-			:disabled-btn="disabledBtn"
 			@send="login"
 		>
+			<template #content>
+				<AButton
+					class="group hover:bg-primary-900 transition-colors flex items-center justify-center cursor-pointer gap-8 bg-primary-800 rounded-4 h-56 lg:mt-16"
+					type="submit"
+					:disabled="disabledBtn"
+				>
+					<span class="uppercase text-primary-100 text-14 lg:text-16 font-medium">Войти</span>
+					<Icon class="group-hover:translate-x-[50%] transition min-w-16 lg:min-w-18 max-w-16 lg:max-w-18 min-h-16 lg:min-h-18 max-h-16 lg:max-h-18 text-black" name="material-symbols:keyboard-double-arrow-right" />
+				</AButton>
+			</template>
 			<template #footer>
 				<div class="flex items-center">
 					<p v-if="message" class="text-secondary-500 text-14">{{ message }}</p>
@@ -33,6 +42,7 @@ import LogoIcon from "@/assets/icons/logo.svg";
 import Logo from "@/components/atoms/Logo.vue";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import AInput from "@/components/atoms/AInput.vue";
+import AButton from "@/components/atoms/AButton.vue";
 
 const authStore = useAuthStore();
 

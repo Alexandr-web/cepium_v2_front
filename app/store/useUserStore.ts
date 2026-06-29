@@ -4,7 +4,7 @@ import type { TUser } from "@/types/api";
 export const useUserStore = defineStore("user-store", () => {
 	const user = ref<TUser>({
 		avatar: null,
-		email: null,
+		email: "person1@example.com",
 	});
 
 	const avatar = computed(() => user.value.avatar ?? "/images/profile/avatar.webp");

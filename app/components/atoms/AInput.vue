@@ -18,7 +18,7 @@
 			<Icon
 				v-if="preppendIcon"
 				:name="preppendIcon"
-				class="transition min-w-15 lg:min-w-18 max-w-15 lg:max-w-18 min-h-15 lg:min-h-18 max-h-15 lg:max-h-18 block mr-8"
+				class="transition min-w-15 lg:min-w-18 max-w-15 lg:max-w-18 min-h-15 lg:min-h-18 max-h-15 lg:max-h-18 block mr-8 transition"
 				:class="[
 					error && 'text-secondary-500',
 					!error && 'text-primary-700'
@@ -26,7 +26,7 @@
 			/>
 			<input
 				v-model.trim="value"
-				class="grow min-w-0 h-full text-neutral-500 text-14 lg:text-16"
+				class="grow min-w-0 h-full text-neutral-500 focus:text-neutral-600 transition text-14 lg:text-16"
 				:placeholder="String($attrs.placeholder)"
 				:type="inputType"
 			>
