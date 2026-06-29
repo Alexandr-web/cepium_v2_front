@@ -6,8 +6,11 @@
 				<div class="flex flex-col">
 					<h3 class="font-bold text-14 text-white/80">{{ trade.fullSymbol }} {{ trade.direction }}</h3>
 					<p class="inline-flex items-center text-12 font-medium text-white/50">
-						{{ trade.margin }}
-						{{ trade.prettyLeverage }}
+						<template v-if="trade.type === 'future'">
+							{{ trade.margin }}
+							{{ trade.prettyLeverage }}
+						</template>
+						<template v-if="trade.type === 'spot'">{{ trade.prettyType }}</template>
 						<span class="w-4 h-4 rounded-full bg-white/50 mx-4 block"/>
 						{{ trade.prettyAmount }}
 						{{ trade.symbol }}

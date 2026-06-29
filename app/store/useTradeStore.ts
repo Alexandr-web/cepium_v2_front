@@ -20,6 +20,7 @@ export const useTradeStore = defineStore("trade-store", () => {
 			change24hprct: 21,
 			price24h: 214,
 			volume24h: 321312,
+			type: "future",
 		},
 		{
 			timestamp: Date.now(),
@@ -37,6 +38,22 @@ export const useTradeStore = defineStore("trade-store", () => {
 			change24hprct: 2,
 			price24h: 98000,
 			volume24h: 2231312,
+			type: "future",
+		},
+		{
+			timestamp: Date.now(),
+			symbol: "TON",
+			amount: 0.23,
+			pnl: 321.2,
+			entryPrice: 89000,
+			currentPrice: 91000,
+			pnlPercent: 0.12,
+			id: 3,
+			fullSymbol: "TON/USDT",
+			change24hprct: 0.3,
+			price24h: 98000,
+			volume24h: 2231312,
+			type: "spot",
 		},
 	]);
 

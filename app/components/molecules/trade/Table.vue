@@ -76,6 +76,10 @@ const columns = computed<TTableColumn<Trade>[]>(() => [
 		label: "Направление",
 	},
 	{
+		key: "prettyType",
+		label: "Тип",
+	},
+	{
 		key: "prettyEntryPrice",
 		label: "Вход",
 	},
