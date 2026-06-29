@@ -1,6 +1,9 @@
 <template>
 	<section class="flex flex-col gap-16">
-		<h2 class="text-14 uppercase text-neutral-600 font-light">Личная информация</h2>
+		<h2 class="flex items-center gap-8 text-14 uppercase text-neutral-600 font-light">
+			<Icon name="material-symbols:person-edit-outline-rounded" class="w-20 h-20 text-primary-700" />
+			<span>Личная информация</span>
+		</h2>
 		<!-- @vue-generic {TUserEditData}-->
 		<GeneralForm
 			:fields="fields"
@@ -9,7 +12,10 @@
 			@send="save"
 		>
 			<template #content>
-				<AButton class="w-full rounded-4 p-16 bg-primary-800 text-primary-200 text-14 font-bold" type="submit">Сохранить изменения</AButton>
+				<AButton class="flex items-center justify-center gap-10 w-full lg:w-auto rounded-4 p-16 lg:px-24 transition hover:bg-primary-950 bg-primary-800 text-primary-200 text-14 font-bold lg:ml-auto" type="submit">
+					<span>Сохранить изменения</span>
+					<Icon name="material-symbols:save-outline" class="w-20 h-20 text-primary-300" />
+				</AButton>
 			</template>
 		</GeneralForm>
 	</section>

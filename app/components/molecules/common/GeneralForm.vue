@@ -7,18 +7,26 @@
 		]"
 		@submit.prevent="emits('send', formattedData)"
 	>
-		<component
-			:is="item.component"
-			v-for="item in fields"
-			:key="item.name"
-			v-model="item.value"
-			v-model:error="item.error"
-			:check="item.check"
-			:placeholder="item.placeholder"
-			:label="item.label"
-			:preppend-icon="item.preppendIcon"
-			:type="item.type"
-		/>
+		<div
+			class="gap-16"
+			:class="[
+				mode === 'default' && 'flex flex-col',
+				mode === 'user' && 'grid grid-cols-1 lg:grid-cols-2',
+			]"
+		>
+			<component
+				:is="item.component"
+				v-for="item in fields"
+				:key="item.name"
+				v-model="item.value"
+				v-model:error="item.error"
+				:check="item.check"
+				:placeholder="item.placeholder"
+				:label="item.label"
+				:preppend-icon="item.preppendIcon"
+				:type="item.type"
+			/>
+		</div>
 		<slot name="content" />
 		<slot name="footer" />
 	</form>
