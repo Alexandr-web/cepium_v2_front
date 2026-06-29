@@ -25,12 +25,13 @@ export type TCoin = {
 };
 
 export type TTrade = TCoin & {
-	margin: string;
-	leverage: string;
+	margin?: string;
+	leverage?: string;
 	amount: number;
 	pnl: number;
+	type: "future" | "spot";
 	entryPrice: number;
-	direction: string;
+	direction?: string;
 	pnlPercent: number;
 };
 

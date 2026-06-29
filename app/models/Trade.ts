@@ -2,15 +2,16 @@ import type { TTrade } from "@/types/api";
 import Coin from "@/models/Coin";
 
 export default class Trade extends Coin {
-	margin: string;
-	leverage: string;
+	margin?: string;
+	leverage?: string;
 	amount: number;
 	pnl: number;
 	pnlPercent: number;
 
 	readonly entryPrice: number;
-	readonly direction: string;
+	readonly direction?: string;
 	readonly trade: TTrade;
+	readonly type: string;
 
 	constructor(trade: TTrade) {
 		super(trade);
@@ -22,6 +23,7 @@ export default class Trade extends Coin {
 		this.entryPrice = trade.entryPrice;
 		this.direction = trade.direction;
 		this.pnlPercent = trade.pnlPercent;
+		this.type = trade.type;
 		this.trade = trade;
 	}
 
@@ -44,6 +46,17 @@ export default class Trade extends Coin {
 	}
 
 	get prettyLeverage() {
-		return formatNum(this.leverage, { padZero: true }) + "x";
+		return !this.leverage ? "-" : formatNum(this.leverage, { padZero: true }) + "x";
+	}
+
+	get prettyType() {
+		switch (this.type) {
+			case "future":
+				return "Фьючи";
+			case "spot":
+				return "Спот";
+			default:
+				return "-";
+		}
 	}
 };
