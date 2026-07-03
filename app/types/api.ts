@@ -11,6 +11,7 @@ export type TDashboard = {
 export type TUser = {
     email: string|null;
     avatar: string|null;
+	name: string|null;
 };
 
 export type TCoin = {
@@ -62,5 +63,5 @@ export type TNews = {
 export type TUserEditData = {
 	avatar?: File;
 	email?: string;
-	password?: string;
+	name?: string;
 };

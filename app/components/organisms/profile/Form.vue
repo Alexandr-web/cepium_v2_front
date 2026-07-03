@@ -4,7 +4,7 @@
 		<div class="flex flex-col gap-16">
 			<h3 class="flex items-center gap-8 text-14 uppercase text-neutral-600 font-light">
 				<Icon name="material-symbols:person-edit-outline-rounded" class="w-20 h-20 text-primary-700" />
-				<span>Личная информация</span>
+				<span>Общая информация</span>
 			</h3>
 			<!-- @vue-generic {TUserEditData}-->
 			<GeneralForm
@@ -51,25 +51,24 @@ const fields = ref<TGeneralFormField[]>([
 		component: markRaw(AInput),
 	},
 	{
-		name: "password",
-		value: "",
+		name: "name",
+		value: String(userStore.user.name ?? ""),
 		error: "",
-		check: z.string().min(6),
-		placeholder: "Пароль",
-		label: "Пароль",
-		type: "password",
+		check: z.string().min(1),
+		placeholder: "Имя",
+		label: "Имя",
 		component: markRaw(AInput),
 	},
 ]);
 
 const fileField = computed(() => fields.value.find(({ name }) => name === "avatar"));
-const inputFields = computed(() => fields.value.filter(({ name }) => ["email", "password"].includes(name)));
+const inputFields = computed(() => fields.value.filter(({ name }) => ["email", "name"].includes(name)));
 
 // нормализация данных для отправки на бек
 const normalizedData = (): TUserEditData => ({
 	avatar: !(fileField.value?.value instanceof File) ? undefined : fileField.value?.value,
 	email: String(fields.value.find((f) => f.name === "email")?.value ?? ""),
-	password: String(fields.value.find((f) => f.name === "password")?.value ?? ""),
+	name: String(fields.value.find((f) => f.name === "name")?.value ?? ""),
 });
 
 // валидация полей
