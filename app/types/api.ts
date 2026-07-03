@@ -60,8 +60,12 @@ export type TNews = {
 	risk: "high" | "moderate" | "low";
 };
 
-export type TUserEditData = {
+export type TUserEditGeneralData = {
 	avatar?: File;
 	email?: string;
 	name?: string;
+};
+
+export type TUserEditSecurityData = {
+	password?: string;
 };

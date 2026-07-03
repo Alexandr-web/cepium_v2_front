@@ -1,5 +1,5 @@
 <template>
-	<!-- @vue-generic {TUserEditData}-->
+	<!-- @vue-generic {TUserEditGeneralData}-->
 	<GeneralForm
 		:fields="inputFields"
 		:normalized-data="normalizedData"
@@ -7,22 +7,21 @@
 		@send="save"
 	>
 		<template #content>
-			<AButton class="flex items-center justify-center gap-10 w-full lg:w-auto rounded-4 p-16 lg:px-24 transition hover:bg-primary-950 bg-primary-800 text-primary-200 text-14 font-bold lg:ml-auto" type="submit">
-				<span>Сохранить изменения</span>
-				<Icon name="material-symbols:save-outline" class="w-20 h-20 text-primary-300" />
+			<AButton class="w-full lg:w-auto rounded-4 p-16 lg:px-24 lg:ml-auto" mode="primary-fill" type="submit">
+				Сохранить изменения
 			</AButton>
 		</template>
 	</GeneralForm>
 </template>
 <script setup lang="ts">
-import type { TUserEditData } from "@/types/api";
+import type { TUserEditGeneralData } from "@/types/api";
 import type { TGeneralFormField } from "@/types/components";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import AButton from "@/components/atoms/AButton.vue";
 
 const { fields } = defineProps<{
 	fields: TGeneralFormField[];
-	normalizedData: (fields: TGeneralFormField[]) => TUserEditData;
+	normalizedData: (fields: TGeneralFormField[]) => TUserEditGeneralData;
 }>();
 
 const inputFields = computed(() => fields.filter(({ name }) => ["email", "name"].includes(name)));
@@ -42,7 +41,7 @@ const validateFields = () => {
 	return fields.every(({ error }) => !error);
 };
 
-const save = (data: TUserEditData) => {
+const save = (data: TUserEditGeneralData) => {
 	if (!validateFields()) return;
 	console.log(data);
 };

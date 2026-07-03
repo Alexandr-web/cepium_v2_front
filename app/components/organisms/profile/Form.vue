@@ -13,10 +13,11 @@
 <script setup lang="ts">
 import type { TGeneralFormField } from "@/types/components";
 import { useUserStore } from "@/store/useUserStore";
-import type { TUserEditData } from "@/types/api";
+import type { TUserEditGeneralData, TUserEditSecurityData } from "@/types/api";
 import AInput from "@/components/atoms/AInput.vue";
 import UploadAvatar from "@/components/molecules/profile/UploadAvatar.vue";
 import GeneralFieldsForm from "@/components/molecules/profile/GeneralFieldsForm.vue";
+import SecurityFieldsForm from "@/components/molecules/profile/SecurityFieldsForm.vue";
 import * as z from "zod";
 
 const userStore = useUserStore();
@@ -48,6 +49,19 @@ const generalFields = ref<TGeneralFormField[]>([
 	},
 ]);
 
+const securityFields = ref<TGeneralFormField[]>([
+	{
+		name: "password",
+		value: "",
+		error: "",
+		check: z.string().min(6),
+		placeholder: "Пароль",
+		label: "Новый пароль",
+		type: "password",
+		component: markRaw(AInput),
+	},
+]);
+
 const areas = ref([
 	{
 		title: "Общая информация",
@@ -56,7 +70,7 @@ const areas = ref([
 		formProps: {
 			fields: generalFields.value,
 			// нормализация данных для отправки на бек
-			normalizedData: (): TUserEditData => ({
+			normalizedData: (): TUserEditGeneralData => ({
 				avatar: !(fileField.value?.value instanceof File) ? undefined : fileField.value?.value,
 				email: String(generalFields.value.find((f) => f.name === "email")?.value ?? ""),
 				name: String(generalFields.value.find((f) => f.name === "name")?.value ?? ""),
@@ -66,14 +80,12 @@ const areas = ref([
 	{
 		title: "Безопасность",
 		icon: "material-symbols:lock-outline",
-		component: markRaw(GeneralFieldsForm),
+		component: markRaw(SecurityFieldsForm),
 		formProps: {
-			fields: generalFields.value,
+			fields: securityFields.value,
 			// нормализация данных для отправки на бек
-			normalizedData: (): TUserEditData => ({
-				avatar: !(fileField.value?.value instanceof File) ? undefined : fileField.value?.value,
-				email: String(generalFields.value.find((f) => f.name === "email")?.value ?? ""),
-				name: String(generalFields.value.find((f) => f.name === "name")?.value ?? ""),
+			normalizedData: (): TUserEditSecurityData => ({
+				password: String(securityFields.value.find((f) => f.name === "password")?.value ?? ""),
 			}),
 		},
 	},
