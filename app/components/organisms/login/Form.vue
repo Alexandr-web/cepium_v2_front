@@ -90,8 +90,8 @@ const validateFields = () => {
 
 // нормализация данных для отправки на бек
 const normalizedData = (): TAuthLoginData => ({
-	email: fields.value.find((f) => f.name === "email")?.value ?? "",
-	password: fields.value.find((f) => f.name === "password")?.value ?? "",
+	email: String(fields.value.find((f) => f.name === "email")?.value ?? ""),
+	password: String(fields.value.find((f) => f.name === "password")?.value ?? ""),
 });
 
 const login = async (data: TAuthLoginData) => {
