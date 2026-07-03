@@ -4,7 +4,6 @@
 		:class="[
 			mode === 'default' && 'p-24',
 			mode === 'user' && 'p-20',
-			mode === 'compact' && 'p-20 lg:flex-row'
 		]"
 		@submit.prevent="emits('send', formattedData)"
 	>
@@ -13,7 +12,6 @@
 			:class="[
 				mode === 'default' && 'flex flex-col',
 				mode === 'user' && 'grid grid-cols-1 lg:grid-cols-2',
-				mode === 'compact' && 'grid grid-cols-1 lg:w-[80%]',
 			]"
 		>
 			<component
@@ -49,7 +47,7 @@ const { normalizedData, fields } = defineProps({
 	mode: {
 		type: String,
 		default: "default",
-		validator: (s: string) => ["default", "user", "compact"].includes(s),
+		validator: (s: string) => ["default", "user"].includes(s),
 	},
 });
 

@@ -51,7 +51,17 @@ const generalFields = ref<TGeneralFormField[]>([
 
 const securityFields = ref<TGeneralFormField[]>([
 	{
-		name: "password",
+		name: "oldPassword",
+		value: "",
+		error: "",
+		check: z.string().min(6),
+		placeholder: "Пароль",
+		label: "Старый пароль",
+		type: "password",
+		component: markRaw(AInput),
+	},
+	{
+		name: "newPassword",
 		value: "",
 		error: "",
 		check: z.string().min(6),
@@ -85,7 +95,8 @@ const areas = ref([
 			fields: securityFields.value,
 			// нормализация данных для отправки на бек
 			normalizedData: (): TUserEditSecurityData => ({
-				password: String(securityFields.value.find((f) => f.name === "password")?.value ?? ""),
+				oldPassword: String(securityFields.value.find((f) => f.name === "oldPassword")?.value ?? ""),
+				newPassword: String(securityFields.value.find((f) => f.name === "newPassword")?.value ?? ""),
 			}),
 		},
 	},

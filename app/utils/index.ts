@@ -66,3 +66,22 @@ export const getURLFile = (val: unknown): string => {
 	if (val instanceof File) return  URL.createObjectURL(val);
 	return "";
 };
+
+/**
+ * Форматирует миллисекунды в строку минут и секунд вида "М:СС" или "ММ:СС".
+ * 
+ * @param {number} ms - Количество миллисекунд для форматирования.
+ * @returns {string} Строка времени в формате "минуты:секунды" (например, "1:00", "10:05").
+ * 
+ * @example
+ * formatTime(60000);   // "1:00"
+ * formatTime(65000);   // "1:05"
+ * formatTime(605000);  // "10:05"
+ */
+export const formatTime = (ms: number): string => {
+	const totalSeconds = Math.floor(ms / 1000);
+	const minutes = Math.floor(totalSeconds / 60);
+	const seconds = totalSeconds % 60;
+
+	return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+};

@@ -105,7 +105,7 @@ const login = async (data: TAuthLoginData) => {
 	const token = res?.data?.token;
 
 	if (token) {
-		authStore.setToken(token);
+		authStore.token = token;
 		router.push({ name: "home" });
 		return;
 	}

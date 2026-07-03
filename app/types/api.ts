@@ -67,5 +67,6 @@ export type TUserEditGeneralData = {
 };
 
 export type TUserEditSecurityData = {
-	password?: string;
+	oldPassword?: string;
+	newPassword?: string;
 };

@@ -14,7 +14,10 @@
 				<Icon name="material-symbols:edit-outline-rounded" class="w-full h-full text-neutral-950" />
 			</div>
 		</div>
-		<h3 class="font-light text-14 lg:text-18 text-white truncate w-full">{{ userStore.user.email }}</h3>
+		<div class="flex flex-col">
+			<h2 class="font-light text-14 lg:text-18 text-white truncate w-full">{{ userStore.user.name }}</h2>
+			<h3 class="font-light text-14 lg:text-18 text-primary-800 truncate w-full">{{ userStore.user.email }}</h3>
+		</div>
 	</div>
 </template>
 <script setup lang="ts">

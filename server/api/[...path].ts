@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
 	const data = await ofetch(`/${path}`, {
 		baseURL: process.env.API_URL,
 		headers: {
-			"X-Api-Key": String(process.env.API_KEY),
+			"x-api-key": String(process.env.API_KEY),
 		},
 		method,
 		query,
