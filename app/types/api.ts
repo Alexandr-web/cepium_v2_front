@@ -11,6 +11,7 @@ export type TDashboard = {
 export type TUser = {
     email: string|null;
     avatar: string|null;
+	name: string|null;
 };
 
 export type TCoin = {
@@ -59,8 +60,13 @@ export type TNews = {
 	risk: "high" | "moderate" | "low";
 };
 
-export type TUserEditData = {
+export type TUserEditGeneralData = {
 	avatar?: File;
 	email?: string;
-	password?: string;
+	name?: string;
+};
+
+export type TUserEditSecurityData = {
+	oldPassword?: string;
+	newPassword?: string;
 };

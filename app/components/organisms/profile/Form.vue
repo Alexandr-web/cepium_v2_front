@@ -1,90 +1,114 @@
 <template>
 	<section class="flex flex-col gap-16 w-full lg:max-w-1200 lg:mx-auto">
 		<UploadAvatar v-model="fileField!.value" />
-		<div class="flex flex-col gap-16">
+		<div v-for="(area, idx) in areas" :key="idx" class="flex flex-col gap-16">
 			<h3 class="flex items-center gap-8 text-14 uppercase text-neutral-600 font-light">
-				<Icon name="material-symbols:person-edit-outline-rounded" class="w-20 h-20 text-primary-700" />
-				<span>Личная информация</span>
+				<Icon :name="area.icon" class="w-20 h-20 text-primary-700" />
+				<span>{{ area.title }}</span>
 			</h3>
-			<!-- @vue-generic {TUserEditData}-->
-			<GeneralForm
-				:fields="inputFields"
-				:normalized-data="normalizedData"
-				mode="user"
-				@send="save"
-			>
-				<template #content>
-					<AButton class="flex items-center justify-center gap-10 w-full lg:w-auto rounded-4 p-16 lg:px-24 transition hover:bg-primary-950 bg-primary-800 text-primary-200 text-14 font-bold lg:ml-auto" type="submit">
-						<span>Сохранить изменения</span>
-						<Icon name="material-symbols:save-outline" class="w-20 h-20 text-primary-300" />
-					</AButton>
-				</template>
-			</GeneralForm>
+			<component :is="area.component" v-bind="area.formProps" @success="area.onSuccess" />
 		</div>
 	</section>
 </template>
 <script setup lang="ts">
 import type { TGeneralFormField } from "@/types/components";
-import type { TUserEditData } from "@/types/api";
 import { useUserStore } from "@/store/useUserStore";
-import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
+import type { TUserEditGeneralData, TUserEditSecurityData } from "@/types/api";
 import AInput from "@/components/atoms/AInput.vue";
-import AButton from "@/components/atoms/AButton.vue";
 import UploadAvatar from "@/components/molecules/profile/UploadAvatar.vue";
+import GeneralFieldsForm from "@/components/molecules/profile/GeneralFieldsForm.vue";
+import SecurityFieldsForm from "@/components/molecules/profile/SecurityFieldsForm.vue";
 import * as z from "zod";
 
 const userStore = useUserStore();
 
-const fields = ref<TGeneralFormField[]>([
+const generalFields = ref<TGeneralFormField[]>([
 	{
 		name: "avatar",
 		value: String(userStore.avatar),
+		check: z.file().max(MAX_SIZE_FILE_AVATAR),
 		error: "",
 	},
 	{
 		name: "email",
 		value: String(userStore.user.email ?? ""),
 		error: "",
-		check: z.email(),
+		check: z.email().min(1),
 		placeholder: "Эл. почта",
 		label: "Эл. почта",
 		component: markRaw(AInput),
 	},
 	{
-		name: "password",
+		name: "name",
+		value: String(userStore.user.name ?? ""),
+		error: "",
+		check: z.string().min(1),
+		placeholder: "Имя",
+		label: "Имя",
+		component: markRaw(AInput),
+	},
+]);
+
+const securityFields = ref<TGeneralFormField[]>([
+	{
+		name: "oldPassword",
 		value: "",
 		error: "",
 		check: z.string().min(6),
 		placeholder: "Пароль",
-		label: "Пароль",
+		label: "Старый пароль",
+		type: "password",
+		component: markRaw(AInput),
+	},
+	{
+		name: "newPassword",
+		value: "",
+		error: "",
+		check: z.string().min(6),
+		placeholder: "Пароль",
+		label: "Новый пароль",
 		type: "password",
 		component: markRaw(AInput),
 	},
 ]);
 
-const fileField = computed(() => fields.value.find(({ name }) => name === "avatar"));
-const inputFields = computed(() => fields.value.filter(({ name }) => ["email", "password"].includes(name)));
+const areas = ref([
+	{
+		title: "Общая информация",
+		icon: "material-symbols:person-edit-outline-rounded",
+		component: markRaw(GeneralFieldsForm),
+		formProps: {
+			fields: generalFields.value,
+			// нормализация данных для отправки на бек
+			normalizedData: (): TUserEditGeneralData => ({
+				avatar: !(fileField.value?.value instanceof File) ? undefined : fileField.value?.value,
+				email: String(generalFields.value.find((f) => f.name === "email")?.value ?? ""),
+				name: String(generalFields.value.find((f) => f.name === "name")?.value ?? ""),
+			}),
+		},
+		onSuccess: () => {
+			generalFields.value.forEach((field) => {
+				if (field.name !== "avatar") field.value = "";
+			});
+		},
+	},
+	{
+		title: "Безопасность",
+		icon: "material-symbols:lock-outline",
+		component: markRaw(SecurityFieldsForm),
+		formProps: {
+			fields: securityFields.value,
+			// нормализация данных для отправки на бек
+			normalizedData: (): TUserEditSecurityData => ({
+				oldPassword: String(securityFields.value.find((f) => f.name === "oldPassword")?.value ?? ""),
+				newPassword: String(securityFields.value.find((f) => f.name === "newPassword")?.value ?? ""),
+			}),
+		},
+		onSuccess: () => {
+			securityFields.value.forEach((field) => field.value = "");
+		},
+	},
+]);
 
-// нормализация данных для отправки на бек
-const normalizedData = (): TUserEditData => ({
-	avatar: !(fileField.value?.value instanceof File) ? undefined : fileField.value?.value,
-	email: String(fields.value.find((f) => f.name === "email")?.value ?? ""),
-	password: String(fields.value.find((f) => f.name === "password")?.value ?? ""),
-});
-
-// валидация полей
-const validateFields = () => {
-	inputFields.value.forEach((field) => {
-		if (field.check && field.value) {
-			field.error = field.check.safeParse(field.value).error?.message ?? "";
-		}
-	});
-
-	return fields.value.every(({ error }) => !error);
-};
-
-const save = (data: TUserEditData) => {
-	if (!validateFields()) return;
-	console.log(data);
-};
+const fileField = computed(() => generalFields.value.find(({ name }) => name === "avatar"));
 </script>

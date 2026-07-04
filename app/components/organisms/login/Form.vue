@@ -15,8 +15,9 @@
 		>
 			<template #content>
 				<AButton
-					class="group hover:bg-primary-900 transition-colors flex items-center justify-center cursor-pointer gap-8 bg-primary-800 rounded-4 h-56 lg:mt-16"
+					class="group flex items-center justify-center gap-8 rounded-4 h-56 lg:mt-16"
 					type="submit"
+					mode="primary-fill"
 					:disabled="disabledBtn"
 				>
 					<span class="uppercase text-primary-100 text-14 lg:text-16 font-medium">Войти</span>
@@ -25,7 +26,7 @@
 			</template>
 			<template #footer>
 				<div class="flex items-center">
-					<p v-if="message" class="text-secondary-500 text-14">{{ message }}</p>
+					<p v-if="errMessage" class="text-secondary-500 text-14">{{ errMessage }}</p>
 					<p class="text-neutral-300 text-12 lg:text-14 ml-auto">{{ VERSION }}</p>
 				</div>
 			</template>
@@ -47,9 +48,8 @@ import AButton from "@/components/atoms/AButton.vue";
 const authStore = useAuthStore();
 
 const router = useRouter();
-const { isPending, req } = useApi();
+const { isPending, errMessage, req } = useApi();
 
-const message = ref<string|undefined>("");
 const fields = ref<TGeneralFormField[]>([
 	{
 		component: markRaw(AInput),
@@ -90,8 +90,8 @@ const validateFields = () => {
 
 // нормализация данных для отправки на бек
 const normalizedData = (): TAuthLoginData => ({
-	email: fields.value.find((f) => f.name === "email")?.value ?? "",
-	password: fields.value.find((f) => f.name === "password")?.value ?? "",
+	email: String(fields.value.find((f) => f.name === "email")?.value ?? ""),
+	password: String(fields.value.find((f) => f.name === "password")?.value ?? ""),
 });
 
 const login = async (data: TAuthLoginData) => {
@@ -105,13 +105,9 @@ const login = async (data: TAuthLoginData) => {
 	const token = res?.data?.token;
 
 	if (token) {
-		authStore.setToken(token);
+		authStore.token = token;
 		router.push({ name: "home" });
 		return;
 	}
-
-	const resMessage = !Array.isArray(res?.message) ? res?.message : res?.message?.at(0);
-
-	message.value = resMessage ?? "Неверные данные";
 };
 </script>

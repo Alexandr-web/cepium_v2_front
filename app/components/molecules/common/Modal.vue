@@ -23,7 +23,11 @@
 				<div
 					v-show="show"
 					ref="target"
-					class="bg-neutral-100 rounded-t-8 lg:rounded-8 border-t-1 w-full lg:border-1 border-solid border-t-white/10 lg:border-white/10 py-32 px-16 relative lg:max-w-900 lg:m-auto"
+					class="bg-neutral-100 rounded-t-8 lg:rounded-8 border-t-1 w-full lg:border-1 border-solid border-t-white/10 lg:border-white/10 py-32 px-16 relative lg:m-auto"
+					:class="[
+						size === 'small' && 'lg:max-w-500',
+						size === 'default' && 'lg:max-w-900'
+					]"
 				>
 					<div class="lg:hidden absolute top-16 right-0 left-0 mx-auto w-36 h-2 bg-white/50 rounded-8"/>
 					<slot />
@@ -35,6 +39,14 @@
 <script setup lang="ts">
 import { onClickOutside } from "@vueuse/core";
 import { useTemplateRef } from "vue";
+
+defineProps({
+	size: {
+		type: String,
+		default: "default",
+		validator: (v: string) => ["default", "small"].includes(v),
+	},
+});
 
 const target = useTemplateRef("target");
 

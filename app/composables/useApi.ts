@@ -1,3 +1,5 @@
+import { FetchError } from "ofetch";
+
 export const useApi = () => {
 	const isPending = ref(false);
 	const errMessage = ref("");
@@ -17,11 +19,12 @@ export const useApi = () => {
 
 			return res;
 		} catch (err) {
-			if (!(err instanceof Error) || err.name === "AbortController") return;
+			if (!(err instanceof FetchError) || err.name === "AbortController") return;
 
-			errMessage.value = err.message;
+			const message = err.data.data.message;
+			errMessage.value = !Array.isArray(message) ? message : message?.at(0) ?? "";
 
-			console.error(err);
+			console.error(err.message);
 		} finally {
 			isPending.value = false;
 		}
