@@ -111,17 +111,17 @@
   --color-primary-900: #a5d6ff;
   --color-primary-950: #cae8ff;
 
-  /* Пурпурный цвет GitHub (Pull Requests, ветки) */
+  /* Красный цвет GitHub (Ветви, Закрытые PR, Ошибки) */
   --color-secondary-100: #0d1117;
-  --color-secondary-200: #1b1524;
-  --color-secondary-300: #3c1e5a;
-  --color-secondary-400: #4d2d76;
-  --color-secondary-500: #8957e5;
-  --color-secondary-600: #a371f7;
-  --color-secondary-700: #bc8cff;
-  --color-secondary-800: #d8b4fe;
-  --color-secondary-900: #eddeff;
-  --color-secondary-950: #f5f0ff;
+  --color-secondary-200: #221518;
+  --color-secondary-300: #491820;
+  --color-secondary-400: #6e1a24;
+  --color-secondary-500: #da3633;
+  --color-secondary-600: #f85149;
+  --color-secondary-700: #ff7b72;
+  --color-secondary-800: #ffa199;
+  --color-secondary-900: #ffceda;
+  --color-secondary-950: #fdf0f2;
 
   /* Зеленый цвет GitHub (успешные тесты, графики коммитов) */
   --color-tertiary-100: #041107;
