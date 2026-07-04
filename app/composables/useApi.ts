@@ -3,9 +3,9 @@ import { FetchError } from "ofetch";
 export const useApi = () => {
 	const isPending = ref(false);
 	const errMessage = ref("");
-
 	const controller = ref<AbortController | null>(null);
 
+	const abort = () => controller.value?.abort();
 	const req = async <T>(url: string, options = {}) => {
 		if (isPending.value && controller.value) controller.value.abort();
 
@@ -30,7 +30,7 @@ export const useApi = () => {
 		}
 	};
 
-	onUnmounted(() => controller.value?.abort());
+	onUnmounted(abort);
 
-	return { isPending, errMessage, req };
+	return { isPending, errMessage, req, abort };
 };

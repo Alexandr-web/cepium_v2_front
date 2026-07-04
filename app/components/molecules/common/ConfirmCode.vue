@@ -46,13 +46,14 @@
 					{{ cancelTextBtn }}
 				</AButton>
 			</div>
-			<p v-if="error" class="text-14 text-secondary-500">{{ error }}</p>
+			<AError :message="error" />
 		</div>
 	</div>
 </template>
 <script setup lang="ts">
 import * as z from "zod";
 import AButton from "@/components/atoms/AButton.vue";
+import AError from "@/components/atoms/AError.vue";
 
 const { codeLen } = defineProps<{
 	title: string;
