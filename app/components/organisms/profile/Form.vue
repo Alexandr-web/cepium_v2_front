@@ -6,7 +6,7 @@
 				<Icon :name="area.icon" class="w-20 h-20 text-primary-700" />
 				<span>{{ area.title }}</span>
 			</h3>
-			<component :is="area.component" v-bind="area.formProps" />
+			<component :is="area.component" v-bind="area.formProps" @success="area.onSuccess" />
 		</div>
 	</section>
 </template>
@@ -86,6 +86,11 @@ const areas = ref([
 				name: String(generalFields.value.find((f) => f.name === "name")?.value ?? ""),
 			}),
 		},
+		onSuccess: () => {
+			generalFields.value.forEach((field) => {
+				if (field.name !== "avatar") field.value = "";
+			});
+		},
 	},
 	{
 		title: "Безопасность",
@@ -98,6 +103,9 @@ const areas = ref([
 				oldPassword: String(securityFields.value.find((f) => f.name === "oldPassword")?.value ?? ""),
 				newPassword: String(securityFields.value.find((f) => f.name === "newPassword")?.value ?? ""),
 			}),
+		},
+		onSuccess: () => {
+			securityFields.value.forEach((field) => field.value = "");
 		},
 	},
 ]);

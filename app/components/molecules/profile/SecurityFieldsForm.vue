@@ -4,17 +4,20 @@
 		:fields="fields"
 		:normalized-data="normalizedData"
 		mode="user"
-		@send="submit"
+		@send="requestChangePassword"
 	>
 		<template #content>
-			<AButton
-				class="w-full lg:w-auto rounded-4 p-16 lg:py-8 lg:px-24 lg:h-46 lg:ml-auto"
-				mode="primary-fill"
-				type="submit"
-				:disabled="isPending"
-			>
-				Изменить
-			</AButton>
+			<div class="flex flex-col-reverse lg:flex-row lg:items-center gap-10">
+				<p v-if="message" class="text-14 text-secondary-500">{{ message }}</p>
+				<AButton
+					class="w-full lg:w-auto rounded-4 p-16 lg:py-8 lg:px-24 lg:h-46 lg:ml-auto"
+					mode="primary-fill"
+					type="submit"
+					:disabled="isPending"
+				>
+					Изменить
+				</AButton>
+			</div>
 		</template>
 	</GeneralForm>
 	<Teleport to="body">
@@ -27,6 +30,8 @@
 				send-text-btn="Изменить"
 				cancel-text-btn="Отмена"
 				@cancel="showModal = false"
+				@send-code-again="requestChangePassword"
+				@submit="requestConfirmCode"
 			>
 				<template #subtitle>
 					<p class="text-14 lg:text-16 text-neutral-600">Мы отправили 6-значный код на вашу почту <span class="text-primary-700">{{ userStore.user.email }}</span></p>
@@ -50,10 +55,14 @@ const { fields } = defineProps<{
 	normalizedData: (fields: TGeneralFormField[]) => TUserEditSecurityData;
 }>();
 
+const emits = defineEmits(["success"]);
+
 const userStore = useUserStore();
 const authStore = useAuthStore();
 
 const { isPending, errMessage, req } = useApi();
+
+const message = ref("");
 
 const confirmCodeRef = ref<InstanceType<typeof ConfirmCode> | null>(null);
 const confirmCode = ref("");
@@ -68,10 +77,13 @@ const validateFields = () => {
 	return fields.every(({ error }) => !error);
 };
 
-const submit = async (data: TUserEditSecurityData) => {
+// запрашиваем код на почту
+const requestChangePassword = async (data: TUserEditSecurityData) => {
+	message.value = "";
+
 	if (!validateFields()) return;
 
-	await req("/users/me/password/confirm-change", {
+	await req("/users/me/password/request-change", {
 		method: "POST",
 		headers: {
 			Authorization: `Bearer ${authStore.token ?? ""}`,
@@ -79,9 +91,28 @@ const submit = async (data: TUserEditSecurityData) => {
 		body: data,
 	});
 
+	message.value = errMessage.value;
+
 	if (errMessage.value) return;
 
 	showModal.value = true;
+};
+
+// подтверждаем присланный код
+const requestConfirmCode = async () => {
+	await req("/users/me/password/confirm-change", {
+		method: "POST",
+		headers: {
+			Authorization: `Bearer ${authStore.token ?? ""}`,
+		},
+		body: { code: confirmCode.value },
+	});
+	
+	if (errMessage.value) return;
+
+	showModal.value = false;
+
+	emits("success");
 };
 
 watch(showModal, (v) => {

@@ -5,10 +5,12 @@ export default defineEventHandler(async (event) => {
 	const method = getMethod(event);
 	const query = getQuery(event);
 	const body = await readBody(event).catch(() => undefined);
+	const headers = getHeaders(event);
 
 	const data = await ofetch(`/${path}`, {
 		baseURL: process.env.API_URL,
 		headers: {
+			...headers,
 			"x-api-key": String(process.env.API_KEY),
 		},
 		method,
@@ -16,5 +18,5 @@ export default defineEventHandler(async (event) => {
 		body,
 	});
 
-  	return data;
+	return data;
 });

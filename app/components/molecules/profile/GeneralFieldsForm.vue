@@ -24,6 +24,8 @@ const { fields } = defineProps<{
 	normalizedData: (fields: TGeneralFormField[]) => TUserEditGeneralData;
 }>();
 
+const emits = defineEmits(["success"]);
+
 const inputFields = computed(() => fields.filter(({ name }) => ["email", "name"].includes(name)));
 
 // валидация полей
@@ -43,6 +45,6 @@ const validateFields = () => {
 
 const save = (data: TUserEditGeneralData) => {
 	if (!validateFields()) return;
-	console.log(data);
+	emits("success", data);
 };
 </script>
