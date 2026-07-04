@@ -28,21 +28,25 @@
 				<span class="text-14 lg:text-16 text-neutral-500">({{ formatTime(currentTime) }})</span>
 			</div>
 		</div>
-		<div class="flex flex-col lg:flex-row-reverse gap-10">
-			<AButton
-				class="text-14 lg:text-16 p-10 rounded-8 lg:w-1/2"
-				mode="primary-fill"
-				@click="submit"
-			>
-				{{ sendTextBtn }}
-			</AButton>
-			<AButton
-				class="text-14 lg:text-16 p-10 rounded-8 lg:w-1/2"
-				mode="remove-border"
-				@click="emits('cancel')"
-			>
-				{{ cancelTextBtn }}
-			</AButton>
+		<div class="flex flex-col gap-20">
+			<div class="flex flex-col lg:flex-row-reverse gap-10">
+				<AButton
+					class="text-14 lg:text-16 p-10 rounded-8 lg:w-1/2"
+					mode="primary-fill"
+					@click="submit"
+				>
+					{{ sendTextBtn }}
+				</AButton>
+				<AButton
+					class="text-14 lg:text-16 p-10 rounded-8 lg:w-1/2"
+					mode="remove-border"
+					:disabled="disabledBtn"
+					@click="emits('cancel')"
+				>
+					{{ cancelTextBtn }}
+				</AButton>
+			</div>
+			<p v-if="error" class="text-14 text-secondary-500">{{ error }}</p>
 		</div>
 	</div>
 </template>
@@ -55,6 +59,7 @@ const { codeLen } = defineProps<{
 	codeLen: number;
 	sendTextBtn: string;
 	cancelTextBtn: string;
+	disabledBtn: boolean;
 }>();
 
 const emits = defineEmits(["submit", "cancel", "sendCodeAgain"]);
@@ -62,6 +67,7 @@ const emits = defineEmits(["submit", "cancel", "sendCodeAgain"]);
 const { currentTime, isOver, stop: stopTimer, start: startTimer } = useTimer(0, { defaultTime: 60 * 1000, mode: "down" });
 
 const code = defineModel({ type: String, default: "" });
+const error = defineModel("error", { type: String, default: "" });
 
 const inputCodeEl = useTemplateRef<HTMLInputElement | null>("inputCode");
 
