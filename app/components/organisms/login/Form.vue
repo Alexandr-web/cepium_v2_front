@@ -26,7 +26,7 @@
 			</template>
 			<template #footer>
 				<div class="flex items-center">
-					<p v-if="errMessage" class="text-secondary-500 text-14">{{ errMessage }}</p>
+					<AError :message="errMessage" />
 					<p class="text-neutral-300 text-12 lg:text-14 ml-auto">{{ VERSION }}</p>
 				</div>
 			</template>
@@ -35,7 +35,6 @@
 </template>
 <script setup lang="ts">
 import * as z from "zod";
-import { useApi } from "@/composables/useApi";
 import type { TGeneralFormField } from "@/types/components";
 import type { TAuthLoginData, TAuthLoginResponse } from "@/types/api";
 import { useAuthStore } from "@/store/useAuthStore";
@@ -43,12 +42,10 @@ import LogoIcon from "@/assets/icons/logo.svg";
 import Logo from "@/components/atoms/Logo.vue";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import AInput from "@/components/atoms/AInput.vue";
+import AError from "@/components/atoms/AError.vue";
 import AButton from "@/components/atoms/AButton.vue";
 
 const authStore = useAuthStore();
-
-const router = useRouter();
-const { isPending, errMessage, req } = useApi();
 
 const fields = ref<TGeneralFormField[]>([
 	{
@@ -74,19 +71,11 @@ const fields = ref<TGeneralFormField[]>([
 	},
 ]);
 
-const hasInvalidFields = computed(() => fields.value.some(({ error }) => error));
+const router = useRouter();
+const { validateFields, hasInvalidFields } = useForm(fields);
+const { isPending, errMessage, req } = useApi();
+
 const disabledBtn = computed(() => !!(isPending.value || hasInvalidFields.value));
-
-// валидация всех полей
-const validateFields = () => {
-	fields.value.forEach((field) => {
-		if (field.check) {
-			field.error = field.check.safeParse(field.value).error?.message ?? "";
-		}
-	});
-
-	return fields.value.every(({ error }) => !error);
-};
 
 // нормализация данных для отправки на бек
 const normalizedData = (): TAuthLoginData => ({

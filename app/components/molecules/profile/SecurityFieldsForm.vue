@@ -8,7 +8,7 @@
 	>
 		<template #content>
 			<div class="flex flex-col-reverse lg:flex-row lg:items-center gap-10">
-				<p v-if="errChangePasswordMessage" class="text-14 text-secondary-500">{{ errChangePasswordMessage }}</p>
+				<AError :message="errChangePasswordMessage" />
 				<AButton
 					class="w-full lg:w-auto rounded-4 p-16 lg:py-8 lg:px-24 lg:h-46 lg:ml-auto"
 					mode="primary-fill"
@@ -50,6 +50,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import Modal from "@/components/molecules/common/Modal.vue";
 import AButton from "@/components/atoms/AButton.vue";
+import AError from "@/components/atoms/AError.vue";
 import ConfirmCode from "@/components/molecules/common/ConfirmCode.vue";
 
 const { fields } = defineProps<{
@@ -62,6 +63,7 @@ const emits = defineEmits(["success"]);
 const userStore = useUserStore();
 const authStore = useAuthStore();
 
+const { validateFields } = useForm(fields);
 const { isPending: isPendingChangePassword, errMessage: errChangePasswordMessage, req: reqChangePassword } = useApi();
 const { isPending: isPendingConfirmCode, errMessage: errConfirmCodeMessage, req: reqConfirmCode } = useApi();
 
@@ -69,15 +71,6 @@ const confirmCodeRef = ref<InstanceType<typeof ConfirmCode> | null>(null);
 const confirmCode = ref("");
 
 const showModal = ref(false);
-
-// валидация полей
-const validateFields = () => {
-	fields.forEach((field) => {
-		field.error = !field.check ? "" : (field.check.safeParse(field.value).error?.message ?? "");
-	});
-
-	return fields.every(({ error }) => !error);
-};
 
 // запрашиваем код на почту
 const requestChangePassword = async (data: TUserEditSecurityData) => {
