@@ -1,3 +1,5 @@
+import type { FetchError } from "ofetch";
+
 type TFormatNumOptions = {
 	currency?: string;
 	style?: "decimal" | "currency" | "percent" | "unit";
@@ -84,4 +86,27 @@ export const formatTime = (ms: number): string => {
 	const seconds = totalSeconds % 60;
 
 	return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+};
+
+/**
+ * Извлекает строку сообщения об ошибке из объекта ошибки запроса `FetchError`.
+ * 
+ * Функция обрабатывает два формата ответа от API:
+ * 1. Если `message` является строкой, возвращает её.
+ * 2. Если `message` является массивом строк (например, ошибки валидации), возвращает первый элемент.
+ *
+ * @param {FetchError} err - Объект ошибки, полученный при выполнении запроса через `ofetch`.
+ * @returns {string} Строка с текстом ошибки. Если сообщение отсутствует или структура пуста, возвращает пустую строку `""`.
+ *
+ * @example
+ * // Пример со строкой: { data: { data: { message: "Неверный пароль" } } }
+ * const msg = getRequestErrorMessage(error); // "Неверный пароль"
+ *
+ * @example
+ * // Пример с массивом: { data: { data: { message: ["Email обязателен", "Пароль слишком короткий"] } } }
+ * const msg = getRequestErrorMessage(error); // "Email обязателен"
+ */
+export const getRequestErrorMessage = (err: FetchError): string => {
+	const message = err.data.data.message;
+	return !Array.isArray(message) ? message : message?.at(0) ?? "";
 };

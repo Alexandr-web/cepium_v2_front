@@ -40,7 +40,11 @@
 import { onClickOutside } from "@vueuse/core";
 import { useTemplateRef } from "vue";
 
-defineProps({
+const { disabled } = defineProps({
+	disabled: {
+		type: Boolean,
+		default: false,
+	},
 	size: {
 		type: String,
 		default: "default",
@@ -55,6 +59,6 @@ const show = defineModel({ type: Boolean, default: false });
 const emits = defineEmits(["close"]);
 
 onClickOutside(target, () => {
-	if (show.value) show.value = false;
+	if (show.value && !disabled) show.value = false;
 });
 </script>
