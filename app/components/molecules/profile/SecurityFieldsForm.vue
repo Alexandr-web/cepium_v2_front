@@ -43,10 +43,12 @@
 	</Teleport>
 </template>
 <script setup lang="ts">
+import type { FetchError } from "ofetch";
 import type { TGeneralFormField } from "@/types/components";
 import type { TUserEditSecurityData } from "@/types/api";
 import { useUserStore } from "@/store/useUserStore";
-import { useAuthStore } from "@/store/useAuthStore";
+import { changePassword, confirmChangePassword } from "@/api/profile"; 
+import { useMutation } from "@tanstack/vue-query";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import Modal from "@/components/molecules/common/Modal.vue";
 import AButton from "@/components/atoms/AButton.vue";
@@ -61,11 +63,30 @@ const { fields } = defineProps<{
 const emits = defineEmits(["success"]);
 
 const userStore = useUserStore();
-const authStore = useAuthStore();
+
+const errChangePasswordMessage = ref("");
+const errConfirmCodeMessage = ref("");
 
 const { validateFields } = useForm(fields);
-const { isPending: isPendingChangePassword, errMessage: errChangePasswordMessage, req: reqChangePassword } = useApi();
-const { isPending: isPendingConfirmCode, errMessage: errConfirmCodeMessage, req: reqConfirmCode } = useApi();
+
+const { mutate: sendChangePassword, isPending: isPendingChangePassword } = useMutation({
+	mutationFn: changePassword,
+	onSuccess: () => showModal.value = true,
+	onError: (err: FetchError) => {
+		errChangePasswordMessage.value = getRequestErrorMessage(err);
+	},
+});
+
+const { mutate: sendConfirmChangePassword, isPending: isPendingConfirmCode } = useMutation({
+	mutationFn: confirmChangePassword,
+	onSuccess: () => {
+		showModal.value = false;
+		emits("success");
+	},
+	onError: (err: FetchError) => {
+		errConfirmCodeMessage.value = getRequestErrorMessage(err);
+	},
+});
 
 const confirmCodeRef = ref<InstanceType<typeof ConfirmCode> | null>(null);
 const confirmCode = ref("");
@@ -74,38 +95,15 @@ const showModal = ref(false);
 
 // запрашиваем код на почту
 const requestChangePassword = async (data: TUserEditSecurityData) => {
+	errChangePasswordMessage.value = "";
 	errConfirmCodeMessage.value = "";
-
-	if (!validateFields()) return;
-
-	await reqChangePassword("/users/me/password/request-change", {
-		method: "POST",
-		headers: {
-			Authorization: `Bearer ${authStore.token ?? ""}`,
-		},
-		body: data,
-	});
-
-	if (errChangePasswordMessage.value) return;
-
-	showModal.value = true;
+	if (validateFields()) sendChangePassword(data);
 };
 
 // подтверждаем присланный код
 const requestConfirmCode = async () => {
-	await reqConfirmCode("/users/me/password/confirm-change", {
-		method: "POST",
-		headers: {
-			Authorization: `Bearer ${authStore.token ?? ""}`,
-		},
-		body: { code: confirmCode.value },
-	});
-
-	if (errConfirmCodeMessage.value) return;
-
-	showModal.value = false;
-
-	emits("success");
+	errConfirmCodeMessage.value = "";
+	sendConfirmChangePassword({ code: confirmCode.value });
 };
 
 watch(showModal, (v) => {

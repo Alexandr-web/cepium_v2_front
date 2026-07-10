@@ -70,3 +70,7 @@ export type TUserEditSecurityData = {
 	oldPassword?: string;
 	newPassword?: string;
 };
+
+export type TUserConfirmChangeSecurityData = {
+	code: string;
+};

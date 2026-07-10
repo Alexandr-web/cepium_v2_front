@@ -1,9 +1,10 @@
 import type { TAuthLoginData } from "@/types/api";
 
-export const login = async (data: TAuthLoginData) => {
+// авторизация
+export const login = async (body: TAuthLoginData) => {
 	const res = await $fetch("/api/auth/login", {
 		method: "POST",
-		body: data,
+		body,
 	});
 	return res;
 };
