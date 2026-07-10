@@ -21,7 +21,7 @@
 		</template>
 	</GeneralForm>
 	<Teleport to="body">
-		<Modal v-model="showModal" size="small">
+		<Modal v-model="showModal" :disabled="isPendingConfirmCode" size="small">
 			<ConfirmCode
 				ref="confirmCodeRef"
 				v-model="confirmCode"
