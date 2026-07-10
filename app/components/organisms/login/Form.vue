@@ -35,8 +35,11 @@
 </template>
 <script setup lang="ts">
 import * as z from "zod";
+import type { FetchError } from "ofetch";
 import type { TGeneralFormField } from "@/types/components";
 import type { TAuthLoginData, TAuthLoginResponse } from "@/types/api";
+import { useMutation } from "@tanstack/vue-query";
+import { login as reqLogin } from "@/api/auth";
 import { useAuthStore } from "@/store/useAuthStore";
 import LogoIcon from "@/assets/icons/logo.svg";
 import Logo from "@/components/atoms/Logo.vue";
@@ -71,9 +74,24 @@ const fields = ref<TGeneralFormField[]>([
 	},
 ]);
 
+const errMessage = ref("");
+
 const router = useRouter();
 const { validateFields, hasInvalidFields } = useForm(fields);
-const { isPending, errMessage, req } = useApi();
+const { mutate: sendLogin, isPending } = useMutation({
+	mutationFn: reqLogin,
+	onSuccess: (data: TAuthLoginResponse) => {
+		const token = data.data?.token;
+
+		if (token) {
+			authStore.token = token;
+			router.push({ name: "home" });
+		}
+	},
+	onError: (err: FetchError) => {
+		errMessage.value = getRequestErrorMessage(err);
+	},
+});
 
 const disabledBtn = computed(() => !!(isPending.value || hasInvalidFields.value));
 
@@ -84,19 +102,7 @@ const normalizedData = (): TAuthLoginData => ({
 });
 
 const login = async (data: TAuthLoginData) => {
-	if (!validateFields()) return;
-
-	const res = await req<TAuthLoginResponse>("/auth/login", {
-		method: "POST",
-		body: data,
-	});
-
-	const token = res?.data?.token;
-
-	if (token) {
-		authStore.token = token;
-		router.push({ name: "home" });
-		return;
-	}
+	errMessage.value = "";
+	if (validateFields()) sendLogin(data);
 };
 </script>
