@@ -7,11 +7,13 @@ export default defineEventHandler(async (event) => {
 	const body = await readBody(event).catch(() => undefined);
 	const headers = getHeaders(event);
 
+	const config = useRuntimeConfig();
+
 	const data = await ofetch(`/${path}`, {
 		baseURL: process.env.API_URL,
 		headers: {
 			...headers,
-			"x-api-key": String(process.env.API_KEY),
+			"x-api-key": String(config.public.apiUrl),
 		},
 		method,
 		query,

@@ -1,16 +1,21 @@
 <template>
 	<nav class="flex items-center gap-40 lg:gap-0">
 		<ul class="flex items-center gap-24">
-			<li v-for="item in nav" :key="item.route">
-				<NuxtLink class="group flex justify-center items-center" :to="{ name: item.route }">
-					<Icon v-if="item.icon" :name="item.icon" class="text-primary-700 transition group-hover:text-primary-800 w-19 lg:w-22 h-19 lg:h-22" />
-					<NuxtImg
-						v-if="item.isProfile"
-						class="object-cover w-30 lg:w-40 h-30 lg:h-40 rounded-full"
-						:src="userStore.avatar"
-						:preload="{ fetchPriority: 'high' }"
-						alt=""
-					/>
+			<li>
+				<NuxtLink class="group flex justify-center items-center" :to="{ name: 'settings' }">
+					<Icon name="material-symbols:settings-outline" class="text-primary-700 transition group-hover:text-primary-800 w-19 lg:w-22 h-19 lg:h-22" />
+				</NuxtLink>
+			</li>
+			<li>
+				<NuxtLink class="group flex justify-center items-center rounded-full w-30 lg:w-40 h-30 lg:h-40" :to="{ name: 'profile' }">
+					<ClientOnly>
+						<NuxtImg
+							class="object-cover w-full h-full rounded-full"
+							:src="userStore.avatar"
+							:preload="{ fetchPriority: 'high' }"
+							alt=""
+						/>
+					</ClientOnly>
 				</NuxtLink>
 			</li>
 		</ul>
@@ -36,15 +41,4 @@ import AButton from "@/components/atoms/AButton.vue";
 const userStore = useUserStore();
 
 const showMenu = ref(false);
-
-const nav = [
-	{
-		route: "settings",
-		icon: "material-symbols:settings-outline",
-	},
-	{
-		route: "profile",
-		isProfile: true,
-	},
-];
 </script>

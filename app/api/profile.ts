@@ -26,3 +26,14 @@ export const confirmChangePassword = async (body: TUserConfirmChangeSecurityData
 	});
 	return res;
 };
+
+// получение данных пользователя
+export const getData = async () => {
+	const token = useAuthStore().token;
+	const res = await $fetch("/api/users/me", {
+		headers: {
+			Authorization: `Bearer ${token ?? ""}`,
+		},
+	});
+	return res;
+};

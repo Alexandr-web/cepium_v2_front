@@ -28,8 +28,8 @@ export default defineNuxtConfig({
 	],
 	runtimeConfig: {
 		apiKey: process.env.API_KEY,
-		apiUrl: process.env.API_URL,
 		public: {
+			apiUrl: process.env.API_URL,
 			wsUrl: process.env.PUBLIC_WS_URL,
 		},
 	},
