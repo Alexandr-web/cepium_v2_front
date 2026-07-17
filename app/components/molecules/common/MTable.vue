@@ -64,8 +64,6 @@
 	</div>
 </template>
 <script setup lang="ts" generic="T extends object">
-import type { TTableColumn } from "@/types/components";
-
 defineProps<{
 	data: T[];
 	columns: TTableColumn<T>[];

@@ -26,7 +26,6 @@
 </template>
 <script setup lang="ts">
 import type Coin from "@/models/Coin";
-import type { TTableColumn } from "@/types/components";
 import MTable from "@/components/molecules/common/MTable.vue";
 
 defineProps<{ coins: Coin[] }>();

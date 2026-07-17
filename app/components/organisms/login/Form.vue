@@ -35,9 +35,6 @@
 </template>
 <script setup lang="ts">
 import * as z from "zod";
-import type { TGeneralFormField } from "@/types/components";
-import type { TAuthLoginData } from "@/types/api";
-
 import LogoIcon from "@/assets/icons/logo.svg";
 import Logo from "@/components/atoms/Logo.vue";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";

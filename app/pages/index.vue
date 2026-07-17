@@ -15,7 +15,6 @@
 	</div>
 </template>
 <script setup lang="ts">
-import type { TIndexCardSummary } from "@/types/components";
 import { useDashboardStore } from "@/store/useDashboardStore";
 import { useTradeStore } from "@/store/useTradeStore";
 import { useCoinsStore } from "@/store/useCoinsStore";

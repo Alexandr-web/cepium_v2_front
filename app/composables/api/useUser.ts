@@ -2,7 +2,6 @@ import keys from "@/api/keys";
 import { useUserStore } from "@/store/useUserStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { getData, changeData, changePassword, confirmChangePassword } from "@/api/profile";
-import type { TUserChangePasswordResponse, TUserConfirmChangePasswordResponse, TUserConfirmChangeSecurityData, TUserEditGeneralData, TUserEditGeneralDataResponse, TUserEditSecurityData } from "@/types/api";
 import type { FetchError } from "ofetch";
 
 export const useUser = () => {

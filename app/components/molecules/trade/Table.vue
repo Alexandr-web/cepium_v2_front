@@ -54,7 +54,6 @@
 </template>
 <script setup lang="ts">
 import type Trade from "@/models/Trade";
-import type { TTableColumn } from "@/types/components";
 import AButton from "@/components/atoms/AButton.vue";
 import MTable from "@/components/molecules/common/MTable.vue";
 

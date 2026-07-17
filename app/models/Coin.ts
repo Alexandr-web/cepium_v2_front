@@ -1,5 +1,3 @@
-import type { TCoin } from "@/types/api";
-
 export default class Coin {
 	timestamp: number;
 	price24h: number;

@@ -43,8 +43,6 @@
 	</Teleport>
 </template>
 <script setup lang="ts">
-import type { TGeneralFormField } from "@/types/components";
-import type { TUserEditSecurityData } from "@/types/api";
 import { useUserStore } from "@/store/useUserStore";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import Modal from "@/components/molecules/common/Modal.vue";

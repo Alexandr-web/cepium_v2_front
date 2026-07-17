@@ -9,7 +9,6 @@
 </template>
 <script setup lang="ts">
 import { useConnectionStore } from "@/store/useConnectionStore";
-import { TConnectionStatuses } from "@/types";
 
 const connectionStore = useConnectionStore();
 

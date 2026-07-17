@@ -12,8 +12,6 @@
 </template>
 <script setup lang="ts">
 import * as z from "zod";
-import type { TGeneralFormField } from "@/types/components";
-import type { TUserEditGeneralData, TUserEditSecurityData } from "@/types/api";
 import { useUserStore } from "@/store/useUserStore";
 import AInput from "@/components/atoms/AInput.vue";
 import UploadAvatar from "@/components/molecules/profile/UploadAvatar.vue";

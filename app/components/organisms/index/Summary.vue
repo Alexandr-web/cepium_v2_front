@@ -26,7 +26,5 @@
 	</section>
 </template>
 <script setup lang="ts">
-import type { TIndexCardSummary } from "@/types/components";
-
 defineProps<{ summary: TIndexCardSummary[]; }>();
 </script>

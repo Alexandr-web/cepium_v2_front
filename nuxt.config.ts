@@ -52,4 +52,9 @@ export default defineNuxtConfig({
 	image: {
 		format: ["webp"],
 	},
+	imports: {
+		dirs: [
+			"@/types/**",
+		],
+	},
 });

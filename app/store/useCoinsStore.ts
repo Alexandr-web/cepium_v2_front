@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import Coin from "@/models/Coin";
-import type { TCoin } from "@/types/api";
 
 export const useCoinsStore = defineStore("coins-store", () => {
 	const _coins = ref<TCoin[]>([

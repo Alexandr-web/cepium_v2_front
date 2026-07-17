@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { TConnectionStatuses } from "@/types";
 
 export const useConnectionStore = defineStore("connection-store", () => {
 	const status = ref(TConnectionStatuses.OPEN); // до появления бека

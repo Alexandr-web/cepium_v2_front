@@ -32,7 +32,6 @@
 	</form>
 </template>
 <script setup lang="ts" generic="TSendData">
-import type { TGeneralFormField } from "@/types/components";
 import type { PropType } from "vue";
 
 const { normalizedData, fields } = defineProps({

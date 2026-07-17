@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import News from "@/models/News";
-import type { TNews } from "@/types/api";
 
 export const useNewsStore = defineStore("news-store", () => {
 	const _news = ref<TNews[]>([

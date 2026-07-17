@@ -1,4 +1,3 @@
-import type { TUserChangePasswordResponse, TUserConfirmChangePasswordResponse, TUserConfirmChangeSecurityData, TUserDataResponse, TUserEditGeneralData, TUserEditGeneralDataResponse, TUserEditSecurityData } from "@/types/api";
 import { useAuthStore } from "@/store/useAuthStore";
 
 // изменение пароля
