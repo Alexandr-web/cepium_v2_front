@@ -12,6 +12,7 @@ export type TUser = {
     email: string|null;
     avatar: string|null;
 	name: string|null;
+	xApiKeyRegenerationAllowedAt: string|null;
 };
 
 export type TCoin = {
@@ -66,6 +67,12 @@ export type TUserEditGeneralData = {
 	name?: string;
 };
 
+export type TUserEditGeneralDataResponse = {
+	data?: TUser,
+	message?: string|string[];
+	statusCode?: number;
+};
+
 export type TUserEditSecurityData = {
 	oldPassword?: string;
 	newPassword?: string;
@@ -73,4 +80,22 @@ export type TUserEditSecurityData = {
 
 export type TUserConfirmChangeSecurityData = {
 	code: string;
+};
+
+export type TUserChangePasswordResponse = {
+	data?: boolean;
+	message?: string;
+	statusCode?: number;
+};
+
+export type TUserConfirmChangePasswordResponse = {
+	data?: boolean;
+	message?: string;
+	statusCode?: number;
+};
+
+export type TUserDataResponse = {
+	data?: TUser;
+	message?: string;
+	statusCode?: number;
 };

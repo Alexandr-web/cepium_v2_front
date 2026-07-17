@@ -1,7 +1,7 @@
-import type { TAuthLoginData } from "@/types/api";
+import type { TAuthLoginData, TAuthLoginResponse } from "@/types/api";
 
 // авторизация
-export const login = async (body: TAuthLoginData) => {
+export const login = async (body: TAuthLoginData): Promise<TAuthLoginResponse> => {
 	const res = await $fetch("/api/auth/login", {
 		method: "POST",
 		body,

@@ -2,15 +2,17 @@ import { defineStore } from "pinia";
 import type { TUser } from "@/types/api";
 
 export const useUserStore = defineStore("user-store", () => {
-	const user = ref<TUser>({
+	const user = reactive<TUser>({
 		avatar: null,
-		email: "profile@example.com",
-		name: "Вася",
+		email: null,
+		name: null,
+		xApiKeyRegenerationAllowedAt: null,
 	});
 
-	const avatar = computed(() => user.value.avatar ?? "/images/profile/avatar.webp");
+	const config = useRuntimeConfig();
+	const avatar = computed(() => `${config.public.apiUrl}/users/me/avatars/${user.avatar || ""}`);
 
-	// TODO добавить метод edit после появления бека для изменения данных пользователя
+	const updateData = (data: TUser) => Object.assign(user, data);
 
-	return { user, avatar };
+	return { user, avatar, updateData };
 });

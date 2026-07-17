@@ -11,7 +11,7 @@
 			class="lg:max-w-420 lg:mx-auto lg:w-full"
 			:fields="fields"
 			:normalized-data="normalizedData"
-			@send="login"
+			@send="execute"
 		>
 			<template #content>
 				<AButton
@@ -35,12 +35,9 @@
 </template>
 <script setup lang="ts">
 import * as z from "zod";
-import type { FetchError } from "ofetch";
 import type { TGeneralFormField } from "@/types/components";
-import type { TAuthLoginData, TAuthLoginResponse } from "@/types/api";
-import { useMutation } from "@tanstack/vue-query";
-import { login as reqLogin } from "@/api/auth";
-import { useAuthStore } from "@/store/useAuthStore";
+import type { TAuthLoginData } from "@/types/api";
+
 import LogoIcon from "@/assets/icons/logo.svg";
 import Logo from "@/components/atoms/Logo.vue";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
@@ -48,7 +45,7 @@ import AInput from "@/components/atoms/AInput.vue";
 import AError from "@/components/atoms/AError.vue";
 import AButton from "@/components/atoms/AButton.vue";
 
-const authStore = useAuthStore();
+import { useLogin } from "@/composables/api/useAuth";
 
 const fields = ref<TGeneralFormField[]>([
 	{
@@ -74,24 +71,8 @@ const fields = ref<TGeneralFormField[]>([
 	},
 ]);
 
-const errMessage = ref("");
-
-const router = useRouter();
+const { errMessage, mutate: sendLogin, isPending } = useLogin();
 const { validateFields, hasInvalidFields } = useForm(fields);
-const { mutate: sendLogin, isPending } = useMutation({
-	mutationFn: reqLogin,
-	onSuccess: (data: TAuthLoginResponse) => {
-		const token = data.data?.token;
-
-		if (token) {
-			authStore.token = token;
-			router.push({ name: "home" });
-		}
-	},
-	onError: (err: FetchError) => {
-		errMessage.value = getRequestErrorMessage(err);
-	},
-});
 
 const disabledBtn = computed(() => !!(isPending.value || hasInvalidFields.value));
 
@@ -101,7 +82,7 @@ const normalizedData = (): TAuthLoginData => ({
 	password: String(fields.value.find((f) => f.name === "password")?.value ?? ""),
 });
 
-const login = async (data: TAuthLoginData) => {
+const execute = async (data: TAuthLoginData) => {
 	errMessage.value = "";
 	if (validateFields()) sendLogin(data);
 };

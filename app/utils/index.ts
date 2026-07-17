@@ -99,14 +99,14 @@ export const formatTime = (ms: number): string => {
  * @returns {string} Строка с текстом ошибки. Если сообщение отсутствует или структура пуста, возвращает пустую строку `""`.
  *
  * @example
- * // Пример со строкой: { data: { data: { message: "Неверный пароль" } } }
+ * // Пример со строкой: { data: { message: "Неверный пароль" } }
  * const msg = getRequestErrorMessage(error); // "Неверный пароль"
  *
  * @example
- * // Пример с массивом: { data: { data: { message: ["Email обязателен", "Пароль слишком короткий"] } } }
+ * // Пример с массивом: { data: { message: ["Email обязателен", "Пароль слишком короткий"] } }
  * const msg = getRequestErrorMessage(error); // "Email обязателен"
  */
 export const getRequestErrorMessage = (err: FetchError): string => {
-	const message = err.data.data.message;
+	const message = err.data.message;
 	return !Array.isArray(message) ? message : message?.at(0) ?? "";
 };
