@@ -27,7 +27,7 @@ import { useFileDialog } from "@vueuse/core";
 const userStore = useUserStore();
 
 const { open, onChange } = useFileDialog({
-	accept: "image/*",
+	accept: "image/jpg,image/jpeg,image/png,image/webp",
 	multiple: false,
 });
 

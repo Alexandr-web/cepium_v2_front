@@ -6,32 +6,32 @@
 				<Icon :name="area.icon" class="w-20 h-20 text-primary-700" />
 				<span>{{ area.title }}</span>
 			</h3>
-			<component :is="area.component" v-bind="area.formProps" @success="area.onSuccess" />
+			<component :is="area.component" v-bind="area.formProps" />
 		</div>
 	</section>
 </template>
 <script setup lang="ts">
+import * as z from "zod";
 import type { TGeneralFormField } from "@/types/components";
-import { useUserStore } from "@/store/useUserStore";
 import type { TUserEditGeneralData, TUserEditSecurityData } from "@/types/api";
+import { useUserStore } from "@/store/useUserStore";
 import AInput from "@/components/atoms/AInput.vue";
 import UploadAvatar from "@/components/molecules/profile/UploadAvatar.vue";
 import GeneralFieldsForm from "@/components/molecules/profile/GeneralFieldsForm.vue";
 import SecurityFieldsForm from "@/components/molecules/profile/SecurityFieldsForm.vue";
-import * as z from "zod";
 
 const userStore = useUserStore();
 
 const generalFields = ref<TGeneralFormField[]>([
 	{
 		name: "avatar",
-		value: String(userStore.avatar),
+		value: userStore.avatar,
 		check: z.file().max(MAX_SIZE_FILE_AVATAR),
 		error: "",
 	},
 	{
 		name: "email",
-		value: String(userStore.user.email ?? ""),
+		value: userStore.user.email,
 		error: "",
 		check: z.email().min(1),
 		placeholder: "Эл. почта",
@@ -40,7 +40,7 @@ const generalFields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "name",
-		value: String(userStore.user.name ?? ""),
+		value: userStore.user.name,
 		error: "",
 		check: z.string().min(1),
 		placeholder: "Имя",
@@ -86,11 +86,6 @@ const areas = ref([
 				name: String(generalFields.value.find((f) => f.name === "name")?.value ?? ""),
 			}),
 		},
-		onSuccess: () => {
-			generalFields.value.forEach((field) => {
-				if (field.name !== "avatar") field.value = "";
-			});
-		},
 	},
 	{
 		title: "Безопасность",
@@ -103,9 +98,6 @@ const areas = ref([
 				oldPassword: String(securityFields.value.find((f) => f.name === "oldPassword")?.value ?? ""),
 				newPassword: String(securityFields.value.find((f) => f.name === "newPassword")?.value ?? ""),
 			}),
-		},
-		onSuccess: () => {
-			securityFields.value.forEach((field) => field.value = "");
 		},
 	},
 ]);

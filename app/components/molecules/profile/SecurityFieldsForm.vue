@@ -43,55 +43,42 @@
 	</Teleport>
 </template>
 <script setup lang="ts">
-import type { FetchError } from "ofetch";
 import type { TGeneralFormField } from "@/types/components";
 import type { TUserEditSecurityData } from "@/types/api";
 import { useUserStore } from "@/store/useUserStore";
-import { changePassword, confirmChangePassword } from "@/api/profile"; 
-import { useMutation } from "@tanstack/vue-query";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import Modal from "@/components/molecules/common/Modal.vue";
 import AButton from "@/components/atoms/AButton.vue";
 import AError from "@/components/atoms/AError.vue";
 import ConfirmCode from "@/components/molecules/common/ConfirmCode.vue";
 
+import { useChangePassword, useConfirmChangePassword } from "@/composables/api/useUser";
+
 const { fields } = defineProps<{
 	fields: TGeneralFormField[];
 	normalizedData: (fields: TGeneralFormField[]) => TUserEditSecurityData;
 }>();
 
-const emits = defineEmits(["success"]);
-
 const userStore = useUserStore();
-
-const errChangePasswordMessage = ref("");
-const errConfirmCodeMessage = ref("");
-
-const { validateFields } = useForm(fields);
-
-const { mutate: sendChangePassword, isPending: isPendingChangePassword } = useMutation({
-	mutationFn: changePassword,
-	onSuccess: () => showModal.value = true,
-	onError: (err: FetchError) => {
-		errChangePasswordMessage.value = getRequestErrorMessage(err);
-	},
-});
-
-const { mutate: sendConfirmChangePassword, isPending: isPendingConfirmCode } = useMutation({
-	mutationFn: confirmChangePassword,
-	onSuccess: () => {
-		showModal.value = false;
-		emits("success");
-	},
-	onError: (err: FetchError) => {
-		errConfirmCodeMessage.value = getRequestErrorMessage(err);
-	},
-});
 
 const confirmCodeRef = ref<InstanceType<typeof ConfirmCode> | null>(null);
 const confirmCode = ref("");
 
 const showModal = ref(false);
+
+const {
+	isPending: isPendingChangePassword,
+	mutate: sendChangePassword,
+	errMessage: errChangePasswordMessage,
+} = useChangePassword(() => showModal.value = true);
+
+const {
+	isPending: isPendingConfirmCode,
+	mutate: sendConfirmChangePassword,
+	errMessage: errConfirmCodeMessage,
+} = useConfirmChangePassword(() => showModal.value = true);
+
+const { validateFields } = useForm(fields);
 
 // запрашиваем код на почту
 const requestChangePassword = async (data: TUserEditSecurityData) => {

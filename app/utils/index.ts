@@ -107,6 +107,6 @@ export const formatTime = (ms: number): string => {
  * const msg = getRequestErrorMessage(error); // "Email обязателен"
  */
 export const getRequestErrorMessage = (err: FetchError): string => {
-	const message = err.data.data.message;
+	const message = err.data.message;
 	return !Array.isArray(message) ? message : message?.at(0) ?? "";
 };
