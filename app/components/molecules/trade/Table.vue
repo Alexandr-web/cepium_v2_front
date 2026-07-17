@@ -10,7 +10,7 @@
 		<template #head-controls>
 			<div class="flex items-center gap-10">
 				<AButton class="rounded-4 px-12 py-6 text-14" mode="neutral-fill">Экспорт</AButton>
-				<AButton class="py-4 px-12 rounded-4 text-14" mode="remove-border" @click="emits('click-by-remove-all')">Закрыть все</AButton>
+				<AButton class="py-4 px-12 rounded-4 text-14" mode="remove-border" @click="emits('clickByRemoveAll')">Закрыть все</AButton>
 			</div>
 		</template>
 		<template #cell-index="{ index }">{{ formatNum(index + 1, { padZero: true }) }}</template>
@@ -47,7 +47,7 @@
 			<AButton
 				class="rounded-4 px-12 py-6 text-14 w-full"
 				mode="remove-fill"
-				@click="emits('click-by-remove', row)"
+				@click="emits('clickByRemove', row)"
 			>Закрыть</AButton>
 		</template>
 	</MTable>
@@ -60,7 +60,7 @@ import MTable from "@/components/molecules/common/MTable.vue";
 
 defineProps<{ trades: Trade[] }>();
 
-const emits = defineEmits(["click-by-remove", "click-by-remove-all"]);
+const emits = defineEmits(["clickByRemove", "clickByRemoveAll"]);
 
 const columns = computed<TTableColumn<Trade>[]>(() => [
 	{

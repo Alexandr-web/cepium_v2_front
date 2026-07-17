@@ -35,21 +35,7 @@ const { fields } = defineProps<{
 }>();
 
 const { isPending, errMessage, mutate: sendChangeData } = useChangeData();
+const { validateFields } = useForm(fields);
 
 const inputFields = computed(() => fields.filter(({ name }) => ["email", "name"].includes(name)));
-
-// валидация полей
-const validateFields = () => {
-	fields.forEach((field) => {
-		switch (field.name) {
-			case "avatar":
-				field.error = !(field.check && typeof field.value !== "string") ? "" : (field.check.safeParse(field.value).error?.message ?? "");
-				break;
-			default:
-				field.error = !field.check ? "" : (field.check.safeParse(field.value).error?.message ?? "");
-		}
-	});
-
-	return fields.every(({ error }) => !error);
-};
 </script>

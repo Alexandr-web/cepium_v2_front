@@ -6,7 +6,13 @@ export const useForm = (_fields: MaybeRefOrGetter<TGeneralFormField[]>) => {
 
 	const validateFields = () => {
 		fields.value.forEach((field) => {
-			field.error = !field.check ? "" : (field.check.safeParse(field.value).error?.message ?? "");
+			switch (field.name) {
+				case "avatar":
+					field.error = !(field.check && typeof field.value !== "string") ? "" : (field.check.safeParse(field.value).error?.message ?? "");
+					break;
+				default:
+					field.error = !field.check ? "" : (field.check.safeParse(field.value).error?.message ?? "");
+			}
 		});
 
 		return fields.value.every(({ error }) => !error);
