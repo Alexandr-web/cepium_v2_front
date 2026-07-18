@@ -36,14 +36,10 @@
 					<li
 						v-for="(item, idx) in items"
 						:key="idx"
-						class="flex items-center cursor-pointer p-10 select-none text-neutral-800 transition hover:text-neutral-900 text-14 lg:text-15 odd:bg-neutral-300/70 last:rounded-b-4 lg:last:rounded-b-8"
+						class="flex items-center cursor-pointer p-10 text-neutral-800 text-14 lg:text-15 odd:bg-neutral-300/70 last:rounded-b-4 lg:last:rounded-b-8"
 						@click="select(item)"
 					>
-						<ARadio :model-value="item.value === value">
-							<template #label>
-								<span>{{ item.label }}</span>
-							</template>
-						</ARadio>
+						<ARadio :model-value="item.value === value" :label="item.label" />
 					</li>
 				</ul>
 			</div>
@@ -54,7 +50,12 @@
 import { useFloating } from "@floating-ui/vue";
 import ARadio from "@/components/atoms/ARadio.vue";
 
-const { items, placeholder = "", label = "", disabled: _disabled = false } = defineProps<{
+const {
+	items,
+	placeholder = "",
+	label = "",
+	disabled: _disabled = false,
+} = defineProps<{
 	placeholder?: string;
 	label?: string;
 	disabled?: boolean;
@@ -63,8 +64,8 @@ const { items, placeholder = "", label = "", disabled: _disabled = false } = def
 
 const isOpen = ref(false);
 
-const value = defineModel({ type: String, default: "" });
-const error = defineModel("error", { type: String, default: "" });
+const value = defineModel<string>({ default: "" });
+const error = defineModel<string>("error", { default: "" });
 
 const reference = useTemplateRef("reference");
 const floating = useTemplateRef("floating");

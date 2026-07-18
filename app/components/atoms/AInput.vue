@@ -29,6 +29,7 @@
 				class="grow min-w-0 h-full text-neutral-500 focus:text-neutral-600 transition text-14 lg:text-16"
 				:placeholder="String($attrs.placeholder)"
 				:type="inputType"
+				:disabled="Boolean($attrs.disabled)"
 			>
 			<AButton
 				v-if="$attrs.type === 'password'"
@@ -63,8 +64,8 @@ const { check } = defineProps({
 
 const attrs = useAttrs();
 
-const value = defineModel({ type: String, default: "" });
-const error = defineModel("error", { type: String, default: "" });
+const value = defineModel<string>({ default: "" });
+const error = defineModel<string>("error", { default: "" });
 
 const showPassword = ref(false);
 

@@ -2,7 +2,7 @@ import type { Component, InputTypeHTMLAttribute } from "vue";
 import type z from "zod";
 
 export type TGeneralFormField = {
-    value: string|number|null|File;
+    value: string|number|string[]|null|File;
     name: string;
     placeholder?: string;
     preppendIcon?: string;
@@ -13,6 +13,7 @@ export type TGeneralFormField = {
     type?: InputTypeHTMLAttribute;
     items?: TSelectItem[];
     disabled?: boolean;
+    search?: (value: string) => Promise<TSelectItem[]>;
 };
 
 export type TIndexCardSummary = {

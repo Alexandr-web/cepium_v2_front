@@ -27,6 +27,7 @@
 				:type="item.type"
 				:items="item.items"
 				:disabled="item.disabled"
+				:search="item.search"
 			/>
 		</div>
 		<slot name="content" />

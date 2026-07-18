@@ -67,8 +67,8 @@ const emits = defineEmits(["submit", "cancel", "sendCodeAgain"]);
 
 const { currentTime, isOver, stop: stopTimer, start: startTimer } = useTimer(0, { defaultTime: 60 * 1000, mode: "down" });
 
-const code = defineModel({ type: String, default: "" });
-const error = defineModel("error", { type: String, default: "" });
+const code = defineModel<string>({ default: "" });
+const error = defineModel<string>("error", { default: "" });
 
 const inputCodeEl = useTemplateRef<HTMLInputElement | null>("inputCode");
 
