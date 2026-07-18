@@ -25,6 +25,7 @@ export default defineNuxtConfig({
 		"@vueuse/nuxt",
 		"@nuxt/test-utils/module",
 		"nuxt-svgo",
+		"@pinia-plugin-persistedstate/nuxt",
 	],
 	runtimeConfig: {
 		apiKey: process.env.API_KEY,

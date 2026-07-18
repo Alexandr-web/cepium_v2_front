@@ -62,9 +62,10 @@ export type TNews = {
 };
 
 export type TUserEditGeneralData = {
-	avatar?: File;
+	avatar?: File|null|string;
 	email?: string;
 	name?: string;
+	xApiKeyRegenerationAllowedAt?: string|null;
 };
 
 export type TUserEditGeneralDataResponse = {
@@ -128,4 +129,9 @@ export type TStrategyDataResponse = {
 	statusCode: number;
 	data: TStrategyEntity[];
   	message?: string;
+};
+
+export type TExchange = {
+	name: string;
+	id: string;
 };

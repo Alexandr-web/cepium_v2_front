@@ -1,27 +1,25 @@
 import keys from "@/api/keys";
-import { useUserStore } from "@/store/useUserStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { getData, changeData, changePassword, confirmChangePassword } from "@/api/profile";
+import { useUserStore } from "@/store/useUserStore";
 import type { FetchError } from "ofetch";
 
 export const useUser = () => {
 	const userStore = useUserStore();
-
 	const query = useQuery({
 		queryKey: keys.getDataProfile,
 		queryFn: getData,
 	});
 
-	watch(
-		() => query.data.value?.data,
-		(v) => v && userStore.updateData(v),
-		{ immediate: true }
-	);
+	watch(query.data, (v) => {
+		if (v?.data) userStore.updateData(v.data);
+	});
 
 	return query;
 };
 
 export const useChangeData = () => {
+	const userStore = useUserStore();
 	const queryClient = useQueryClient();
 	const errMessage = ref("");
 
@@ -47,6 +45,15 @@ export const useChangeData = () => {
 					avatar: old?.data?.avatar,
 				},
 			}));
+
+			if (data) {
+				userStore.updateData({
+					avatar: String(data.avatar ?? ""),
+					email: data.email ?? "",
+					name: data.name ?? "",
+					xApiKeyRegenerationAllowedAt: data.xApiKeyRegenerationAllowedAt ?? "",
+				});
+			}
 
 			return { previousData };
 		},

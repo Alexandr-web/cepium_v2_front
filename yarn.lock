@@ -1387,6 +1387,33 @@
     unctx "^2.5.0"
     untyped "^2.0.0"
 
+"@nuxt/kit@^3.12.2":
+  version "3.21.8"
+  resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.21.8.tgz#c0377a837e4c8701c5096cb4ff025a72de3bd1e7"
+  integrity sha512-kg63DUPY5AHPn+9XM7u8rYcdWHXjzwfUscgRDuiC5YUciQ+xdLRhdwXelYFxEAx2nxJHossliiQXbMm/Fleivw==
+  dependencies:
+    c12 "^3.3.4"
+    consola "^3.4.2"
+    defu "^6.1.7"
+    destr "^2.0.5"
+    errx "^0.1.0"
+    exsolve "^1.0.8"
+    ignore "^7.0.5"
+    jiti "^2.7.0"
+    klona "^2.0.6"
+    knitwork "^1.3.0"
+    mlly "^1.8.2"
+    ohash "^2.0.11"
+    pathe "^2.0.3"
+    pkg-types "^2.3.1"
+    rc9 "^3.0.1"
+    scule "^1.3.0"
+    semver "^7.8.0"
+    tinyglobby "^0.2.16"
+    ufo "^1.6.4"
+    unctx "^2.5.0"
+    untyped "^2.0.0"
+
 "@nuxt/kit@^3.19.3", "@nuxt/kit@^3.21.2":
   version "3.21.6"
   resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.21.6.tgz#65dae6ecd1f02bae5befce7d0031ff32cfe0364c"
@@ -1987,6 +2014,15 @@
     defu "^6.1.7"
     pkg-types "^2.3.1"
     sirv "^3.0.2"
+
+"@pinia-plugin-persistedstate/nuxt@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@pinia-plugin-persistedstate/nuxt/-/nuxt-1.2.1.tgz#15f7c3d172bd6320f6017d9ccf785019a7de1060"
+  integrity sha512-q8s+4aQW/AjBMyeqLL48/qzBR5lcgnvvf1525ovNuKf6Wl9CsoLjPKh/5X8vNoKGwSow4gP7lVmdYPQRypgjgg==
+  dependencies:
+    "@nuxt/kit" "^3.12.2"
+    defu "^6.1.4"
+    pinia-plugin-persistedstate ">=3.2.1"
 
 "@pinia/nuxt@0.11.3":
   version "0.11.3"
@@ -6375,6 +6411,13 @@ picomatch@^4.0.2, picomatch@^4.0.3, picomatch@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-4.0.4.tgz#fd6f5e00a143086e074dffe4c924b8fb293b0589"
   integrity sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==
+
+pinia-plugin-persistedstate@>=3.2.1:
+  version "4.7.1"
+  resolved "https://registry.yarnpkg.com/pinia-plugin-persistedstate/-/pinia-plugin-persistedstate-4.7.1.tgz#d13880e0b7efdafd1b73fca3d73cd64ae34bde84"
+  integrity sha512-WHOqh2esDlR3eAaknPbqXrkkj0D24h8shrDPqysgCFR6ghqP/fpFfJmMPJp0gETHsvrh9YNNg6dQfo2OEtDnIQ==
+  dependencies:
+    defu "^6.1.4"
 
 pinia@^3.0.4:
   version "3.0.4"

@@ -15,12 +15,16 @@ import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import ASelect from "@/components/atoms/ASelect.vue";
 import AInput from "@/components/atoms/AInput.vue";
 import SearchList from "@/components/molecules/common/SearchList.vue";
+import { useExchangeStore } from "@/store/useExchangeStore";
 import { useStrategy } from "@/composables/api/useStrategies";
+
+const exchangeStore = useExchangeStore();
 
 const { data: strategies, isPending: isPendingStrategies, suspense } = useStrategy();
 
 await suspense();
 
+const exchangesList = computed<TSelectItem[]>(() => exchangeStore.getAllExchange().map((item) => ({ label: item.name, value: item.id })));
 const strategiesList = computed<TSelectItem[]>(() =>
 	strategies.value?.data.map((s) => ({ label: s.name, value: s.id })) ?? []
 );
@@ -28,12 +32,6 @@ const strategiesList = computed<TSelectItem[]>(() =>
 const MARGIN_MODE_LIST: TSelectItem[] = [
 	{ label: "Изолированная", value: "isolated" },
 	{ label: "Кросс", value: "cross" },
-];
-
-const EXCHANGE_LIST: TSelectItem[] = [
-	{ label: "Bybit", value: "bybit" },
-	{ label: "OKX", value: "okx" },
-	{ label: "Binance", value: "binance" },
 ];
 
 const choosedExchange = ref<string|null>(null);
@@ -47,7 +45,7 @@ const fields = ref<TGeneralFormField[]>([
 		label: "Биржа",
 		placeholder: "Выберите биржу",
 		component: markRaw(ASelect),
-		items: EXCHANGE_LIST,
+		items: exchangesList.value,
 	},
 	{
 		name: "margin",
