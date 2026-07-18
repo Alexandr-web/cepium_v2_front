@@ -4,15 +4,16 @@
 		:fields="fields"
 		:normalized-data="normalizedData"
 		mode="grid"
-		@send="(data: TExchangeCredentials) => validateFields()"
+		@send="(data: TExchangeCredentials) => validateFields() && createData(data)"
 	>
 		<template #content>
 			<div class="flex flex-col-reverse lg:flex-row">
-				<AError message="" />
+				<AError :message="errMessage" />
 				<AButton
 					class="w-full lg:w-auto rounded-4 p-16 lg:px-24 lg:ml-auto"
 					mode="primary-fill"
 					type="submit"
+					:disabled="isPendingCreateData || isPending"
 				>
 					Сохранить изменения
 				</AButton>
@@ -27,17 +28,29 @@ import AError from "@/components/atoms/AError.vue";
 import AButton from "@/components/atoms/AButton.vue";
 import AInput from "@/components/atoms/AInput.vue";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
+import { useCreateData } from "@/composables/api/useCredentials";
 
-defineProps<{
+const { exchange, credentials, isPending } = defineProps<{
 	exchange: Exchange|null;
-	credentials?: TExchangeCredentialsResponse;
+	credentials: TExchangeCredentialsResponse|undefined;
 	isPending?: boolean;
 }>();
 
-const fields = ref<TGeneralFormField[]>([
+const emits = defineEmits(["success"]);
+
+const {
+	mutate: createData,
+	isPending: isPendingCreateData,
+	errMessage,
+} = useCreateData(
+	() => exchange?.id ?? "",
+	() => emits("success")
+);
+
+const createFields = () => ([
 	{
 		component: markRaw(AInput),
-		value: "",
+		value: String(credentials?.data.apiKey ?? ""),
 		placeholder: "API Ключ",
 		name: "apiKey",
 		label: "API Ключ",
@@ -48,7 +61,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		component: markRaw(AInput),
-		value: "",
+		value: String(credentials?.data.secretKey ?? ""),
 		placeholder: "API Secret",
 		name: "secretKey",
 		label: "API Secret",
@@ -59,7 +72,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		component: markRaw(AInput),
-		value: "",
+		value: String(credentials?.data.password ?? ""),
 		placeholder: "Пароль",
 		name: "password",
 		label: "Пароль",
@@ -70,7 +83,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		component: markRaw(AInput),
-		value: "",
+		value: String(credentials?.data.uid ?? ""),
 		placeholder: "UID",
 		name: "uid",
 		label: "UID",
@@ -80,7 +93,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		component: markRaw(AInput),
-		value: "",
+		value: String(credentials?.data.privateKey ?? ""),
 		placeholder: "Private Key",
 		name: "privateKey",
 		label: "Private Key",
@@ -91,24 +104,30 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		component: markRaw(AInput),
-		value: "",
+		value: String(credentials?.data.walletAddress ?? ""),
 		placeholder: "Адрес кошелька",
 		name: "walletAddress",
 		label: "Адрес кошелька",
 		preppendIcon: "",
 		check: z.string().min(1),
 		error: "",
+		type: "password",
 	},
 ]);
+
+const fields = ref<TGeneralFormField[]>(createFields());
 
 const { validateFields } = useForm(fields);
 
 const normalizedData = (): TExchangeCredentials => ({
-	apiKey: "",
-	secretKey: "",
-	password: "",
-	uid: "",
-	privateKey: "",
-	walletAddress: "",
+	apiKey: String(fields.value.find(({ name }) => name === "apiKey")?.value ?? ""),
+	secretKey: String(fields.value.find(({ name }) => name === "secretKey")?.value ?? ""),
+	password: String(fields.value.find(({ name }) => name === "password")?.value ?? ""),
+	uid: String(fields.value.find(({ name }) => name === "uid")?.value ?? ""),
+	privateKey: String(fields.value.find(({ name }) => name === "privateKey")?.value ?? ""),
+	walletAddress: String(fields.value.find(({ name }) => name === "walletAddress")?.value ?? ""),
 });
+
+// обновляем fields при обновлении credentials
+watch(() => credentials?.data, () => fields.value = createFields());
 </script>

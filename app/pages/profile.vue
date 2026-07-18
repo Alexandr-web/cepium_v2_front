@@ -1,7 +1,7 @@
 <template>
 	<div class="flex flex-col gap-24">
-		<LazyOrganismsProfileForm hydrate-on-interaction="click" />
-		<LazyOrganismsProfileExchanges hydrate-on-visible />
+		<OrganismsProfileForm />
+		<OrganismsProfileExchanges />
 	</div>
 </template>
 <script setup lang="ts">

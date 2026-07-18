@@ -2,7 +2,7 @@
 	<section class="w-full lg:max-w-1200 lg:mx-auto">
 		<div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
 			<ExchangeCard
-				v-for="item in exchangeStore.getAllExchange()"
+				v-for="item in exchanges"
 				:key="item.id"
 				:item="item"
 				@click="exchange = item"
@@ -11,7 +11,13 @@
 	</section>
 	<Teleport to="body">
 		<Modal v-model="showModal">
-			<ExchangeForm :exchange="exchange" :credentials="credentials" :is-pending="isFetching" />
+			<h3 class="text-24 font-semibold text-white mb-12 text-center">{{ title }}</h3>
+			<ExchangeForm
+				:exchange="exchange"
+				:credentials="credentials"
+				:is-pending="isFetching"
+				@success="showModal = false"
+			/>
 		</Modal>
 	</Teleport>
 </template>
@@ -27,13 +33,15 @@ const exchangeStore = useExchangeStore();
 
 const exchange = ref<Exchange|null>(null);
 
-const { data: credentials, isFetching } = useCredentials({
-	query: { exchangeName: computed(() => exchange.value?.id ?? "") },
-	enabled: () => !!exchange.value,
-});
-
+const exchanges = computed(() => exchangeStore.getAllExchange());
+const title = computed(() => exchange.value?.name ?? "-");
 const showModal = computed({
 	get: () => !!exchange.value,
 	set: (v) => { if (!v) exchange.value = null; },
+});
+
+const { data: credentials, isFetching } = useCredentials({
+	query: { exchangeName: () => exchange.value?.id ?? "" },
+	enabled: () => !!exchange.value,
 });
 </script>

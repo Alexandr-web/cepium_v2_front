@@ -2,11 +2,13 @@ export default class Exchange {
 	readonly name: string;
 	readonly id: string;
 	readonly connected: boolean;
+	readonly credentials: string[];
 
 	constructor(item: TExchange) {
 		this.name = item.name;
 		this.id = item.id;
-		this.connected = item.connected;
+		this.credentials = item.credentials;
+		this.connected = false;
 	}
 
 	get logo() {

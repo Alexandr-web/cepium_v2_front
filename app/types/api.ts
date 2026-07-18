@@ -132,9 +132,9 @@ export type TStrategyDataResponse = {
 };
 
 export type TExchange = {
-	name: string;
 	id: string;
-	connected: boolean;
+	name: string;
+	credentials: string[];
 };
 
 export type TExchangeCredentials = {
@@ -147,6 +147,30 @@ export type TExchangeCredentials = {
 };
 
 export type TExchangeCredentialsResponse = {
+  data: {
+	id?: string;
+	apiKey?: string;
+	secretKey?: string;
+	password?: string;
+	uid?: string;
+	privateKey?: string;
+	walletAddress?: string;
+	createdAt?: string;
+	updatedAt?: string;
+	userId?: string;
+	exchangeName?: string;
+	user?: string;
+	exchange?: {
+		id?: string;
+		name?: string;
+		credentials?: string[];
+	};	
+  },
+  statusCode: number;
+  message: string;
+};
+
+export type TCreateExchangeCredentialsResponse = {
   id: string;
   apiKey: string;
   secretKey: string;
@@ -158,10 +182,67 @@ export type TExchangeCredentialsResponse = {
   updatedAt: string;
   userId: string;
   exchangeName: string;
-  user: string;
-  exchange: {
+  user: {
     id: string;
     name: string;
+    avatar: string;
+    email: string;
+    password: string;
+    xApiKeyEmailSent: boolean;
+    xApiKeyId: string;
+    xApiKeySecret: string;
+    xApiKeyRegenerationAllowedAt: string;
     credentials: string[];
-  };
+    userConfigs: [
+      {
+        id: string,
+        demoTrading: boolean;
+        maxPositionSize: number;
+        margin: string;
+        dailyGoalPercent: number;
+        activate: boolean;
+        allowedSymbols: string[];
+        maxLeverage: number;
+        maxLossPercent: number;
+        exchangeName: string;
+        strategyId: string;
+        userId: string;
+        user: string;
+        strategy: {
+          id: string;
+          name: string;
+          description: string;
+          algoSection: {
+            indicators: string[];
+            shortlistConditions: object;
+          },
+          timeframe: string;
+          params: object;
+          userConfigs: string[];
+        }
+      }
+    ],
+    orders: [
+      {
+        id: string;
+        symbol: string;
+        side: string;
+        size: number;
+        entryPrice: number;
+        exitPrice: number;
+        markPrice: number;
+        liquidationPrice: number;
+        unrealizedPnl: number;
+        leverage: number;
+        realizedPnl: number;
+        pnlPercent: number;
+        createdAt: string;
+        closedAt: string;
+        exchangeName: string;
+        userId: string;
+        user: string;
+      }
+    ]
+  },
+  exchange: TExchange;
 };
