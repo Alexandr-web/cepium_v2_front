@@ -99,3 +99,33 @@ export type TUserDataResponse = {
 	message?: string;
 	statusCode?: number;
 };
+
+export type TExchangeData = {
+  margin: string;
+  allowedSymbols: string[];
+  maxLeverage: number;
+  maxLossPercent: number;
+  strategyId: string;
+  dailyGoalPercent: number;
+  maxPositionSize: number;
+  demoTrading: boolean;
+  activate: boolean;
+};
+
+export type TStrategyEntity = {
+	id: string;
+	name: string;
+	description: string;
+	algoSection: {
+		indicators: string[];
+		shortlistConditions: object;
+	};
+	timeframe: string;
+	params: object;
+};
+
+export type TStrategyDataResponse = {
+	statusCode: number;
+	data: TStrategyEntity[];
+  	message?: string;
+};

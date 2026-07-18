@@ -1,4 +1,5 @@
 import { useAuthStore } from "@/store/useAuthStore";
+import { FetchError } from "ofetch";
 
 // изменение пароля
 export const changePassword = async (body: TUserEditSecurityData): Promise<TUserChangePasswordResponse> => {
@@ -48,11 +49,23 @@ export const changeData = async (data: TUserEditGeneralData): Promise<TUserEditG
 
 // получение данных пользователя
 export const getData = async (): Promise<TUserDataResponse> => {
-	const token = useAuthStore().token;
-	const res = await $fetch("/api/users/me", {
-		headers: {
-			Authorization: `Bearer ${token ?? ""}`,
-		},
-	});
-	return res;
+	const authStore = useAuthStore();
+	const router = useRouter();
+	const token = authStore.token;
+
+	try {
+		const res = await $fetch("/api/users/me", {
+			headers: {
+				Authorization: `Bearer ${token ?? ""}`,
+			},
+		});
+		return res;
+	} catch (err) {
+		if (err instanceof FetchError && err.data.statusCode === 401) {
+			authStore.clearToken();
+			router.go(0);
+		}
+
+		return {};
+	}
 };

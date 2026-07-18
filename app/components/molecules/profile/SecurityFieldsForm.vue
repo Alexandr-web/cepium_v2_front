@@ -74,7 +74,7 @@ const {
 	isPending: isPendingConfirmCode,
 	mutate: sendConfirmChangePassword,
 	errMessage: errConfirmCodeMessage,
-} = useConfirmChangePassword(() => showModal.value = true);
+} = useConfirmChangePassword(() => showModal.value = false);
 
 const { validateFields } = useForm(fields);
 

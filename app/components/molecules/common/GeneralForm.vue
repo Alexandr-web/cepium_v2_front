@@ -25,6 +25,8 @@
 				:label="item.label"
 				:preppend-icon="item.preppendIcon"
 				:type="item.type"
+				:items="item.items"
+				:disabled="item.disabled"
 			/>
 		</div>
 		<slot name="content" />

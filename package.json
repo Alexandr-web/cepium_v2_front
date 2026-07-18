@@ -15,12 +15,14 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@floating-ui/vue": "^2.0.1",
     "@nuxt/eslint": "1.15.2",
     "@nuxt/icon": "2.2.2",
     "@nuxt/image": "2.0.0",
     "@nuxtjs/device": "4.0.0",
     "@peterbud/nuxt-query": "1.8.0",
     "@pinia/nuxt": "0.11.3",
+    "@vueform/slider": "^2.1.10",
     "@vueuse/nuxt": "14.3.0",
     "eslint": "^9.0.0 || ^10.0.0",
     "maska": "^3.2.0",

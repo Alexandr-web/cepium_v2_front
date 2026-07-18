@@ -2,7 +2,7 @@ import type { Component, InputTypeHTMLAttribute } from "vue";
 import type z from "zod";
 
 export type TGeneralFormField = {
-    value: string|null|File;
+    value: string|number|null|File;
     name: string;
     placeholder?: string;
     preppendIcon?: string;
@@ -11,6 +11,8 @@ export type TGeneralFormField = {
     check?: z.ZodType;
     error?: string;
     type?: InputTypeHTMLAttribute;
+    items?: TSelectItem[];
+    disabled?: boolean;
 };
 
 export type TIndexCardSummary = {
@@ -25,4 +27,9 @@ export type TTableColumn<T> = {
   key: keyof T | "controls" | "index";
   label: string;
   align?: "left" | "center" | "right";
+};
+
+export type TSelectItem = {
+    label: string;
+    value: string;
 };

@@ -2,7 +2,7 @@
 	<nav class="flex items-center gap-40 lg:gap-0">
 		<ul class="flex items-center gap-24">
 			<li>
-				<NuxtLink class="group flex justify-center items-center" :to="{ name: 'settings' }">
+				<NuxtLink class="group flex justify-center items-center" :to="{ name: 'configs' }">
 					<Icon name="material-symbols:settings-outline" class="text-primary-700 transition group-hover:text-primary-800 w-19 lg:w-22 h-19 lg:h-22" />
 				</NuxtLink>
 			</li>

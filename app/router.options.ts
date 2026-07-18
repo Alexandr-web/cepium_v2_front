@@ -13,15 +13,32 @@ export default {
 			},
 		},
 		{
-			name: "settings",
-			path: "/settings",
-			component: () => import("@/pages/settings.vue"),
-			meta: {
-				middleware: "auth",
-				seo: {
-					title: "Настройки",
+			name: "config",
+			path: "/configs",
+			children: [
+				{
+					name: "configs",
+					path: "",
+					component: () => import("@/pages/configs.vue"),
+					meta: {
+						middleware: "auth",
+						seo: {
+							title: "Доступные конфиги",
+						},
+					},
 				},
-			},
+				{
+					name: "add-config",
+					path: "add",
+					component: () => import("@/pages/add-config.vue"),
+					meta: {
+						middleware: "auth",
+						seo: {
+							title: "Добавление конфига",
+						},
+					},
+				},
+			],
 		},
 		{
 			name: "profile",

@@ -1,6 +1,6 @@
 <template>
-	<div>
-		Settings
+	<div class="flex flex-col">
+		<LazyOrganismsConfigsAddForm />
 	</div>
 </template>
 <script setup lang="ts">

@@ -114,7 +114,7 @@ const menu = [
 		icon: "material-symbols:home-outline-rounded",
 	},
 	{
-		route: "settings",
+		route: "configs",
 		label: "Настройки",
 		icon: "material-symbols:settings-outline",
 	},
