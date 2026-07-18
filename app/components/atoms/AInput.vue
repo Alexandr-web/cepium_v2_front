@@ -15,9 +15,9 @@
 				!error && 'border-white/5 hover:border-white/10'
 			]"
 		>
-			<Icon
+			<component
+				:is="iconsMap[preppendIcon]"
 				v-if="preppendIcon"
-				:name="preppendIcon"
 				class="transition min-w-15 lg:min-w-18 max-w-15 lg:max-w-18 min-h-15 lg:min-h-18 max-h-15 lg:max-h-18 block mr-8 transition"
 				:class="[
 					error && 'text-secondary-500',
@@ -36,18 +36,23 @@
 				class="max-w-18 lg:max-w-22 min-w-18 lg:min-w-22 min-h-16 lg:min-h-20 max-h-16 lg:max-h-20 flex justify-center items-center ml-8"
 				@click="showPassword = !showPassword"
 			>
-				<Icon v-show="showPassword" class="w-full h-full text-primary-700" name="material-symbols:visibility-off-outline" />
-				<Icon v-show="!showPassword" class="w-full h-full text-primary-700" name="material-symbols:visibility-outline-rounded" />
+				<IconVisibilityOffOutline v-if="showPassword" class="w-full h-full text-primary-700" />
+				<IconVisibilityOutlineRounded v-else class="w-full h-full text-primary-700" />
 			</AButton>
 		</div>
 	</div>
 </template>
 <script setup lang="ts">
 import AButton from "@/components/atoms/AButton.vue";
+import IconVisibilityOffOutline from "@/assets/icons/visibility-off-outline.svg";
+import IconVisibilityOutlineRounded from "@/assets/icons/visibility-outline-rounded.svg";
+import IconAccountCircle from "@/assets/icons/account-circle.svg";
+import IconLockOutline from "@/assets/icons/lock-outline.svg";
+import IconSearchRounded from "@/assets/icons/search-rounded.svg";
 import type { InputTypeHTMLAttribute, PropType } from "vue";
 import type z from "zod";
 
-const { check } = defineProps({
+const { check, preppendIcon } = defineProps({
 	label: {
 		type: String,
 		default: "",
@@ -61,6 +66,12 @@ const { check } = defineProps({
 		default: undefined,
 	},
 });
+
+const iconsMap: Record<string, string> = {
+	"account-circle": IconAccountCircle,
+	"lock-outline": IconLockOutline,
+	"search-rounded": IconSearchRounded,
+};
 
 const attrs = useAttrs();
 

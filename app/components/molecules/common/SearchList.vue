@@ -14,7 +14,7 @@
 			<p v-if="value.length" class="text-neutral-600 text-12 lg:text-14">({{ value.length }})</p>
 		</div>
 		<div class="flex flex-col gap-10">
-			<AInput v-model="input" :placeholder="placeholder" preppend-icon="material-symbols:search-rounded" :disabled="disabled" />
+			<AInput v-model="input" :placeholder="placeholder" preppend-icon="search-rounded" :disabled="disabled" />
 			<div class="overflow-auto max-h-150 scroll-block">
 				<div v-if="value.length" class="flex flex-wrap gap-10">
 					<ATag

@@ -20,8 +20,7 @@
 		>
 			<div ref="reference" class="p-12 flex items center justify-between gap-10" @click="!disabled && (isOpen = !isOpen)">
 				<span v-if="inputLabel" class="text-neutral-800 select-none truncate" :title="inputLabel">{{ inputLabel }}</span>
-				<Icon
-					name="material-symbols:keyboard-arrow-down-rounded"
+				<IconKeyboardArrowDownRounded
 					class="text-neutral-800 w-24 h-24"
 					:class="[isOpen && 'rotate-x-180']"
 				/>
@@ -47,6 +46,7 @@
 	</div>
 </template>
 <script setup lang="ts">
+import IconKeyboardArrowDownRounded from "@/assets/icons/keyboard-arrow-down-rounded.svg";
 import { useFloating } from "@floating-ui/vue";
 import ARadio from "@/components/atoms/ARadio.vue";
 

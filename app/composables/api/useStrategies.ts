@@ -3,10 +3,8 @@ import { useQuery } from "@tanstack/vue-query";
 import { getData } from "@/api/strategy";
 
 export const useStrategy = () => {
-	const query = useQuery({
+	return useQuery({
 		queryKey: keys.getStrategy,
 		queryFn: getData,
 	});
-
-	return query;
 };

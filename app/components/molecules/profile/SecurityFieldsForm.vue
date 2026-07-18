@@ -3,7 +3,7 @@
 	<GeneralForm
 		:fields="fields"
 		:normalized-data="normalizedData"
-		mode="user"
+		mode="grid"
 		@send="requestChangePassword"
 	>
 		<template #content>

@@ -17,7 +17,6 @@ export default defineNuxtConfig({
 	},
 	modules: [
 		"@nuxt/eslint",
-		"@nuxt/icon",
 		"@nuxt/image",
 		"@nuxtjs/device",
 		"@peterbud/nuxt-query",
@@ -37,12 +36,6 @@ export default defineNuxtConfig({
 	css: ["@/assets/css/global.css"],
 	vite: {
 		plugins: [tailwindcss()],
-	},
-	icon: {
-		mode: "svg",
-		serverBundle: {
-			collections: ["material-symbols"],
-		},
 	},
 	svgo: {
 		defaultImport: "component",

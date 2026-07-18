@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col gap-24">
-		<LazyOrganismsProfileForm />
+		<LazyOrganismsProfileForm hydrate-on-interaction="click" />
 		<LazyOrganismsProfileExchanges hydrate-on-visible />
 	</div>
 </template>

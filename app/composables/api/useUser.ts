@@ -13,7 +13,7 @@ export const useUser = () => {
 
 	watch(query.data, (v) => {
 		if (v?.data) userStore.updateData(v.data);
-	});
+	}, { immediate: true });
 
 	return query;
 };

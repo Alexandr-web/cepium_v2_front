@@ -3,7 +3,7 @@
 	<MTable
 		class="hidden lg:flex"
 		title="Популярные монеты"
-		head-icon="material-symbols:card-travel-outline-rounded"
+		head-icon="card-travel-outline-rounded"
 		:columns="columns"
 		:data="coins"
 	>

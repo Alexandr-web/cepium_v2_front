@@ -72,7 +72,7 @@ const securityFields = ref<TGeneralFormField[]>([
 const areas = ref([
 	{
 		title: "Общая информация",
-		icon: "material-symbols:person-edit-outline-rounded",
+		icon: "person-edit-outline-rounded",
 		component: markRaw(GeneralFieldsForm),
 		formProps: {
 			fields: generalFields.value,
@@ -86,7 +86,7 @@ const areas = ref([
 	},
 	{
 		title: "Безопасность",
-		icon: "material-symbols:lock-outline",
+		icon: "lock-outline",
 		component: markRaw(SecurityFieldsForm),
 		formProps: {
 			fields: securityFields.value,

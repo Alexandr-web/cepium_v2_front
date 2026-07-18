@@ -2,7 +2,7 @@
 	<!-- @vue-generic {Trade} -->
 	<MTable
 		class="hidden lg:flex"
-		head-icon="material-symbols:view-list"
+		head-icon="view-list"
 		title="Активные позиции"
 		:data="trades"
 		:columns="columns"

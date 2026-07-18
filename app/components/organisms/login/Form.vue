@@ -21,7 +21,7 @@
 					:disabled="disabledBtn"
 				>
 					<span class="uppercase text-primary-100 text-14 lg:text-16 font-medium">Войти</span>
-					<Icon class="group-hover:translate-x-[50%] transition min-w-16 lg:min-w-18 max-w-16 lg:max-w-18 min-h-16 lg:min-h-18 max-h-16 lg:max-h-18 text-black" name="material-symbols:keyboard-double-arrow-right" />
+					<IconKeyboardDoubleArrowRight class="group-hover:translate-x-[50%] transition min-w-16 lg:min-w-18 max-w-16 lg:max-w-18 min-h-16 lg:min-h-18 max-h-16 lg:max-h-18 text-black" />
 				</AButton>
 			</template>
 			<template #footer>
@@ -35,6 +35,7 @@
 </template>
 <script setup lang="ts">
 import * as z from "zod";
+import IconKeyboardDoubleArrowRight from "@/assets/icons/keyboard-double-arrow-right.svg";
 import LogoIcon from "@/assets/icons/logo.svg";
 import Logo from "@/components/atoms/Logo.vue";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
@@ -51,7 +52,7 @@ const fields = ref<TGeneralFormField[]>([
 		placeholder: "Эл. почта",
 		name: "email",
 		label: "Эл. почта",
-		preppendIcon: "material-symbols:account-circle",
+		preppendIcon: "account-circle",
 		check: z.email(),
 		error: "",
 	},
@@ -62,7 +63,7 @@ const fields = ref<TGeneralFormField[]>([
 		name: "password",
 		type: "password",
 		label: "Пароль",
-		preppendIcon: "material-symbols:lock-outline",
+		preppendIcon: "lock-outline",
 		check: z.string().min(6),
 		error: "",
 	},

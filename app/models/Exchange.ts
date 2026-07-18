@@ -1,10 +1,12 @@
 export default class Exchange {
 	readonly name: string;
 	readonly id: string;
+	readonly connected: boolean;
 
 	constructor(item: TExchange) {
 		this.name = item.name;
 		this.id = item.id;
+		this.connected = item.connected;
 	}
 
 	get logo() {
@@ -18,5 +20,10 @@ export default class Exchange {
 			default:
 				return "";
 		}
+	}
+
+	get prettyConnectedMessage() {
+		if (this.connected) return "Подключено";
+		return "Не подключено";
 	}
 };

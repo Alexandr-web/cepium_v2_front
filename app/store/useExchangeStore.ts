@@ -3,9 +3,9 @@ import Exchange from "@/models/Exchange";
 
 export const useExchangeStore = defineStore("exchange-store", () => {
 	const _exchange = ref<TExchange[]>([
-		{ name: "Bybit", id: "bybit" },
-		{ name: "OKX", id: "okx" },
-		{ name: "Binance", id: "binance" },
+		{ name: "Bybit", id: "bybit", connected: false },
+		{ name: "OKX", id: "okx", connected: true },
+		{ name: "Binance", id: "binance", connected: false },
 	]);
 
 	const _exchangeMap = computed(() => 

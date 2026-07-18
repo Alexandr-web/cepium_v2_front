@@ -134,4 +134,34 @@ export type TStrategyDataResponse = {
 export type TExchange = {
 	name: string;
 	id: string;
+	connected: boolean;
+};
+
+export type TExchangeCredentials = {
+  apiKey: string;
+  secretKey: string;
+  password: string;
+  uid: string;
+  privateKey: string;
+  walletAddress: string;
+};
+
+export type TExchangeCredentialsResponse = {
+  id: string;
+  apiKey: string;
+  secretKey: string;
+  password: string;
+  uid: string;
+  privateKey: string;
+  walletAddress: string;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+  exchangeName: string;
+  user: string;
+  exchange: {
+    id: string;
+    name: string;
+    credentials: string[];
+  };
 };

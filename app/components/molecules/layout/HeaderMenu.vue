@@ -3,7 +3,7 @@
 		<ul class="flex items-center gap-24">
 			<li>
 				<NuxtLink class="group flex justify-center items-center" :to="{ name: 'configs' }">
-					<Icon name="material-symbols:settings-outline" class="text-primary-700 transition group-hover:text-primary-800 w-19 lg:w-22 h-19 lg:h-22" />
+					<IconSettingsOutline class="text-primary-700 transition group-hover:text-primary-800 w-19 lg:w-22 h-19 lg:h-22" />
 				</NuxtLink>
 			</li>
 			<li>
@@ -23,7 +23,7 @@
 			class="w-20 h-20 text-primary-700 flex justify-center items-center lg:hidden"
 			@click="showMenu = true"
 		>
-			<Icon name="material-symbols:menu-rounded" class="w-full h-full" />
+			<IconMenuRounded class="w-full h-full" />
 		</AButton>
 	</nav>
 	<Teleport to="body">
@@ -37,6 +37,8 @@ import { useUserStore } from "@/store/useUserStore";
 import Modal from "@/components/molecules/common/Modal.vue";
 import Menu from "@/components/molecules/layout/Menu.vue";
 import AButton from "@/components/atoms/AButton.vue";
+import IconSettingsOutline from "@/assets/icons/settings-outline.svg";
+import IconMenuRounded from "@/assets/icons/menu-rounded.svg";
 
 const userStore = useUserStore();
 
