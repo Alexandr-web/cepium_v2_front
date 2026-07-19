@@ -38,7 +38,7 @@
 						class="flex items-center cursor-pointer p-10 text-neutral-800 text-14 lg:text-15 odd:bg-neutral-300/70 last:rounded-b-4 lg:last:rounded-b-8"
 						@click="select(item)"
 					>
-						<ARadio :model-value="item.value === value" :label="item.label" />
+						<ACheckbox :model-value="item.value === value" :label="item.label" />
 					</li>
 				</ul>
 			</div>
@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import IconKeyboardArrowDownRounded from "@/assets/icons/keyboard-arrow-down-rounded.svg";
 import { useFloating } from "@floating-ui/vue";
-import ARadio from "@/components/atoms/ARadio.vue";
+import ACheckbox from "@/components/atoms/ACheckbox.vue";
 
 const {
 	items,

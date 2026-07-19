@@ -15,7 +15,6 @@
 			<ExchangeForm
 				:exchange="exchange"
 				:credentials="credentials"
-				:is-pending="isFetching"
 				@success="showModal = false"
 			/>
 		</Modal>
@@ -40,7 +39,7 @@ const showModal = computed({
 	set: (v) => { if (!v) exchange.value = null; },
 });
 
-const { data: credentials, isFetching } = useCredentials({
+const { data: credentials } = useCredentials({
 	query: { exchangeName: () => exchange.value?.id ?? "" },
 	enabled: () => !!exchange.value,
 });

@@ -1,16 +1,16 @@
 <template>
 	<div class="flex flex-col gap-16 lg:gap-32">
-		<LazyOrganismsIndexSummary :summary="summary">
+		<OrganismsIndexSummary :summary="summary">
 			<template #note="card">
 				<SummaryNote :card="card" />
 			</template>
-		</LazyOrganismsIndexSummary>
+		</OrganismsIndexSummary>
 		<div class="flex flex-col lg:flex-row gap-16">
 			<div class="flex flex-col gap-16 lg:grow">
-				<LazyOrganismsIndexActiveTrades :trades="trades" />
-				<LazyOrganismsIndexPopularCoins :coins="coins" />
+				<OrganismsIndexActiveTrades :trades="trades" />
+				<OrganismsIndexPopularCoins :coins="coins" />
 			</div>
-			<LazyOrganismsIndexNews :news="news" />
+			<OrganismsIndexNews :news="news" />
 		</div>
 	</div>
 </template>

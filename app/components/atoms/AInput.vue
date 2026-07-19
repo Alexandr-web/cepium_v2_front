@@ -25,11 +25,12 @@
 				]"
 			/>
 			<input
-				v-model.trim="value"
 				class="grow min-w-0 h-full text-neutral-500 focus:text-neutral-600 transition text-14 lg:text-16"
 				:placeholder="String($attrs.placeholder)"
 				:type="inputType"
 				:disabled="Boolean($attrs.disabled)"
+				:value="value"
+				@input="onInput($event)"
 			>
 			<AButton
 				v-if="$attrs.type === 'password'"
@@ -75,7 +76,7 @@ const iconsMap: Record<string, string> = {
 
 const attrs = useAttrs();
 
-const value = defineModel<string>({ default: "" });
+const value = defineModel<string|number>({ default: "" });
 const error = defineModel<string>("error", { default: "" });
 
 const showPassword = ref(false);
@@ -88,4 +89,10 @@ const inputType = computed<InputTypeHTMLAttribute>(() => {
 });
 
 watch(value, (v) => (error.value = !v ? "" : checkValidMessage.value));
+
+const onInput = (event: InputEvent) => {
+	const val = (event.target as HTMLInputElement).value.trim();
+	if (inputType.value === "number") value.value = parseInt(val) || 0;
+	else value.value = val;
+};
 </script>

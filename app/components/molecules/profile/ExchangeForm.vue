@@ -4,7 +4,7 @@
 		:fields="fields"
 		:normalized-data="normalizedData"
 		mode="grid"
-		@send="(data: TExchangeCredentials) => validateFields() && createData(data)"
+		@send="(data: TExchangeCredentials) => (validateFields() && !isPendingCreateData) && createData(data)"
 	>
 		<template #content>
 			<div class="flex flex-col-reverse lg:flex-row">
@@ -13,7 +13,7 @@
 					class="w-full lg:w-auto rounded-4 p-16 lg:px-24 lg:ml-auto"
 					mode="primary-fill"
 					type="submit"
-					:disabled="isPendingCreateData || isPending"
+					:disabled="isPendingCreateData"
 				>
 					Сохранить изменения
 				</AButton>
@@ -30,10 +30,9 @@ import AInput from "@/components/atoms/AInput.vue";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import { useCreateData } from "@/composables/api/useCredentials";
 
-const { exchange, credentials, isPending } = defineProps<{
+const { exchange, credentials } = defineProps<{
 	exchange: Exchange|null;
 	credentials: TExchangeCredentialsResponse|undefined;
-	isPending?: boolean;
 }>();
 
 const emits = defineEmits(["success"]);

@@ -12,6 +12,7 @@
 			:class="[
 				mode === 'default' && 'flex flex-col',
 				mode === 'grid' && 'grid grid-cols-1 lg:grid-cols-2',
+				fieldsListClasses
 			]"
 		>
 			<component
@@ -28,6 +29,12 @@
 				:items="item.items"
 				:disabled="item.disabled"
 				:search="item.search"
+				:max="item.max"
+				:min="item.min"
+				:show-tooltip="item.showTooltip"
+				:format="item.format"
+				:size="item.size"
+				:class="item.classes"
 			/>
 		</div>
 		<slot name="content" />
@@ -50,6 +57,10 @@ const { normalizedData, fields } = defineProps({
 		type: String,
 		default: "default",
 		validator: (s: string) => ["default", "grid"].includes(s),
+	},
+	fieldsListClasses: {
+		type: String,
+		default: "",
 	},
 });
 

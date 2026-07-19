@@ -42,7 +42,7 @@
 								!hasItem(item) && 'bg-primary-200/50'
 							]"
 						>
-							<ARadio
+							<ACheckbox
 								:model-value="hasItem(item)"
 								:label="item.label"
 								class="p-10"
@@ -57,7 +57,7 @@
 </template>
 <script setup lang="ts">
 import AInput from "@/components/atoms/AInput.vue";
-import ARadio from "@/components/atoms/ARadio.vue";
+import ACheckbox from "@/components/atoms/ACheckbox.vue";
 import ATag from "@/components/atoms/ATag.vue";
 import IconLoader from "@/assets/icons/loader.svg";
 
