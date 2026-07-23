@@ -22,7 +22,7 @@ const userStore = useUserStore();
 const generalFields = ref<TGeneralFormField[]>([
 	{
 		name: "avatar",
-		value: userStore.avatar,
+		value: String(userStore.avatar),
 		check: z.file().max(MAX_SIZE_FILE_AVATAR),
 		error: "",
 	},

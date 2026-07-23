@@ -8,14 +8,12 @@
 			</li>
 			<li>
 				<NuxtLink class="group flex justify-center items-center rounded-full w-30 lg:w-40 h-30 lg:h-40" :to="{ name: 'profile' }">
-					<ClientOnly>
-						<NuxtImg
-							class="object-cover w-full h-full rounded-full"
-							:src="userStore.avatar"
-							:preload="{ fetchPriority: 'high' }"
-							alt=""
-						/>
-					</ClientOnly>
+					<NuxtImg
+						class="object-cover w-full h-full rounded-full"
+						:src="userStore.avatar"
+						:preload="{ fetchPriority: 'high' }"
+						alt=""
+					/>
 				</NuxtLink>
 			</li>
 		</ul>

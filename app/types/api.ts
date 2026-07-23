@@ -9,8 +9,8 @@ export type TDashboard = {
 };
 
 export type TUser = {
-		email: string|null;
-		avatar: string|null;
+	email: string|null;
+	avatar: string|null;
 	name: string|null;
 	xApiKeyRegenerationAllowedAt: string|null;
 };

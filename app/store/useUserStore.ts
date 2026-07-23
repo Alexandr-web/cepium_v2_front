@@ -10,7 +10,10 @@ export const useUserStore = defineStore("user-store",
 		});
 
 		const config = useRuntimeConfig();
-		const avatar = computed(() => `${config.public.apiUrl}/users/me/avatars/${user.avatar || ""}`);
+		const avatar = computed(() => {
+			if (user.avatar?.startsWith("blob:")) return user.avatar;
+			return `${config.public.apiUrl}/users/me/avatars/${user.avatar || ""}`;
+		});
 
 		const updateData = (data: TUser) => Object.assign(user, data);
 

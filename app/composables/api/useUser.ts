@@ -45,13 +45,12 @@ export const useChangeData = () => {
 				data: {
 					...old?.data,
 					...data,
-					avatar: old?.data?.avatar,
 				},
 			}));
 
 			if (data) {
 				userStore.updateData({
-					avatar: String(data.avatar ?? ""),
+					avatar: data.avatar instanceof File ? URL.createObjectURL(data.avatar) : String(data.avatar),
 					email: data.email ?? "",
 					name: data.name ?? "",
 					xApiKeyRegenerationAllowedAt: data.xApiKeyRegenerationAllowedAt ?? "",

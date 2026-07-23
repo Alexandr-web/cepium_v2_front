@@ -10,7 +10,7 @@
 				:class="[isActive && 'rotate-x-180']"
 			/>
 		</div>
-		<div v-show="isActive" class="p-12 pt-0">
+		<div v-show="isActive" class="p-12 pt-0 grow">
 			<slot />
 		</div>
 	</div>
