@@ -1,4 +1,3 @@
-import type { TAuthLoginResponse } from "@/types/api";
 import type { FetchError } from "ofetch";
 import { login } from "@/api/auth";
 import { useMutation } from "@tanstack/vue-query";

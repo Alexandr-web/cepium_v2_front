@@ -32,15 +32,13 @@
 						:exact-active-class="activeClass"
 						@click="emits('clickByLink')"
 					>
-						<ClientOnly>
-							<Icon
-								:name="item.icon"
-								:class="[
-									preset === 'desk' && 'w-20 h-20 text-primary-700 group-hover:text-primary-800 transition',
-									preset === 'mob' && 'w-20 h-20 text-primary-700'
-								]"
-							/>
-						</ClientOnly>
+						<component
+							:is="item.icon"
+							:class="[
+								preset === 'desk' && 'w-20 h-20 text-primary-700 group-hover:text-primary-800 transition',
+								preset === 'mob' && 'w-20 h-20 text-primary-700'
+							]"
+						/>
 						<span
 							:class="[
 								preset === 'desk' && 'group-hover:text-neutral-950 text-neutral-800 transition text-14',
@@ -64,15 +62,12 @@
 				]"
 				@click="logout"
 			>
-				<ClientOnly>
-					<Icon
-						name="material-symbols:logout-rounded"
-						:class="[
-							preset === 'desk' && 'w-18 h-18',
-							preset === 'mob' && 'w-18 h-18'
-						]"
-					/>
-				</ClientOnly>
+				<IconLogoutRounded
+					:class="[
+						preset === 'desk' && 'w-18 h-18',
+						preset === 'mob' && 'w-18 h-18'
+					]"
+				/>
 				<span 
 					:class="[
 						preset === 'desk' && 'text-14 font-medium',
@@ -91,6 +86,12 @@
 </template>
 <script setup lang="ts">
 import AButton from "@/components/atoms/AButton.vue";
+import IconHomeOutlineRounded from "@/assets/icons/home-outline-rounded.svg";
+import IconSettingsOutline from "@/assets/icons/settings-outline.svg";
+import IconMonitoring from "@/assets/icons/monitoring.svg";
+import IconWorkHistoryOutlineRounded from "@/assets/icons/work-history-outline-rounded.svg";
+import IconPersonOutlineRounded from "@/assets/icons/person-outline-rounded.svg";
+import IconLogoutRounded from "@/assets/icons/logout-rounded.svg";
 import { useAuthStore } from "@/store/useAuthStore";
 
 const { preset } = defineProps({
@@ -111,27 +112,27 @@ const menu = [
 	{
 		route: "home",
 		label: "Главная",
-		icon: "material-symbols:home-outline-rounded",
+		icon: IconHomeOutlineRounded,
 	},
 	{
-		route: "settings",
+		route: "configs",
 		label: "Настройки",
-		icon: "material-symbols:settings-outline",
+		icon: IconSettingsOutline,
 	},
 	{
 		route: "statistics",
 		label: "Статистика",
-		icon: "material-symbols:monitoring",
+		icon: IconMonitoring,
 	},
 	{
 		route: "orders",
 		label: "Ордера",
-		icon: "material-symbols:work-history-outline-rounded",
+		icon: IconWorkHistoryOutlineRounded,
 	},
 	{
 		route: "profile",
 		label: "Профиль",
-		icon: "material-symbols:person-outline-rounded",
+		icon: IconPersonOutlineRounded,
 	},
 ];
 

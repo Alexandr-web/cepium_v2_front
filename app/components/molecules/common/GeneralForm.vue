@@ -3,7 +3,7 @@
 		class="flex flex-col gap-16 bg-black-500 rounded-8 border-solid border-1 border-neutral-100 bg-neutral-100/50"
 		:class="[
 			mode === 'default' && 'p-24',
-			mode === 'user' && 'p-20',
+			mode === 'grid' && 'p-20',
 		]"
 		@submit.prevent="emits('send', formattedData)"
 	>
@@ -11,7 +11,8 @@
 			class="gap-16"
 			:class="[
 				mode === 'default' && 'flex flex-col',
-				mode === 'user' && 'grid grid-cols-1 lg:grid-cols-2',
+				mode === 'grid' && 'grid grid-cols-1 lg:grid-cols-2',
+				fieldsListClasses
 			]"
 		>
 			<component
@@ -25,6 +26,15 @@
 				:label="item.label"
 				:preppend-icon="item.preppendIcon"
 				:type="item.type"
+				:items="item.items"
+				:disabled="item.disabled"
+				:search="item.search"
+				:max="item.max"
+				:min="item.min"
+				:show-tooltip="item.showTooltip"
+				:format="item.format"
+				:size="item.size"
+				:class="item.classes"
 			/>
 		</div>
 		<slot name="content" />
@@ -32,7 +42,6 @@
 	</form>
 </template>
 <script setup lang="ts" generic="TSendData">
-import type { TGeneralFormField } from "@/types/components";
 import type { PropType } from "vue";
 
 const { normalizedData, fields } = defineProps({
@@ -47,7 +56,11 @@ const { normalizedData, fields } = defineProps({
 	mode: {
 		type: String,
 		default: "default",
-		validator: (s: string) => ["default", "user"].includes(s),
+		validator: (s: string) => ["default", "grid"].includes(s),
+	},
+	fieldsListClasses: {
+		type: String,
+		default: "",
 	},
 });
 

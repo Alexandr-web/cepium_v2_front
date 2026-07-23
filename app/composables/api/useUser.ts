@@ -1,28 +1,28 @@
 import keys from "@/api/keys";
-import { useUserStore } from "@/store/useUserStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { getData, changeData, changePassword, confirmChangePassword } from "@/api/profile";
-import type { TUserChangePasswordResponse, TUserConfirmChangePasswordResponse, TUserConfirmChangeSecurityData, TUserEditGeneralData, TUserEditGeneralDataResponse, TUserEditSecurityData } from "@/types/api";
+import { useUserStore } from "@/store/useUserStore";
 import type { FetchError } from "ofetch";
 
 export const useUser = () => {
 	const userStore = useUserStore();
-
 	const query = useQuery({
 		queryKey: keys.getDataProfile,
 		queryFn: getData,
 	});
+	
+	const suspense = async () => {
+		await query.suspense();
+		if (query.data.value?.data) {
+			userStore.updateData(query.data.value?.data);
+		}
+	};
 
-	watch(
-		() => query.data.value?.data,
-		(v) => v && userStore.updateData(v),
-		{ immediate: true }
-	);
-
-	return query;
+	return { ...query, suspense };
 };
 
 export const useChangeData = () => {
+	const userStore = useUserStore();
 	const queryClient = useQueryClient();
 	const errMessage = ref("");
 
@@ -39,15 +39,27 @@ export const useChangeData = () => {
 			await queryClient.cancelQueries({ queryKey: keys.getDataProfile });
 
 			const previousData = queryClient.getQueryData<TUserEditGeneralDataResponse>(keys.getDataProfile);
-
 			queryClient.setQueryData(keys.getDataProfile, (old: TUserEditGeneralDataResponse) => ({
 				...old,
 				data: {
 					...old?.data,
-					...data,
-					avatar: old?.data?.avatar,
+					...({
+						...data,
+						avatar: data.avatar ?? old.data?.avatar,
+					}),
 				},
 			}));
+
+			if (data) {
+				userStore.updateData({
+					avatar: data.avatar instanceof File
+						? URL.createObjectURL(data.avatar)
+						: data.avatar,
+					email: data.email ?? "",
+					name: data.name ?? "",
+					xApiKeyRegenerationAllowedAt: data.xApiKeyRegenerationAllowedAt ?? "",
+				});
+			}
 
 			return { previousData };
 		},

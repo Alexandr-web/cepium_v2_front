@@ -1,4 +1,3 @@
-import type { TTrade } from "@/types/api";
 import Coin from "@/models/Coin";
 
 export default class Trade extends Coin {

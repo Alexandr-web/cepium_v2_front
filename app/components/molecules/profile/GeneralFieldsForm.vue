@@ -3,7 +3,7 @@
 	<GeneralForm
 		:fields="inputFields"
 		:normalized-data="normalizedData"
-		mode="user"
+		mode="grid"
 		@send="(data: TUserEditGeneralData) => validateFields() && sendChangeData(data)"
 	>
 		<template #content>
@@ -22,8 +22,6 @@
 	</GeneralForm>
 </template>
 <script setup lang="ts">
-import type { TUserEditGeneralData } from "@/types/api";
-import type { TGeneralFormField } from "@/types/components";
 import { useChangeData } from "@/composables/api/useUser";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import AButton from "@/components/atoms/AButton.vue";

@@ -54,7 +54,7 @@ const { disabled } = defineProps({
 
 const target = useTemplateRef("target");
 
-const show = defineModel({ type: Boolean, default: false });
+const show = defineModel<boolean>({ default: false });
 
 const emits = defineEmits(["close"]);
 

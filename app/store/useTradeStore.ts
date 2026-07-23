@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import Trade from "@/models/Trade";
-import type { TTrade } from "@/types/api";
 
 export const useTradeStore = defineStore("trade-store", () => {
 	const _trades = ref<TTrade[]>([

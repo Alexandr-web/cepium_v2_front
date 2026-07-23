@@ -17,7 +17,6 @@ export default defineNuxtConfig({
 	},
 	modules: [
 		"@nuxt/eslint",
-		"@nuxt/icon",
 		"@nuxt/image",
 		"@nuxtjs/device",
 		"@peterbud/nuxt-query",
@@ -25,6 +24,7 @@ export default defineNuxtConfig({
 		"@vueuse/nuxt",
 		"@nuxt/test-utils/module",
 		"nuxt-svgo",
+		"@pinia-plugin-persistedstate/nuxt",
 	],
 	runtimeConfig: {
 		apiKey: process.env.API_KEY,
@@ -37,19 +37,25 @@ export default defineNuxtConfig({
 	vite: {
 		plugins: [tailwindcss()],
 	},
-	icon: {
-		mode: "svg",
-		serverBundle: {
-			collections: ["material-symbols"],
-		},
-	},
 	svgo: {
 		defaultImport: "component",
 	},
 	nuxtQuery: {
 		devtools: true,
+		queryClientOptions: {
+			defaultOptions: {
+				queries: {
+					staleTime: 60 * 1000,
+				},
+			},
+		},
 	},
 	image: {
 		format: ["webp"],
+	},
+	imports: {
+		dirs: [
+			"@/types/**",
+		],
 	},
 });
