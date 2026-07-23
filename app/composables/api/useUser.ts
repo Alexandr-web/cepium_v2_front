@@ -39,18 +39,22 @@ export const useChangeData = () => {
 			await queryClient.cancelQueries({ queryKey: keys.getDataProfile });
 
 			const previousData = queryClient.getQueryData<TUserEditGeneralDataResponse>(keys.getDataProfile);
-
 			queryClient.setQueryData(keys.getDataProfile, (old: TUserEditGeneralDataResponse) => ({
 				...old,
 				data: {
 					...old?.data,
-					...data,
+					...({
+						...data,
+						avatar: data.avatar ?? old.data?.avatar,
+					}),
 				},
 			}));
 
 			if (data) {
 				userStore.updateData({
-					avatar: data.avatar instanceof File ? URL.createObjectURL(data.avatar) : String(data.avatar),
+					avatar: data.avatar instanceof File
+						? URL.createObjectURL(data.avatar)
+						: data.avatar,
 					email: data.email ?? "",
 					name: data.name ?? "",
 					xApiKeyRegenerationAllowedAt: data.xApiKeyRegenerationAllowedAt ?? "",

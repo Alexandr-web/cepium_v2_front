@@ -15,7 +15,14 @@ export const useUserStore = defineStore("user-store",
 			return `${config.public.apiUrl}/users/me/avatars/${user.avatar || ""}`;
 		});
 
-		const updateData = (data: TUser) => Object.assign(user, data);
+		const updateData = (data: TUser) => {
+			(Object.keys(data) as (keyof TUser)[]).forEach((key) => {
+				const value = data[key];
+				if (key in user && value !== undefined) {
+					user[key] = value;
+				}
+			});
+		};
 
 		return { user, avatar, updateData };
 	},

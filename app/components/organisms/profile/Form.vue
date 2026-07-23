@@ -22,13 +22,13 @@ const userStore = useUserStore();
 const generalFields = ref<TGeneralFormField[]>([
 	{
 		name: "avatar",
-		value: String(userStore.avatar),
+		value: userStore.avatar,
 		check: z.file().max(MAX_SIZE_FILE_AVATAR),
 		error: "",
 	},
 	{
 		name: "email",
-		value: userStore.user.email,
+		value: userStore.user?.email ?? "",
 		error: "",
 		check: z.email().min(1),
 		placeholder: "Эл. почта",
@@ -37,7 +37,7 @@ const generalFields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "name",
-		value: userStore.user.name,
+		value: userStore.user?.name ?? "",
 		error: "",
 		check: z.string().min(1),
 		placeholder: "Имя",
