@@ -42,6 +42,13 @@ export default defineNuxtConfig({
 	},
 	nuxtQuery: {
 		devtools: true,
+		queryClientOptions: {
+			defaultOptions: {
+				queries: {
+					staleTime: 60 * 1000,
+				},
+			},
+		},
 	},
 	image: {
 		format: ["webp"],
