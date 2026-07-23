@@ -29,6 +29,7 @@ import AButton from "@/components/atoms/AButton.vue";
 import AInput from "@/components/atoms/AInput.vue";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import { useCreateData, useChangeData } from "@/composables/api/useCredentials";
+import { useExchanges } from "@/composables/api/useExchanges";
 
 const { exchange, credentials } = defineProps<{
 	exchange: Exchange|null;
@@ -36,6 +37,8 @@ const { exchange, credentials } = defineProps<{
 }>();
 
 const emits = defineEmits(["success"]);
+
+const { suspense: updateExchanges } = useExchanges();
 
 const {
 	mutate: createData,
@@ -143,8 +146,14 @@ const normalizedData = (): TExchangeCredentials => ({
 const execute = async (data: TExchangeCredentials) => {
 	if (!validateFields() || isPending.value) return;
 	
-	if (hasData.value) changeData(data);
-	else createData(data);
+	if (!hasData.value) {
+		createData(data);
+		await updateExchanges();
+
+		return;
+	}
+
+	changeData(data);
 };
 
 // обновляем fields при обновлении credentials

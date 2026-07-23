@@ -12,11 +12,13 @@
 	<Teleport to="body">
 		<Modal v-model="showModal">
 			<h3 class="text-24 font-semibold text-white mb-12 text-center">{{ title }}</h3>
-			<ExchangeForm
-				:exchange="exchange"
-				:credentials="credentials"
-				@success="showModal = false"
-			/>
+			<div class="scroll-block overflow-auto max-h-350 lg:max-h-[unset]">
+				<ExchangeForm
+					:exchange="exchange"
+					:credentials="credentials"
+					@success="showModal = false"
+				/>
+			</div>
 		</Modal>
 	</Teleport>
 </template>
