@@ -43,7 +43,7 @@ const { data: strategies, isPending: isPendingStrategies, suspense } = useStrate
 
 await suspense();
 
-const exchangesList = computed<TSelectItem[]>(() => exchangeStore.getAllExchange().map((item) => ({ label: item.name, value: item.id })));
+const exchangesList = computed<TSelectItem[]>(() => exchangeStore.getAllExchanges().map((item) => ({ label: item.name, value: item.id })));
 const strategiesList = computed<TSelectItem[]>(() =>
 	strategies.value?.data.map((s) => ({ label: s.name, value: s.id })) ?? []
 );

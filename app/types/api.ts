@@ -9,8 +9,8 @@ export type TDashboard = {
 };
 
 export type TUser = {
-    email: string|null;
-    avatar: string|null;
+		email: string|null;
+		avatar: string|null;
 	name: string|null;
 	xApiKeyRegenerationAllowedAt: string|null;
 };
@@ -102,15 +102,15 @@ export type TUserDataResponse = {
 };
 
 export type TExchangeData = {
-  margin: string;
-  allowedSymbols: string[];
-  maxLeverage: number;
-  maxLossPercent: number;
-  strategyId: string;
-  dailyGoalPercent: number;
-  maxPositionSize: number;
-  demoTrading: boolean;
-  activate: boolean;
+	margin: string;
+	allowedSymbols: string[];
+	maxLeverage: number;
+	maxLossPercent: number;
+	strategyId: string;
+	dailyGoalPercent: number;
+	maxPositionSize: number;
+	demoTrading: boolean;
+	activate: boolean;
 };
 
 export type TStrategyEntity = {
@@ -128,121 +128,125 @@ export type TStrategyEntity = {
 export type TStrategyDataResponse = {
 	statusCode: number;
 	data: TStrategyEntity[];
-  	message?: string;
+		message?: string;
 };
 
 export type TExchange = {
 	id: string;
 	name: string;
-	credentials: string[];
+	filled: boolean;
 };
 
 export type TExchangeCredentials = {
-  apiKey: string;
-  secretKey: string;
-  password: string;
-  uid: string;
-  privateKey: string;
-  walletAddress: string;
+	apiKey: string;
+	secretKey: string;
+	password: string;
+	uid: string;
+	privateKey: string;
+	walletAddress: string;
 };
 
 export type TExchangeCredentialsResponse = {
-  data: {
-	id?: string;
-	apiKey?: string;
-	secretKey?: string;
-	password?: string;
-	uid?: string;
-	privateKey?: string;
-	walletAddress?: string;
-	createdAt?: string;
-	updatedAt?: string;
-	userId?: string;
-	exchangeName?: string;
-	user?: string;
-	exchange?: {
+	data: {
 		id?: string;
-		name?: string;
-		credentials?: string[];
-	};	
-  },
-  statusCode: number;
-  message: string;
+		apiKey?: string;
+		secretKey?: string;
+		password?: string;
+		uid?: string;
+		privateKey?: string;
+		walletAddress?: string;
+		createdAt?: string;
+		updatedAt?: string;
+		userId?: string;
+		exchangeName?: string;
+		user?: string;
+		exchange?: TExchange;
+	},
+	statusCode: number;
+	message: string;
 };
 
+export type TChangeExchangeCredentialsResponse = TCreateExchangeCredentialsResponse;
+
 export type TCreateExchangeCredentialsResponse = {
-  id: string;
-  apiKey: string;
-  secretKey: string;
-  password: string;
-  uid: string;
-  privateKey: string;
-  walletAddress: string;
-  createdAt: string;
-  updatedAt: string;
-  userId: string;
-  exchangeName: string;
-  user: {
-    id: string;
-    name: string;
-    avatar: string;
-    email: string;
-    password: string;
-    xApiKeyEmailSent: boolean;
-    xApiKeyId: string;
-    xApiKeySecret: string;
-    xApiKeyRegenerationAllowedAt: string;
-    credentials: string[];
-    userConfigs: [
-      {
-        id: string,
-        demoTrading: boolean;
-        maxPositionSize: number;
-        margin: string;
-        dailyGoalPercent: number;
-        activate: boolean;
-        allowedSymbols: string[];
-        maxLeverage: number;
-        maxLossPercent: number;
-        exchangeName: string;
-        strategyId: string;
-        userId: string;
-        user: string;
-        strategy: {
-          id: string;
-          name: string;
-          description: string;
-          algoSection: {
-            indicators: string[];
-            shortlistConditions: object;
-          },
-          timeframe: string;
-          params: object;
-          userConfigs: string[];
-        }
-      }
-    ],
-    orders: [
-      {
-        id: string;
-        symbol: string;
-        side: string;
-        size: number;
-        entryPrice: number;
-        exitPrice: number;
-        markPrice: number;
-        liquidationPrice: number;
-        unrealizedPnl: number;
-        leverage: number;
-        realizedPnl: number;
-        pnlPercent: number;
-        createdAt: string;
-        closedAt: string;
-        exchangeName: string;
-        userId: string;
-        user: string;
-      }
-    ]
-  },
-  exchange: TExchange;
+	id: string;
+	apiKey: string;
+	secretKey: string;
+	password: string;
+	uid: string;
+	privateKey: string;
+	walletAddress: string;
+	createdAt: string;
+	updatedAt: string;
+	userId: string;
+	exchangeName: string;
+	user: {
+		id: string;
+		name: string;
+		avatar: string;
+		email: string;
+		password: string;
+		xApiKeyEmailSent: boolean;
+		xApiKeyId: string;
+		xApiKeySecret: string;
+		xApiKeyRegenerationAllowedAt: string;
+		credentials: string[];
+		userConfigs: [
+			{
+				id: string,
+				demoTrading: boolean;
+				maxPositionSize: number;
+				margin: string;
+				dailyGoalPercent: number;
+				activate: boolean;
+				allowedSymbols: string[];
+				maxLeverage: number;
+				maxLossPercent: number;
+				exchangeName: string;
+				strategyId: string;
+				userId: string;
+				user: string;
+				strategy: {
+					id: string;
+					name: string;
+					description: string;
+					algoSection: {
+						indicators: string[];
+						shortlistConditions: object;
+					},
+					timeframe: string;
+					params: object;
+					userConfigs: string[];
+				}
+			}
+		],
+		orders: [
+			{
+				id: string;
+				symbol: string;
+				side: string;
+				size: number;
+				entryPrice: number;
+				exitPrice: number;
+				markPrice: number;
+				liquidationPrice: number;
+				unrealizedPnl: number;
+				leverage: number;
+				realizedPnl: number;
+				pnlPercent: number;
+				createdAt: string;
+				closedAt: string;
+				exchangeName: string;
+				userId: string;
+				user: string;
+			}
+		]
+	},
+	exchange: TExchange & { credentials: string[]; };
+};
+
+export type TExchangesResponse = {
+  statusCode: number;
+  data: TExchange[];
+  message: string;
 };

@@ -13,11 +13,11 @@
 				<h3 class="group-hover:text-white text-white/80 transition font-medium lg:font-semibold text-14 lg:text-16 uppercase">{{ item.name }}</h3>
 				<span
 					class="text-12 lg:text-14"
-					:class="[item.connected && 'text-tertiary-700', !item.connected && 'text-secondary-500']"
+					:class="[item.filled && 'text-tertiary-700', !item.filled && 'text-secondary-500']"
 				>{{ item.prettyConnectedMessage }}</span>
 			</div>
 		</div>
-		<IconAddRounded v-if="!item.connected" class="w-24 h-24 group-hover:text-white text-white/80 transition" />
+		<IconAddRounded v-if="!item.filled" class="w-24 h-24 group-hover:text-white text-white/80 transition" />
 		<IconEditOutlineRounded v-else class="w-24 h-24 group-hover:text-white text-white/80 transition" />
 	</div>
 </template>

@@ -7,3 +7,10 @@ export const createData = async (body: TExchangeCredentials, exchangeName: strin
 		method: "POST",
 		body,
 	});
+
+// изменение данных биржи
+export const changeData = async (body: TExchangeCredentials, exchangeName: string): Promise<TChangeExchangeCredentialsResponse> => 
+	useNuxtApp().$api(`/api/credentials/${exchangeName}`, {
+		method: "PATCH",
+		body,
+	});

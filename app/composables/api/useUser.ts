@@ -10,12 +10,15 @@ export const useUser = () => {
 		queryKey: keys.getDataProfile,
 		queryFn: getData,
 	});
+	
+	const suspenseAndSync = async () => {
+		await query.suspense();
+		if (query.data.value?.data) {
+			userStore.updateData(query.data.value?.data);
+		}
+	};
 
-	watch(query.data, (v) => {
-		if (v?.data) userStore.updateData(v.data);
-	}, { immediate: true });
-
-	return query;
+	return { ...query, suspenseAndSync };
 };
 
 export const useChangeData = () => {

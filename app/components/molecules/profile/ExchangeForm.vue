@@ -4,7 +4,7 @@
 		:fields="fields"
 		:normalized-data="normalizedData"
 		mode="grid"
-		@send="(data: TExchangeCredentials) => (validateFields() && !isPendingCreateData) && createData(data)"
+		@send="execute"
 	>
 		<template #content>
 			<div class="flex flex-col-reverse lg:flex-row">
@@ -13,7 +13,7 @@
 					class="w-full lg:w-auto rounded-4 p-16 lg:px-24 lg:ml-auto"
 					mode="primary-fill"
 					type="submit"
-					:disabled="isPendingCreateData"
+					:disabled="isPending"
 				>
 					Сохранить изменения
 				</AButton>
@@ -28,7 +28,7 @@ import AError from "@/components/atoms/AError.vue";
 import AButton from "@/components/atoms/AButton.vue";
 import AInput from "@/components/atoms/AInput.vue";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
-import { useCreateData } from "@/composables/api/useCredentials";
+import { useCreateData, useChangeData } from "@/composables/api/useCredentials";
 
 const { exchange, credentials } = defineProps<{
 	exchange: Exchange|null;
@@ -40,11 +40,24 @@ const emits = defineEmits(["success"]);
 const {
 	mutate: createData,
 	isPending: isPendingCreateData,
-	errMessage,
+	errMessage: errCreateData,
 } = useCreateData(
-	() => exchange?.id ?? "",
+	() => exchange?.name ?? "",
 	() => emits("success")
 );
+
+const {
+	mutate: changeData,
+	isPending: isPendingChangeData,
+	errMessage: errChangeData,
+} = useChangeData(
+	() => exchange?.name ?? "",
+	() => emits("success")
+);
+
+const errMessage = computed(() => errCreateData.value || errChangeData.value);
+const isPending = computed(() => isPendingCreateData.value || isPendingChangeData.value);
+const hasData = computed(() => !!credentials?.data);
 
 const createFields = () => ([
 	{
@@ -126,6 +139,13 @@ const normalizedData = (): TExchangeCredentials => ({
 	privateKey: String(fields.value.find(({ name }) => name === "privateKey")?.value ?? ""),
 	walletAddress: String(fields.value.find(({ name }) => name === "walletAddress")?.value ?? ""),
 });
+
+const execute = async (data: TExchangeCredentials) => {
+	if (!validateFields() || isPending.value) return;
+	
+	if (hasData.value) changeData(data);
+	else createData(data);
+};
 
 // обновляем fields при обновлении credentials
 watch(() => credentials?.data, () => fields.value = createFields());

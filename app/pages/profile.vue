@@ -6,8 +6,10 @@
 </template>
 <script setup lang="ts">
 import { useUser } from "@/composables/api/useUser";
+import { useExchanges } from "@/composables/api/useExchanges";
 
-const { suspense } = useUser();
+const { suspense: suspenseExchanges } = useExchanges();
+const { suspense: suspenseUser } = useUser();
 
-await suspense();
+await Promise.all([suspenseUser(), suspenseExchanges()]);
 </script>

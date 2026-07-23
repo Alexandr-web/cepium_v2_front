@@ -1,18 +1,16 @@
 export default class Exchange {
 	readonly name: string;
 	readonly id: string;
-	readonly connected: boolean;
-	readonly credentials: string[];
+	readonly filled: boolean;
 
 	constructor(item: TExchange) {
 		this.name = item.name;
 		this.id = item.id;
-		this.credentials = item.credentials;
-		this.connected = false;
+		this.filled = item.filled;
 	}
 
 	get logo() {
-		switch (this.id) {
+		switch (this.name) {
 			case "bybit":
 				return "/images/exchanges/bybit-logo.svg";
 			case "binance":
@@ -25,7 +23,7 @@ export default class Exchange {
 	}
 
 	get prettyConnectedMessage() {
-		if (this.connected) return "Подключено";
+		if (this.filled) return "Подключено";
 		return "Не подключено";
 	}
 };

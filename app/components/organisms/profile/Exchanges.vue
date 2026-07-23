@@ -32,7 +32,7 @@ const exchangeStore = useExchangeStore();
 
 const exchange = ref<Exchange|null>(null);
 
-const exchanges = computed(() => exchangeStore.getAllExchange());
+const exchanges = computed(() => exchangeStore.getAllExchanges());
 const title = computed(() => exchange.value?.name ?? "-");
 const showModal = computed({
 	get: () => !!exchange.value,
@@ -40,7 +40,7 @@ const showModal = computed({
 });
 
 const { data: credentials } = useCredentials({
-	query: { exchangeName: () => exchange.value?.id ?? "" },
+	query: { exchangeName: () => exchange.value?.name ?? "" },
 	enabled: () => !!exchange.value,
 });
 </script>
