@@ -11,14 +11,14 @@ export const useUser = () => {
 		queryFn: getData,
 	});
 	
-	const suspenseAndSync = async () => {
+	const suspense = async () => {
 		await query.suspense();
 		if (query.data.value?.data) {
 			userStore.updateData(query.data.value?.data);
 		}
 	};
 
-	return { ...query, suspenseAndSync };
+	return { ...query, suspense };
 };
 
 export const useChangeData = () => {

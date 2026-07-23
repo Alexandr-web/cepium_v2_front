@@ -11,12 +11,12 @@ export const useExchanges = () => {
 		queryFn: getList,
 	});
 
-	const suspenseAndSync = async () => {
+	const suspense = async () => {
 		await query.suspense();
 		if (query.data.value?.data) {
 			exchangeStore.exchanges = query.data.value.data;
 		}
 	};
 
-	return { ...query, suspense: suspenseAndSync };
+	return { ...query, suspense };
 };
