@@ -240,10 +240,16 @@ export type TExchangesResponse = {
   message: string;
 };
 
-export type TConfigResponse = Omit<TConfigData, "strategyId"> & { strategy: TStrategyEntity; };
+export type TConfigResponse = Omit<TConfigData, "strategyId"> & { strategy: TStrategyEntity; id: string; };
 
 export type TConfigsResponse = {
 	statusCode: number;
 	data: TConfigResponse[];
+	message: string;
+};
+
+export type TConfigByIdResponse = {
+	statusCode: number;
+	data: TConfigResponse;
 	message: string;
 };

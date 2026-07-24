@@ -5,7 +5,7 @@
 			<h3 class="text-16 lg:text-18 font-medium text-neutral-700 leading-[1.2em]">Управляйте параметрами автоматизированных стратегий и развертывайте их.</h3>
 		</div>
 		<div v-if="configs.length" class="grid grid-cols-1 lg:grid-cols-3 gap-16">
-			<ConfigCard v-for="(card, idx) in configs" :key="idx" :card="card" />
+			<ConfigCard v-for="card in configs" :key="card.id" :card="card" />
 			<NuxtLink class="group hover:bg-neutral-500 transition flex items-center justify-center rounded-8 p-8 bg-neutral-400" :to="{ name: 'add-config' }">
 				<IconAdd class="w-22 lg:w-24 h-22 lg:h-24 group-hover:text-white transition text-white/80" />
 			</NuxtLink>

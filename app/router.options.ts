@@ -38,6 +38,17 @@ export default {
 						},
 					},
 				},
+				{
+					name: "edit-config",
+					path: ":id/edit",
+					component: () => import("@/pages/edit-config.vue"),
+					meta: {
+						middleware: "auth",
+						seo: {
+							title: "Изменение конфига",
+						},
+					},
+				},
 			],
 		},
 		{

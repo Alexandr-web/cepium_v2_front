@@ -39,16 +39,18 @@
 			</div>
 		</div>
 		<div class="flex items-center border-t-1 border-t-solid border-t-neutral-200 pt-16">
-			<AButton class="group flex items-center gap-10 rounded-8 p-8" mode="black-fill">
+			<NuxtLink
+				class="group flex items-center gap-10 rounded-8 p-8 bg-black/80 transition hover:bg-black"
+				:to="{ name: 'edit-config', params: { id: card.id } }"
+			>
 				<span class="text-12 lg:text-14 text-white/90 transition group-hover:text-white">Редактировать</span>
 				<IconEdit class="w-15 lg:w-20 h-15 lg:h-20 transition group-hover:text-neutral-800 text-neutral-700" />
-			</AButton>
+			</NuxtLink>
 		</div>
 	</div>
 </template>
 <script setup lang="ts">
 import IconEdit from "@/assets/icons/edit-outline-rounded.svg";
-import AButton from "@/components/atoms/AButton.vue";
 
 const { card } = defineProps<{ card: TConfigResponse; }>();
 

@@ -1,6 +1,6 @@
 <template>
 	<section class="flex flex-col gap-12 lg:max-w-1200 w-full lg:mx-auto">
-		<h2 class="text-20 lg:text-24 font-semibold">Добавление конфига</h2>
+		<h2 class="text-20 lg:text-24 font-semibold">{{ title }}</h2>
 		<!-- @vue-generic {TConfigData}-->
 		<GeneralForm
 			:fields="fields"
@@ -17,7 +17,7 @@
 						mode="primary-fill"
 						type="submit"
 					>
-						Добавить
+						{{ btnText }}
 					</AButton>
 				</div>
 			</template>
@@ -36,15 +36,20 @@ import ASlider from "@/components/atoms/ASlider.vue";
 import { useExchangeStore } from "@/store/useExchangeStore";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
 
-const { strategies, isPendingStrategy, isPendingExchanges } = defineProps<{
+const { strategies, isPendingStrategy, isPendingExchanges, data } = defineProps<{
 	strategies: TStrategyEntity[];
 	isPendingStrategy: boolean;
 	isPendingExchanges: boolean;
+	title: string;
+	btnText: string;
+	data?: TConfigResponse;
 }>();
 
 const router = useRouter();
 
 const exchangeStore = useExchangeStore();
+
+const hasData = computed(() => !!data);
 
 const exchangesList = computed<TSelectItem[]>(() => exchangeStore.getAllExchanges().map((item) => ({ label: item.name, value: item.id })));
 const strategiesList = computed<TSelectItem[]>(() => strategies.map((s) => ({ label: s.name, value: s.id })) ?? []);
@@ -71,7 +76,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "margin",
-		value: "",
+		value: String(data?.margin ?? ""),
 		check: z.string().min(1),
 		error: "",
 		label: "Маржа",
@@ -82,7 +87,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "strategyId",
-		value: "",
+		value: String(data?.strategy.id ?? ""),
 		check: z.string().min(1),
 		error: "",
 		label: "Стратегия",
@@ -94,7 +99,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "maxLossPercent",
-		value: 1,
+		value: Number(data?.maxLossPercent ?? 1),
 		check: z.number().min(1),
 		error: "",
 		label: "Максимальный процент убытка",
@@ -106,7 +111,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "dailyGoalPercent",
-		value: 1,
+		value: Number(data?.dailyGoalPercent ?? 1),
 		check: z.number().min(1),
 		error: "",
 		label: "Процент выполнения дневной цели",
@@ -118,7 +123,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "maxLeverage",
-		value: 1,
+		value: Number(data?.maxLeverage ?? 1),
 		check: z.number().min(1),
 		error: "",
 		label: "Максимальное плечо",
@@ -129,7 +134,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "maxPositionSize",
-		value: 1,
+		value: Number(data?.maxPositionSize ?? 1),
 		check: z.number().min(1),
 		error: "",
 		label: "Максимальное количество активных позиций",
@@ -140,7 +145,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "allowedSymbols",
-		value: [],
+		value: data?.allowedSymbols ?? [],
 		check: z.array(z.string()).min(1),
 		error: "",
 		disabled: !choosedExchange.value,
@@ -164,14 +169,14 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "demoTrading",
-		value: true,
+		value: data?.demoTrading ?? true,
 		label: "Демо торговля",
 		component: markRaw(ACheckbox),
 		size: "big",
 	},
 	{
 		name: "activate",
-		value: true,
+		value: data?.activate ?? true,
 		label: "Активировать",
 		component: markRaw(ACheckbox),
 		size: "big",
@@ -198,8 +203,12 @@ const normalizedData = (): TConfigData => {
 
 const execute = async (data: TConfigData) => {
 	if (!validateFields()) return;
+
 	// TODO добавить бек
-	console.log(data);
+
+	if (hasData.value) console.log(data, "change");
+	else console.log(data, "create");
+
 	router.push({ name: "configs" });
 };
 

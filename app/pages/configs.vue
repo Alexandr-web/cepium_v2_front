@@ -5,8 +5,9 @@
 </template>
 <script setup lang="ts">
 // моковые данные
-const configs: TConfigsResponse["data"] = [
+const configs: TConfigResponse[] = [
 	{
+		id: "1",
 		margin: "isolated",
 		allowedSymbols: ["BTC/USDT:USDT", "SOL/USDT:USDT"],
 		maxLeverage: 12,
@@ -28,6 +29,7 @@ const configs: TConfigsResponse["data"] = [
 		},
 	},
 	{
+		id: "2",
 		margin: "cross",
 		allowedSymbols: ["TON/USDT:USDT", "SOL/USDT:USDT"],
 		maxLeverage: 1,
@@ -49,6 +51,7 @@ const configs: TConfigsResponse["data"] = [
 		},
 	},
 	{
+		id: "3",
 		margin: "isolated",
 		allowedSymbols: ["SOL/USDT:USDT"],
 		maxLeverage: 12,

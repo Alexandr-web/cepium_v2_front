@@ -73,7 +73,7 @@ const error = defineModel<string>("error", { default: "" });
 
 const isPending = ref(false);
 const foundItems = ref<TSelectItem[]>([]);
-const addedItems = ref<TSelectItem[]>([]);
+const addedItems = ref<TSelectItem[]>(value.value.map((v) => ({ label: v, value: v })));
 
 const input = ref("");
 const inputSearch = debouncedRef(input, 500);
