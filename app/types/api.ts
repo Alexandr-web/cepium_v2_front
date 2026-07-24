@@ -101,7 +101,7 @@ export type TUserDataResponse = {
 	statusCode?: number;
 };
 
-export type TExchangeData = {
+export type TConfigData = {
 	margin: string;
 	allowedSymbols: string[];
 	maxLeverage: number;
@@ -206,18 +206,7 @@ export type TCreateExchangeCredentialsResponse = {
 				strategyId: string;
 				userId: string;
 				user: string;
-				strategy: {
-					id: string;
-					name: string;
-					description: string;
-					algoSection: {
-						indicators: string[];
-						shortlistConditions: object;
-					},
-					timeframe: string;
-					params: object;
-					userConfigs: string[];
-				}
+				strategy: TStrategyEntity;
 			}
 		],
 		orders: [
@@ -249,4 +238,12 @@ export type TExchangesResponse = {
   statusCode: number;
   data: TExchange[];
   message: string;
+};
+
+export type TConfigResponse = Omit<TConfigData, "strategyId"> & { strategy: TStrategyEntity; };
+
+export type TConfigsResponse = {
+	statusCode: number;
+	data: TConfigResponse[];
+	message: string;
 };

@@ -1,7 +1,7 @@
 <template>
 	<section class="flex flex-col gap-12 lg:max-w-1200 w-full lg:mx-auto">
-		<h2 class="text-20 font-semibold">Добавление конфига</h2>
-		<!-- @vue-generic {TExchangeData}-->
+		<h2 class="text-20 lg:text-24 font-semibold">Добавление конфига</h2>
+		<!-- @vue-generic {TConfigData}-->
 		<GeneralForm
 			:fields="fields"
 			:normalized-data="normalizedData"
@@ -180,7 +180,7 @@ const fields = ref<TGeneralFormField[]>([
 
 const { validateFields } = useForm(fields);
 
-const normalizedData = (): TExchangeData => {
+const normalizedData = (): TConfigData => {
 	const allowedSymbols = fields.value.find(({ name }) => name === "allowedSymbols")?.value;
 
 	return {
@@ -196,7 +196,7 @@ const normalizedData = (): TExchangeData => {
 	};
 };
 
-const execute = async (data: TExchangeData) => {
+const execute = async (data: TConfigData) => {
 	if (!validateFields()) return;
 	// TODO добавить бек
 	console.log(data);
