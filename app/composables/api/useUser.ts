@@ -63,10 +63,14 @@ export const useChangeData = () => {
 
 			return { previousData };
 		},
-		onSuccess: (data) => queryClient.setQueryData(keys.getDataProfile, data),
+		onSuccess: (data) => {
+			queryClient.setQueryData(keys.getDataProfile, data);
+			push.success("Данные успешно изменены!");
+		},
 		onError: (err, _, context) => {
 			errMessage.value = getRequestErrorMessage(err);
 			queryClient.setQueryData(keys.getDataProfile, context?.previousData);
+			push.error(errMessage.value);
 		},
 	});
 
@@ -85,6 +89,7 @@ export const useChangePassword = (onSuccess?: () => void) => {
 		onSuccess,
 		onError: (err) => {
 			errMessage.value = getRequestErrorMessage(err);
+			push.error(errMessage.value);
 		},
 	});
 
@@ -100,9 +105,13 @@ export const useConfirmChangePassword = (onSuccess?: () => void) => {
 		TUserConfirmChangeSecurityData
 	>({
 		mutationFn: confirmChangePassword,
-		onSuccess,
+		onSuccess: () => {
+			onSuccess?.();
+			push.success("Пароль успешно изменен! Войдите заново для дальнейшей работы");
+		},
 		onError: (err) => {
 			errMessage.value = getRequestErrorMessage(err);
+			push.error(errMessage.value);
 		},
 	});
 

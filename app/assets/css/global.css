@@ -6,6 +6,7 @@
 @layer base {
 	:root {
 		--spacing: 100vw / 360;
+    --nv-z: 99999999999999999;
 
 		@media (min-width: 1025px) {
 			--spacing: 100vw / 1920;

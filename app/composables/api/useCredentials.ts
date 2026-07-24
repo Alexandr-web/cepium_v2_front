@@ -28,9 +28,13 @@ export const useCreateData = (_exchangeName: MaybeRefOrGetter<string>, onSuccess
 		TExchangeCredentials
 	>({
 		mutationFn: (body) => createData(body, exchangeName.value),
-		onSuccess,
+		onSuccess: () => {
+			onSuccess?.();
+			push.success(`Данные для биржи ${exchangeName.value} успешно добавлены!`);
+		},
 		onError: (err) => {
 			errMessage.value = getRequestErrorMessage(err);
+			push.error(errMessage.value);
 		},
 	});
 
@@ -47,9 +51,13 @@ export const useChangeData = (_exchangeName: MaybeRefOrGetter<string>, onSuccess
 		TExchangeCredentials
 	>({
 		mutationFn: (body) => changeData(body, exchangeName.value),
-		onSuccess,
+		onSuccess: () => {
+			onSuccess?.();
+			push.success(`Данные для биржи ${exchangeName.value} успешно изменены!`);
+		},
 		onError: (err) => {
 			errMessage.value = getRequestErrorMessage(err);
+			push.error(errMessage.value);
 		},
 	});
 
