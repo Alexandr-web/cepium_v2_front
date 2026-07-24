@@ -3,7 +3,7 @@
 	<MTable
 		class="hidden lg:flex"
 		title="Популярные монеты"
-		head-icon="material-symbols:card-travel-outline-rounded"
+		head-icon="card-travel-outline-rounded"
 		:columns="columns"
 		:data="coins"
 	>
@@ -26,7 +26,6 @@
 </template>
 <script setup lang="ts">
 import type Coin from "@/models/Coin";
-import type { TTableColumn } from "@/types/components";
 import MTable from "@/components/molecules/common/MTable.vue";
 
 defineProps<{ coins: Coin[] }>();

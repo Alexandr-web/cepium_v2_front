@@ -2,7 +2,7 @@
 	<!-- @vue-generic {Trade} -->
 	<MTable
 		class="hidden lg:flex"
-		head-icon="material-symbols:view-list"
+		head-icon="view-list"
 		title="Активные позиции"
 		:data="trades"
 		:columns="columns"
@@ -54,7 +54,6 @@
 </template>
 <script setup lang="ts">
 import type Trade from "@/models/Trade";
-import type { TTableColumn } from "@/types/components";
 import AButton from "@/components/atoms/AButton.vue";
 import MTable from "@/components/molecules/common/MTable.vue";
 

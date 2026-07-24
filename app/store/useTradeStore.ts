@@ -1,9 +1,8 @@
 import { defineStore } from "pinia";
 import Trade from "@/models/Trade";
-import type { TTrade } from "@/types/api";
 
 export const useTradeStore = defineStore("trade-store", () => {
-	const _trades = ref<TTrade[]>([
+	const trades = ref<TTrade[]>([
 		{
 			timestamp: Date.now(),
 			symbol: "SOL",
@@ -57,17 +56,17 @@ export const useTradeStore = defineStore("trade-store", () => {
 		},
 	]);
 
-	const _tradesMap = computed(() => 
-		_trades.value.reduce<Map<TTrade["id"], Trade>>((map, t) => {
+	const tradesMap = computed(() => 
+		trades.value.reduce<Map<TTrade["id"], Trade>>((map, t) => {
 			if (!map.has(t.id)) map.set(t.id, new Trade(t));
 			return map;
 		}, new Map())
 	);
 
-	const getAllTrades = () => Array.from(_tradesMap.value.values());
-	const getTradeById = (id: TTrade["id"]) => _tradesMap.value.get(id);
+	const getAllTrades = () => Array.from(tradesMap.value.values());
+	const getTradeById = (id: TTrade["id"]) => tradesMap.value.get(id);
 	
 	// TODO добавить после бека метод close для закрытия поз
 
-	return { getAllTrades, getTradeById };
+	return { getAllTrades, getTradeById, trades };
 });

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		Settings
+		configs
 	</div>
 </template>
 <script setup lang="ts">

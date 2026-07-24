@@ -11,7 +11,7 @@
 				alt=""
 			/>
 			<div class="absolute bottom-0 right-0 translate-x-10 translate-y-10 rounded-8 p-5 flex justify-center items-center bg-primary-600 w-25 h-25">
-				<Icon name="material-symbols:edit-outline-rounded" class="w-full h-full text-neutral-950" />
+				<IconEditOutlineRounded class="w-full h-full text-neutral-950" />
 			</div>
 		</div>
 		<div class="flex flex-col">
@@ -21,6 +21,7 @@
 	</div>
 </template>
 <script setup lang="ts">
+import IconEditOutlineRounded from "@/assets/icons/edit-outline-rounded.svg";
 import { useUserStore } from "@/store/useUserStore";
 import { useFileDialog } from "@vueuse/core";
 

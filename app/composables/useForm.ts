@@ -1,5 +1,3 @@
-import type { TGeneralFormField } from "@/types/components";
-
 export const useForm = (_fields: MaybeRefOrGetter<TGeneralFormField[]>) => {
 	const fields = computed(() => toValue(_fields));
 	const hasInvalidFields = computed(() => fields.value.some(({ error }) => error));

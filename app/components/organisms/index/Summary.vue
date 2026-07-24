@@ -7,7 +7,7 @@
 		>
 			<div class="flex items-center justify-between">
 				<h3 class="text-12 lg:text-16 uppercase">{{ item.title }}</h3>
-				<Icon v-if="item.icon" :name="item.icon" class="w-22 lg:w-26 h-18 lg:h-22 text-primary-800" />
+				<component :is="iconsMap[item.icon]" v-if="item.icon" :name="item.icon" class="w-22 lg:w-26 h-18 lg:h-22 text-primary-800" />
 			</div>
 			<div class="flex flex-col gap-8">
 				<span
@@ -26,7 +26,14 @@
 	</section>
 </template>
 <script setup lang="ts">
-import type { TIndexCardSummary } from "@/types/components";
+import IconArrowsMoreUpRounded from "@/assets/icons/arrows-more-up-rounded.svg";
+import IconShelfPositionSharp from "@/assets/icons/shelf-position-sharp.svg";
+import IconMoneyBagOutlineRounded from "@/assets/icons/money-bag-outline-rounded.svg";
+const { summary } = defineProps<{ summary: TIndexCardSummary[]; }>();
 
-defineProps<{ summary: TIndexCardSummary[]; }>();
+const iconsMap: Record<string, string> = {
+	"arrows-more-up-rounded": IconArrowsMoreUpRounded,
+	"shelf-position-sharp": IconShelfPositionSharp,
+	"money-bag-outline-rounded": IconMoneyBagOutlineRounded,
+};
 </script>

@@ -1,24 +1,21 @@
 <template>
 	<section class="flex flex-col gap-16 w-full lg:max-w-1200 lg:mx-auto">
-		<UploadAvatar v-model="fileField!.value" />
+		<UploadAvatar v-model="fileField!.value as File|string|null" />
 		<div v-for="(area, idx) in areas" :key="idx" class="flex flex-col gap-16">
-			<h3 class="flex items-center gap-8 text-14 uppercase text-neutral-600 font-light">
-				<Icon :name="area.icon" class="w-20 h-20 text-primary-700" />
-				<span>{{ area.title }}</span>
-			</h3>
-			<component :is="area.component" v-bind="area.formProps" />
+			<Collapse :label="area.title" :preppend-icon="area.icon" is-open>
+				<component :is="area.component" v-bind="area.formProps" />
+			</Collapse>
 		</div>
 	</section>
 </template>
 <script setup lang="ts">
 import * as z from "zod";
-import type { TGeneralFormField } from "@/types/components";
-import type { TUserEditGeneralData, TUserEditSecurityData } from "@/types/api";
 import { useUserStore } from "@/store/useUserStore";
 import AInput from "@/components/atoms/AInput.vue";
 import UploadAvatar from "@/components/molecules/profile/UploadAvatar.vue";
 import GeneralFieldsForm from "@/components/molecules/profile/GeneralFieldsForm.vue";
 import SecurityFieldsForm from "@/components/molecules/profile/SecurityFieldsForm.vue";
+import Collapse from "@/components/molecules/common/Collapse.vue";
 
 const userStore = useUserStore();
 
@@ -31,7 +28,7 @@ const generalFields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "email",
-		value: userStore.user.email,
+		value: userStore.user?.email ?? "",
 		error: "",
 		check: z.email().min(1),
 		placeholder: "Эл. почта",
@@ -40,7 +37,7 @@ const generalFields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "name",
-		value: userStore.user.name,
+		value: userStore.user?.name ?? "",
 		error: "",
 		check: z.string().min(1),
 		placeholder: "Имя",
@@ -75,7 +72,7 @@ const securityFields = ref<TGeneralFormField[]>([
 const areas = ref([
 	{
 		title: "Общая информация",
-		icon: "material-symbols:person-edit-outline-rounded",
+		icon: "person-edit-outline-rounded",
 		component: markRaw(GeneralFieldsForm),
 		formProps: {
 			fields: generalFields.value,
@@ -89,7 +86,7 @@ const areas = ref([
 	},
 	{
 		title: "Безопасность",
-		icon: "material-symbols:lock-outline",
+		icon: "lock-outline",
 		component: markRaw(SecurityFieldsForm),
 		formProps: {
 			fields: securityFields.value,

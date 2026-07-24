@@ -1,5 +1,3 @@
-import type { TNews } from "@/types/api";
-
 export default class News {
 	readonly title: string;
 	readonly timestamp: string;

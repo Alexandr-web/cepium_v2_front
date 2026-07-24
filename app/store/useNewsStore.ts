@@ -1,9 +1,8 @@
 import { defineStore } from "pinia";
 import News from "@/models/News";
-import type { TNews } from "@/types/api";
 
 export const useNewsStore = defineStore("news-store", () => {
-	const _news = ref<TNews[]>([
+	const news = ref<TNews[]>([
 		{
 			id: 1,
 			title: "HIGH IMPACT",
@@ -27,15 +26,15 @@ export const useNewsStore = defineStore("news-store", () => {
 		},
 	]);
 
-	const _newsMap = computed(() => 
-		_news.value.reduce<Map<TNews["id"], News>>((map, t) => {
+	const newsMap = computed(() => 
+		news.value.reduce<Map<TNews["id"], News>>((map, t) => {
 			if (!map.has(t.id)) map.set(t.id, new News(t));
 			return map;
 		}, new Map())
 	);
 
-	const getAllNews = () => Array.from(_newsMap.value.values());
-	const getNewsById = (id: TNews["id"]) => _newsMap.value.get(id);
+	const getAllNews = () => Array.from(newsMap.value.values());
+	const getNewsById = (id: TNews["id"]) => newsMap.value.get(id);
 	
-	return { getAllNews, getNewsById };
+	return { getAllNews, getNewsById, news };
 });
