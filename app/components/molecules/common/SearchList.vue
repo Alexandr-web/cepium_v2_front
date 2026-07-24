@@ -11,14 +11,14 @@
 			>
 				{{ label }}
 			</h3>
-			<p v-if="value.length" class="text-neutral-600 text-12 lg:text-14">({{ value.length }})</p>
+			<p v-if="addedItems.length" class="text-neutral-600 text-12 lg:text-14">({{ addedItems.length }})</p>
 		</div>
 		<div class="flex flex-col gap-10">
 			<AInput v-model="input" :placeholder="placeholder" preppend-icon="search-rounded" :disabled="disabled" />
 			<div class="overflow-auto max-h-150 scroll-block">
-				<div v-if="value.length" class="flex flex-wrap gap-10">
+				<div v-if="addedItems.length" class="flex flex-wrap gap-10">
 					<ATag
-						v-for="(item, idx) in value"
+						v-for="(item, idx) in addedItems"
 						:key="idx"
 						:label="item.label"
 						@remove="removeItem(idx)"
@@ -68,11 +68,12 @@ const { search, label = "", placeholder = "Поиск", disabled = false } = def
 	search: (value: string) => Promise<TSelectItem[]>;
 }>();
 
-const value = defineModel<TSelectItem[]>({ default: () => [] });
+const value = defineModel<string[]>({ default: () => [] });
 const error = defineModel<string>("error", { default: "" });
 
 const isPending = ref(false);
 const foundItems = ref<TSelectItem[]>([]);
+const addedItems = ref<TSelectItem[]>([]);
 
 const input = ref("");
 const inputSearch = debouncedRef(input, 500);
@@ -81,6 +82,10 @@ const message = computed(() => {
 	if (disabled) return "Недостаточно данных. Поиск невозможен";
 	if (!foundItems.value.length) return "Ничего не найдено";
 	return "";
+});
+
+watch(() => addedItems.value.length, () => {
+	value.value = addedItems.value.map((i) => i.value);
 });
 
 watch(inputSearch, async (v) => {
@@ -102,11 +107,11 @@ watch(inputSearch, async (v) => {
 	}
 });
 
-const hasItem = (item: TSelectItem) => value.value.some((i) => i.value === item.value);
-const removeItem = (idx: number) => idx !== -1 && value.value.splice(idx, 1);
+const hasItem = (item: TSelectItem) => addedItems.value.some((i) => i.value === item.value);
+const removeItem = (idx: number) => idx !== -1 && addedItems.value.splice(idx, 1);
 const addItem = (item: TSelectItem) => {
-	const itemIdx = value.value.findIndex((i) => i.value === item.value);
-	if (itemIdx === -1) value.value.push(item);
+	const itemIdx = addedItems.value.findIndex((i) => i.value === item.value);
+	if (itemIdx === -1) addedItems.value.push(item);
 	else removeItem(itemIdx);
 };
 </script>

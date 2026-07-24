@@ -128,7 +128,7 @@ export type TStrategyEntity = {
 export type TStrategyDataResponse = {
 	statusCode: number;
 	data: TStrategyEntity[];
-		message?: string;
+	message?: string;
 };
 
 export type TExchange = {

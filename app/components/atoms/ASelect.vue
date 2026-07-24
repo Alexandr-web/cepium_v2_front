@@ -18,7 +18,7 @@
 				!disabled && 'cursor-pointer'
 			]"
 		>
-			<div ref="reference" class="p-12 flex items center justify-between gap-10" @click="!disabled && (isOpen = !isOpen)">
+			<div ref="reference" class="p-12 flex items-center justify-between gap-10" @click="!disabled && (isOpen = !isOpen)">
 				<span v-if="inputLabel" class="text-neutral-800 select-none truncate" :title="inputLabel">{{ inputLabel }}</span>
 				<IconKeyboardArrowDownRounded
 					class="text-neutral-800 w-24 h-24"

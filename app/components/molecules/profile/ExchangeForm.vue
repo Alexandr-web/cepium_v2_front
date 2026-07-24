@@ -60,7 +60,6 @@ const {
 
 const errMessage = computed(() => errCreateData.value || errChangeData.value);
 const isPending = computed(() => isPendingCreateData.value || isPendingChangeData.value);
-const hasData = computed(() => !!credentials?.data);
 
 const createFields = () => ([
 	{
@@ -146,7 +145,7 @@ const normalizedData = (): TExchangeCredentials => ({
 const execute = async (data: TExchangeCredentials) => {
 	if (!validateFields() || isPending.value) return;
 	
-	if (!hasData.value) {
+	if (!exchange?.filled) {
 		createData(data);
 		await updateExchanges();
 

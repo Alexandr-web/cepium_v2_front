@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import Coin from "@/models/Coin";
 
 export const useCoinsStore = defineStore("coins-store", () => {
-	const _coins = ref<TCoin[]>([
+	const coins = ref<TCoin[]>([
 		{
 			timestamp: Date.now(),
 			symbol: "SOL",
@@ -25,15 +25,15 @@ export const useCoinsStore = defineStore("coins-store", () => {
 		},
 	]);
 
-	const _coinsMap = computed(() => 
-		_coins.value.reduce<Map<TCoin["id"], Coin>>((map, t) => {
+	const coinsMap = computed(() => 
+		coins.value.reduce<Map<TCoin["id"], Coin>>((map, t) => {
 			if (!map.has(t.id)) map.set(t.id, new Coin(t));
 			return map;
 		}, new Map())
 	);
 
-	const getAllCoins = () => Array.from(_coinsMap.value.values());
-	const getCoinById = (id: TCoin["id"]) => _coinsMap.value.get(id);
+	const getAllCoins = () => Array.from(coinsMap.value.values());
+	const getCoinById = (id: TCoin["id"]) => coinsMap.value.get(id);
 	
-	return { getAllCoins, getCoinById };
+	return { getAllCoins, getCoinById, coins };
 });
