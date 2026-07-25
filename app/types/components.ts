@@ -40,3 +40,10 @@ export type TSelectItem = {
 	label: string;
 	value: string;
 };
+
+export type TFilterItem = {
+	component: Component;
+	label: string;
+	value: string|string[];
+	items?: TSelectItem[];
+};
