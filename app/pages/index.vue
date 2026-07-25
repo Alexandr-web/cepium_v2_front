@@ -5,9 +5,11 @@
 				<SummaryNote :card="card" />
 			</template>
 		</OrganismsIndexSummary>
-		<div class="flex flex-col gap-16 lg:gap-32 w-full lg:max-w-1200 lg:mx-auto">
-			<OrganismsIndexActiveTrades :trades="trades" />
-			<OrganismsIndexPopularCoins :coins="coins" />
+		<div class="-mx-16 bg-neutral-300/50 p-16">
+			<div class="flex flex-col gap-16 lg:gap-32 w-full lg:max-w-1200 lg:mx-auto">
+				<OrganismsIndexActiveTrades :trades="trades" />
+				<OrganismsIndexPopularCoins :coins="coins" />
+			</div>
 		</div>
 	</div>
 </template>
