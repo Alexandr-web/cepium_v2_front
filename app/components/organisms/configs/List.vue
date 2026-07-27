@@ -6,7 +6,10 @@
 		</div>
 		<div v-if="configs.length" class="grid grid-cols-1 lg:grid-cols-3 gap-16">
 			<ConfigCard v-for="card in configs" :key="card.id" :card="card" />
-			<NuxtLink class="group hover:bg-neutral-500 transition flex items-center justify-center rounded-8 p-8 bg-neutral-400" :to="{ name: 'add-config' }">
+			<NuxtLink
+				class="group hover:border-neutral-500 transition flex items-center justify-center rounded-8 p-8 border-solid border-1 border-neutral-400 bg-neutral-300/50"
+				:to="{ name: 'add-config' }"
+			>
 				<IconAdd class="w-22 lg:w-24 h-22 lg:h-24 group-hover:text-white transition text-white/80" />
 			</NuxtLink>
 		</div>

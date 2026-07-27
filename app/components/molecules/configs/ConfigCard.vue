@@ -38,7 +38,7 @@
 				>{{ s }}</span>
 			</div>
 		</div>
-		<div class="flex items-center border-t-1 border-t-solid border-t-neutral-200 pt-16">
+		<div class="flex gap-12 justify-between items-center border-t-1 border-t-solid border-t-neutral-200 pt-16">
 			<NuxtLink
 				class="group flex items-center gap-10 rounded-8 p-8 bg-black/80 transition hover:bg-black"
 				:to="{ name: 'edit-config', params: { id: card.id } }"
@@ -46,6 +46,7 @@
 				<span class="text-12 lg:text-14 text-white/90 transition group-hover:text-white">Редактировать</span>
 				<IconEdit class="w-15 lg:w-20 h-15 lg:h-20 transition group-hover:text-neutral-800 text-neutral-700" />
 			</NuxtLink>
+			<span class="uppercase text-14 text-neutral-600">{{ card.exchangeName }}</span>
 		</div>
 	</div>
 </template>
@@ -69,12 +70,12 @@ const info = computed(() => [
 	},
 	{
 		label: "Дневная цель",
-		value: "+" + formatNum(card.dailyGoalPercent, { style: "percent" }),
+		value: "+" + formatNum(card.dailyGoalPercent / 100, { style: "percent" }),
 		valueClasses: "text-tertiary-800",
 	},
 	{
 		label: "Макс убыток",
-		value: formatNum(-card.maxLossPercent, { style: "percent" }),
+		value: formatNum(-card.maxLossPercent / 100, { style: "percent" }),
 		valueClasses: "text-secondary-800",
 	},
 ]);

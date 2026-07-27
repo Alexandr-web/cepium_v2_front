@@ -144,7 +144,7 @@ const normalizedData = (): TExchangeCredentials => ({
 
 const execute = async (data: TExchangeCredentials) => {
 	if (!validateFields() || isPending.value) return;
-	
+
 	if (!exchange?.filled) {
 		createData(data);
 		await updateExchanges();

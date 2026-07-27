@@ -240,7 +240,7 @@ export type TExchangesResponse = {
   message: string;
 };
 
-export type TConfigResponse = Omit<TConfigData, "strategyId"> & { strategy: TStrategyEntity; id: string; };
+export type TConfigResponse = Omit<TConfigData, "strategyId"> & { strategy: TStrategyEntity; id: string; exchangeName: string; };
 
 export type TConfigsResponse = {
 	statusCode: number;
@@ -253,3 +253,11 @@ export type TConfigByIdResponse = {
 	data: TConfigResponse;
 	message: string;
 };
+
+export type TConfigCreateResponse = {
+	statusCode: number;
+	data: TConfigResponse[];
+	message: string;
+};
+
+export type TConfigChangeResponse = TConfigCreateResponse;

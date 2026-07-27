@@ -16,6 +16,7 @@
 						class="w-full lg:w-auto rounded-4 p-16 lg:px-24 lg:ml-auto"
 						mode="primary-fill"
 						type="submit"
+						:disabled="isPendingConfig"
 					>
 						{{ btnText }}
 					</AButton>
@@ -40,18 +41,17 @@ const { strategies, isPendingStrategy, isPendingExchanges, data } = defineProps<
 	strategies: TStrategyEntity[];
 	isPendingStrategy: boolean;
 	isPendingExchanges: boolean;
+	isPendingConfig: boolean;
 	title: string;
 	btnText: string;
-	data?: TConfigResponse;
+	data?: TConfigByIdResponse["data"];
 }>();
 
-const router = useRouter();
+const emits = defineEmits(["execute"]);
 
 const exchangeStore = useExchangeStore();
 
-const hasData = computed(() => !!data);
-
-const exchangesList = computed<TSelectItem[]>(() => exchangeStore.getAllExchanges().map((item) => ({ label: item.name, value: item.id })));
+const exchangesList = computed<TSelectItem[]>(() => exchangeStore.getAllExchanges().map((item) => ({ label: item.name, value: item.name })));
 const strategiesList = computed<TSelectItem[]>(() => strategies.map((s) => ({ label: s.name, value: s.id })) ?? []);
 
 const MARGIN_MODE_LIST: TSelectItem[] = [
@@ -59,12 +59,12 @@ const MARGIN_MODE_LIST: TSelectItem[] = [
 	{ label: "Кросс", value: "cross" },
 ];
 
-const choosedExchange = ref<string|null>(null);
+const choosedExchange = ref<string|null>(data?.exchangeName || null);
 
 const fields = ref<TGeneralFormField[]>([
 	{
 		name: "exchange",
-		value: "",
+		value: String(data?.exchangeName ?? ""),
 		check: z.string().min(1),
 		error: "",
 		label: "Биржа",
@@ -201,15 +201,9 @@ const normalizedData = (): TConfigData => {
 	};
 };
 
-const execute = async (data: TConfigData) => {
+const execute = async (configData: TConfigData) => {
 	if (!validateFields()) return;
-
-	// TODO добавить бек
-
-	if (hasData.value) console.log(data, "change");
-	else console.log(data, "create");
-
-	router.push({ name: "configs" });
+	emits("execute", { data: configData, exchangeName: String(choosedExchange.value || "") });
 };
 
 // обновляем disabled у "allowedSymbols" при выборе биржи

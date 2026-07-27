@@ -1,6 +1,7 @@
 import keys from "@/api/keys";
-import { useQuery } from "@tanstack/vue-query";
-import { getList, getOne } from "@/api/configs";
+import type { FetchError } from "ofetch";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
+import { changeOne, createOne, getList, getOne } from "@/api/configs";
 
 export const useConfigs = () => {
 	return useQuery({
@@ -16,4 +17,51 @@ export const useConfig = (_id: MaybeRefOrGetter<string>) => {
 		queryKey: computed(() => keys.getConfig(id.value)),
 		queryFn: () => getOne(id.value),
 	});
+};
+
+export const useCreateOne = (onSuccess?: () => void) => {
+	const queryClient = useQueryClient();
+	const errMessage = ref("");
+
+	const { mutate, isPending } = useMutation<
+		TConfigCreateResponse,
+		FetchError,
+		{ body: TConfigData, exchangeName: string }
+	>({
+		mutationFn: ({ body, exchangeName }) => createOne(exchangeName, body),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: keys.getConfigs });
+			onSuccess?.();
+		},
+		onError: (err) => {
+			errMessage.value = getRequestErrorMessage(err);
+			push.error(errMessage.value);
+		},
+	});
+
+	return { mutate, isPending, errMessage };
+};
+
+export const useChangeOne = (_id: MaybeRefOrGetter<string>, onSuccess?: () => void) => {
+	const queryClient = useQueryClient();
+	const id = computed(() => toValue(_id));
+	const errMessage = ref("");
+
+	const { mutate, isPending } = useMutation<
+		TConfigChangeResponse,
+		FetchError,
+		TConfigData
+	>({
+		mutationFn: (body) => changeOne(id.value, body),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: keys.getConfigs });
+			onSuccess?.();
+		},
+		onError: (err) => {
+			errMessage.value = getRequestErrorMessage(err);
+			push.error(errMessage.value);
+		},
+	});
+
+	return { mutate, isPending, errMessage };
 };

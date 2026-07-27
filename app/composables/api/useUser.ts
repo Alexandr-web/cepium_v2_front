@@ -97,6 +97,7 @@ export const useChangePassword = (onSuccess?: () => void) => {
 };
 
 export const useConfirmChangePassword = (onSuccess?: () => void) => {
+	const queryClient = useQueryClient();
 	const errMessage = ref("");
 
 	const { mutate, isPending } = useMutation<
@@ -106,8 +107,9 @@ export const useConfirmChangePassword = (onSuccess?: () => void) => {
 	>({
 		mutationFn: confirmChangePassword,
 		onSuccess: () => {
-			onSuccess?.();
+			queryClient.invalidateQueries({ queryKey: keys.getExchanges });
 			push.success("Пароль успешно изменен! Войдите заново для дальнейшей работы");
+			onSuccess?.();
 		},
 		onError: (err) => {
 			errMessage.value = getRequestErrorMessage(err);
