@@ -12,7 +12,8 @@
     "test-unit": "vitest --project unit",
     "test-nuxt": "vitest --project nuxt",
     "test-watch": "vitest --watch",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "dev-host": "nuxt dev --host 0.0.0.0"
   },
   "dependencies": {
     "@floating-ui/vue": "^2.0.1",

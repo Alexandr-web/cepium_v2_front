@@ -69,7 +69,7 @@ export type TUserEditGeneralData = {
 };
 
 export type TUserEditGeneralDataResponse = {
-	data?: TUser,
+	data?: TUser;
 	message?: string|string[];
 	statusCode?: number;
 };
@@ -161,7 +161,7 @@ export type TExchangeCredentialsResponse = {
 		exchangeName?: string;
 		user?: string;
 		exchange?: TExchange;
-	},
+	};
 	statusCode: number;
 	message: string;
 };
@@ -193,7 +193,7 @@ export type TCreateExchangeCredentialsResponse = {
 		credentials: string[];
 		userConfigs: [
 			{
-				id: string,
+				id: string;
 				demoTrading: boolean;
 				maxPositionSize: number;
 				margin: string;
@@ -208,7 +208,7 @@ export type TCreateExchangeCredentialsResponse = {
 				user: string;
 				strategy: TStrategyEntity;
 			}
-		],
+		];
 		orders: [
 			{
 				id: string;
@@ -230,7 +230,7 @@ export type TCreateExchangeCredentialsResponse = {
 				user: string;
 			}
 		]
-	},
+	};
 	exchange: TExchange & { credentials: string[]; };
 };
 
@@ -261,3 +261,21 @@ export type TConfigCreateResponse = {
 };
 
 export type TConfigChangeResponse = TConfigCreateResponse;
+
+export type TOrder = {
+	symbol: string;
+	direction: string;
+	amount: number;
+	time: string;
+	enterPrice: number;
+	type: string;
+	position: string;
+	status: string;
+	pnl?: number;
+};
+
+export type TOrderResponse = {
+	statusCode: number;
+	data: TOrder[];
+	message: string;
+};

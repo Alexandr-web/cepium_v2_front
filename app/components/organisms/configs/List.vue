@@ -1,7 +1,7 @@
 <template>
 	<section class="flex flex-col gap-12 grow">
 		<div class="flex flex-col">
-			<h2 class="text-20 lg:text-24 font-semibold">Созданные конфиги</h2>
+			<h2 class="text-20 lg:text-24 font-semibold">Созданные конфиги <span v-if="configs.length" class="font-medium opacity-50">({{ configs.length }})</span></h2>
 			<h3 class="text-16 lg:text-18 font-medium text-neutral-700 leading-[1.2em]">Управляйте параметрами автоматизированных стратегий и развертывайте их.</h3>
 		</div>
 		<div v-if="configs.length" class="grid grid-cols-1 lg:grid-cols-3 gap-16">

@@ -28,7 +28,7 @@
 				>
 					<template #footer>
 						<div class="flex flex-col gap-20">
-							<AButton class="w-full text-14 p-14 rounded-8" mode="neutral-fill">Применить</AButton>
+							<AButton class="w-full text-14 p-14 rounded-8" mode="neutral-fill" @click="emits('execute', filters)">Применить</AButton>
 							<AButton class="text-neutral-600 text-12" @click="reset">Очистить</AButton>
 						</div>
 					</template>
@@ -44,6 +44,8 @@ import AButton from "@/components/atoms/AButton.vue";
 import Modal from "@/components/molecules/common/Modal.vue";
 import IconFilter from "@/assets/icons/filter-alt-outline-sharp.svg";
 import AButtonGroup from "@/components/atoms/AButtonGroup.vue";
+
+const emits = defineEmits(["execute"]);
 
 const { isMobile } = useDevice();
 

@@ -16,7 +16,7 @@
 		<div class="flex flex-col gap-10">
 			<AInput v-model="input" :placeholder="placeholder" preppend-icon="search-rounded" :disabled="disabled" />
 			<div class="overflow-auto max-h-150 scroll-block">
-				<div v-if="addedItems.length" class="flex flex-wrap gap-10">
+				<div v-if="addedItems.length" class="grid lg:flex grid-cols-2 lg:flex-wrap gap-10">
 					<ATag
 						v-for="(item, idx) in addedItems"
 						:key="idx"

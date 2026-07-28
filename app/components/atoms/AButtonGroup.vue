@@ -1,7 +1,7 @@
 <template>
 	<div class="flex flex-col gap-10">
 		<h3 class="text-12 uppercase text-white/40">{{ label }}</h3>
-		<div ref="wrapper" class="flex scroll-block overflow-auto w-min max-w-full min-w-0 bg-black p-4 rounded-8 mx-auto lg:mx-0">
+		<div ref="wrapper" class="flex scroll-block scroll-block--without-controls overflow-auto w-min max-w-full min-w-0 bg-black p-4 rounded-8 mx-auto lg:mx-0">
 			<ul class="flex items-center relative z-1 w-max">
 				<div
 					class="transition absolute -z-1 top-0 left-0 bg-primary-800 rounded-8 h-full min-h-0"
