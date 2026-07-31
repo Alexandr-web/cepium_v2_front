@@ -29,7 +29,7 @@
 							preset === 'mob' && 'flex items-center gap-16'
 						]"
 						:to="{ name: item.route }"
-						:exact-active-class="activeClass"
+						:active-class="activeClass"
 						@click="emits('clickByLink')"
 					>
 						<component
