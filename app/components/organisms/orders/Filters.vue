@@ -13,7 +13,7 @@
 		<div class="hidden lg:flex justify-between gap-16 bg-neutral-100 rounded-8 p-16 border-1 border-solid border-white/10">
 			<Filters ref="deskFilters" :filters="filters" />
 			<div class="flex flex-col gap-5">
-				<AButton class="w-full py-8 px-24 rounded-8 text-14" mode="primary-fill">Применить</AButton>
+				<AButton class="w-full py-8 px-24 rounded-8 text-14" mode="primary-border">Применить</AButton>
 				<AButton class="rounded-8 py-8 px-24 w-full text-14" mode="neutral-fill" @click="reset">Очистить</AButton>
 			</div>
 		</div>
@@ -28,7 +28,7 @@
 				>
 					<template #footer>
 						<div class="flex flex-col gap-20">
-							<AButton class="w-full text-14 p-14 rounded-8" mode="neutral-fill" @click="emits('execute', filters)">Применить</AButton>
+							<AButton class="w-full text-14 p-14 rounded-8" mode="primary-border" @click="emits('execute', filters)">Применить</AButton>
 							<AButton class="text-neutral-600 text-12" @click="reset">Очистить</AButton>
 						</div>
 					</template>
