@@ -34,6 +34,7 @@ export type TTableColumn<T> = {
   key: keyof T | "controls" | "index";
   label: string;
   align?: "left" | "center" | "right";
+  normalizer?: (val: number | string | T[keyof T]) => string;
 };
 
 export type TSelectItem = {

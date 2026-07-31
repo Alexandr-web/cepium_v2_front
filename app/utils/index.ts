@@ -17,7 +17,7 @@ export const formatNum = (value: number | string, options?: TFormatNumOptions): 
 	const num = typeof value === "string" ? parseFloat(value) : value;
 	const { style, currency, padZero, defaultValue = "0" } = options ?? {};
 
-	if (isNaN(num) || !isFinite(num) || isNegativeZero(num) || String(value).includes(",")) return defaultValue;
+	if (isNaN(num) || !isFinite(num) || isNegativeZero(num) || String(value).includes(",") || !value) return defaultValue;
 
 	if (Math.round(num * 100) / 100 === 0) return "0";
 

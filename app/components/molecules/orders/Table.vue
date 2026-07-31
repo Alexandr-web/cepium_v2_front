@@ -5,46 +5,40 @@
 		:columns="columns"
 		:data="orders"
 	>
-		<template #cell-index="{ index }">
-			{{ formatNum(index + 1, { padZero: true }) }}
+		<template #cell-symbol="{ value }">
+			<span class="font-bold">{{ value }}</span>
 		</template>
-		<template #cell-symbol="{ row }">
-			<span class="font-bold">{{ row.symbol }}</span>
-		</template>
-		<template #cell-direction="{ row }">
+		<template #cell-direction="{ value }">
 			<span
 				class="p-10 rounded-8 font-medium"
 				:class="[
-					row.direction === 'BUY' && 'text-tertiary-600 bg-tertiary-400/20',
-					row.direction === 'SELL' && 'text-secondary-500 bg-secondary-400/20'
+					value === 'BUY' && 'text-tertiary-600 bg-tertiary-400/20',
+					value === 'SELL' && 'text-secondary-500 bg-secondary-400/20'
 				]"
-			>{{ row.direction }}</span>
+			>{{ value }}</span>
 		</template>
-		<template #cell-amount="{ row }">
-			{{ formatNum(row.amount, { padZero: true }) }}
-		</template>
-		<template #cell-pnl="{ row }">
+		<template #cell-pnl="{ row, value }">
 			<span
 				class="font-medium"
 				:class="[
 					(row.pnl ?? 0) > 0 && 'text-tertiary-600',
 					(row.pnl ?? 0) < 0 && 'text-secondary-500'
 				]"
-			>{{ formatNum(row.pnl ?? "", { currency: "USD", style: "currency", defaultValue: "-" }) }}</span>
+			>{{ value }}</span>
 		</template>
-		<template #cell-enterPrice="{ row }">
-			<span class="text-primary-600">{{ formatNum(row.enterPrice, { currency: "USD", style: "currency" }) }}</span>
+		<template #cell-enterPrice="{ value }">
+			<span class="text-primary-600">{{ value }}</span>
 		</template>
-		<template #cell-status="{ row }">
+		<template #cell-status="{ value }">
 			<span
 				:class="[
-					row.status === 'open' && 'text-tertiary-600',
-					row.status === 'close' && 'text-secondary-500'
+					value === 'open' && 'text-tertiary-600',
+					value === 'close' && 'text-secondary-500'
 				]"
-			>{{ row.status }}</span>
+			>{{ value }}</span>
 		</template>
-		<template #cell-time="{ row }">
-			<span class="opacity-80">{{ formatIsoToPrettyStr(row.time) }}</span>
+		<template #cell-time="{ value }">
+			<span class="opacity-80">{{ value }}</span>
 		</template>
 	</MTable>
 </template>
@@ -57,6 +51,7 @@ const columns = computed<TTableColumn<TOrder>[]>(() => [
 	{
 		key: "index",
 		label: "№",
+		normalizer: (v) => formatNum(Number(v) + 1,  { padZero: true }),
 	},
 	{
 		key: "symbol",
@@ -69,14 +64,17 @@ const columns = computed<TTableColumn<TOrder>[]>(() => [
 	{
 		key: "pnl",
 		label: "Профит",
+		normalizer: (v) => formatNum(Number(v), { currency: "USD", style: "currency", defaultValue: "-" }),
 	},
 	{
 		key: "amount",
 		label: "Кол-во",
+		normalizer: (v) => formatNum(Number(v), { padZero: true }),
 	},
 	{
 		key: "enterPrice",
 		label: "Цена входа",
+		normalizer: (v) => formatNum(Number(v), { currency: "USD", style: "currency" }),
 	},
 	{
 		key: "type",
@@ -89,6 +87,7 @@ const columns = computed<TTableColumn<TOrder>[]>(() => [
 	{
 		key: "time",
 		label: "Время создания",
+		normalizer: (v) => formatIsoToPrettyStr(String(v)),
 	},
-]);
+] as const);
 </script>
