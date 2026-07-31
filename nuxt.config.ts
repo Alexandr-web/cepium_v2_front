@@ -26,6 +26,7 @@ export default defineNuxtConfig({
 		"nuxt-svgo",
 		"@pinia-plugin-persistedstate/nuxt",
 		"notivue/nuxt",
+		"nuxt-echarts",
 	],
 	runtimeConfig: {
 		apiKey: process.env.API_KEY,

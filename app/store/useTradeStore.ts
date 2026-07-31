@@ -4,7 +4,7 @@ import Trade from "@/models/Trade";
 export const useTradeStore = defineStore("trade-store", () => {
 	const trades = ref<TTrade[]>([
 		{
-			timestamp: Date.now(),
+			timestamp: Date(),
 			symbol: "SOL",
 			margin: "isolated",
 			leverage: "10",
@@ -22,7 +22,7 @@ export const useTradeStore = defineStore("trade-store", () => {
 			type: "future",
 		},
 		{
-			timestamp: Date.now(),
+			timestamp: Date(),
 			symbol: "BTC",
 			margin: "isolated",
 			leverage: "12",
@@ -40,7 +40,7 @@ export const useTradeStore = defineStore("trade-store", () => {
 			type: "future",
 		},
 		{
-			timestamp: Date.now(),
+			timestamp: Date(),
 			symbol: "TON",
 			amount: 0.23,
 			pnl: 321.2,

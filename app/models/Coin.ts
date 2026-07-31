@@ -1,5 +1,7 @@
+import { formatTimeAgo } from "@vueuse/core";
+
 export default class Coin {
-	timestamp: number;
+	timestamp: string;
 	price24h: number;
 	volume24h: number;
 	change24hprct: number;
@@ -38,5 +40,9 @@ export default class Coin {
 	get prettyChange24hprct() {
 		const n = formatNum(this.change24hprct, { style: "percent" });
 		return this.change24hprct > 0 ? "+" + n : n;
+	}
+
+	get prettyTime() {
+		return formatTimeAgo(new Date(this.timestamp), { messages: RU_TIME_MESSAGES });
 	}
 };

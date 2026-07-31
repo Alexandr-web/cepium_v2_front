@@ -47,7 +47,7 @@ const { card } = defineProps<{
 	card: TOrder;
 }>();
 
-const time = computed(() => formatIsoToPrettyStr(card.time));
+const time = useTimeAgo(card.time, { messages: RU_TIME_MESSAGES });
 const enterPrice = computed(() => formatNum(card.enterPrice, { currency: "USD", style: "currency" }));
 const amount = computed(() => formatNum(card.amount, { padZero: true }));
 const pnl = computed(() => {
