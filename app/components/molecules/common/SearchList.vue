@@ -32,7 +32,7 @@
 				<IconLoader v-if="isPending" class="text-white absolute w-26 lg:w-36 h-26 lg:h-36" />
 				<template v-else>
 					<p v-if="!foundItems.length" class="text-14 text-neutral-500 text-center">{{ message }}</p>
-					<ul v-else-if="foundItems.length && input.length" class="flex flex-col gap-5">
+					<ul v-else-if="foundItems.length && input.length" class="grid grid-cols-1 lg:grid-cols-3 gap-5">
 						<li
 							v-for="(item, idx) in foundItems"
 							:key="idx"
