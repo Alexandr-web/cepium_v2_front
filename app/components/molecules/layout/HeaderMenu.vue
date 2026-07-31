@@ -19,14 +19,14 @@
 		</ul>
 		<AButton
 			class="w-20 h-20 text-primary-700 flex justify-center items-center lg:hidden"
-			@click="showMenu = true"
+			@click="showMobMenu = true"
 		>
 			<IconMenuRounded class="w-full h-full" />
 		</AButton>
 	</nav>
 	<Teleport to="body">
-		<Modal v-model="showMenu">
-			<Menu @click-by-link="showMenu = false" />
+		<Modal v-model="showMobMenu">
+			<Menu />
 		</Modal>
 	</Teleport>
 </template>
@@ -38,7 +38,7 @@ import AButton from "@/components/atoms/AButton.vue";
 import IconSettingsOutline from "@/assets/icons/settings-outline.svg";
 import IconMenuRounded from "@/assets/icons/menu-rounded.svg";
 
-const userStore = useUserStore();
+const showMobMenu = useState("show-mob-menu", () => false);
 
-const showMenu = ref(false);
+const userStore = useUserStore();
 </script>

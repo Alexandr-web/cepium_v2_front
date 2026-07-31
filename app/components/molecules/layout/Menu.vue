@@ -30,7 +30,6 @@
 						]"
 						:to="{ name: item.route }"
 						:active-class="activeClass"
-						@click="emits('clickByLink')"
 					>
 						<component
 							:is="item.icon"
@@ -105,8 +104,6 @@ const { preset } = defineProps({
 const authStore = useAuthStore();
 
 const router = useRouter();
-
-const emits = defineEmits(["clickByLink"]);
 
 const menu = [
 	{

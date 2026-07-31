@@ -33,6 +33,8 @@ import { slateTheme, type NotivueTheme } from "notivue";
 const route = useRoute();
 const router = useRouter();
 
+const showMobMenu = useState("show-mob-menu");
+
 const theme: NotivueTheme = {
 	...slateTheme,
 	"--nv-global-bg": "var(--color-primary-100)",
@@ -44,6 +46,7 @@ const content = useTemplateRef("content");
 router.afterEach(async () => {
 	await nextTick();
 	content.value?.scrollTo({ behavior: "smooth", top: 0 });
+	showMobMenu.value = false;
 	push.destroyAll();
 });
 </script>
