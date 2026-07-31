@@ -1,5 +1,5 @@
 <template>
-	<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+	<section class="grid grid-cols-1 lg:grid-cols-3 gap-12">
 		<Card v-for="(card, idx) in cards" :key="idx" :card="card">
 			<template #value>
 				<p
@@ -36,7 +36,7 @@
 				</p>
 			</template>
 		</Card>
-	</div>
+	</section>
 </template>
 <script setup lang="ts">
 import IconTrendingUp from "@/assets/icons/material-symbols-trending-up.svg";
