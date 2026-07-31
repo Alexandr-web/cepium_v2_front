@@ -61,12 +61,19 @@ import ACheckbox from "@/components/atoms/ACheckbox.vue";
 import ATag from "@/components/atoms/ATag.vue";
 import IconLoader from "@/assets/icons/loader.svg";
 
-const { search, label = "", placeholder = "Поиск", disabled = false } = defineProps<{
-	label?: string;
-	placeholder?: string;
-	disabled?: boolean;
-	search: (value: string) => Promise<TSelectItem[]>;
-}>();
+const props = withDefaults(
+	defineProps<{
+		label?: string;
+		placeholder?: string;
+		disabled?: boolean;
+		search: (value: string) => Promise<TSelectItem[]>;
+	}>(),
+	{
+		label: "",
+		placeholder: "Поиск",
+		disabled: false,
+	}
+);
 
 const value = defineModel<string[]>({ default: () => [] });
 const error = defineModel<string>("error", { default: "" });
@@ -79,7 +86,7 @@ const input = ref("");
 const inputSearch = debouncedRef(input, 500);
 
 const message = computed(() => {
-	if (disabled) return "Недостаточно данных. Поиск невозможен";
+	if (props.disabled) return "Недостаточно данных. Поиск невозможен";
 	if (!foundItems.value.length) return "Ничего не найдено";
 	return "";
 });
@@ -89,7 +96,7 @@ watch(() => addedItems.value.length, () => {
 });
 
 watch(inputSearch, async (v) => {
-	if (disabled) return;
+	if (props.disabled) return;
 
 	if (!v) {
 		foundItems.value = [];
@@ -99,7 +106,7 @@ watch(inputSearch, async (v) => {
 	isPending.value = true;
 
 	try {
-		foundItems.value = await search(v);
+		foundItems.value = await props.search(v);
 	} catch (err) {
 		console.error(err);
 	} finally {

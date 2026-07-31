@@ -28,10 +28,16 @@
 	</div>
 </template>
 <script setup lang="ts">
-const { items } = defineProps<{
-	items: TSelectItem[];
-	label: string;
-}>();
+withDefaults(
+	defineProps<{
+		items?: TSelectItem[];
+		label?: string;
+	}>(),
+	{
+		items: () => [],
+		label: "",
+	}
+);
 
 export type ButtonGroupExpose = {
 	setDefaultValue: () => Promise<void>;

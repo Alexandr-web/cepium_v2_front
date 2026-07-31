@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col rounded-8 overflow-hidden border-1 border-solid border-white/5">
-		<div class="flex items-center justify-between h-65 p-24 bg-neutral-100">
+		<div v-if="headIcon || title || $slots['head-controls']" class="flex items-center justify-between h-65 p-24 bg-neutral-100">
 			<div v-if="headIcon || title" class="flex items-center gap-8">
 				<component :is="iconsMap[headIcon]" v-if="headIcon" class="text-primary-800 w-18 h-18" />
 				<h2 v-if="title" class="text-20 font-semibold leading-[1.2] text-neutral-800">{{ title }}</h2>
@@ -68,12 +68,18 @@ import IconSentimentSadOutlineRounded from "@/assets/icons/sentiment-sad-outline
 import IconCardTravelOutlineRounded from "@/assets/icons/card-travel-outline-rounded.svg";
 import IconViewList from "@/assets/icons/view-list.svg";
 
-const { headIcon = "", title = "" } = defineProps<{
-	data: T[];
-	columns: TTableColumn<T>[];
-	title?: string;
-	headIcon?: string;
-}>();
+withDefaults(
+	defineProps<{
+		data: T[];
+		columns: TTableColumn<T>[];
+		title?: string;
+		headIcon?: string;
+	}>(),
+	{
+		headIcon: "",
+		title: "",
+	}
+);
 
 /**
  * Безопасно извлекает значение из объекта строки по указанному ключу колонки.

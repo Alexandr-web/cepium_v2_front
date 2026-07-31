@@ -37,46 +37,51 @@ import ASlider from "@/components/atoms/ASlider.vue";
 import { useExchangeStore } from "@/store/useExchangeStore";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
 
-const { strategies, isPendingStrategy, isPendingExchanges, data } = defineProps<{
-	strategies: TStrategyEntity[];
-	isPendingStrategy: boolean;
-	isPendingExchanges: boolean;
-	isPendingConfig: boolean;
-	title: string;
-	btnText: string;
-	data?: TConfigByIdResponse["data"];
-}>();
+const props = withDefaults(
+	defineProps<{
+		strategies: TStrategyEntity[];
+		isPendingStrategy: boolean;
+		isPendingExchanges: boolean;
+		isPendingConfig: boolean;
+		title: string;
+		btnText: string;
+		data?: TConfigByIdResponse["data"];
+	}>(),
+	{
+		data: undefined,
+	}
+);
 
 const emits = defineEmits(["execute"]);
 
 const exchangeStore = useExchangeStore();
 
 const exchangesList = computed<TSelectItem[]>(() => exchangeStore.getAllExchanges().map((item) => ({ label: item.name, value: item.name })));
-const strategiesList = computed<TSelectItem[]>(() => strategies.map((s) => ({ label: s.name, value: s.id })) ?? []);
+const strategiesList = computed<TSelectItem[]>(() => props.strategies.map((s) => ({ label: s.name, value: s.id })) ?? []);
 
 const MARGIN_MODE_LIST: TSelectItem[] = [
 	{ label: "Изолированная", value: "isolated" },
 	{ label: "Кросс", value: "cross" },
 ];
 
-const choosedExchange = ref<string|null>(data?.exchangeName || null);
+const choosedExchange = ref<string|null>(props.data?.exchangeName || null);
 
 const fields = ref<TGeneralFormField[]>([
 	{
 		name: "exchange",
-		value: String(data?.exchangeName ?? ""),
+		value: String(props.data?.exchangeName ?? ""),
 		check: z.string().min(1),
 		error: "",
 		label: "Биржа",
 		placeholder: "Выберите биржу",
 		component: markRaw(ASelect),
 		items: exchangesList.value,
-		disabled: isPendingExchanges,
+		disabled: props.isPendingExchanges,
 		classes: "lg:col-span-2",
 	},
 	{
 		name: "margin",
-		value: String(data?.margin ?? ""),
+		value: String(props.data?.margin ?? ""),
 		check: z.string().min(1),
 		error: "",
 		label: "Маржа",
@@ -87,19 +92,19 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "strategyId",
-		value: String(data?.strategy.id ?? ""),
+		value: String(props.data?.strategy.id ?? ""),
 		check: z.string().min(1),
 		error: "",
 		label: "Стратегия",
 		placeholder: "Выберите стратегию",
 		component: markRaw(ASelect),
 		items: strategiesList.value,
-		disabled: isPendingStrategy,
+		disabled: props.isPendingStrategy,
 		classes: "lg:col-span-2",
 	},
 	{
 		name: "maxLossPercent",
-		value: Number(data?.maxLossPercent ?? 1),
+		value: Number(props.data?.maxLossPercent ?? 1),
 		check: z.number().min(1),
 		error: "",
 		label: "Максимальный процент убытка",
@@ -111,7 +116,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "dailyGoalPercent",
-		value: Number(data?.dailyGoalPercent ?? 1),
+		value: Number(props.data?.dailyGoalPercent ?? 1),
 		check: z.number().min(1),
 		error: "",
 		label: "Процент выполнения дневной цели",
@@ -123,7 +128,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "maxLeverage",
-		value: Number(data?.maxLeverage ?? 1),
+		value: Number(props.data?.maxLeverage ?? 1),
 		check: z.number().min(1),
 		error: "",
 		label: "Максимальное плечо",
@@ -134,7 +139,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "maxPositionSize",
-		value: Number(data?.maxPositionSize ?? 1),
+		value: Number(props.data?.maxPositionSize ?? 1),
 		check: z.number().min(1),
 		error: "",
 		label: "Максимальное количество активных позиций",
@@ -145,7 +150,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "allowedSymbols",
-		value: data?.allowedSymbols ?? [],
+		value: props.data?.allowedSymbols ?? [],
 		check: z.array(z.string()).min(1),
 		error: "",
 		disabled: !choosedExchange.value,
@@ -169,14 +174,14 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "demoTrading",
-		value: data?.demoTrading ?? true,
+		value: props.data?.demoTrading ?? true,
 		label: "Демо торговля",
 		component: markRaw(ACheckbox),
 		size: "big",
 	},
 	{
 		name: "activate",
-		value: data?.activate ?? true,
+		value: props.data?.activate ?? true,
 		label: "Активировать",
 		component: markRaw(ACheckbox),
 		size: "big",

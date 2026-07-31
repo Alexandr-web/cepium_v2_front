@@ -20,16 +20,22 @@ import IconPersonEditOutlineRounded from "@/assets/icons/person-edit-outline-rou
 import IconLockOutline from "@/assets/icons/lock-outline.svg";
 import IconKeyboardArrowDownRounded from "@/assets/icons/keyboard-arrow-down-rounded.svg";
 
-const { isOpen = false, preppendIcon = "" } = defineProps<{
-	isOpen?: boolean;
-	label: string;
-	preppendIcon?: string;
-}>();
+const props = withDefaults(
+	defineProps<{
+		isOpen?: boolean;
+		label: string;
+		preppendIcon?: string;
+	}>(),
+	{
+		isOpen: false,
+		preppendIcon: "",
+	}
+);
 
 const iconsMap: Record<string, string> = {
 	"person-edit-outline-rounded": IconPersonEditOutlineRounded,
 	"lock-outline": IconLockOutline,
 };
 
-const isActive = ref(isOpen);
+const isActive = ref(props.isOpen);
 </script>

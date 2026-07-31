@@ -31,10 +31,15 @@ import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import { useCreateData, useChangeData } from "@/composables/api/useCredentials";
 import { useExchanges } from "@/composables/api/useExchanges";
 
-const { exchange, credentials } = defineProps<{
-	exchange: Exchange|null;
-	credentials: TExchangeCredentialsResponse|undefined;
-}>();
+const props = withDefaults(
+	defineProps<{
+		exchange: Exchange|null;
+		credentials?: TExchangeCredentialsResponse;
+	}>(),
+	{
+		credentials: undefined,
+	}
+);
 
 const emits = defineEmits(["success"]);
 
@@ -45,7 +50,7 @@ const {
 	isPending: isPendingCreateData,
 	errMessage: errCreateData,
 } = useCreateData(
-	() => exchange?.name ?? "",
+	() => props.exchange?.name ?? "",
 	() => emits("success")
 );
 
@@ -54,7 +59,7 @@ const {
 	isPending: isPendingChangeData,
 	errMessage: errChangeData,
 } = useChangeData(
-	() => exchange?.name ?? "",
+	() => props.exchange?.name ?? "",
 	() => emits("success")
 );
 
@@ -64,7 +69,7 @@ const isPending = computed(() => isPendingCreateData.value || isPendingChangeDat
 const createFields = () => ([
 	{
 		component: markRaw(AInput),
-		value: String(credentials?.data.apiKey ?? ""),
+		value: String(props.credentials?.data.apiKey ?? ""),
 		placeholder: "API Ключ",
 		name: "apiKey",
 		label: "API Ключ",
@@ -75,7 +80,7 @@ const createFields = () => ([
 	},
 	{
 		component: markRaw(AInput),
-		value: String(credentials?.data.secretKey ?? ""),
+		value: String(props.credentials?.data.secretKey ?? ""),
 		placeholder: "API Secret",
 		name: "secretKey",
 		label: "API Secret",
@@ -86,7 +91,7 @@ const createFields = () => ([
 	},
 	{
 		component: markRaw(AInput),
-		value: String(credentials?.data.password ?? ""),
+		value: String(props.credentials?.data.password ?? ""),
 		placeholder: "Пароль",
 		name: "password",
 		label: "Пароль",
@@ -97,7 +102,7 @@ const createFields = () => ([
 	},
 	{
 		component: markRaw(AInput),
-		value: String(credentials?.data.uid ?? ""),
+		value: String(props.credentials?.data.uid ?? ""),
 		placeholder: "UID",
 		name: "uid",
 		label: "UID",
@@ -107,7 +112,7 @@ const createFields = () => ([
 	},
 	{
 		component: markRaw(AInput),
-		value: String(credentials?.data.privateKey ?? ""),
+		value: String(props.credentials?.data.privateKey ?? ""),
 		placeholder: "Private Key",
 		name: "privateKey",
 		label: "Private Key",
@@ -118,7 +123,7 @@ const createFields = () => ([
 	},
 	{
 		component: markRaw(AInput),
-		value: String(credentials?.data.walletAddress ?? ""),
+		value: String(props.credentials?.data.walletAddress ?? ""),
 		placeholder: "Адрес кошелька",
 		name: "walletAddress",
 		label: "Адрес кошелька",
@@ -145,7 +150,7 @@ const normalizedData = (): TExchangeCredentials => ({
 const execute = async (data: TExchangeCredentials) => {
 	if (!validateFields() || isPending.value) return;
 
-	if (!exchange?.filled) {
+	if (!props.exchange?.filled) {
 		createData(data);
 		await updateExchanges();
 
@@ -156,5 +161,5 @@ const execute = async (data: TExchangeCredentials) => {
 };
 
 // обновляем fields при обновлении credentials
-watch(() => credentials?.data, () => fields.value = createFields());
+watch(() => props.credentials?.data, () => fields.value = createFields());
 </script>
