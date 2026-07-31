@@ -48,3 +48,10 @@ export type TFilterItem = {
 	value: string|string[];
 	items?: TSelectItem[];
 };
+
+export type TStatisticsCard = {
+	id: string;
+	title: string;
+	icon?: string;
+	value: string|number;
+};

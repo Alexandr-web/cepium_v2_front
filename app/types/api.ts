@@ -18,7 +18,7 @@ export type TUser = {
 export type TCoin = {
 	symbol: string;
 	fullSymbol: string;
-	timestamp: number;
+	timestamp: string;
 	price24h: number;
 	volume24h: number;
 	change24hprct: number;

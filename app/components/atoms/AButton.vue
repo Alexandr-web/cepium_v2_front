@@ -44,7 +44,7 @@ const classesByMode = computed(() => {
 		case "primary-fill":
 			return "transition hover:bg-primary-950 bg-primary-800 text-primary-200 text-14 font-bold";
 		case "primary-border":
-			return "transition hover:border-primary-500 border-solid bg-primary-300 border-1 border-primary-400 text-white/80 text-14 font-bold";
+			return "transition hover:border-primary-500 border-solid bg-primary-300 border-1 border-primary-400 text-white/80 text-14";
 		default:
 			return "";
 	}

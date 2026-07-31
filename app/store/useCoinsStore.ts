@@ -4,7 +4,7 @@ import Coin from "@/models/Coin";
 export const useCoinsStore = defineStore("coins-store", () => {
 	const coins = ref<TCoin[]>([
 		{
-			timestamp: Date.now(),
+			timestamp: Date(),
 			symbol: "SOL",
 			id: 1,
 			fullSymbol: "SOL/USDT",
@@ -14,7 +14,7 @@ export const useCoinsStore = defineStore("coins-store", () => {
 			currentPrice: 212,
 		},
 		{
-			timestamp: Date.now(),
+			timestamp: Date(),
 			symbol: "BTC",
 			id: 2,
 			fullSymbol: "BTC/USDT",

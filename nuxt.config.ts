@@ -26,6 +26,7 @@ export default defineNuxtConfig({
 		"nuxt-svgo",
 		"@pinia-plugin-persistedstate/nuxt",
 		"notivue/nuxt",
+		"nuxt-echarts",
 	],
 	runtimeConfig: {
 		apiKey: process.env.API_KEY,
@@ -69,6 +70,12 @@ export default defineNuxtConfig({
 	},
 	image: {
 		format: ["webp"],
+	},
+	echarts: {
+		renderer: "svg",
+		charts: ["BarChart", "LineChart", "PieChart", "ScatterChart"],
+		components: ["DatasetComponent", "GridComponent", "TooltipComponent", "LegendComponent", "GraphicComponent"],
+		features: ["LabelLayout", "UniversalTransition", "LegacyGridContainLabel"],
 	},
 	imports: {
 		dirs: [

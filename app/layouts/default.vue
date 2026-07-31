@@ -11,7 +11,7 @@
 					@click="router.back()"
 				>
 					<IconArrowBack class="text-neutral-700 w-16 h-16" />
-					<span class="font-normal">Назад</span>
+					<span>Назад</span>
 				</AButton>
 				<NuxtPage />
 			</main>

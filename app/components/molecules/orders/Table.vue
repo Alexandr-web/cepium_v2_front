@@ -44,6 +44,7 @@
 </template>
 <script setup lang="ts">
 import MTable from "@/components/molecules/common/MTable.vue";
+import { formatTimeAgo } from "@vueuse/core";
 
 defineProps<{ orders: TOrder[] }>();
 
@@ -87,7 +88,7 @@ const columns = computed<TTableColumn<TOrder>[]>(() => [
 	{
 		key: "time",
 		label: "Время создания",
-		normalizer: (v) => formatIsoToPrettyStr(String(v)),
+		normalizer: (v) => formatTimeAgo(new Date(String(v)), { messages: RU_TIME_MESSAGES }),
 	},
 ] as const);
 </script>
