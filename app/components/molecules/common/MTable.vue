@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col rounded-8 overflow-hidden border-1 border-solid border-white/5">
-		<div class="flex items-center justify-between h-65 p-24 bg-neutral-100">
+		<div v-if="headIcon || title || $slots['head-controls']" class="flex items-center justify-between h-65 p-24 bg-neutral-100">
 			<div v-if="headIcon || title" class="flex items-center gap-8">
 				<component :is="iconsMap[headIcon]" v-if="headIcon" class="text-primary-800 w-18 h-18" />
 				<h2 v-if="title" class="text-20 font-semibold leading-[1.2] text-neutral-800">{{ title }}</h2>
@@ -51,11 +51,10 @@
 					>
 						<slot 
 							:name="`cell-${String(col.key)}`" 
-							:row="row" 
-							:v-bind="{ row, index: rowIndex, }"
+							v-bind="{ row, index: rowIndex, value: getCellValue(row, col, rowIndex) }"
 							:index="rowIndex"
 						>
-							{{ getCellValue(row, col.key) }}
+							{{ getCellValue(row, col, rowIndex) }}
 						</slot>
 					</td>
 				</tr>
@@ -68,33 +67,54 @@ import IconSentimentSadOutlineRounded from "@/assets/icons/sentiment-sad-outline
 import IconCardTravelOutlineRounded from "@/assets/icons/card-travel-outline-rounded.svg";
 import IconViewList from "@/assets/icons/view-list.svg";
 
-const { headIcon = "", title = "" } = defineProps<{
-	data: T[];
-	columns: TTableColumn<T>[];
-	title?: string;
-	headIcon?: string;
-}>();
+withDefaults(
+	defineProps<{
+		data: T[];
+		columns: TTableColumn<T>[];
+		title?: string;
+		headIcon?: string;
+	}>(),
+	{
+		headIcon: "",
+		title: "",
+	}
+);
 
 /**
- * Безопасно извлекает значение из объекта строки по указанному ключу колонки.
+ * Безопасно извлекает значение из объекта строки по ключу колонки, обрабатывает системные ключи и применяет нормализатор.
  * 
  * @template T - Тип объекта данных строки, расширяющий базовый `object`.
  * 
  * @param {T} row - Объект данных текущей строки таблицы.
- * @param {keyof T | "actions"} key - Ключ колонки (свойство объекта `T` или кастомный строковый идентификатор).
+ * @param {TTableColumn<T>} col - Объект конфигурации текущей колонки таблицы.
+ * @param {number} index - Порядковый индекс текущей строки в массиве данных (используется для колонки "index").
  * 
- * @returns {"" | T[keyof T]} Значение свойства, если ключ существует в объекте; в противном случае — пустую строку.
+ * @returns {any} Результат выполнения функции нормализатора, либо сырое значение свойства объекта `T`. 
+ * Если ключ отсутствует в объекте строки и не является системным, возвращает пустую строку (или результат нормализатора для неё).
  * 
  * @example
- * // Для существующего свойства:
- * getCellValue({ id: 1, pair: 'BTC/USDT' }, 'pair') // Выведет: 'BTC/USDT'
+ * // 1. Извлечение индекса строки с нормализатором:
+ * // col = { key: 'index', label: '№', normalizer: (v) => `${Number(v) + 1}.` }
+ * getCellValue({ id: 10, pair: 'BTC' }, col, 0) // Выведет: '1.'
  * 
- * // Для кастомной колонки (например, кнопок действий):
- * getCellValue({ id: 1, pair: 'BTC/USDT' }, 'actions') // Выведет: ''
+ * // 2. Обычное извлечение без нормализатора:
+ * // col = { key: 'pair', label: 'Пара' }
+ * getCellValue({ id: 1, pair: 'BTC/USDT' }, col, 0) // Выведет: 'BTC/USDT'
+ * 
+ * // 3. Извлечение с применением функции-нормализатора:
+ * // col = { key: 'price', label: 'Цена', normalizer: (val) => `${val} $` }
+ * getCellValue({ id: 1, price: 100 }, col, 0) // Выведет: '100 $'
+ * 
+ * // 4. Для кастомной или пустой колонки (например, 'controls'):
+ * // col = { key: 'controls', label: 'Действия' }
+ * getCellValue({ id: 1, pair: 'BTC/USDT' }, col, 0) // Выведет: ''
  */
-const getCellValue = (row: T, key: TTableColumn<T>["key"]) => {
-	if (key in row) return row[key as keyof T];
-	return "";
+const getCellValue = (row: T, col: TTableColumn<T>, index: number) => {
+	let val: string | number | T[keyof T] = "";
+	if (col.key in row) val = row[col.key as keyof T];
+	if (col.key === "index") val = index;
+
+	return col.normalizer instanceof Function ? col.normalizer(val) : val;
 };
 
 const iconsMap: Record<string, string> = {

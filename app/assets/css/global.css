@@ -6,6 +6,7 @@
 @layer base {
 	:root {
 		--spacing: 100vw / 360;
+		--nv-z: 99999999999999999;
 
 		@media (min-width: 1025px) {
 			--spacing: 100vw / 1920;
@@ -99,74 +100,81 @@
 
 	--default-font-family: "Inter";
 
-  /* Синий цвет GitHub (акценты, ссылки, уведомления) */
-  --color-primary-100: #0d1117;
-  --color-primary-200: #161b22;
-  --color-primary-300: #0c2d6b;
-  --color-primary-400: #114ba8;
-  --color-primary-500: #1f6feb;
-  --color-primary-600: #388bfd;
-  --color-primary-700: #58a6ff;
-  --color-primary-800: #79c0ff;
-  --color-primary-900: #a5d6ff;
-  --color-primary-950: #cae8ff;
+	/* Синий цвет GitHub (акценты, ссылки, уведомления) */
+	--color-primary-100: #0d1117;
+	--color-primary-200: #161b22;
+	--color-primary-300: #0c2d6b;
+	--color-primary-400: #114ba8;
+	--color-primary-500: #1f6feb;
+	--color-primary-600: #388bfd;
+	--color-primary-700: #58a6ff;
+	--color-primary-800: #79c0ff;
+	--color-primary-900: #a5d6ff;
+	--color-primary-950: #cae8ff;
 
-  /* Красный цвет GitHub (Ветви, Закрытые PR, Ошибки) */
-  --color-secondary-100: #0d1117;
-  --color-secondary-200: #221518;
-  --color-secondary-300: #491820;
-  --color-secondary-400: #6e1a24;
-  --color-secondary-500: #da3633;
-  --color-secondary-600: #f85149;
-  --color-secondary-700: #ff7b72;
-  --color-secondary-800: #ffa199;
-  --color-secondary-900: #ffceda;
-  --color-secondary-950: #fdf0f2;
+	/* Красный цвет GitHub (Ветви, Закрытые PR, Ошибки) */
+	--color-secondary-100: #0d1117;
+	--color-secondary-200: #221518;
+	--color-secondary-300: #491820;
+	--color-secondary-400: #6e1a24;
+	--color-secondary-500: #da3633;
+	--color-secondary-600: #f85149;
+	--color-secondary-700: #ff7b72;
+	--color-secondary-800: #ffa199;
+	--color-secondary-900: #ffceda;
+	--color-secondary-950: #fdf0f2;
 
-  /* Зеленый цвет GitHub (успешные тесты, графики коммитов) */
-  --color-tertiary-100: #041107;
-  --color-tertiary-200: #0f1912;
-  --color-tertiary-300: #11341a;
-  --color-tertiary-400: #1f5b2e;
-  --color-tertiary-500: #238636;
-  --color-tertiary-600: #2ea043;
-  --color-tertiary-700: #3fb950;
-  --color-tertiary-800: #56d364;
-  --color-tertiary-900: #7ee787;
-  --color-tertiary-950: #aff5b4;
+	/* Зеленый цвет GitHub (успешные тесты, графики коммитов) */
+	--color-tertiary-100: #041107;
+	--color-tertiary-200: #0f1912;
+	--color-tertiary-300: #11341a;
+	--color-tertiary-400: #1f5b2e;
+	--color-tertiary-500: #238636;
+	--color-tertiary-600: #2ea043;
+	--color-tertiary-700: #3fb950;
+	--color-tertiary-800: #56d364;
+	--color-tertiary-900: #7ee787;
+	--color-tertiary-950: #aff5b4;
 
-  /* Фирменные серые/нейтральные тона GitHub */
-  --color-neutral-100: #0d1117;
-  --color-neutral-200: #161b22;
-  --color-neutral-300: #21262d;
-  --color-neutral-400: #30363d;
-  --color-neutral-500: #484f58;
-  --color-neutral-600: #6e7681;
-  --color-neutral-700: #8b949e;
-  --color-neutral-800: #b1bac4;
-  --color-neutral-900: #c9d1d9;
-  --color-neutral-950: #f0f6fc;
+	/* Фирменные серые/нейтральные тона GitHub */
+	--color-neutral-100: #0d1117;
+	--color-neutral-200: #161b22;
+	--color-neutral-300: #21262d;
+	--color-neutral-400: #30363d;
+	--color-neutral-500: #484f58;
+	--color-neutral-600: #6e7681;
+	--color-neutral-700: #8b949e;
+	--color-neutral-800: #b1bac4;
+	--color-neutral-900: #c9d1d9;
+	--color-neutral-950: #f0f6fc;
 }
 
 .scroll-block {
-  scrollbar-color: var(--color-neutral-400) transparent;
-  scrollbar-width: thin;
+	scrollbar-color: var(--color-neutral-400) transparent;
+	scrollbar-width: thin;
 
-  &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
+	&::-webkit-scrollbar {
+		@apply w-6 h-6;
+	}
 
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
+	&::-webkit-scrollbar-track {
+		@apply bg-transparent;
+	}
 
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--color-neutral-400);
-    border-radius: 3px;
-  }
+	&::-webkit-scrollbar-thumb {
+		@apply bg-neutral-400 rounded-3;
+	}
 
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-neutral-500);
-  }
+	&::-webkit-scrollbar-thumb:hover {
+		@apply bg-neutral-500;
+	}
+}
+
+.scroll-block--without-controls {
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+
+	&::-webkit-scrollbar {
+		@apply hidden;
+	}
 }

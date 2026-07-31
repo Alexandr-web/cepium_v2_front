@@ -50,17 +50,19 @@ import IconKeyboardArrowDownRounded from "@/assets/icons/keyboard-arrow-down-rou
 import { useFloating } from "@floating-ui/vue";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
 
-const {
-	items,
-	placeholder = "",
-	label = "",
-	disabled: _disabled = false,
-} = defineProps<{
-	placeholder?: string;
-	label?: string;
-	disabled?: boolean;
-	items: TSelectItem[];
-}>();
+const props = withDefaults(
+	defineProps<{
+		placeholder?: string;
+		label?: string;
+		disabled?: boolean;
+		items: TSelectItem[];
+	}>(),
+	{
+		placeholder: "",
+		label: "",
+		disabled: false,
+	}
+);
 
 const isOpen = ref(false);
 
@@ -77,9 +79,9 @@ const { floatingStyles } = useFloating(reference, floating, {
 
 onClickOutside(selectRef, () => isOpen.value = false, { ignore: [floating] });
 
-const selectedLabel = computed(() => items.find((i) => i.value === value.value)?.label);
-const inputLabel = computed(() => selectedLabel.value || placeholder);
-const disabled = computed(() => _disabled ?? !items.length);
+const selectedLabel = computed(() => props.items.find((i) => i.value === value.value)?.label);
+const inputLabel = computed(() => selectedLabel.value || props.placeholder);
+const disabled = computed(() => props.disabled ?? !props.items.length);
 
 const select = (item: TSelectItem) => {
 	error.value = "";

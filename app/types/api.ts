@@ -69,7 +69,7 @@ export type TUserEditGeneralData = {
 };
 
 export type TUserEditGeneralDataResponse = {
-	data?: TUser,
+	data?: TUser;
 	message?: string|string[];
 	statusCode?: number;
 };
@@ -101,7 +101,7 @@ export type TUserDataResponse = {
 	statusCode?: number;
 };
 
-export type TExchangeData = {
+export type TConfigData = {
 	margin: string;
 	allowedSymbols: string[];
 	maxLeverage: number;
@@ -161,7 +161,7 @@ export type TExchangeCredentialsResponse = {
 		exchangeName?: string;
 		user?: string;
 		exchange?: TExchange;
-	},
+	};
 	statusCode: number;
 	message: string;
 };
@@ -193,7 +193,7 @@ export type TCreateExchangeCredentialsResponse = {
 		credentials: string[];
 		userConfigs: [
 			{
-				id: string,
+				id: string;
 				demoTrading: boolean;
 				maxPositionSize: number;
 				margin: string;
@@ -206,20 +206,9 @@ export type TCreateExchangeCredentialsResponse = {
 				strategyId: string;
 				userId: string;
 				user: string;
-				strategy: {
-					id: string;
-					name: string;
-					description: string;
-					algoSection: {
-						indicators: string[];
-						shortlistConditions: object;
-					},
-					timeframe: string;
-					params: object;
-					userConfigs: string[];
-				}
+				strategy: TStrategyEntity;
 			}
-		],
+		];
 		orders: [
 			{
 				id: string;
@@ -241,7 +230,7 @@ export type TCreateExchangeCredentialsResponse = {
 				user: string;
 			}
 		]
-	},
+	};
 	exchange: TExchange & { credentials: string[]; };
 };
 
@@ -249,4 +238,44 @@ export type TExchangesResponse = {
   statusCode: number;
   data: TExchange[];
   message: string;
+};
+
+export type TConfigResponse = Omit<TConfigData, "strategyId"> & { strategy: TStrategyEntity; id: string; exchangeName: string; };
+
+export type TConfigsResponse = {
+	statusCode: number;
+	data: TConfigResponse[];
+	message: string;
+};
+
+export type TConfigByIdResponse = {
+	statusCode: number;
+	data: TConfigResponse;
+	message: string;
+};
+
+export type TConfigCreateResponse = {
+	statusCode: number;
+	data: TConfigResponse[];
+	message: string;
+};
+
+export type TConfigChangeResponse = TConfigCreateResponse;
+
+export type TOrder = {
+	symbol: string;
+	direction: string;
+	amount: number;
+	time: string;
+	enterPrice: number;
+	type: string;
+	position: string;
+	status: string;
+	pnl?: number;
+};
+
+export type TOrderResponse = {
+	statusCode: number;
+	data: TOrder[];
+	message: string;
 };

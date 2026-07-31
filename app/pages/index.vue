@@ -5,12 +5,11 @@
 				<SummaryNote :card="card" />
 			</template>
 		</OrganismsIndexSummary>
-		<div class="flex flex-col lg:flex-row gap-16">
-			<div class="flex flex-col gap-16 lg:grow">
+		<div class="-mx-16 bg-neutral-300/50 p-16">
+			<div class="flex flex-col gap-16 lg:gap-32">
 				<OrganismsIndexActiveTrades :trades="trades" />
 				<OrganismsIndexPopularCoins :coins="coins" />
 			</div>
-			<OrganismsIndexNews :news="news" />
 		</div>
 	</div>
 </template>
@@ -18,7 +17,6 @@
 import { useDashboardStore } from "@/store/useDashboardStore";
 import { useTradeStore } from "@/store/useTradeStore";
 import { useCoinsStore } from "@/store/useCoinsStore";
-import { useNewsStore } from "@/store/useNewsStore";
 import SummaryNote from "@/components/molecules/index/SummaryNote.vue";
 import { useUser } from "@/composables/api/useUser";
 
@@ -29,11 +27,9 @@ await suspense();
 const dashboardStore = useDashboardStore();
 const tradeStore = useTradeStore();
 const coinsStore = useCoinsStore();
-const newsStore = useNewsStore();
 
 const trades = computed(() => tradeStore.getAllTrades());
 const coins = computed(() => coinsStore.getAllCoins());
-const news = computed(() => newsStore.getAllNews());
 
 const summary = computed<TIndexCardSummary[]>(() => [
 	{

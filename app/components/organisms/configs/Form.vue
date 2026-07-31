@@ -1,7 +1,7 @@
 <template>
 	<section class="flex flex-col gap-12 lg:max-w-1200 w-full lg:mx-auto">
-		<h2 class="text-20 font-semibold">Добавление конфига</h2>
-		<!-- @vue-generic {TExchangeData}-->
+		<h2 class="text-20 lg:text-24 font-semibold">{{ title }}</h2>
+		<!-- @vue-generic {TConfigData}-->
 		<GeneralForm
 			:fields="fields"
 			:normalized-data="normalizedData"
@@ -16,8 +16,9 @@
 						class="w-full lg:w-auto rounded-4 p-16 lg:px-24 lg:ml-auto"
 						mode="primary-fill"
 						type="submit"
+						:disabled="isPendingConfig"
 					>
-						Добавить
+						{{ btnText }}
 					</AButton>
 				</div>
 			</template>
@@ -36,42 +37,51 @@ import ASlider from "@/components/atoms/ASlider.vue";
 import { useExchangeStore } from "@/store/useExchangeStore";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
 
-const { strategies, isPendingStrategy, isPendingExchanges } = defineProps<{
-	strategies: TStrategyEntity[];
-	isPendingStrategy: boolean;
-	isPendingExchanges: boolean;
-}>();
+const props = withDefaults(
+	defineProps<{
+		strategies: TStrategyEntity[];
+		isPendingStrategy: boolean;
+		isPendingExchanges: boolean;
+		isPendingConfig: boolean;
+		title: string;
+		btnText: string;
+		data?: TConfigByIdResponse["data"];
+	}>(),
+	{
+		data: undefined,
+	}
+);
 
-const router = useRouter();
+const emits = defineEmits(["execute"]);
 
 const exchangeStore = useExchangeStore();
 
-const exchangesList = computed<TSelectItem[]>(() => exchangeStore.getAllExchanges().map((item) => ({ label: item.name, value: item.id })));
-const strategiesList = computed<TSelectItem[]>(() => strategies.map((s) => ({ label: s.name, value: s.id })) ?? []);
+const exchangesList = computed<TSelectItem[]>(() => exchangeStore.getAllExchanges().map((item) => ({ label: item.name, value: item.name })));
+const strategiesList = computed<TSelectItem[]>(() => props.strategies.map((s) => ({ label: s.name, value: s.id })) ?? []);
 
 const MARGIN_MODE_LIST: TSelectItem[] = [
 	{ label: "Изолированная", value: "isolated" },
 	{ label: "Кросс", value: "cross" },
 ];
 
-const choosedExchange = ref<string|null>(null);
+const choosedExchange = ref<string|null>(props.data?.exchangeName || null);
 
 const fields = ref<TGeneralFormField[]>([
 	{
 		name: "exchange",
-		value: "",
+		value: String(props.data?.exchangeName ?? ""),
 		check: z.string().min(1),
 		error: "",
 		label: "Биржа",
 		placeholder: "Выберите биржу",
 		component: markRaw(ASelect),
 		items: exchangesList.value,
-		disabled: isPendingExchanges,
+		disabled: props.isPendingExchanges,
 		classes: "lg:col-span-2",
 	},
 	{
 		name: "margin",
-		value: "",
+		value: String(props.data?.margin ?? ""),
 		check: z.string().min(1),
 		error: "",
 		label: "Маржа",
@@ -82,19 +92,19 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "strategyId",
-		value: "",
+		value: String(props.data?.strategy.id ?? ""),
 		check: z.string().min(1),
 		error: "",
 		label: "Стратегия",
 		placeholder: "Выберите стратегию",
 		component: markRaw(ASelect),
 		items: strategiesList.value,
-		disabled: isPendingStrategy,
+		disabled: props.isPendingStrategy,
 		classes: "lg:col-span-2",
 	},
 	{
 		name: "maxLossPercent",
-		value: 1,
+		value: Number(props.data?.maxLossPercent ?? 1),
 		check: z.number().min(1),
 		error: "",
 		label: "Максимальный процент убытка",
@@ -106,7 +116,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "dailyGoalPercent",
-		value: 1,
+		value: Number(props.data?.dailyGoalPercent ?? 1),
 		check: z.number().min(1),
 		error: "",
 		label: "Процент выполнения дневной цели",
@@ -118,7 +128,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "maxLeverage",
-		value: 1,
+		value: Number(props.data?.maxLeverage ?? 1),
 		check: z.number().min(1),
 		error: "",
 		label: "Максимальное плечо",
@@ -129,7 +139,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "maxPositionSize",
-		value: 1,
+		value: Number(props.data?.maxPositionSize ?? 1),
 		check: z.number().min(1),
 		error: "",
 		label: "Максимальное количество активных позиций",
@@ -140,7 +150,7 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "allowedSymbols",
-		value: [],
+		value: props.data?.allowedSymbols ?? [],
 		check: z.array(z.string()).min(1),
 		error: "",
 		disabled: !choosedExchange.value,
@@ -164,14 +174,14 @@ const fields = ref<TGeneralFormField[]>([
 	},
 	{
 		name: "demoTrading",
-		value: true,
+		value: props.data?.demoTrading ?? true,
 		label: "Демо торговля",
 		component: markRaw(ACheckbox),
 		size: "big",
 	},
 	{
 		name: "activate",
-		value: true,
+		value: props.data?.activate ?? true,
 		label: "Активировать",
 		component: markRaw(ACheckbox),
 		size: "big",
@@ -180,7 +190,7 @@ const fields = ref<TGeneralFormField[]>([
 
 const { validateFields } = useForm(fields);
 
-const normalizedData = (): TExchangeData => {
+const normalizedData = (): TConfigData => {
 	const allowedSymbols = fields.value.find(({ name }) => name === "allowedSymbols")?.value;
 
 	return {
@@ -196,11 +206,9 @@ const normalizedData = (): TExchangeData => {
 	};
 };
 
-const execute = async (data: TExchangeData) => {
+const execute = async (configData: TConfigData) => {
 	if (!validateFields()) return;
-	// TODO добавить бек
-	console.log(data);
-	router.push({ name: "configs" });
+	emits("execute", { data: configData, exchangeName: String(choosedExchange.value || "") });
 };
 
 // обновляем disabled у "allowedSymbols" при выборе биржи

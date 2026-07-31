@@ -26,13 +26,21 @@ import Slider from "@vueform/slider";
 
 import "@vueform/slider/themes/default.css";
 
-const { max = 100, min = 0, showTooltip = "always", format = undefined } = defineProps<{
-	label: string;
-	max?: number;
-	min?: number;
-	showTooltip?: string;
-	format?: object|((v: number) => unknown)
-}>();
+withDefaults(
+	defineProps<{
+		label: string;
+		max?: number;
+		min?: number;
+		showTooltip?: string;
+		format?: object|((v: number) => unknown)
+	}>(),
+	{
+		max: 100,
+		min: 0,
+		showTooltip: "always",
+		format: undefined,
+	}
+);
 
 const value = defineModel<number>({ default: 0 });
 const error = defineModel<string>("error", { default: "" });

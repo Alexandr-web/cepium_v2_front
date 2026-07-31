@@ -16,7 +16,7 @@
 		<div class="flex flex-col gap-10">
 			<AInput v-model="input" :placeholder="placeholder" preppend-icon="search-rounded" :disabled="disabled" />
 			<div class="overflow-auto max-h-150 scroll-block">
-				<div v-if="addedItems.length" class="flex flex-wrap gap-10">
+				<div v-if="addedItems.length" class="grid lg:flex grid-cols-2 lg:flex-wrap gap-10">
 					<ATag
 						v-for="(item, idx) in addedItems"
 						:key="idx"
@@ -61,25 +61,32 @@ import ACheckbox from "@/components/atoms/ACheckbox.vue";
 import ATag from "@/components/atoms/ATag.vue";
 import IconLoader from "@/assets/icons/loader.svg";
 
-const { search, label = "", placeholder = "Поиск", disabled = false } = defineProps<{
-	label?: string;
-	placeholder?: string;
-	disabled?: boolean;
-	search: (value: string) => Promise<TSelectItem[]>;
-}>();
+const props = withDefaults(
+	defineProps<{
+		label?: string;
+		placeholder?: string;
+		disabled?: boolean;
+		search: (value: string) => Promise<TSelectItem[]>;
+	}>(),
+	{
+		label: "",
+		placeholder: "Поиск",
+		disabled: false,
+	}
+);
 
 const value = defineModel<string[]>({ default: () => [] });
 const error = defineModel<string>("error", { default: "" });
 
 const isPending = ref(false);
 const foundItems = ref<TSelectItem[]>([]);
-const addedItems = ref<TSelectItem[]>([]);
+const addedItems = ref<TSelectItem[]>(value.value.map((v) => ({ label: v, value: v })));
 
 const input = ref("");
 const inputSearch = debouncedRef(input, 500);
 
 const message = computed(() => {
-	if (disabled) return "Недостаточно данных. Поиск невозможен";
+	if (props.disabled) return "Недостаточно данных. Поиск невозможен";
 	if (!foundItems.value.length) return "Ничего не найдено";
 	return "";
 });
@@ -89,7 +96,7 @@ watch(() => addedItems.value.length, () => {
 });
 
 watch(inputSearch, async (v) => {
-	if (disabled) return;
+	if (props.disabled) return;
 
 	if (!v) {
 		foundItems.value = [];
@@ -99,7 +106,7 @@ watch(inputSearch, async (v) => {
 	isPending.value = true;
 
 	try {
-		foundItems.value = await search(v);
+		foundItems.value = await props.search(v);
 	} catch (err) {
 		console.error(err);
 	} finally {

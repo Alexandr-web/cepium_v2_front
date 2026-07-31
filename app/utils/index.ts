@@ -17,7 +17,7 @@ export const formatNum = (value: number | string, options?: TFormatNumOptions): 
 	const num = typeof value === "string" ? parseFloat(value) : value;
 	const { style, currency, padZero, defaultValue = "0" } = options ?? {};
 
-	if (isNaN(num) || !isFinite(num) || isNegativeZero(num) || String(value).includes(",")) return defaultValue;
+	if (isNaN(num) || !isFinite(num) || isNegativeZero(num) || String(value).includes(",") || !value) return defaultValue;
 
 	if (Math.round(num * 100) / 100 === 0) return "0";
 
@@ -86,6 +86,33 @@ export const formatTime = (ms: number): string => {
 	const seconds = totalSeconds % 60;
 
 	return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+};
+
+/**
+ * Преобразует ISO-строку даты в формат "YYYY-MM-DD HH:mm:ss".
+ * Входное время в формате UTC (Z) автоматически переводится в локальное время пользователя.
+ *
+ * @param {string} isoString - Строка даты в формате ISO (например, "2026-07-28T16:15:22Z").
+ * @returns {string} Отформатированная строка даты (например, "2026-07-28 19:15:22").
+ *
+ * @example
+ * const formatted = formatIsoToPrettyStr("2026-07-28T16:15:22Z");
+ * console.log(formatted); // "2026-07-28 19:15:22" (для часового пояса GMT+3)
+ */
+export const formatIsoToPrettyStr = (isoString: string): string => {
+	const date = new Date(isoString);
+
+	if (isNaN(date.getTime())) return "";
+
+	const year = date.getFullYear();
+	const month = String(date.getMonth() + 1).padStart(2, "0");
+	const day = String(date.getDate()).padStart(2, "0");
+	
+	const hours = String(date.getHours()).padStart(2, "0");
+	const minutes = String(date.getMinutes()).padStart(2, "0");
+	const seconds = String(date.getSeconds()).padStart(2, "0");
+
+	return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
 };
 
 /**

@@ -13,6 +13,7 @@ export const useExchanges = () => {
 
 	const suspense = async () => {
 		await query.suspense();
+
 		if (query.data.value?.data) {
 			exchangeStore.exchanges = query.data.value.data;
 		}

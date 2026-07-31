@@ -7,9 +7,6 @@
 		:columns="columns"
 		:data="coins"
 	>
-		<template #cell-index="{ index }">
-			{{ formatNum(index + 1, { padZero: true }) }}
-		</template>
 		<template #cell-currentPrice="{ row }">
 			<div class="flex flex-col gap-5">
 				<span class="text-14 text-neutral-800">{{ row.prettyCurrentPrice }}</span>
@@ -34,6 +31,7 @@ const columns = computed<TTableColumn<Coin>[]>(() => [
 	{
 		key: "index",
 		label: "№",
+		normalizer: (v) => formatNum(Number(v) + 1,  { padZero: true }),
 	},
 	{
 		key: "fullSymbol",
@@ -47,5 +45,5 @@ const columns = computed<TTableColumn<Coin>[]>(() => [
 		key: "prettyVolume24h",
 		label: "Объем за 24 часа",
 	},
-]);
+] as const);
 </script>

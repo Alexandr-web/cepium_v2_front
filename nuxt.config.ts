@@ -25,6 +25,7 @@ export default defineNuxtConfig({
 		"@nuxt/test-utils/module",
 		"nuxt-svgo",
 		"@pinia-plugin-persistedstate/nuxt",
+		"notivue/nuxt",
 	],
 	runtimeConfig: {
 		apiKey: process.env.API_KEY,
@@ -33,19 +34,35 @@ export default defineNuxtConfig({
 			wsUrl: process.env.PUBLIC_WS_URL,
 		},
 	},
-	css: ["@/assets/css/global.css"],
+	css: ["@/assets/css/global.css", "notivue/notification.css", "notivue/animations.css"],
 	vite: {
 		plugins: [tailwindcss()],
 	},
 	svgo: {
 		defaultImport: "component",
 	},
+	notivue: {
+		pauseOnHover: true,
+		pauseOnTouch: true,
+		teleportTo: "body",
+		position: "top-center",
+		limit: 4,
+		enqueue: true,
+		avoidDuplicates: true,
+		notifications: {
+			global: {
+				duration: 5000,
+			},
+		},
+	},
 	nuxtQuery: {
 		devtools: true,
 		queryClientOptions: {
 			defaultOptions: {
 				queries: {
-					staleTime: 60 * 1000,
+					staleTime: 60 * 5000,
+					refetchOnWindowFocus: false,
+					retry: false,
 				},
 			},
 		},

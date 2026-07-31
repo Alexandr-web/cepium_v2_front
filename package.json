@@ -12,7 +12,8 @@
     "test-unit": "vitest --project unit",
     "test-nuxt": "vitest --project nuxt",
     "test-watch": "vitest --watch",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "dev-host": "nuxt dev --host 0.0.0.0"
   },
   "dependencies": {
     "@floating-ui/vue": "^2.0.1",
@@ -26,6 +27,7 @@
     "@vueuse/nuxt": "14.3.0",
     "eslint": "^9.0.0 || ^10.0.0",
     "maska": "^3.2.0",
+    "notivue": "^2.4.5",
     "nuxt": "^4.4.6",
     "nuxt-svgo": "5.3.0",
     "pinia": "^3.0.4",

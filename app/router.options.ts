@@ -21,6 +21,7 @@ export default {
 					path: "",
 					component: () => import("@/pages/configs.vue"),
 					meta: {
+						hasBack: true,
 						middleware: "auth",
 						seo: {
 							title: "Доступные конфиги",
@@ -32,9 +33,22 @@ export default {
 					path: "add",
 					component: () => import("@/pages/add-config.vue"),
 					meta: {
+						hasBack: true,
 						middleware: "auth",
 						seo: {
 							title: "Добавление конфига",
+						},
+					},
+				},
+				{
+					name: "edit-config",
+					path: ":id/edit",
+					component: () => import("@/pages/edit-config.vue"),
+					meta: {
+						hasBack: true,
+						middleware: "auth",
+						seo: {
+							title: "Изменение конфига",
 						},
 					},
 				},
@@ -56,6 +70,7 @@ export default {
 			path: "/statistics",
 			component: () => import("@/pages/statistics.vue"),
 			meta: {
+				hasBack: true,
 				middleware: "auth",
 				seo: {
 					title: "Статистика",
@@ -67,6 +82,7 @@ export default {
 			path: "/orders",
 			component: () => import("@/pages/orders.vue"),
 			meta: {
+				hasBack: true,
 				middleware: "auth",
 				seo: {
 					title: "История ордеров",

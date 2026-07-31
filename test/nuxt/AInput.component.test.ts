@@ -48,7 +48,7 @@ describe("AInput", () => {
 
 		it("рендерит prependIcon, если он передан", () => {
 			const wrapper = mount(AInput, {
-				props: { preppendIcon: "mdi-email" },
+				props: { preppendIcon: "account-circle" },
 				global: {
 					stubs: {
 						Icon: true,
