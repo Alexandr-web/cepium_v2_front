@@ -71,6 +71,12 @@ export default defineNuxtConfig({
 	image: {
 		format: ["webp"],
 	},
+	echarts: {
+		renderer: "svg",
+		charts: ["BarChart", "LineChart", "PieChart"],
+		components: ["DatasetComponent", "GridComponent", "TooltipComponent", "LegendComponent", "GraphicComponent"],
+		features: ["LabelLayout", "UniversalTransition"],
+	},
 	imports: {
 		dirs: [
 			"@/types/**",
