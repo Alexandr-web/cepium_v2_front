@@ -1,23 +1,25 @@
 <template>
-	<div class="flex items-center gap-8 max-w-full w-full lg:w-auto lg:mx-auto">
+	<div class="flex items-center gap-6 max-w-full w-full lg:w-auto lg:mx-auto select-none">
 		<AButton
 			:disabled="isFirstPage"
-			class="flex items-center justify-center w-36 h-36 rounded-8"
-			mode="primary-border"
+			class="flex items-center justify-center w-36 h-36"
 			@click="prev"
 		>
-			<IconArrowDown class="w-24 h-24 rotate-z-90" />
+			<IconArrowDown class="w-20 h-20 rotate-90" />
 		</AButton>
 
 		<ul class="flex items-center justify-center gap-4 min-w-0 grow">
-			<li v-for="(item, index) in pages" :key="`${item}-${index}`">
+			<li v-for="(item, index) in pages" :key="`${item}-${index}`" class="flex items-center">
 				<span
 					v-if="item === SPACES_STRING"
-					class="flex items-center justify-center w-36 h-36 text-14 text-neutral-700 select-none"
-				>{{ SPACES_STRING }}</span>
+					class="flex items-center justify-center w-36 h-36 text-12 text-neutral-500 tracking-widest"
+				>
+					{{ SPACES_STRING }}
+				</span>
+				
 				<AButton
 					v-else
-					class="flex items-center justify-center w-36 h-36 rounded-8 text-14 font-medium transition-colors"
+					class="flex items-center justify-center w-36 h-36 rounded-8 text-12! transition tap"
 					:mode="item === currentPage ? 'primary-border' : 'neutral-fill'"
 					@click="currentPage = item"
 				>
@@ -28,11 +30,10 @@
 
 		<AButton
 			:disabled="isLastPage"
-			class="flex items-center justify-center w-36 h-36 rounded-8"
-			mode="primary-border"
+			class="flex items-center justify-center w-36 h-36"
 			@click="next"
 		>
-			<IconArrowDown class="w-24 h-24 -rotate-z-90" />
+			<IconArrowDown class="w-20 h-20 -rotate-90" />
 		</AButton>
 	</div>
 </template>

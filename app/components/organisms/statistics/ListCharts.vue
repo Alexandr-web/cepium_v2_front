@@ -134,8 +134,8 @@ const dealsChart = new Chart(
 const winrateChart = new Chart(
 	"pie",
 	[
-		{ name: "Прибыльные", value: 65 },
-		{ name: "Убыточные", value: 35 },
+		{ name: "Прибыльные", value: 652 },
+		{ name: "Убыточные", value: 353 },
 	],
 	{
 		color: [
@@ -156,6 +156,17 @@ const winrateChart = new Chart(
 				],
 			},
 		],
+		tooltip: {
+			trigger: "item",
+			backgroundColor: "#161b22",
+			borderColor: "#30363d",
+			borderWidth: 1,
+			textStyle: { color: "#c9d1d9" },
+			formatter: (params) => {
+				const item = Array.isArray(params) ? params[0] : params;
+				return `${item?.name}: <span class="font-semibold">${item?.value} шт. (${item?.percent}%)</span>`;
+			},
+		},
 		legend: {
 			show: true,
 			bottom: 0,
