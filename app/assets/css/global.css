@@ -178,3 +178,7 @@
 		@apply hidden;
 	}
 }
+
+.tap {
+	-webkit-tap-highlight-color: transparent;
+}
