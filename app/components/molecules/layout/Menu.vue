@@ -1,88 +1,48 @@
 <template>
 	<div
 		:class="[
-			preset === 'desk' && 'flex flex-col justify-between gap-16 py-8 bg-neutral-100/50 border-r-1 border-solid border-r-white/5 max-w-256 w-full',
-			preset === 'mob' && 'flex flex-col gap-36'
+			preset === 'desk' && 'flex flex-col justify-between gap-24 py-16 px-12 bg-neutral-100/60 border-r border-solid border-r-white/5 max-w-256 w-full transition-all',
+			preset === 'mob' && 'flex flex-col gap-24 w-full'
 		]"
 	>
-		<nav
-			:class="[
-				preset === 'mob' && 'scroll-block max-h-350 overflow-auto',
-				preset === 'desk' && 'scroll-block grow overflow-auto'
-			]">
-			<ul
-				:class="[
-					preset === 'desk' && 'flex flex-col gap-10',
-					preset === 'mob' && 'flex flex-col gap-16'
-				]"
-			>
-				<li
-					v-for="item in menu"
-					:key="item.route"
-					:class="[
-						preset === 'desk' && 'w-full h-42'
-					]"
-				>
+		<nav class="scroll-block overflow-auto" :class="[preset === 'desk' && 'grow', preset === 'mob' && 'max-h-350']">
+			<ul class="flex flex-col" :class="[preset === 'desk' && 'gap-4', preset === 'mob' && 'gap-8']">
+				<li v-for="item in menu" :key="item.route" :class="[preset === 'desk' && 'w-full']">
 					<NuxtLink
-						:class="[
-							preset === 'desk' && 'group transition flex w-full h-full items-center gap-12 p-8',
-							preset === 'mob' && 'flex items-center gap-16'
-						]"
+						class="group flex items-center rounded-8 transition-all duration-200 text-14 text-neutral-600"
 						:to="{ name: item.route }"
+						:class="[
+							preset === 'desk' && 'gap-12 p-10  hover:text-neutral-950 hover:bg-neutral-300/40',
+							preset === 'mob' && 'gap-14 p-12'
+						]"
 						:active-class="activeClass"
 					>
 						<component
 							:is="item.icon"
-							:class="[
-								preset === 'desk' && 'w-20 h-20 text-primary-700 group-hover:text-primary-800 transition',
-								preset === 'mob' && 'w-20 h-20 text-primary-700'
-							]"
+							class="w-20 h-20 transition-transform duration-200 group-hover:scale-105"
 						/>
-						<span
-							:class="[
-								preset === 'desk' && 'group-hover:text-neutral-950 text-neutral-800 transition text-14',
-								preset === 'mob' && 'text-white/80 font-medium text-14'
-							]"
-						>{{ item.label }}</span>
+						<span class="font-medium tracking-wide transition-colors duration-200">
+							{{ item.label }}
+						</span>
 					</NuxtLink>
 				</li>
 			</ul>
 		</nav>
-		<div
-			:class="[
-				preset === 'desk' && 'flex items-center justify-between px-8 pt-8 border-t-1 border-solid border-t-white/5',
-				preset === 'mob' && 'flex items-center justify-between pt-8 border-t-1 border-solid border-t-white/5'
-			]"
-		>
+		<div class="flex items-center justify-between pt-12 border-t border-solid border-t-white/5" :class="[preset === 'mob' && 'mt-16']">
 			<AButton
-				:class="[
-					preset === 'desk' && 'hover:text-secondary-600 transition text-secondary-500 flex gap-12 items-center',
-					preset === 'mob' && 'hover:text-secondary-600 transition text-secondary-500 flex gap-12 items-center'
-				]"
+				class="flex items-center gap-10 text-secondary-500 hover:text-secondary-600 active:scale-95 transition-all duration-150 group/btn"
 				@click="logout"
 			>
-				<IconLogoutRounded
-					:class="[
-						preset === 'desk' && 'w-18 h-18',
-						preset === 'mob' && 'w-18 h-18'
-					]"
-				/>
-				<span 
-					:class="[
-						preset === 'desk' && 'text-14 font-medium',
-						preset === 'mob' && 'text-14 font-medium',
-					]"
-				>Выйти</span>
+				<IconLogoutRounded class="w-18 h-18 transition-transform duration-200 group-hover/btn:-translate-x-2" />
+				<span class="text-14">Выйти</span>
 			</AButton>
-			<span
-				:class="[
-					preset === 'desk' && 'text-neutral-600 text-14',
-					preset === 'mob' && 'text-neutral-600 text-14',
-				]"
-			>{{ VERSION }}</span>
+			<span class="text-neutral-500 font-mono text-12 tracking-wider select-none bg-neutral-200/40 px-6 py-2 rounded-4">
+				{{ VERSION }}
+			</span>
 		</div>
 	</div>
 </template>
+
 <script setup lang="ts">
 import AButton from "@/components/atoms/AButton.vue";
 import IconHomeOutlineRounded from "@/assets/icons/home-outline-rounded.svg";
@@ -102,41 +62,20 @@ const { preset } = defineProps({
 });
 
 const authStore = useAuthStore();
-
 const router = useRouter();
 
 const menu = [
-	{
-		route: "home",
-		label: "Главная",
-		icon: IconHomeOutlineRounded,
-	},
-	{
-		route: "configs",
-		label: "Настройки",
-		icon: IconSettingsOutline,
-	},
-	{
-		route: "statistics",
-		label: "Статистика",
-		icon: IconMonitoring,
-	},
-	{
-		route: "orders",
-		label: "Ордера",
-		icon: IconWorkHistoryOutlineRounded,
-	},
-	{
-		route: "profile",
-		label: "Профиль",
-		icon: IconPersonOutlineRounded,
-	},
+	{ route: "home", label: "Главная", icon: IconHomeOutlineRounded },
+	{ route: "configs", label: "Настройки", icon: IconSettingsOutline },
+	{ route: "statistics", label: "Статистика", icon: IconMonitoring },
+	{ route: "orders", label: "Ордера", icon: IconWorkHistoryOutlineRounded },
+	{ route: "profile", label: "Профиль", icon: IconPersonOutlineRounded },
 ];
 
 const activeClass = computed(() => 
 	preset === "desk"
-		? "hover:bg-neutral-300/50 bg-neutral-200/50 relative before:content-[''] before:absolute before:right-0 before:top-0 before:w-2 before:h-full before:bg-primary-700 hover:before:bg-primary-800 before:transition"
-		: ""
+		? "text-primary-700 bg-primary-300/50 font-semibold shadow-sm shadow-primary-500/5"
+		: "text-white bg-primary-600/20 font-semibold border-l-2 border-solid border-primary-500 rounded-l-none pl-10"
 );
 
 const logout = () => {
