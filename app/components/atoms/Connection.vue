@@ -1,21 +1,28 @@
 <template>
-	<div class="flex items-center gap-8 rounded-12 border-1 border-solid text-primary-800 bg-neutral-100 border-white/5 px-12 py-10">
+	<div class="flex items-center gap-8 rounded-8 border border-solid border-neutral-200/60 bg-neutral-300/30 px-10 py-6">
 		<span
-			class="w-8 h-8 rounded-full"
-			:class="statusBg[connectionStore.status]"
+			class="w-6 h-6 rounded-full transition-colors"
+			:class="[
+				statusBg[connectionStore.status],
+				connectionStore.status === TConnectionStatuses.CONNECTING && 'animate-pulse'
+			]"
 		/>
-		<p class="uppercase text-10">wss: {{ connectionStore.statusText }}</p>
+		
+		<p class="text-10 font-semibold tracking-wider text-neutral-500 uppercase">
+			ws: <span class="text-neutral-700">{{ connectionStore.statusText }}</span>
+		</p>
 	</div>
 </template>
+
 <script setup lang="ts">
 import { useConnectionStore } from "@/store/useConnectionStore";
 
 const connectionStore = useConnectionStore();
 
 const statusBg = {
-	[TConnectionStatuses.CONNECTING]: "bg-secondary-500",
-	[TConnectionStatuses.OPEN]: "bg-primary-800",
-	[TConnectionStatuses.CLOSING]: "bg-primary-950",
-	[TConnectionStatuses.CLOSED]: "bg-white",
+	[TConnectionStatuses.CONNECTING]: "bg-amber-500",
+	[TConnectionStatuses.OPEN]: "bg-emerald-500",
+	[TConnectionStatuses.CLOSING]: "bg-neutral-400",
+	[TConnectionStatuses.CLOSED]: "bg-rose-500",
 };
 </script>
