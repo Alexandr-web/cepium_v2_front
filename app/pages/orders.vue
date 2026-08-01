@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col gap-24">
+	<div class="flex flex-col gap-24 grow">
 		<OrganismsOrdersFilters @execute="console.log('execute filters')" />
 		<OrganismsOrdersList :orders="orders" />
 	</div>

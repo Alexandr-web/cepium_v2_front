@@ -53,5 +53,7 @@ export type TStatisticsCard = {
 	id: string;
 	title: string;
 	icon?: string;
+	classesValue?: string;
+	normalizer?: (value: string|number) => string;
 	value: string|number;
 };

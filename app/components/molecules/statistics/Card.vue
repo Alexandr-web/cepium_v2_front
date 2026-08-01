@@ -12,10 +12,11 @@
 				/>
 			</div>
 		</div>
-
-		<div class="text-24 lg:text-36 font-semibold text-neutral-950 leading-none tracking-tight">
-			<slot name="value" v-bind="{ value: card.value }">{{ card.value }}</slot>
-		</div>
+		<div
+			class="text-24 lg:text-36 font-semibold text-neutral-950 leading-none tracking-tight"
+			:class="card.classesValue"
+		>{{ value }}</div>
+		<slot v-bind="{ card }" />
 	</div>
 </template>
 
@@ -33,4 +34,9 @@ const iconsMap: Record<string, string> = {
 	"card-travel-outline-rounded": IconCardTravelOutlineRounded,
 	"money-bag-outline-rounded": IconMoneyBagOutlineRounded,
 };
+
+const value = computed(() => {
+	if (card.normalizer instanceof Function) return card.normalizer(card.value);
+	return card.value;
+});
 </script>

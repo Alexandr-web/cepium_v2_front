@@ -1,5 +1,5 @@
 <template>
-	<section class="flex flex-col gap-15">
+	<section class="flex flex-col justify-between gap-15 grow">
 		<template v-if="orders.length">
 			<div class="flex lg:hidden flex-col gap-8">
 				<Card
@@ -9,12 +9,12 @@
 				/>
 			</div>
 			<Table :orders="orders" />
+			<APagination
+				v-model:page="page"
+				:total="totalItems"
+				:per-page="10"
+			/>
 		</template>
-		<APagination
-			v-model:page="page"
-			:total="totalItems"
-			:per-page="10"
-		/>
 	</section>
 </template>
 <script setup lang="ts">
