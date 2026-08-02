@@ -32,10 +32,10 @@ export default class Chart {
 				containLabel: true,
 			},
 			tooltip: {
-				backgroundColor: "#161b22",
-				borderColor: "#30363d",
+				backgroundColor: CHART_COLORS.tooltip.backgroundColor,
+				borderColor: CHART_COLORS.tooltip.borderColor,
 				borderWidth: 1,
-				textStyle: { color: "#c9d1d9" },
+				textStyle: { color: CHART_COLORS.tooltip.textStyle.color },
 			},
 			series: [],
 		};
@@ -46,12 +46,12 @@ export default class Chart {
 					type: "value",
 					splitLine: {
 						lineStyle: {
-							color: "#21262d", 
+							color: CHART_COLORS.yAxis.splitLine.lineStyle.color, 
 							width: 1,
 						},
 					},
 					axisLabel: {
-						color: "#8b949e",
+						color: CHART_COLORS.yAxis.axisLabel.color,
 						fontSize: 11,
 					},
 				},
@@ -59,20 +59,20 @@ export default class Chart {
 					type: "category",
 					data: xAxisData,
 					axisLine: {
-						lineStyle: { color: "#30363d" },
+						lineStyle: { color: CHART_COLORS.xAxis.axisLine.lineStyle.color },
 					},
 					axisTick: { show: false },
 					axisLabel: {
-						color: "#8b949e",
+						color: CHART_COLORS.xAxis.axisLabel.color,
 						fontSize: 11,
 					},
 				},
 				tooltip: {
 					trigger: "axis",
-					backgroundColor: "#161b22",
-					borderColor: "#30363d",
+					backgroundColor: CHART_COLORS.tooltip.backgroundColor,
+					borderColor: CHART_COLORS.tooltip.borderColor,
 					borderWidth: 1,
-					textStyle: { color: "#c9d1d9" },
+					textStyle: { color: CHART_COLORS.tooltip.textStyle.color },
 				},
 				series: [
 					{
@@ -85,10 +85,10 @@ export default class Chart {
 			Object.assign(baseOptions, {
 				tooltip: {
 					trigger: "item",
-					backgroundColor: "#161b22",
-					borderColor: "#30363d",
+					backgroundColor: CHART_COLORS.tooltip.backgroundColor,
+					borderColor: CHART_COLORS.tooltip.borderColor,
 					borderWidth: 1,
-					textStyle: { color: "#c9d1d9" },
+					textStyle: { color: CHART_COLORS.tooltip.textStyle.color },
 				},
 				series: [
 					{

@@ -3,7 +3,7 @@
 		<div
 			v-for="(item, idx) in summary"
 			:key="idx"
-			class="flex flex-col justify-between gap-32 rounded-8 bg-neutral-100/80 border-solid border-1 border-white/5 p-16"
+			class="flex flex-col justify-between gap-32 rounded-8 bg-neutral-100/80 border-solid border border-white/5 p-16"
 		>
 			<div class="flex items-center justify-between">
 				<h3 class="text-12 lg:text-16 uppercase">{{ item.title }}</h3>

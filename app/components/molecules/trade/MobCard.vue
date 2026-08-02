@@ -1,8 +1,8 @@
 <template>
-	<div class="flex flex-col border-1 border-solid border-white/5 rounded-8 bg-secondary-100 text-white p-8">
+	<div class="flex flex-col border border-solid border-white/5 rounded-8 bg-secondary-100 text-white p-8">
 		<div class="flex justify-between pb-12">
 			<div class="flex gap-12 items-center">
-				<div class="rounded-12 w-40 h-40 flex justify-center items-center border-1 border-solid border-white/5 uppercase text-neutral-700 font-bold text-12">{{ trade.symbol }}</div>
+				<div class="rounded-12 w-40 h-40 flex justify-center items-center border border-solid border-white/5 uppercase text-neutral-700 font-bold text-12">{{ trade.symbol }}</div>
 				<div class="flex flex-col">
 					<h3 class="font-bold text-14 text-white/80">{{ trade.fullSymbol }} {{ trade.direction }}</h3>
 					<p class="inline-flex items-center text-12 font-medium text-white/50">

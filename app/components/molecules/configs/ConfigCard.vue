@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col p-16 lg:p-24 rounded-12 border-1 border-solid border-neutral-400 bg-primary-100 gap-16">
+	<div class="flex flex-col p-16 lg:p-24 rounded-12 border border-solid border-neutral-400 bg-primary-100 gap-16">
 		<div class="flex justify-between gap-10">
 			<div class="flex flex-col gap-3 min-w-0">
 				<span
@@ -7,7 +7,7 @@
 					:title="card.strategy.name"
 				>{{ card.strategy.name }}</span>
 				<span
-					class="text-10 lg:text-12 uppercase inline-block rounded-full py-4 px-8 border-1 border-solid font-bold mr-auto"
+					class="text-10 lg:text-12 uppercase inline-block rounded-full py-4 px-8 border border-solid font-bold mr-auto"
 					:class="[
 						card.demoTrading && 'border-primary-500/50 bg-primary-300/50 text-primary-600',
 						!card.demoTrading && 'border-tertiary-500/50 bg-tertiary-300/50 text-tertiary-600'

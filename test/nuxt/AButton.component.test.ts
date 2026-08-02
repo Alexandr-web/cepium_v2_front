@@ -49,7 +49,7 @@ describe("AButton", () => {
 		const modes = [
 			{ mode: "default", expectedClasses: [] },
 			{ mode: "remove-fill", expectedClasses: ["text-white/80", "bg-secondary-300"] },
-			{ mode: "remove-border", expectedClasses: ["border-1", "border-solid", "border-secondary-400", "text-secondary-500", "bg-primary-100", "transition", "hover:border-secondary-500", "hover:text-secondary-600"] },
+			{ mode: "remove-border", expectedClasses: ["border", "border-solid", "border-secondary-400", "text-secondary-500", "bg-primary-100", "transition", "hover:border-secondary-500", "hover:text-secondary-600"] },
 			{ mode: "neutral-fill", expectedClasses: ["transition", "text-white/80", "hover:text-white/90", "hover:bg-neutral-400", "bg-neutral-300"] },
 		];
 

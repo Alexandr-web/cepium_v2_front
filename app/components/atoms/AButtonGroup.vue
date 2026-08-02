@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col gap-8">
+	<div class="flex flex-col gap-8" :class="[disabled && 'opacity-50']">
 		<h3 class="text-12 font-semibold tracking-wider uppercase text-neutral-500">{{ label }}</h3>
 		<div 
 			ref="wrapper" 
@@ -19,13 +19,14 @@
 					v-for="(item, idx) in items"
 					:key="idx"
 					ref="group"
-					class="select-none cursor-pointer py-8 px-24 transition-colors text-13 whitespace-nowrap rounded-8 tap"
+					class="select-none py-8 px-24 transition-colors text-13 whitespace-nowrap rounded-8 tap"
 					:data-value="item.value"
 					:class="[
 						value === item.value && 'text-white',
 						value !== item.value && 'text-neutral-600 hover:text-neutral-700',
+						!disabled && 'cursor-pointer'
 					]"
-					@click="setValue(item.value, $event.currentTarget)"
+					@click="!disabled && setValue(item.value, $event.currentTarget)"
 				>
 					{{ item.label }}
 				</li>
@@ -39,10 +40,12 @@ withDefaults(
 	defineProps<{
 		items?: TSelectItem[];
 		label?: string;
+		disabled?: boolean;
 	}>(),
 	{
 		items: () => [],
 		label: "",
+		disabled: false,
 	}
 );
 

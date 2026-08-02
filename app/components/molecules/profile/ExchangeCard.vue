@@ -1,5 +1,5 @@
 <template>
-	<div class="group flex items-center justify-between gap-10 rounded-8 lg:rounded-12 border-1 border-solid border-neutral-300 bg-primary-100 p-10 lg:p-16 cursor-pointer">
+	<div class="group flex items-center justify-between gap-10 rounded-8 lg:rounded-12 border border-solid border-neutral-300 bg-primary-100 p-10 lg:p-16 cursor-pointer">
 		<div class="flex items-center gap-10">
 			<div v-show="item.logo" class="border-r-1 border-r-solid border-r-neutral-400 pr-12">
 				<NuxtImg

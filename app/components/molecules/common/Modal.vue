@@ -23,7 +23,7 @@
 				<div
 					v-show="show"
 					ref="target"
-					class="bg-neutral-100 rounded-t-8 lg:rounded-8 border-t-1 w-full lg:border-1 border-solid border-t-white/10 lg:border-white/10 py-32 px-16 relative lg:m-auto"
+					class="bg-neutral-100 rounded-t-8 lg:rounded-8 border-t-1 w-full lg:border border-solid border-t-white/10 lg:border-white/10 py-32 px-16 relative lg:m-auto"
 					:class="[
 						size === 'small' && 'lg:max-w-500',
 						size === 'default' && 'lg:max-w-900'
@@ -40,17 +40,16 @@
 import { onClickOutside } from "@vueuse/core";
 import { useTemplateRef } from "vue";
 
-const { disabled } = defineProps({
-	disabled: {
-		type: Boolean,
-		default: false,
-	},
-	size: {
-		type: String,
-		default: "default",
-		validator: (v: string) => ["default", "small"].includes(v),
-	},
-});
+const props = withDefaults(
+	defineProps<{
+		disabled?: boolean;
+		size?: "default" | "small";
+	}>(),
+	{
+		disabled: false,
+		size: "default",
+	}
+);
 
 const target = useTemplateRef("target");
 
@@ -59,6 +58,6 @@ const show = defineModel<boolean>({ default: false });
 const emits = defineEmits(["close"]);
 
 onClickOutside(target, () => {
-	if (show.value && !disabled) show.value = false;
+	if (show.value && !props.disabled) show.value = false;
 });
 </script>

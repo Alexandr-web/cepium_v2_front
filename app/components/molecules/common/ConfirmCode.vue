@@ -9,7 +9,7 @@
 			<input
 				ref="inputCode"
 				v-maska:code.unmasked="{ mask: maskPattern, eager: true }"
-				class="text-22 lg:text-24 font-bold border-1 border-solid text-neutral-500 text-center rounded-12 transition p-16"
+				class="text-22 lg:text-24 font-bold border border-solid text-neutral-500 text-center rounded-12 transition p-16"
 				:class="[
 					code.length >= codeLen && 'bg-neutral-950',
 					code.length < codeLen && 'bg-neutral-800 hover:bg-neutral-950',

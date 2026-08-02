@@ -14,7 +14,7 @@
 			<p v-if="addedItems.length" class="text-neutral-600 text-12 lg:text-14">({{ addedItems.length }})</p>
 		</div>
 		<div class="flex flex-col gap-10">
-			<AInput v-model="input" :placeholder="placeholder" preppend-icon="search-rounded" :disabled="disabled" />
+			<AInput v-model="input" :placeholder="placeholder" prepend-icon="search-rounded" :disabled="disabled" />
 			<div class="overflow-auto max-h-150 scroll-block">
 				<div v-if="addedItems.length" class="grid lg:flex grid-cols-2 lg:flex-wrap gap-10">
 					<ATag

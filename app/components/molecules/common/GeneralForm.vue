@@ -1,30 +1,29 @@
 <template>
 	<form
-		class="flex flex-col gap-16 bg-black-500 rounded-8 border-solid border-1 border-neutral-100 bg-neutral-100/50"
+		class="flex flex-col rounded-12 border border-solid border-neutral-200/60 bg-neutral-100/50"
 		:class="[
-			mode === 'default' && 'p-24',
-			mode === 'grid' && 'p-20',
+			mode === 'default' && 'p-24 gap-20',
+			mode === 'grid' && 'p-20 gap-16'
 		]"
 		@submit.prevent="emits('send', formattedData)"
 	>
 		<div
-			class="gap-16"
 			:class="[
-				mode === 'default' && 'flex flex-col',
-				mode === 'grid' && 'grid grid-cols-1 lg:grid-cols-2',
+				mode === 'default' && 'flex flex-col gap-16',
+				mode === 'grid' && 'grid grid-cols-1 lg:grid-cols-2 gap-16',
 				fieldsListClasses
 			]"
 		>
 			<component
 				:is="item.component"
-				v-for="item in fields"
-				:key="item.name"
+				v-for="(item, idx) in fields"
+				:key="idx"
 				v-model="item.value"
 				v-model:error="item.error"
 				:check="item.check"
 				:placeholder="item.placeholder"
 				:label="item.label"
-				:preppend-icon="item.preppendIcon"
+				:prepend-icon="item.prependIcon"
 				:type="item.type"
 				:items="item.items"
 				:disabled="item.disabled"
@@ -41,30 +40,23 @@
 		<slot name="footer" />
 	</form>
 </template>
-<script setup lang="ts" generic="TSendData">
-import type { PropType } from "vue";
 
-const { normalizedData, fields } = defineProps({
-	fields: {
-		type: Array as PropType<TGeneralFormField[]>,
-		default: () => [],
-	},
-	normalizedData: {
-		type: Function as PropType<(fields: TGeneralFormField[]) => TSendData>,
-		required: true,
-	},
-	mode: {
-		type: String,
-		default: "default",
-		validator: (s: string) => ["default", "grid"].includes(s),
-	},
-	fieldsListClasses: {
-		type: String,
-		default: "",
-	},
-});
+<script setup lang="ts" generic="TSendData">
+const props = withDefaults(
+	defineProps<{
+		fields?: TGeneralFormField[];
+		mode?: "default" | "grid";
+		fieldsListClasses?: string;
+		normalizedData: (fields: TGeneralFormField[]) => TSendData;
+	}>(),
+	{
+		fields: () => [],
+		mode: "default",
+		fieldsListClasses: "",
+	}
+);
 
 const emits = defineEmits<{ send: [TSendData] }>();
 
-const formattedData = computed<TSendData>(() => normalizedData(fields));
+const formattedData = computed<TSendData>(() => props.normalizedData(props.fields));
 </script>

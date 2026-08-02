@@ -9,15 +9,15 @@
 			]"
 		>{{ label }}</h3>
 		<div
-			class="group transition flex items-center px-16 bg-neutral-100 h-48 rounded-4 border-solid border-1"
+			class="group transition flex items-center px-16 bg-neutral-100 h-48 rounded-4 border-solid border"
 			:class="[
 				error && 'border-secondary-500/50 hover:border-secondary-500/70',
 				!error && 'border-white/5 hover:border-white/10'
 			]"
 		>
 			<component
-				:is="iconsMap[preppendIcon]"
-				v-if="preppendIcon"
+				:is="iconsMap[prependIcon]"
+				v-if="prependIcon"
 				class="transition min-w-15 lg:min-w-18 max-w-15 lg:max-w-18 min-h-15 lg:min-h-18 max-h-15 lg:max-h-18 block mr-8 transition"
 				:class="[
 					error && 'text-secondary-500',
@@ -53,12 +53,12 @@ import IconSearchRounded from "@/assets/icons/search-rounded.svg";
 import type { InputTypeHTMLAttribute, PropType } from "vue";
 import type z from "zod";
 
-const { check, preppendIcon } = defineProps({
+const { check, prependIcon } = defineProps({
 	label: {
 		type: String,
 		default: "",
 	},
-	preppendIcon: {
+	prependIcon: {
 		type: String,
 		default: "",
 	},

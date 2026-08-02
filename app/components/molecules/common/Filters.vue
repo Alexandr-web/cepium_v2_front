@@ -8,6 +8,7 @@
 			v-model="filter.value"
 			:label="filter.label"
 			:items="filter.items"
+			:disabled="disabled"
 		/>
 		<slot name="footer" />
 	</div>
@@ -15,9 +16,15 @@
 <script setup lang="ts">
 import type { ButtonGroupExpose } from "@/components/atoms/AButtonGroup.vue";
 
-defineProps<{
-	filters: TFilterItem[];
-}>();
+withDefaults(
+	defineProps<{
+		disabled?: boolean;
+		filters: TFilterItem[];
+	}>(),
+	{
+		disabled: false,
+	}
+);
 
 export type FiltersExpose = {
 	initDefaultValuesAtButtonGroup: () => Promise<void>;

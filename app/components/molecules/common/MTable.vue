@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col rounded-8 overflow-hidden border-1 border-solid border-white/5">
+	<div class="flex flex-col rounded-8 overflow-hidden border border-solid border-white/5">
 		<div v-if="headIcon || title || $slots['head-controls']" class="flex items-center justify-between h-65 p-24 bg-neutral-100">
 			<div v-if="headIcon || title" class="flex items-center gap-8">
 				<component :is="iconsMap[headIcon]" v-if="headIcon" class="text-primary-800 w-18 h-18" />
@@ -28,10 +28,7 @@
 				<tr v-if="!data.length">
 					<td :colspan="columns.length" class="p-32 text-14">
 						<slot name="empty">
-							<div class="flex items-center justify-center gap-10">
-								<IconSentimentSadOutlineRounded class="text-neutral-800 w-20 h-20" />
-								<p>Данные отсутствуют</p>
-							</div>
+							<Empty />
 						</slot>
 					</td>
 				</tr>
@@ -63,9 +60,9 @@
 	</div>
 </template>
 <script setup lang="ts" generic="T extends object">
-import IconSentimentSadOutlineRounded from "@/assets/icons/sentiment-sad-outline-rounded.svg";
 import IconCardTravelOutlineRounded from "@/assets/icons/card-travel-outline-rounded.svg";
 import IconViewList from "@/assets/icons/view-list.svg";
+import Empty from "@/components/molecules/common/Empty.vue";
 
 withDefaults(
 	defineProps<{

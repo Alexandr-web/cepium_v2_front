@@ -5,7 +5,7 @@ export type TGeneralFormField = {
 	value: string|number|boolean|string[]|null|File;
 	name: string;
 	placeholder?: string;
-	preppendIcon?: string;
+	prependIcon?: string;
 	component?: Component;
 	label?: string;
 	check?: z.ZodType;

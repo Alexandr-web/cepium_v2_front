@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col gap-24 grow">
-		<OrganismsConfigsList :configs="configs" />
+		<LazyOrganismsConfigsList :configs="configs" />
 	</div>
 </template>
 <script setup lang="ts">

@@ -3,12 +3,12 @@
 		<div
 			v-for="(item, idx) in charts"
 			:key="idx"
-			class="flex flex-col bg-neutral-200 border border-1 border-neutral-300 rounded-12 p-12 lg:p-20 gap-16"
+			class="flex flex-col bg-neutral-200 border border border-neutral-300 rounded-12 p-12 lg:p-20 gap-16"
 			:class="item.classes"
 		>
 			<h3 class="text-16 font-medium text-neutral-700">{{ item.label }}</h3>
 			<div class="h-200 lg:h-300 w-full">
-				<VChart :option="item.chart.getComputedOptions()" class="w-full h-full" autofocus />
+				<VChart :option="item.options" class="w-full h-full" />
 			</div>
 		</div>
 	</section>
@@ -27,10 +27,10 @@ const profitChart = new Chart(
 	],
 	{
 		tooltip: {
-			backgroundColor: "#161b22",
-			borderColor: "#30363d",
+			backgroundColor: CHART_COLORS.tooltip.backgroundColor,
+			borderColor: CHART_COLORS.tooltip.borderColor,
 			borderWidth: 1,
-			textStyle: { color: "#c9d1d9" },
+			textStyle: { color: CHART_COLORS.tooltip.textStyle.color },
 			trigger: "axis",
 			formatter: (params) => {
 				const item = Array.isArray(params) ? params[0] : params;
@@ -51,21 +51,21 @@ const profitChart = new Chart(
 			type: "category",
 			axisLine: { show: false },
 			axisTick: { show: false },
-			axisLabel: { color: "#8b949e", margin: 12 },
+			axisLabel: { color: CHART_COLORS.xAxis.axisLabel.color, margin: 12 },
 		},
 		yAxis: {
 			type: "value",
 			axisLine: {
 				onZero: true,
-				lineStyle: { color: "rgba(139, 148, 158, 0.15)" },
+				lineStyle: { color: CHART_COLORS.yAxis.axisLine.lineStyle.color },
 			},
 			splitLine: {
 				lineStyle: {
-					color: "rgba(139, 148, 158, 0.05)",
+					color: CHART_COLORS.yAxis.splitLine.lineStyle.color,
 				},
 			},
 			axisLabel: {
-				color: "#8b949e",
+				color: CHART_COLORS.yAxis.axisLabel.color,
 				formatter: (value) => formatNum(Number(value), { currency: "USD", style: "currency" }),
 			},
 		},
@@ -78,24 +78,24 @@ const profitChart = new Chart(
 				show: true,
 				position: "top",
 				distance: 8,
-				color: "#8b949e",
+				color: CHART_COLORS.series.line.label.color,
 				fontSize: 11,
 				formatter: (params) => formatNum(Number(params.value), { currency: "USD", style: "currency" }),
 			},
-			itemStyle: { color: "#58a6ff" },
+			itemStyle: { color: CHART_COLORS.series.line.itemStyle.color },
 			lineStyle: { 
 				width: 3, 
-				color: "#58a6ff",
+				color: CHART_COLORS.series.line.lineStyle.color,
 				shadowBlur: 10, 
-				shadowColor: "rgba(88, 166, 255, 0.15)", 
+				shadowColor: CHART_COLORS.series.line.lineStyle.shadowColor, 
 			},
 			areaStyle: {
 				color: {
 					type: "linear",
 					x: 0, y: 0, x2: 0, y2: 1,
 					colorStops: [
-						{ offset: 0, color: "rgba(88, 166, 255, 0.2)" },
-						{ offset: 1, color: "rgba(88, 166, 255, 0.0)" },
+						{ offset: 0, color: CHART_COLORS.series.line.areaStyle.color.colorStops[0] },
+						{ offset: 1, color: CHART_COLORS.series.line.areaStyle.color.colorStops[1] },
 					],
 				},
 			},
@@ -119,12 +119,12 @@ const dealsChart = new Chart(
 				show: true,
 				position: "top",
 				distance: 8,
-				color: "#8b949e",
+				color: CHART_COLORS.series.bar.label.color,
 				fontSize: 12,
 			},
 			itemStyle: { 
-				color: "rgba(31,111,235,0.2)",
-				borderColor: "#114ba8",
+				color: CHART_COLORS.series.bar.itemStyle.color,
+				borderColor: CHART_COLORS.series.bar.itemStyle.borderColor,
 				borderRadius: [6, 6, 0, 0],
 			},
 		}],
@@ -143,25 +143,25 @@ const winrateChart = new Chart(
 				type: "linear",
 				x: 0, y: 0, x2: 0, y2: 1,
 				colorStops: [
-					{ offset: 0, color: "#34d399" },
-					{ offset: 1, color: "#16a34a" },
+					{ offset: 0, color: CHART_COLORS.color.pie[0].colorStops[0] },
+					{ offset: 1, color: CHART_COLORS.color.pie[0].colorStops[1] },
 				],
 			},
 			{
 				type: "linear",
 				x: 0, y: 0, x2: 0, y2: 1,
 				colorStops: [
-					{ offset: 0, color: "#f87171" },
-					{ offset: 1, color: "#dc2626" },
+					{ offset: 0, color: CHART_COLORS.color.pie[1].colorStops[0] },
+					{ offset: 1, color: CHART_COLORS.color.pie[1].colorStops[1] },
 				],
 			},
 		],
 		tooltip: {
 			trigger: "item",
-			backgroundColor: "#161b22",
-			borderColor: "#30363d",
+			backgroundColor: CHART_COLORS.tooltip.backgroundColor,
+			borderColor: CHART_COLORS.tooltip.borderColor,
 			borderWidth: 1,
-			textStyle: { color: "#c9d1d9" },
+			textStyle: { color: CHART_COLORS.tooltip.textStyle.color },
 			formatter: (params) => {
 				const item = Array.isArray(params) ? params[0] : params;
 				return `${item?.name}: <span class="font-semibold">${item?.value} шт. (${item?.percent}%)</span>`;
@@ -174,9 +174,8 @@ const winrateChart = new Chart(
 			itemWidth: 10,
 			itemGap: 20,
 			textStyle: {
-				color: "#8b949e",
+				color: CHART_COLORS.legend.textStyle.color,
 				fontSize: 13,
-				fontFamily: "sans-serif",
 			},
 		},
 		series: [{
@@ -188,7 +187,7 @@ const winrateChart = new Chart(
 			labelLine: { show: false },
 			itemStyle: {
 				borderRadius: 8,
-				borderColor: "#0d1117",
+				borderColor: CHART_COLORS.series.pie.itemStyle.borderColor,
 				borderWidth: 3,
 			},
 			emphasis: {
@@ -196,27 +195,30 @@ const winrateChart = new Chart(
 				scaleSize: 6,
 				itemStyle: {
 					shadowBlur: 15,
-					shadowColor: "rgba(0, 0, 0, 0.5)",
+					shadowColor: CHART_COLORS.series.pie.emphasis.itemStyle.shadowColor,
 				},
 			},
 		}],
 	}
 );
 
-const charts = [
+const charts = computed(() => [
 	{
 		label: "Динамика профита",
 		chart: profitChart,
+		options: profitChart.getComputedOptions(),
 		classes: "lg:col-span-4",
 	},
 	{
 		label: "Количество сделок",
 		chart: dealsChart,
+		options: dealsChart.getComputedOptions(),
 		classes: "lg:col-span-3",
 	},
 	{
 		label: "Соотношение Win/Loss",
 		chart: winrateChart,
+		options: winrateChart.getComputedOptions(),
 	},
-];
+]);
 </script>

@@ -53,13 +53,14 @@ import IconPersonOutlineRounded from "@/assets/icons/person-outline-rounded.svg"
 import IconLogoutRounded from "@/assets/icons/logout-rounded.svg";
 import { useAuthStore } from "@/store/useAuthStore";
 
-const { preset } = defineProps({
-	preset: {
-		type: String,
-		default: "mob",
-		validator: (s: string) => ["mob", "desk"].includes(s),
-	},
-});
+const props = withDefaults(
+	defineProps<{
+		preset?: "mob" | "desk";
+	}>(),
+	{
+		preset: "mob",
+	}
+);
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -73,7 +74,7 @@ const menu = [
 ];
 
 const activeClass = computed(() => 
-	preset === "desk"
+	props.preset === "desk"
 		? "text-primary-700 bg-primary-300/50 font-semibold shadow-sm shadow-primary-500/5"
 		: "text-white bg-primary-600/20 font-semibold border-l-2 border-solid border-primary-500 rounded-l-none pl-10"
 );

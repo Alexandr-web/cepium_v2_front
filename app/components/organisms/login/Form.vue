@@ -1,7 +1,7 @@
 <template>
 	<section class="flex flex-col my-auto gap-40 p-24">
 		<div class="mx-auto inline-flex items-center flex-col gap-8">
-			<div class="w-48 lg:w-68 h-48 lg:h-68 flex justify-center items-center rounded-12 border-primary-800/20 border-solid border-1 bg-primary-800/10">
+			<div class="w-48 lg:w-68 h-48 lg:h-68 flex justify-center items-center rounded-12 border-primary-800/20 border-solid border bg-primary-800/10">
 				<LogoIcon class="w-25 lg:w-30 h-17 lg:h-22 text-primary-500" />
 			</div>
 			<Logo />
@@ -52,7 +52,7 @@ const fields = ref<TGeneralFormField[]>([
 		placeholder: "Эл. почта",
 		name: "email",
 		label: "Эл. почта",
-		preppendIcon: "account-circle",
+		prependIcon: "account-circle",
 		check: z.email(),
 		error: "",
 	},
@@ -63,7 +63,7 @@ const fields = ref<TGeneralFormField[]>([
 		name: "password",
 		type: "password",
 		label: "Пароль",
-		preppendIcon: "lock-outline",
+		prependIcon: "lock-outline",
 		check: z.string().min(6),
 		error: "",
 	},

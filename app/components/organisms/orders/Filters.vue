@@ -3,19 +3,17 @@
 		<div class="flex items-center justify-between gap-10">
 			<h2 class="text-20 lg:text-24 font-semibold">Ордера</h2>
 			<AButton
-				class="flex lg:hidden items-center justify-center p-12 rounded-8 border-1 border-solid border-neutral-400"
+				class="flex lg:hidden items-center justify-center p-12 rounded-8 border border-solid border-neutral-400"
 				mode="neutral-fill"
+				:disabled="disabled"
 				@click="showMobFilters = true"
 			>
 				<IconFilter class="w-18 h-18 text-white/50" />
 			</AButton>
 		</div>
-		<div class="hidden lg:flex justify-between gap-16 bg-neutral-100 rounded-8 p-16 border-1 border-solid border-white/10">
-			<Filters ref="deskFilters" :filters="filters" />
-			<div class="flex flex-col gap-5">
-				<AButton class="w-full py-8 px-24 rounded-8 text-14" mode="primary-border">Применить</AButton>
-				<AButton class="rounded-8 py-8 px-24 w-full text-14" mode="neutral-fill" @click="reset">Очистить</AButton>
-			</div>
+		<div class="hidden lg:flex justify-between gap-16 bg-neutral-100 rounded-8 p-16 border border-solid border-white/10">
+			<Filters ref="deskFilters" :filters="filters" :disabled="disabled" />
+			<FilterControls preset="desk" :disabled="disabled" @execute="emits('execute', filters)" @reset="reset" />
 		</div>
 	</section>
 	<Teleport to="body">
@@ -27,10 +25,7 @@
 					:filters="filters"
 				>
 					<template #footer>
-						<div class="flex flex-col gap-20">
-							<AButton class="w-full text-14 p-14 rounded-8" mode="primary-border" @click="emits('execute', filters)">Применить</AButton>
-							<AButton class="text-neutral-600 text-12" @click="reset">Очистить</AButton>
-						</div>
+						<FilterControls preset="mob" :disabled="disabled" @execute="emits('execute', filters)" @reset="reset" />
 					</template>
 				</Filters>
 			</div>
@@ -42,8 +37,18 @@ import Filters from "@/components/molecules/common/Filters.vue";
 import type { FiltersExpose } from "@/components/molecules/common/Filters.vue";
 import AButton from "@/components/atoms/AButton.vue";
 import Modal from "@/components/molecules/common/Modal.vue";
+import FilterControls from "@/components/molecules/orders/FilterControls.vue";
 import IconFilter from "@/assets/icons/filter-alt-outline-sharp.svg";
 import AButtonGroup from "@/components/atoms/AButtonGroup.vue";
+
+withDefaults(
+	defineProps<{
+		disabled?: boolean;
+	}>(),
+	{
+		disabled: false,
+	}
+);
 
 const emits = defineEmits(["execute"]);
 

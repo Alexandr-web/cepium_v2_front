@@ -1,7 +1,6 @@
 <template>
 	<div class="flex flex-col">
 		<LazyOrganismsConfigsForm
-			hydrate-on-visible
 			title="Добавление конфига"
 			btn-text="Добавить"
 			:strategies="strategies"

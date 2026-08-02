@@ -2,7 +2,7 @@
 	<div class="flex items-center gap-10 cursor-pointer select-none group" @click="emits('update:modelValue', !modelValue)">
 		<div
 			v-if="!hideBox"
-			class="rounded-6 border-solid border-1 border-neutral-400"
+			class="rounded-6 border-solid border border-neutral-400"
 			:class="[
 				(modelValue && theme === 'primary') && 'border-primary-400 bg-primary-300',
 				(modelValue && theme === 'neutral') && 'border-neutral-400 bg-neutral-800',
@@ -25,30 +25,22 @@
 <script setup lang="ts">
 import IconCheckSmallRounded from "@/assets/icons/check-small-rounded.svg";
 
-defineProps({
-	modelValue: {
-		type: Boolean,
-		default: false,
-	},
-	label: {
-		type: String,
-		default: "",
-	},
-	size: {
-		type: String,
-		default: "small",
-		validator: (s: string) => ["small", "big"].includes(s),
-	},
-	hideBox: {
-		type: Boolean,
-		default: false,
-	},
-	theme: {
-		type: String,
-		default: "primary",
-		validator: (s: string) => ["primary", "neutral"].includes(s),
-	},
-});
+withDefaults(
+	defineProps<{
+		modelValue?: boolean;
+		label?: string;
+		size?: "small" | "big";
+		hideBox?: boolean;
+		theme?: "primary" | "neutral";
+	}>(),
+	{
+		modelValue: false,
+		label: "",
+		size: "small",
+		hideBox: false,
+		theme: "primary",
+	}
+);
 
 const emits = defineEmits(["update:modelValue"]);
 </script>

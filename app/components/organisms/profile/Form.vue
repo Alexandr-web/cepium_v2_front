@@ -2,7 +2,7 @@
 	<section class="flex flex-col gap-16 w-full lg:max-w-1200 lg:mx-auto">
 		<UploadAvatar v-model="fileField!.value as File|string|null" />
 		<div v-for="(area, idx) in areas" :key="idx" class="flex flex-col gap-16">
-			<Collapse :label="area.title" :preppend-icon="area.icon" is-open>
+			<Collapse :label="area.title" :prepend-icon="area.icon" is-open>
 				<component :is="area.component" v-bind="area.formProps" />
 			</Collapse>
 		</div>
