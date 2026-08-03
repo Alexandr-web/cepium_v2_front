@@ -36,6 +36,7 @@ import SearchList from "@/components/molecules/common/SearchList.vue";
 import ASlider from "@/components/atoms/ASlider.vue";
 import { useExchangeStore } from "@/store/useExchangeStore";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
+import { useMarketsSearch } from "@/composables/api/useExchanges";
 
 const props = withDefaults(
 	defineProps<{
@@ -52,19 +53,25 @@ const props = withDefaults(
 	}
 );
 
+const { searchMarkets } = useMarketsSearch();
+
 const emits = defineEmits(["execute"]);
 
 const exchangeStore = useExchangeStore();
 
-const exchangesList = computed<TSelectItem[]>(() => exchangeStore.getAllExchanges().map((item) => ({ label: item.name, value: item.name })));
 const strategiesList = computed<TSelectItem[]>(() => props.strategies.map((s) => ({ label: s.name, value: s.id })) ?? []);
+const exchangesList = computed<TSelectItem[]>(() =>
+	exchangeStore.getAllExchanges()
+		.filter((item) => item.filled)
+		.map((item) => ({ label: item.name, value: item.name }))
+);
 
 const MARGIN_MODE_LIST: TSelectItem[] = [
 	{ label: "Изолированная", value: "isolated" },
 	{ label: "Кросс", value: "cross" },
 ];
 
-const choosedExchange = ref<string|null>(props.data?.exchangeName || null);
+const choosedExchange = ref(props.data?.exchangeName || "");
 
 const fields = ref<TGeneralFormField[]>([
 	{
@@ -76,7 +83,7 @@ const fields = ref<TGeneralFormField[]>([
 		placeholder: "Выберите биржу",
 		component: markRaw(ASelect),
 		items: exchangesList.value,
-		disabled: props.isPendingExchanges,
+		disabled: props.isPendingExchanges || !exchangesList.value.length,
 		classes: "lg:col-span-2",
 	},
 	{
@@ -158,26 +165,10 @@ const fields = ref<TGeneralFormField[]>([
 		placeholder: "Поиск отслеживаемых монет",
 		component: markRaw(SearchList),
 		classes: "lg:col-span-6",
-		// моковые данные
-		search: async () => {
-			return new Promise((res) => {
-				setTimeout(() => {
-					res([
-						{ label: "BTC/USDT:USDT", value: "BTC/USDT:USDT" },
-						{ label: "TON/USDT:USDT", value: "TON/USDT:USDT" },
-						{ label: "SOL/USDT:USDT", value: "SOL/USDT:USDT" },
-						{ label: "ETH/USDT:USDT", value: "ETH/USDT:USDT" },
-					]);
-				}, 5000);
-			});
+		search: async (search: string): Promise<TSelectItem[]> => {
+			const res = await searchMarkets(choosedExchange.value, search);
+			return res.data.map((s) => ({ label: s.symbol, value: s.symbol })) ?? [];
 		},
-	},
-	{
-		name: "demoTrading",
-		value: props.data?.demoTrading ?? true,
-		label: "Демо торговля",
-		component: markRaw(ACheckbox),
-		size: "big",
 	},
 	{
 		name: "activate",
@@ -201,7 +192,6 @@ const normalizedData = (): TConfigData => {
 		strategyId: String(fields.value.find(({ name }) => name === "strategyId")?.value),
 		dailyGoalPercent: Number(fields.value.find(({ name }) => name === "dailyGoalPercent")?.value),
 		maxPositionSize: Number(fields.value.find(({ name }) => name === "maxPositionSize")?.value),
-		demoTrading: Boolean(fields.value.find(({ name }) => name === "demoTrading")?.value),
 		activate: Boolean(fields.value.find(({ name }) => name === "activate")?.value),
 	};
 };

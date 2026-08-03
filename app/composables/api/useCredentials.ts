@@ -1,6 +1,6 @@
 import keys from "@/api/keys";
 import type { FetchError } from "ofetch";
-import { useMutation, useQuery } from "@tanstack/vue-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { getData, createData, changeData } from "@/api/credentials";
 
 type TUseCredentialsOptions = {
@@ -19,6 +19,7 @@ export const useCredentials = (options: TUseCredentialsOptions) => {
 };
 
 export const useCreateData = (_exchangeName: MaybeRefOrGetter<string>, onSuccess?: () => void) => {
+	const queryClient = useQueryClient();
 	const exchangeName = computed(() => toValue(_exchangeName));
 	const errMessage = ref("");
 
@@ -30,6 +31,7 @@ export const useCreateData = (_exchangeName: MaybeRefOrGetter<string>, onSuccess
 		mutationFn: (body) => createData(body, exchangeName.value),
 		onSuccess: () => {
 			onSuccess?.();
+			queryClient.invalidateQueries({ queryKey: keys.getExchanges });
 			push.success(`Данные для биржи ${exchangeName.value} успешно добавлены!`);
 		},
 		onError: (err) => {
@@ -42,6 +44,7 @@ export const useCreateData = (_exchangeName: MaybeRefOrGetter<string>, onSuccess
 };
 
 export const useChangeData = (_exchangeName: MaybeRefOrGetter<string>, onSuccess?: () => void) => {
+	const queryClient = useQueryClient();
 	const exchangeName = computed(() => toValue(_exchangeName));
 	const errMessage = ref("");
 
@@ -53,6 +56,7 @@ export const useChangeData = (_exchangeName: MaybeRefOrGetter<string>, onSuccess
 		mutationFn: (body) => changeData(body, exchangeName.value),
 		onSuccess: () => {
 			onSuccess?.();
+			queryClient.invalidateQueries({ queryKey: keys.getExchanges });
 			push.success(`Данные для биржи ${exchangeName.value} успешно изменены!`);
 		},
 		onError: (err) => {

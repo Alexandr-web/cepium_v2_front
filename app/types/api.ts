@@ -109,7 +109,6 @@ export type TConfigData = {
 	strategyId: string;
 	dailyGoalPercent: number;
 	maxPositionSize: number;
-	demoTrading: boolean;
 	activate: boolean;
 };
 
@@ -144,6 +143,7 @@ export type TExchangeCredentials = {
 	uid: string;
 	privateKey: string;
 	walletAddress: string;
+	demoTrading: boolean;
 };
 
 export type TExchangeCredentialsResponse = {
@@ -161,6 +161,7 @@ export type TExchangeCredentialsResponse = {
 		exchangeName?: string;
 		user?: string;
 		exchange?: TExchange;
+		demoTrading?: boolean;
 	};
 	statusCode: number;
 	message: string;
@@ -180,6 +181,7 @@ export type TCreateExchangeCredentialsResponse = {
 	updatedAt: string;
 	userId: string;
 	exchangeName: string;
+	demoTrading: boolean;
 	user: {
 		id: string;
 		name: string;
@@ -277,5 +279,18 @@ export type TOrder = {
 export type TOrderResponse = {
 	statusCode: number;
 	data: TOrder[];
+	message: string;
+};
+
+export type TExchangeMarket = {
+  symbol: string;
+  base: string;
+  quote: string;
+  active: boolean;
+};
+
+export type TExchangesMarketsResponse = {
+	statusCode: number;
+	data: TExchangeMarket[];
 	message: string;
 };

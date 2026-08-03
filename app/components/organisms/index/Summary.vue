@@ -41,5 +41,5 @@ const iconsMap: Record<string, string> = {
 };
 
 onMounted(() => $events.subscribeAccountInfo());
-onBeforeUnmount(() => $events.unsubscribeAccountInfo());
+onUnmounted(() => $events.unsubscribeAccountInfo());
 </script>

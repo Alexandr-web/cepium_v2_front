@@ -12,6 +12,7 @@
 				placeholder="Выберите активную биржу"
 				label="Активная биржа"
 				:items="exchanges"
+				:disabled="!exchanges.length"
 			/>
 		</Collapse>
 	</section>

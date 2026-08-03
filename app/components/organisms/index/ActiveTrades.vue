@@ -44,5 +44,5 @@ const presetControlsList = computed(() => selectedTrade.value ? "trade" : "trade
 watch(selectedTrade, (v) => showModal.value = !!v);
 
 onMounted(() => $events.subscribeDeals());
-onBeforeUnmount(() => $events.unsubscribeDeals());
+onUnmounted(() => $events.unsubscribeDeals());
 </script>
