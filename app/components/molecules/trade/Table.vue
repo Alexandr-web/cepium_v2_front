@@ -9,7 +9,6 @@
 	>
 		<template #head-controls>
 			<div class="flex items-center gap-10">
-				<AButton class="rounded-4 px-12 py-6 text-14" mode="neutral-fill">Экспорт</AButton>
 				<AButton class="py-4 px-12 rounded-4 text-14" mode="remove-border" @click="emits('clickByRemoveAll')">Закрыть все</AButton>
 			</div>
 		</template>

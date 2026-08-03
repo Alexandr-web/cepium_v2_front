@@ -5,10 +5,10 @@
 			card.type === 'positions' && 'flex'
 		]"
 	>
-		<template v-if="card.type === 'balance'">
+		<template v-if="card.type === 'balance' && dailyBalancePercentage !== '0'">
 			<p
 				:class="[
-					dashboardStore.data.balanceDailyChangePercent >= 0 && 'text-tertiary-800',
+					dashboardStore.data.balanceDailyChangePercent > 0 && 'text-tertiary-800',
 					dashboardStore.data.balanceDailyChangePercent < 0 && 'text-secondary-600',
 				]">
 				{{ dailyBalancePercentage }} за сегодня

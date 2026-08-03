@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "./fonts.css";
 
 @tailwind utilities;
 
@@ -98,7 +97,7 @@
 
 	--default-transition-duration: 0.3s;
 
-	--default-font-family: "Inter";
+	--default-font-family: "Inter", sans-serif;
 
 	/* Синий цвет GitHub (акценты, ссылки, уведомления) */
 	--color-primary-100: #0d1117;

@@ -34,10 +34,15 @@ import TradesTable from "@/components/molecules/trade/Table.vue";
 
 defineProps<{ trades: Trade[] }>();
 
+const { $events } = useNuxtApp();
+
 const selectedTrade = ref<Trade|undefined>(undefined);
 const showModal = ref(false);
 
 const presetControlsList = computed(() => selectedTrade.value ? "trade" : "trades");
 
 watch(selectedTrade, (v) => showModal.value = !!v);
+
+onMounted(() => $events.subscribeDeals());
+onUnmounted(() => $events.unsubscribeDeals());
 </script>

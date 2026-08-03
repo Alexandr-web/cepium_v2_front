@@ -19,6 +19,7 @@
 import IconPersonEditOutlineRounded from "@/assets/icons/person-edit-outline-rounded.svg";
 import IconLockOutline from "@/assets/icons/lock-outline.svg";
 import IconKeyboardArrowDownRounded from "@/assets/icons/keyboard-arrow-down-rounded.svg";
+import IconPartnerExchangeRounded from "@/assets/icons/partner-exchange-rounded.svg";
 
 const props = withDefaults(
 	defineProps<{
@@ -35,6 +36,7 @@ const props = withDefaults(
 const iconsMap: Record<string, string> = {
 	"person-edit-outline-rounded": IconPersonEditOutlineRounded,
 	"lock-outline": IconLockOutline,
+	"partner-exchange-rounded": IconPartnerExchangeRounded,
 };
 
 const isActive = ref(props.isOpen);

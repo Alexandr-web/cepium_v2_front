@@ -15,7 +15,7 @@
 					:class="[
 						item.type === 'balance' && 'lg:text-48',
 						item.type !== 'balance' && 'lg:text-36',
-						(item.type === 'pnl' && Number(item.value) >= 0) && 'text-tertiary-800',
+						(item.type === 'pnl' && Number(item.value) > 0) && 'text-tertiary-800',
 						(item.type === 'pnl' && Number(item.value) < 0) && 'text-secondary-800',
 						item.type !== 'pnl' && 'text-white'
 					]"
@@ -29,11 +29,17 @@
 import IconArrowsMoreUpRounded from "@/assets/icons/arrows-more-up-rounded.svg";
 import IconShelfPositionSharp from "@/assets/icons/shelf-position-sharp.svg";
 import IconMoneyBagOutlineRounded from "@/assets/icons/money-bag-outline-rounded.svg";
+
 const { summary } = defineProps<{ summary: TIndexCardSummary[]; }>();
+
+const { $events } = useNuxtApp();
 
 const iconsMap: Record<string, string> = {
 	"arrows-more-up-rounded": IconArrowsMoreUpRounded,
 	"shelf-position-sharp": IconShelfPositionSharp,
 	"money-bag-outline-rounded": IconMoneyBagOutlineRounded,
 };
+
+onMounted(() => $events.subscribeAccountInfo());
+onUnmounted(() => $events.unsubscribeAccountInfo());
 </script>
