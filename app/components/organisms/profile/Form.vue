@@ -6,18 +6,29 @@
 				<component :is="area.component" v-bind="area.formProps" />
 			</Collapse>
 		</div>
+		<Collapse label="Работа с биржами" prepend-icon="partner-exchange-rounded">
+			<ASelect
+				v-model="exchangeStore.activeExchange"
+				placeholder="Выберите активную биржу"
+				label="Активная биржа"
+				:items="exchanges"
+			/>
+		</Collapse>
 	</section>
 </template>
 <script setup lang="ts">
 import * as z from "zod";
 import { useUserStore } from "@/store/useUserStore";
+import { useExchangeStore } from "@/store/useExchangeStore";
 import AInput from "@/components/atoms/AInput.vue";
 import UploadAvatar from "@/components/molecules/profile/UploadAvatar.vue";
 import GeneralFieldsForm from "@/components/molecules/profile/GeneralFieldsForm.vue";
 import SecurityFieldsForm from "@/components/molecules/profile/SecurityFieldsForm.vue";
 import Collapse from "@/components/molecules/common/Collapse.vue";
+import ASelect from "@/components/atoms/ASelect.vue";
 
 const userStore = useUserStore();
+const exchangeStore = useExchangeStore();
 
 const generalFields = ref<TGeneralFormField[]>([
 	{
@@ -100,4 +111,10 @@ const areas = ref([
 ]);
 
 const fileField = computed(() => generalFields.value.find(({ name }) => name === "avatar"));
+
+const exchanges = computed<TSelectItem[]>(() =>
+	exchangeStore.getAllExchanges()
+		.filter((i) => i.filled)
+		.map((i) => ({ label: i.name, value: i.name }))
+);
 </script>

@@ -2,11 +2,13 @@ import { io } from "socket.io-client";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useConnectionStore } from "@/store/useConnectionStore";
 import { useDashboardStore } from "@/store/useDashboardStore";
+import { useExchangeStore } from "@/store/useExchangeStore";
 
 export default defineNuxtPlugin(() => {
 	const connectionStore = useConnectionStore();
 	const authStore = useAuthStore();
 	const dashboardStore = useDashboardStore();
+	const exchangeStore = useExchangeStore();
 
 	const config = useRuntimeConfig();
 
@@ -35,23 +37,17 @@ export default defineNuxtPlugin(() => {
 		};
 	});
 
-	socket.on("accountInfoError", (data) => console.error(data));
+	socket.on("accountInfoError", (data) => {
+		if (typeof data.message === "string") push.error(data.message);
+		console.error(data);
+	});
 
-	const subscribeDeals = () => {
-		socket.emit("subscribeDeals", { exchangeName: "bybit" });
-	};
+	const payload = { exchangeName: exchangeStore.activeExchange };
 
-	const unsubscribeDeals = () => {
-		socket.emit("unsubscribeDeals", { exchangeName: "bybit" });
-	};
-
-	const subscribeAccountInfo = () => {
-		socket.emit("subscribeAccountInfo", { exchangeName: "bybit" });
-	};
-
-	const unsubscribeAccountInfo = () => {
-		socket.emit("unsubscribeAccountInfo", { exchangeName: "bybit" });
-	};
+	const subscribeDeals = () => socket.emit("subscribeDeals", payload);
+	const unsubscribeDeals = () => socket.emit("unsubscribeDeals", payload);
+	const subscribeAccountInfo = () => socket.emit("subscribeAccountInfo", payload);
+	const unsubscribeAccountInfo = () => socket.emit("unsubscribeAccountInfo", payload);
 
 	return {
 		provide: {

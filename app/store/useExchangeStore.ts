@@ -3,6 +3,7 @@ import Exchange from "@/models/Exchange";
 
 export const useExchangeStore = defineStore("exchange-store", () => {
 	const exchanges = ref<TExchange[]>([]);
+	const activeExchange = ref<TExchange["name"]>();
 
 	const exchangesMap = computed(() => 
 		exchanges.value.reduce<Map<TExchange["id"], Exchange>>((map, i) => {
@@ -11,8 +12,14 @@ export const useExchangeStore = defineStore("exchange-store", () => {
 		}, new Map())
 	);
 
-	const getAllExchanges = () => Array.from(exchangesMap.value.values());
-	const getExchangeById = (id: TExchange["id"]) => exchangesMap.value.get(id);
+	const getAllExchanges = (): Exchange[] => Array.from(exchangesMap.value.values());
+	const getExchangeById = (id: TExchange["id"]): Exchange | undefined => exchangesMap.value.get(id);
 	
-	return { getAllExchanges, getExchangeById, exchanges };
+	return { exchanges, activeExchange, getAllExchanges, getExchangeById };
+}, 	{
+	persist: {
+      	// @ts-expect-error typescript не может определить тип path
+		paths: ["activeExchange"],
+		storage: persistedState.cookiesWithOptions({ sameSite: "strict" }),
+	},
 });
