@@ -12,4 +12,10 @@ export const useDashboardStore = defineStore("dashboard-store", () => {
 	});
 
 	return { data };
+}, 	{
+	persist: {
+      	// @ts-expect-error typescript не может определить тип path
+		paths: ["data"],
+		storage: persistedState.cookiesWithOptions({ sameSite: "strict" }),
+	},
 });

@@ -29,11 +29,10 @@
 import IconArrowsMoreUpRounded from "@/assets/icons/arrows-more-up-rounded.svg";
 import IconShelfPositionSharp from "@/assets/icons/shelf-position-sharp.svg";
 import IconMoneyBagOutlineRounded from "@/assets/icons/money-bag-outline-rounded.svg";
-import { useConnectionStore } from "@/store/useConnectionStore";
 
 const { summary } = defineProps<{ summary: TIndexCardSummary[]; }>();
 
-const connectionStore = useConnectionStore();
+const { $events } = useNuxtApp();
 
 const iconsMap: Record<string, string> = {
 	"arrows-more-up-rounded": IconArrowsMoreUpRounded,
@@ -41,6 +40,6 @@ const iconsMap: Record<string, string> = {
 	"money-bag-outline-rounded": IconMoneyBagOutlineRounded,
 };
 
-onMounted(() => connectionStore.subscribeAccountInfo());
-onBeforeUnmount(() => connectionStore.unsubscribeAccountInfo());
+onMounted(() => $events.subscribeAccountInfo());
+onBeforeUnmount(() => $events.unsubscribeAccountInfo());
 </script>

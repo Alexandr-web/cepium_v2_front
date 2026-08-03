@@ -1,5 +1,3 @@
-import StatisticsPage from "@/pages/statistics.vue";
-
 export default {
 	// https://router.vuejs.org/api/interfaces/routeroptions#routes
 	routes: () => [
@@ -70,7 +68,7 @@ export default {
 		{
 			name: "statistics",
 			path: "/statistics",
-			component: StatisticsPage,
+			component: () => import("@/pages/statistics.vue"),
 			meta: {
 				hasBack: true,
 				middleware: "auth",

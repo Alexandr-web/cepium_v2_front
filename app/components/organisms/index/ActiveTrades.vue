@@ -31,11 +31,10 @@ import Modal from "@/components/molecules/common/Modal.vue";
 import AButton from "@/components/atoms/AButton.vue";
 import TradeControlsList from "@/components/molecules/trade/ControlsList.vue";
 import TradesTable from "@/components/molecules/trade/Table.vue";
-import { useConnectionStore } from "@/store/useConnectionStore";
 
 defineProps<{ trades: Trade[] }>();
 
-const connectionStore = useConnectionStore();
+const { $events } = useNuxtApp();
 
 const selectedTrade = ref<Trade|undefined>(undefined);
 const showModal = ref(false);
@@ -44,6 +43,6 @@ const presetControlsList = computed(() => selectedTrade.value ? "trade" : "trade
 
 watch(selectedTrade, (v) => showModal.value = !!v);
 
-onMounted(() => connectionStore.subscribeDeals());
-onBeforeUnmount(() => connectionStore.unsubscribeDeals());
+onMounted(() => $events.subscribeDeals());
+onBeforeUnmount(() => $events.unsubscribeDeals());
 </script>
