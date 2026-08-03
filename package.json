@@ -18,6 +18,7 @@
   "dependencies": {
     "@floating-ui/vue": "^2.0.1",
     "@nuxt/eslint": "1.15.2",
+    "@nuxt/fonts": "^0.14.0",
     "@nuxt/image": "2.0.0",
     "@nuxtjs/device": "4.0.0",
     "@peterbud/nuxt-query": "1.8.0",

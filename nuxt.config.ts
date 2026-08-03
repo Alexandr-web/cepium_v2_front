@@ -27,6 +27,7 @@ export default defineNuxtConfig({
 		"@pinia-plugin-persistedstate/nuxt",
 		"notivue/nuxt",
 		"nuxt-echarts",
+		"@nuxt/fonts",
 	],
 	runtimeConfig: {
 		apiKey: process.env.API_KEY,
@@ -80,6 +81,27 @@ export default defineNuxtConfig({
 	imports: {
 		dirs: [
 			"@/types/**",
+		],
+	},
+	fonts: {
+		defaults: {
+			fallbacks: {
+				"sans-serif": ["Roboto"],
+			},
+		},
+		providers: {
+			google: false,
+			bunny: false,
+		},
+		families: [
+			{
+				name: "Inter",
+				provider: "local",
+				weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+				styles: ["normal", "italic"],
+				subsets: ["latin"],
+				global: true,
+			},
 		],
 	},
 });
