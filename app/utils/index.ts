@@ -137,3 +137,49 @@ export const getRequestErrorMessage = (err: FetchError): string => {
 	const message = err.data.message;
 	return !Array.isArray(message) ? message : message?.at(0) ?? "";
 };
+
+/**
+ * Форматирует технические сообщения об ошибках в понятный для пользователя текст.
+ * 
+ * Функция проверяет текст ошибки с помощью регулярного выражения и, 
+ * в случае совпадения (например, при рассинхронизации времени с сервером), 
+ * возвращает локализованное сообщение на русском языке.
+ *
+ * @param {string} message - Исходное (техническое) сообщение об ошибке.
+ * @returns {string} Локализованное сообщение для пользователя или исходный текст, если совпадений нет.
+ */
+export const prettyError = (message: string) => {
+	if (/Client\snetwork\ssocket\sdisconnected\sbefore\ssecure\sTLS\sconnection\swas\sestablished/.test(message)) {
+		return "Сбой защищенного соединения. Проверьте интернет или отключите VPN и попробуйте снова";
+	}
+
+	if (/Connect\sTimeout\sError/.test(message)) {
+		return "Время ожидания сети истекло. Перезагрузите страницу";
+	}
+
+	return message;
+};
+
+/**
+ * Извлекает и форматирует сообщение об ошибке из сырого ответа биржи, 
+ * позволяя игнорировать определенные коды ошибок.
+ *
+ * @param {unknown} rawData - Сырые данные ошибки (ожидается строка с префиксом или JSON).
+ * @param {string} exchangeName - Название биржи для удаления префикса (например, 'bybit').
+ * @returns {string} Очищенный текст ошибки, исходная строка или пустая строка, если ошибка в списке исключений.
+ */
+export const parseExchangeErrorMessage = (rawData: unknown, exchangeName: string): string => {
+	if (typeof rawData !== "string") return "";
+
+	try {
+		const prefixRegex = new RegExp(`^${exchangeName}\\s+`, "i");
+		const jsonString = rawData.replace(prefixRegex, "");
+		const parsed = JSON.parse(jsonString);
+
+		if (exchangeName === "bybit" && parsed.retCode === 10002) return "";
+		
+		return prettyError(parsed.retMsg || parsed.message || rawData);
+	} catch {
+		return rawData;
+	}
+};

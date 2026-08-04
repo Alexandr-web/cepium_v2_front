@@ -21,10 +21,7 @@ export default defineNuxtPlugin(() => {
 	const subscribeDeals = () => socket?.emit("subscribeDeals", payload.value);
 	const unsubscribeDeals = () => socket?.emit("unsubscribeDeals", payload.value);
 	const subscribeAccountInfo = () => socket?.emit("subscribeAccountInfo", payload.value);
-	const unsubscribeAccountInfo = () => {
-		console.log(payload.value);
-		socket?.emit("unsubscribeAccountInfo", payload.value);
-	};
+	const unsubscribeAccountInfo = () => socket?.emit("unsubscribeAccountInfo", payload.value);
 
 	const connectSocket = () => {
 		if (socket) return;
@@ -55,8 +52,12 @@ export default defineNuxtPlugin(() => {
 		});
 
 		socket.on("accountInfoError", (data) => {
-			if (typeof data.message === "string") push.error(data.message);
-			console.error(data);
+			const message = parseExchangeErrorMessage(data.message, exchangeStore.activeExchange ?? "");
+			
+			if (message) {
+				push.error(message);
+				console.error(data);
+			}
 		});
 	};
 
