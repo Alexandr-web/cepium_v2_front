@@ -68,7 +68,7 @@ const info = computed(() => [
 	{
 		label: "Макс убыток",
 		value: formatNum(-card.maxLossPercent / 100, { style: "percent" }),
-		valueClasses: "text-secondary-800",
+		valueClasses: "text-secondary-500",
 	},
 ]);
 </script>

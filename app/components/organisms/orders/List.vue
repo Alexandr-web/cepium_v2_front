@@ -15,12 +15,14 @@
 				:per-page="10"
 			/>
 		</template>
+		<Empty v-else />
 	</section>
 </template>
 <script setup lang="ts">
 import Card from "@/components/molecules/orders/Card.vue";
 import Table from "@/components/molecules/orders/Table.vue";
 import APagination from "@/components/atoms/APagination.vue";
+import Empty from "@/components/molecules/common/Empty.vue";
 
 defineProps<{
 	orders: TOrder[];

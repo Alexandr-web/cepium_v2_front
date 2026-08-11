@@ -7,7 +7,7 @@
 		</LazyOrganismsIndexSummary>
 		<div class="-mx-16 bg-neutral-300/50 p-16">
 			<div class="flex flex-col gap-16 lg:gap-32">
-				<LazyOrganismsIndexActiveTrades :trades="trades" />
+				<LazyOrganismsIndexActiveTrades :trades="tradeStore.trades" />
 			</div>
 		</div>
 	</div>
@@ -24,8 +24,6 @@ await suspense();
 
 const dashboardStore = useDashboardStore();
 const tradeStore = useTradeStore();
-
-const trades = computed(() => tradeStore.getAllTrades());
 
 const summary = computed<TIndexCardSummary[]>(() => [
 	{

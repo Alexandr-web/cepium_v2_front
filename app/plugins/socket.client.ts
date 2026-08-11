@@ -1,8 +1,10 @@
 import { io, type Socket } from "socket.io-client";
+import Trade from "@/models/Trade";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useConnectionStore } from "@/store/useConnectionStore";
 import { useDashboardStore } from "@/store/useDashboardStore";
 import { useExchangeStore } from "@/store/useExchangeStore";
+import { useTradeStore } from "@/store/useTradeStore";
 
 export default defineNuxtPlugin(() => {
 	const router = useRouter();
@@ -11,13 +13,16 @@ export default defineNuxtPlugin(() => {
 	const authStore = useAuthStore();
 	const dashboardStore = useDashboardStore();
 	const exchangeStore = useExchangeStore();
+	const tradeStore = useTradeStore();
 
 	const config = useRuntimeConfig();
 
 	let socket: Socket|null = null;
 
+	// общий payload для работы со всеми событиями
 	const payload = computed(() => ({ exchangeName: exchangeStore.activeExchange }));
 
+	// основные события
 	const subscribeDeals = () => socket?.emit("subscribeDeals", payload.value);
 	const unsubscribeDeals = () => socket?.emit("unsubscribeDeals", payload.value);
 	const subscribeAccountInfo = () => socket?.emit("subscribeAccountInfo", payload.value);
@@ -33,12 +38,31 @@ export default defineNuxtPlugin(() => {
 			auth: (cb) => cb({ token: authStore.token }),
 		});
 
+		// системные события
 		socket.on("connect", () => connectionStore.status = ConnectionStatuses.OPEN);
 		socket.on("disconnect", () => connectionStore.status = ConnectionStatuses.CLOSED);
 		socket.on("connect_error", () => connectionStore.status = ConnectionStatuses.CONNECTING);
 
-		socket.on("deals", (data) => console.log(data));
+		// активные сделки
+		socket.on("deals", (data: TPosition[]) => {
+			data.forEach((pos) => {
+				const findPosIdx = tradeStore.trades.findIndex(({ symbol }) => symbol === pos.symbol);
 
+				if (findPosIdx === -1) {
+					tradeStore.trades.push(new Trade(pos));
+					return;
+				}
+
+				if (pos.closedAt) {
+					tradeStore.trades.splice(findPosIdx, 1);
+					return;
+				}
+
+				tradeStore.trades[findPosIdx]?.updateData(pos);
+			});
+		});
+
+		// информация на дашборде
 		socket.on("accountInfo", (data: TDashboard) => {
 			dashboardStore.data = {
 				activePositionsCount: data?.activePositionsCount ?? 0,
@@ -51,6 +75,7 @@ export default defineNuxtPlugin(() => {
 			};
 		});
 
+		// обработка ошибок
 		socket.on("accountInfoError", (data) => {
 			const message = parseExchangeErrorMessage(data.message, exchangeStore.activeExchange ?? "");
 			
