@@ -4,7 +4,7 @@
 			<h2 class="font-bold text-20">Активные сделки</h2>
 			<AButton class="py-4 px-12 rounded-12 text-12" mode="remove-border" @click="showModal = true">Закрыть все</AButton>
 		</div>
-		<div class="flex lg:hidden flex-col gap-12">
+		<div v-if="trades.length" class="flex lg:hidden flex-col gap-12">
 			<MobTradeCard
 				v-for="trade in trades"
 				:key="trade.id"
@@ -12,6 +12,7 @@
 				@click-by-controls="selectedTrade = trade"
 			/>
 		</div>
+		<Empty v-else />
 		<TradesTable
 			:trades="trades"
 			@click-by-remove="(t: Trade) => console.log('remove', t.id)"
@@ -31,8 +32,11 @@ import Modal from "@/components/molecules/common/Modal.vue";
 import AButton from "@/components/atoms/AButton.vue";
 import TradeControlsList from "@/components/molecules/trade/ControlsList.vue";
 import TradesTable from "@/components/molecules/trade/Table.vue";
+import Empty from "@/components/molecules/common/Empty.vue";
 
 defineProps<{ trades: Trade[] }>();
+
+const { $events } = useNuxtApp();
 
 const selectedTrade = ref<Trade|undefined>(undefined);
 const showModal = ref(false);
@@ -40,4 +44,7 @@ const showModal = ref(false);
 const presetControlsList = computed(() => selectedTrade.value ? "trade" : "trades");
 
 watch(selectedTrade, (v) => showModal.value = !!v);
+
+onMounted(() => $events.subscribeDeals());
+onUnmounted(() => $events.unsubscribeDeals());
 </script>

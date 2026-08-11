@@ -15,28 +15,6 @@ export type TUser = {
 	xApiKeyRegenerationAllowedAt?: string|null;
 };
 
-export type TCoin = {
-	symbol: string;
-	fullSymbol: string;
-	timestamp: string;
-	price24h: number;
-	volume24h: number;
-	change24hprct: number;
-	currentPrice: number;
-	id: number;
-};
-
-export type TTrade = TCoin & {
-	margin?: string;
-	leverage?: string;
-	amount: number;
-	pnl: number;
-	type: "future" | "spot";
-	entryPrice: number;
-	direction?: string;
-	pnlPercent: number;
-};
-
 export type TAuthLoginData = {
 	email: string;
 	password: string;
@@ -109,7 +87,6 @@ export type TConfigData = {
 	strategyId: string;
 	dailyGoalPercent: number;
 	maxPositionSize: number;
-	demoTrading: boolean;
 	activate: boolean;
 };
 
@@ -144,6 +121,7 @@ export type TExchangeCredentials = {
 	uid: string;
 	privateKey: string;
 	walletAddress: string;
+	demoTrading: boolean;
 };
 
 export type TExchangeCredentialsResponse = {
@@ -161,6 +139,7 @@ export type TExchangeCredentialsResponse = {
 		exchangeName?: string;
 		user?: string;
 		exchange?: TExchange;
+		demoTrading?: boolean;
 	};
 	statusCode: number;
 	message: string;
@@ -180,6 +159,7 @@ export type TCreateExchangeCredentialsResponse = {
 	updatedAt: string;
 	userId: string;
 	exchangeName: string;
+	demoTrading: boolean;
 	user: {
 		id: string;
 		name: string;
@@ -278,4 +258,33 @@ export type TOrderResponse = {
 	statusCode: number;
 	data: TOrder[];
 	message: string;
+};
+
+export type TExchangeMarket = {
+  symbol: string;
+  base: string;
+  quote: string;
+  active: boolean;
+};
+
+export type TExchangesMarketsResponse = {
+	statusCode: number;
+	data: TExchangeMarket[];
+	message: string;
+};
+
+export type TPosition = {
+	closedAt: null|number;
+	entryPrice: number;
+	leverage: number;
+	liquidationPrice: number;
+	markPrice: number;
+	pnlPercent: number;
+	realizedPnl: null|number;
+	side: string;
+	size: number;
+	stopLossPrice: null|number;
+	symbol: string;
+	takeProfitPrice: null|number;
+	unrealizedPnl: number;
 };

@@ -1,22 +1,22 @@
 import { defineStore } from "pinia";
 
 export const useConnectionStore = defineStore("connection-store", () => {
-	const status = ref(TConnectionStatuses.OPEN); // до появления бека
+	const status = ref(ConnectionStatuses.NONE);
 
 	const statusText = computed(() => {
 		switch (status.value) {
-			case TConnectionStatuses.CONNECTING:
+			case ConnectionStatuses.CONNECTING:
 				return "Подключение";
-			case TConnectionStatuses.OPEN:
+			case ConnectionStatuses.OPEN:
 				return "Подключено";
-			case TConnectionStatuses.CLOSING:
+			case ConnectionStatuses.CLOSING:
 				return "Отключение";
-			case TConnectionStatuses.CLOSED:
+			case ConnectionStatuses.CLOSED:
 				return "Отключено";
+			default:
+				return "";
 		}
 	});
-
-	// TODO добавить работу WebSocket после появления бек
 
 	return { status, statusText };
 });

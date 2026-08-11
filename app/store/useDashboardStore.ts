@@ -1,17 +1,24 @@
 import { defineStore } from "pinia";
 
-export const useDashboardStore = defineStore("dashboard-store", () => {
-	const data = ref<TDashboard>({
-		balance: 142032,
-		balanceDailyChangePercent: 0.042,
-		activePositionsCount: 2,
-		dailyGoalPNL: 4300,
-		pnl24h: 3120,
-		usedMargin: 32000,
-		availableMargin: 110000,
-	});
+export const useDashboardStore = defineStore("dashboard-store",
+	() => {
+		const data = ref<TDashboard>({
+			balance: 0,
+			balanceDailyChangePercent: 0,
+			activePositionsCount: 0,
+			dailyGoalPNL: 0,
+			pnl24h: 0,
+			usedMargin: 0,
+			availableMargin: 0,
+		});
 
-	// TODO добавить после бека fetch метод для актуальных данных
-
-	return { data };
-});
+		return { data };
+	},
+	{
+		persist: {
+			// @ts-expect-error typescript не может определить тип path
+			paths: ["data"],
+			storage: persistedState.cookiesWithOptions({ sameSite: "strict" }),
+		},
+	}
+);

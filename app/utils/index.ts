@@ -9,26 +9,30 @@ type TFormatNumOptions = {
 
 /**
  * Превращает число в красивую строку с разделителями.
- * @param {number|string} value - Исходное число или строка
+ * @param {number|string} _value - Исходное число или строка
  * @param {TFormatNumOptions} options - Опции
  * @returns {string}
  */
-export const formatNum = (value: number | string, options?: TFormatNumOptions): string => {
-	const num = typeof value === "string" ? parseFloat(value) : value;
+export const formatNum = (_value: number | string, options?: TFormatNumOptions): string => {
+	const num = typeof _value === "string" ? parseFloat(_value.replace(",", ".")) : _value;
 	const { style, currency, padZero, defaultValue = "0" } = options ?? {};
 
-	if (isNaN(num) || !isFinite(num) || isNegativeZero(num) || String(value).includes(",") || !value) return defaultValue;
-
-	if (Math.round(num * 100) / 100 === 0) return "0";
+	if (isNaN(num) || !isFinite(num) || isNegativeZero(num) || !_value) return defaultValue;
 
 	let minimumIntegerDigits = 1;
+	let maximumFractionDigits = 2;
 
 	if (padZero && Math.abs(num) >= 1) minimumIntegerDigits = 2;
+
+	if (Math.abs(num) < 0.01) {
+		const absNum = Math.abs(num);
+		maximumFractionDigits = Math.min(20, Math.ceil(-Math.log10(absNum)) + 1);
+	}
 
 	return new Intl.NumberFormat("ru-RU", {
 		style,
 		minimumFractionDigits: 0,
-		maximumFractionDigits: 2,
+		maximumFractionDigits,
 		minimumIntegerDigits,
 		currency,
 	}).format(num);
@@ -136,4 +140,54 @@ export const formatIsoToPrettyStr = (isoString: string): string => {
 export const getRequestErrorMessage = (err: FetchError): string => {
 	const message = err.data.message;
 	return !Array.isArray(message) ? message : message?.at(0) ?? "";
+};
+
+/**
+ * Форматирует технические сообщения об ошибках в понятный для пользователя текст.
+ * 
+ * Функция проверяет текст ошибки с помощью регулярного выражения и, 
+ * в случае совпадения (например, при рассинхронизации времени с сервером), 
+ * возвращает локализованное сообщение на русском языке.
+ *
+ * @param {string} message - Исходное (техническое) сообщение об ошибке.
+ * @returns {string} Локализованное сообщение для пользователя или исходный текст, если совпадений нет.
+ */
+export const prettyError = (message: string) => {
+	if (/before\ssecure\stls\sconnection\swas\sestablished/i.test(message)) {
+		return "Сбой защищенного соединения. Проверьте интернет или отключите VPN и попробуйте снова";
+	}
+
+	if (/connect\stimeout\serror/i.test(message)) {
+		return "Время ожидания сети истекло. Перезагрузите страницу";
+	}
+
+	if (/other\sside\sclosed/i.test(message)) {
+		return "Сервер закрыл подключение. Пожалуйста, убедитесь, что интернет работает стабильно, и попробуйте перезагрузить страницу";
+	}
+
+	return message;
+};
+
+/**
+ * Извлекает и форматирует сообщение об ошибке из сырого ответа биржи, 
+ * позволяя игнорировать определенные коды ошибок.
+ *
+ * @param {unknown} rawData - Сырые данные ошибки (ожидается строка с префиксом или JSON).
+ * @param {string} exchangeName - Название биржи для удаления префикса (например, 'bybit').
+ * @returns {string} Очищенный текст ошибки, исходная строка или пустая строка, если ошибка в списке исключений.
+ */
+export const parseExchangeErrorMessage = (rawData: unknown, exchangeName: string): string => {
+	if (typeof rawData !== "string") return "";
+
+	try {
+		const prefixRegex = new RegExp(`^${exchangeName}\\s+`, "i");
+		const jsonString = rawData.replace(prefixRegex, "");
+		const parsed = JSON.parse(jsonString);
+
+		if (exchangeName === "bybit" && parsed.retCode === 10002) return "";
+		
+		return prettyError(parsed.retMsg || parsed.message || rawData);
+	} catch {
+		return rawData;
+	}
 };

@@ -1,9 +1,6 @@
 <template>
 	<section class="flex flex-col my-auto gap-40 p-24">
 		<div class="mx-auto inline-flex items-center flex-col gap-8">
-			<div class="w-48 lg:w-68 h-48 lg:h-68 flex justify-center items-center rounded-12 border-primary-800/20 border-solid border bg-primary-800/10">
-				<LogoIcon class="w-25 lg:w-30 h-17 lg:h-22 text-primary-500" />
-			</div>
 			<Logo />
 		</div>
 		<!-- @vue-generic {TAuthLoginData} -->
@@ -36,7 +33,6 @@
 <script setup lang="ts">
 import * as z from "zod";
 import IconKeyboardDoubleArrowRight from "@/assets/icons/keyboard-double-arrow-right.svg";
-import LogoIcon from "@/assets/icons/logo.svg";
 import Logo from "@/components/atoms/Logo.vue";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import AInput from "@/components/atoms/AInput.vue";

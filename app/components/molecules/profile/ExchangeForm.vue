@@ -30,6 +30,7 @@ import AInput from "@/components/atoms/AInput.vue";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import { useCreateData, useChangeData } from "@/composables/api/useCredentials";
 import { useExchanges } from "@/composables/api/useExchanges";
+import ACheckbox from "@/components/atoms/ACheckbox.vue";
 
 const props = withDefaults(
 	defineProps<{
@@ -96,7 +97,7 @@ const createFields = () => ([
 		name: "password",
 		label: "Пароль",
 		prependIcon: "",
-		check: z.string().min(1),
+		check: z.optional(z.string()),
 		error: "",
 		type: "password",
 	},
@@ -107,7 +108,7 @@ const createFields = () => ([
 		name: "uid",
 		label: "UID",
 		prependIcon: "",
-		check: z.string().min(1),
+		check: z.optional(z.string()),
 		error: "",
 	},
 	{
@@ -117,7 +118,7 @@ const createFields = () => ([
 		name: "privateKey",
 		label: "Private Key",
 		prependIcon: "",
-		check: z.string().min(1),
+		check: z.optional(z.string()),
 		error: "",
 		type: "password",
 	},
@@ -128,9 +129,17 @@ const createFields = () => ([
 		name: "walletAddress",
 		label: "Адрес кошелька",
 		prependIcon: "",
-		check: z.string().min(1),
+		check: z.optional(z.string()),
 		error: "",
 		type: "password",
+	},
+	{
+		component: markRaw(ACheckbox),
+		value: props.credentials?.data.demoTrading ?? false,
+		name: "demoTrading",
+		label: "Демо аккаунт",
+		classes: "text-white/80",
+		size: "big",
 	},
 ]);
 
@@ -145,6 +154,7 @@ const normalizedData = (): TExchangeCredentials => ({
 	uid: String(fields.value.find(({ name }) => name === "uid")?.value ?? ""),
 	privateKey: String(fields.value.find(({ name }) => name === "privateKey")?.value ?? ""),
 	walletAddress: String(fields.value.find(({ name }) => name === "walletAddress")?.value ?? ""),
+	demoTrading: Boolean(fields.value.find(({ name }) => name === "demoTrading")?.value),
 });
 
 const execute = async (data: TExchangeCredentials) => {

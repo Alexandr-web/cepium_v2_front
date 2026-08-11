@@ -6,13 +6,6 @@
 					class="text-12 lg:text-20 font-medium lg:font-bold truncate text-neutral-700"
 					:title="card.strategy.name"
 				>{{ card.strategy.name }}</span>
-				<span
-					class="text-10 lg:text-12 uppercase inline-block rounded-full py-4 px-8 border border-solid font-bold mr-auto"
-					:class="[
-						card.demoTrading && 'border-primary-500/50 bg-primary-300/50 text-primary-600',
-						!card.demoTrading && 'border-tertiary-500/50 bg-tertiary-300/50 text-tertiary-600'
-					]"
-				>{{ tradingLabel }}</span>
 			</div>
 			<div
 				class="text-10 lg:text-12 font-bold uppercase whitespace-nowrap"
@@ -55,7 +48,6 @@ import IconEdit from "@/assets/icons/edit-outline-rounded.svg";
 
 const { card } = defineProps<{ card: TConfigResponse; }>();
 
-const tradingLabel = computed(() => card.demoTrading ? "Демо аккаунт" : "Реальный аккаунт");
 const activeLabel = computed(() => card.activate ? "Активно" : "Не активно");
 
 const info = computed(() => [
@@ -76,7 +68,7 @@ const info = computed(() => [
 	{
 		label: "Макс убыток",
 		value: formatNum(-card.maxLossPercent / 100, { style: "percent" }),
-		valueClasses: "text-secondary-800",
+		valueClasses: "text-secondary-500",
 	},
 ]);
 </script>

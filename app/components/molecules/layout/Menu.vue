@@ -33,7 +33,7 @@
 				class="flex items-center gap-10 text-secondary-500 hover:text-secondary-600 active:scale-95 transition-all duration-150 group/btn"
 				@click="logout"
 			>
-				<IconLogoutRounded class="w-18 h-18 transition-transform duration-200 group-hover/btn:-translate-x-2" />
+				<IconLogoutRounded class="w-18 h-18" />
 				<span class="text-14">Выйти</span>
 			</AButton>
 			<span class="text-neutral-500 font-mono text-12 tracking-wider select-none bg-neutral-200/40 px-6 py-2 rounded-4">
