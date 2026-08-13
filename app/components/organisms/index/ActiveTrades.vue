@@ -12,7 +12,7 @@
 				@click-by-controls="selectedTrade = trade"
 			/>
 		</div>
-		<Empty v-else />
+		<Empty v-else class="lg:hidden" />
 		<TradesTable
 			:trades="trades"
 			@click-by-remove="(t: Trade) => console.log('remove', t.id)"

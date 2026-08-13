@@ -1,0 +1,9 @@
+node_modules
+.nuxt
+.output
+dist
+.env
+.git
+.gitignore
+.yarn/cache
+.yarn/install-state.gz
