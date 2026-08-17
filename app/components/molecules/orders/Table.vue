@@ -8,36 +8,28 @@
 		<template #cell-symbol="{ value }">
 			<span class="font-bold">{{ value }}</span>
 		</template>
-		<template #cell-direction="{ value }">
+		<template #cell-side="{ value }">
 			<span
 				class="p-10 rounded-8 font-medium"
 				:class="[
-					value === 'BUY' && 'text-tertiary-600 bg-tertiary-400/20',
-					value === 'SELL' && 'text-secondary-500 bg-secondary-400/20'
+					value === 'long' && 'text-tertiary-600 bg-tertiary-400/20',
+					value === 'short' && 'text-secondary-500 bg-secondary-400/20'
 				]"
 			>{{ value }}</span>
 		</template>
-		<template #cell-pnl="{ row, value }">
+		<template #cell-realizedPnl="{ row, value }">
 			<span
 				class="font-medium"
 				:class="[
-					(row.pnl ?? 0) > 0 && 'text-tertiary-600',
-					(row.pnl ?? 0) < 0 && 'text-secondary-500'
+					(row.realizedPnl ?? 0) > 0 && 'text-tertiary-600',
+					(row.realizedPnl ?? 0) < 0 && 'text-secondary-500'
 				]"
 			>{{ value }}</span>
 		</template>
-		<template #cell-enterPrice="{ value }">
+		<template #cell-entryPrice="{ value }">
 			<span class="text-primary-600">{{ value }}</span>
 		</template>
-		<template #cell-status="{ value }">
-			<span
-				:class="[
-					value === 'open' && 'text-tertiary-600',
-					value === 'close' && 'text-secondary-500'
-				]"
-			>{{ value }}</span>
-		</template>
-		<template #cell-time="{ value }">
+		<template #cell-createdAt="{ value }">
 			<span class="opacity-80">{{ value }}</span>
 		</template>
 	</MTable>
@@ -59,34 +51,26 @@ const columns = computed<TTableColumn<TOrder>[]>(() => [
 		label: "Монета",
 	},
 	{
-		key: "direction",
+		key: "side",
 		label: "Направление",
 	},
 	{
-		key: "pnl",
+		key: "realizedPnl",
 		label: "Профит",
 		normalizer: (v) => formatNum(Number(v), { currency: "USD", style: "currency", defaultValue: "-" }),
 	},
 	{
-		key: "amount",
+		key: "size",
 		label: "Кол-во",
 		normalizer: (v) => formatNum(Number(v), { padZero: true }),
 	},
 	{
-		key: "enterPrice",
+		key: "entryPrice",
 		label: "Цена входа",
 		normalizer: (v) => formatNum(Number(v), { currency: "USD", style: "currency" }),
 	},
 	{
-		key: "type",
-		label: "Тип",
-	},
-	{
-		key: "status",
-		label: "Статус",
-	},
-	{
-		key: "time",
+		key: "createdAt",
 		label: "Время создания",
 		normalizer: (v) => formatTimeAgo(new Date(String(v)), { messages: RU_TIME_MESSAGES }),
 	},

@@ -9,6 +9,7 @@
 			:label="filter.label"
 			:items="filter.items"
 			:disabled="disabled"
+			:class="filter.classes"
 		/>
 		<slot name="footer" />
 	</div>

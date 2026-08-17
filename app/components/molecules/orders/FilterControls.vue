@@ -28,7 +28,7 @@
 	</div>
 </template>
 <script setup lang="ts">
-import AButton from "@/components/atoms/AButton";
+import AButton from "@/components/atoms/AButton.vue";
 
 withDefaults(
 	defineProps<{
