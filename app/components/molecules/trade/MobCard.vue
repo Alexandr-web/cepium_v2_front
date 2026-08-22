@@ -39,7 +39,7 @@
 				<AButton
 					class="py-6 px-16 rounded-4 text-12"
 					mode="neutral-fill"
-					@click="emits('clickByControls', trade)"
+					@click="emits('controls', trade)"
 				>Управление</AButton>
 			</div>
 		</div>
@@ -51,5 +51,5 @@ import AButton from "@/components/atoms/AButton.vue";
 
 defineProps<{ trade: Trade }>();
 
-const emits = defineEmits(["clickByControls"]);
+const emits = defineEmits(["controls"]);
 </script>

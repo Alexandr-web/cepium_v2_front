@@ -8,8 +8,8 @@
 		:columns="columns"
 	>
 		<template #head-controls>
-			<div class="flex items-center gap-10">
-				<AButton class="py-4 px-12 rounded-4 text-14" mode="remove-border" @click="emits('clickByRemoveAll')">Закрыть все</AButton>
+			<div v-if="trades.length" class="flex items-center gap-10">
+				<AButton class="py-4 px-12 rounded-4 text-14" mode="remove-border" @click="emits('removeAll')">Закрыть все</AButton>
 			</div>
 		</template>
 		<template #cell-symbol="{ row }">
@@ -57,7 +57,7 @@
 			<AButton
 				class="rounded-4 px-12 py-6 text-14 w-full"
 				mode="remove-fill"
-				@click="emits('clickByRemove', row)"
+				@click="emits('remove', row)"
 			>Закрыть</AButton>
 		</template>
 	</MTable>
@@ -69,7 +69,7 @@ import MTable from "@/components/molecules/common/MTable.vue";
 
 defineProps<{ trades: Trade[] }>();
 
-const emits = defineEmits(["clickByRemove", "clickByRemoveAll"]);
+const emits = defineEmits(["remove", "removeAll"]);
 
 const columns = computed<TTableColumn<Trade>[]>(() => [
 	{

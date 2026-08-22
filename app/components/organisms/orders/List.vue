@@ -53,13 +53,24 @@ const fetchOrders = async () => {
 		});
 
 		orders.value = res.data.orders;
-		totalItems.value = res.data.total ?? 1;
+		totalItems.value = res.data.total ?? 1; // заменить на бек
 	} catch (err) {
 		console.error(err);
 	}
 };
 
-watch(() => props.filters, () => page.value = 1, { deep: true });
+watch(
+	() => props.filters,
+	async () => {
+		if (page.value !== 1) {
+			page.value = 1;
+			return;
+		}
+
+		await fetchOrders();
+	},
+	{ deep: true }
+);
 
 watch(page, fetchOrders);
 
