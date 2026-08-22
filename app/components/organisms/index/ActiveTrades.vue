@@ -2,21 +2,21 @@
 	<section class="flex flex-col gap-16">
 		<div class="flex lg:hidden items-center justify-between">
 			<h2 class="font-bold text-20">Активные сделки</h2>
-			<AButton class="py-4 px-12 rounded-12 text-12" mode="remove-border" @click="showModal = true">Закрыть все</AButton>
+			<AButton v-if="trades.length" class="py-4 px-12 rounded-12 text-12" mode="remove-border" @click="showModal = true">Закрыть все</AButton>
 		</div>
 		<div v-if="trades.length" class="flex lg:hidden flex-col gap-12">
 			<MobTradeCard
 				v-for="trade in trades"
 				:key="trade.id"
 				:trade="trade"
-				@click-by-controls="selectedTrade = trade"
+				@controls="selectedTrade = trade"
 			/>
 		</div>
 		<Empty v-else class="lg:hidden" />
 		<TradesTable
 			:trades="trades"
-			@click-by-remove="(t: Trade) => console.log('remove', t.id)"
-			@click-by-remove-all="() => console.log('remove all')"
+			@remove="(t: Trade) => console.log('remove', t.id)"
+			@remove-all="() => console.log('remove all')"
 		/>
 	</section>
 	<Teleport to="body">

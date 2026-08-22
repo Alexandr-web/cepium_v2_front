@@ -6,21 +6,14 @@
 					<span
 						class="rounded-2 inline-block uppercase py-2 px-8 text-10 font-bold"
 						:class="[
-							card.direction === 'BUY' && 'bg-tertiary-400/20 text-tertiary-700',
-							card.direction === 'SELL' && 'bg-secondary-300/20 text-secondary-500',
+							card.side === 'long' && 'bg-tertiary-400/20 text-tertiary-700',
+							card.side === 'short' && 'bg-secondary-300/20 text-secondary-500',
 						]"
-					>{{ card.direction }}</span>
+					>{{ card.side }}</span>
 					<span class="font-bold text-neutral-800 uppercase text-18">{{ card.symbol }}</span>
 				</div>
 				<span class="font-medium text-neutral-600 text-12">{{ time }}</span>
 			</div>
-			<span
-				class="uppercase font-medium text-10"
-				:class="[
-					card.status === 'open' && 'text-tertiary-600',
-					card.status === 'close' && 'text-secondary-500',
-				]"
-			>{{ card.status }}</span>
 		</div>
 		<div
 			class="grid gap-10"
@@ -34,8 +27,8 @@
 				<span
 					class="text-neutral-950 text-14"
 					:class="[
-						(item.id === 'pnl' && (card.pnl ?? 0) >= 0) && 'text-tertiary-600',
-						(item.id === 'pnl' && (card.pnl ?? 0) < 0) && 'text-secondary-500',
+						(item.id === 'pnl' && (card.realizedPnl ?? 0) >= 0) && 'text-tertiary-600',
+						(item.id === 'pnl' && (card.realizedPnl ?? 0) < 0) && 'text-secondary-500',
 					]"
 				>{{ item.value }}</span>
 			</div>
@@ -47,20 +40,19 @@ const { card } = defineProps<{
 	card: TOrder;
 }>();
 
-const time = useTimeAgo(card.time, { messages: RU_TIME_MESSAGES });
-const enterPrice = computed(() => formatNum(card.enterPrice, { currency: "USD", style: "currency" }));
-const amount = computed(() => formatNum(card.amount, { padZero: true }));
+const time = useTimeAgo(String(card.createdAt), { messages: RU_TIME_MESSAGES });
+const enterPrice = computed(() => formatNum(Number(card.entryPrice), { currency: "USD", style: "currency", defaultValue: "-" }));
+const amount = computed(() => formatNum(card.size, { padZero: true }));
 const pnl = computed(() => {
-	if (!card.pnl) return "0";
-
-	return formatNum(card.pnl, { currency: "USD", style: "currency" });
+	if (!card.realizedPnl) return "0";
+	return formatNum(card.realizedPnl, { currency: "USD", style: "currency" });
 });
 
 const bottomInfo = computed(() =>
 	[
 		{ label: "Цена входа", id: "price", value: enterPrice.value },
-		{ label: "Pnl", id: "pnl", value: pnl.value, hide: !card.pnl },
-		{ label: "Кол-во", id: "amount", value: amount },
+		{ label: "Pnl", id: "pnl", value: pnl.value, hide: !card.realizedPnl },
+		{ label: "Кол-во", id: "amount", value: amount.value },
 	].filter(({ hide }) => !hide)
 );
 </script>

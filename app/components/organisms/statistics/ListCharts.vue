@@ -94,8 +94,8 @@ const profitChart = new Chart(
 					type: "linear",
 					x: 0, y: 0, x2: 0, y2: 1,
 					colorStops: [
-						{ offset: 0, color: CHART_COLORS.series.line.areaStyle.color.colorStops[0] },
-						{ offset: 1, color: CHART_COLORS.series.line.areaStyle.color.colorStops[1] },
+						{ offset: 0, color: CHART_COLORS.series.line.areaStyle.color.colorStops[0] ?? "transparent" },
+						{ offset: 1, color: CHART_COLORS.series.line.areaStyle.color.colorStops[1] ?? "transparent" },
 					],
 				},
 			},
@@ -143,16 +143,16 @@ const winrateChart = new Chart(
 				type: "linear",
 				x: 0, y: 0, x2: 0, y2: 1,
 				colorStops: [
-					{ offset: 0, color: CHART_COLORS.color.pie[0].colorStops[0] },
-					{ offset: 1, color: CHART_COLORS.color.pie[0].colorStops[1] },
+					{ offset: 0, color: CHART_COLORS.color.pie[0]?.colorStops[0] ?? "" },
+					{ offset: 1, color: CHART_COLORS.color.pie[0]?.colorStops[1] ?? "" },
 				],
 			},
 			{
 				type: "linear",
 				x: 0, y: 0, x2: 0, y2: 1,
 				colorStops: [
-					{ offset: 0, color: CHART_COLORS.color.pie[1].colorStops[0] },
-					{ offset: 1, color: CHART_COLORS.color.pie[1].colorStops[1] },
+					{ offset: 0, color: CHART_COLORS.color.pie[1]?.colorStops[0] ?? "" },
+					{ offset: 1, color: CHART_COLORS.color.pie[1]?.colorStops[1] ?? "" },
 				],
 			},
 		],
