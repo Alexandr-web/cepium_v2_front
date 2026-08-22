@@ -12,23 +12,22 @@
 <script setup lang="ts">
 import type Trade from "@/models/Trade";
 import AButton from "@/components/atoms/AButton.vue";
-import type { PropType } from "vue";
 
-const { presetMenu, trade } = defineProps({
-	presetMenu: {
-		type: String,
-		default: "",
-	},
-	trade: {
-		type: Object as PropType<Trade>,
-		default: undefined,
-	},
-});
+const props = withDefaults(
+	defineProps<{
+		presetMenu?: string;
+		trade?: Trade;
+	}>(),
+	{
+		presetMenu: "",
+		trade: undefined,
+	}
+);
 
 const tradeMenu = computed(() => [
 	{
-		label: `Закрыть позицию ${trade?.symbol}`,
-		onClick: () => console.log("close trade: ", trade?.id),
+		label: `Закрыть позицию ${props.trade?.symbol}`,
+		onClick: () => console.log("close trade: ", props.trade?.id),
 	},
 ]);
 
@@ -40,7 +39,7 @@ const tradesMenu = computed(() => [
 ]);
 
 const menu = computed(() => {
-	switch (presetMenu) {
+	switch (props.presetMenu) {
 		case "trade":
 			return tradeMenu.value;
 		case "trades":

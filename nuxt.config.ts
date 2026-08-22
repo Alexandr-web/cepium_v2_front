@@ -30,10 +30,10 @@ export default defineNuxtConfig({
 		"@nuxt/fonts",
 	],
 	runtimeConfig: {
-		apiKey: process.env.API_KEY,
+		apiKey: process.env.NUXT_API_KEY,
 		public: {
-			apiUrl: process.env.PUBLIC_API_URL,
-			wsUrl: process.env.PUBLIC_WS_URL,
+			apiUrl: process.env.NUXT_PUBLIC_API_URL,
+			wsUrl: process.env.NUXT_PUBLIC_WS_URL,
 		},
 	},
 	css: ["@/assets/css/global.css", "notivue/notification.css", "notivue/animations.css"],

@@ -5,6 +5,11 @@
 ## Основные возможности
 
 * Авторизация пользователя
+* Работа с профилем (изменение данных, пароля с кодом на почту)
+* Работа с доступными биржами (на данный момент Bybit, Binance, OKX)
+* Мониторинг состояния профиля выбранной биржи (баланс, активные позиции, реализованный PNL)
+* Мониторинг активных позиций (цена ликвидации, стоп, тейк, PNL и тд)
+* Создание и редактирование конфигов
 
 ## Архитектура
 
@@ -87,6 +92,40 @@ yarn dev
 
 # bun
 bun run dev
+```
+
+## Docker (dev режим)
+
+### Сборка образа
+
+```bash
+docker build -t cepium_v2_front-app .
+```
+
+### Запуск контейнера
+
+```bash
+docker run -d -p 3000:3000 --env-file .env --name cepium_v2_front cepium_v2_front-app
+```
+
+## Docker (prod режим)
+
+### Запуск проекта
+
+```bash
+docker compose -f docker-compose.prod.yml up -d --build
+```
+
+### Просмотр логов
+
+```bash
+docker compose -f docker-compose.prod.yml logs -f nuxt-prod
+```
+
+### Остановка контейнера
+
+```bash
+docker compose -f docker-compose.prod.yml down
 ```
 
 Сервер запускается по ссылке `http://localhost:3000`
