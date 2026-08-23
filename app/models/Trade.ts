@@ -26,7 +26,7 @@ export default class Trade {
 		this.liquidationPrice = trade.liquidationPrice;
 		this.takeProfitPrice = trade.takeProfitPrice;
 		this.stopLossPrice = trade.stopLossPrice;
-		this.id = crypto.randomUUID();
+		this.id = trade.id;
 		this.trade = trade;
 	}
 

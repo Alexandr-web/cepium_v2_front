@@ -300,4 +300,5 @@ export type TPosition = {
 	symbol: string;
 	takeProfitPrice: null|number;
 	unrealizedPnl: number;
+	id: string;
 };
