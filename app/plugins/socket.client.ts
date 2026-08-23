@@ -45,21 +45,7 @@ export default defineNuxtPlugin(() => {
 
 		// активные сделки
 		socket.on("deals", (data: TPosition[]) => {
-			data.forEach((pos) => {
-				const findPosIdx = tradeStore.trades.findIndex(({ symbol }) => symbol === pos.symbol);
-
-				if (findPosIdx === -1) {
-					tradeStore.trades.push(new Trade(pos));
-					return;
-				}
-
-				if (pos.closedAt) {
-					tradeStore.trades.splice(findPosIdx, 1);
-					return;
-				}
-
-				tradeStore.trades[findPosIdx]?.updateData(pos);
-			});
+			tradeStore.trades = data.map((p) => new Trade(p));
 		});
 
 		// информация на дашборде
