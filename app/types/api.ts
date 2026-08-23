@@ -243,20 +243,33 @@ export type TConfigCreateResponse = {
 export type TConfigChangeResponse = TConfigCreateResponse;
 
 export type TOrder = {
+	id: string;
 	symbol: string;
-	direction: string;
-	amount: number;
-	time: string;
-	enterPrice: number;
-	type: string;
-	position: string;
-	status: string;
-	pnl?: number;
+	side: string;
+	size: number;
+	entryPrice?: number;
+	exitPrice?: number;
+	markPrice?: number;
+	liquidationPrice?: number;
+	unrealizedPnl?: number;
+	leverage?: number;
+	realizedPnl?: number;
+	pnlPercent?: number;
+	createdAt?: string;
+	closedAt?: string;
+	exchangeName: string;
+	closeReason?: string;
+	takeProfitPrice?: number;
+	stopLossPrice?: number;
 };
 
 export type TOrderResponse = {
 	statusCode: number;
-	data: TOrder[];
+	data: {
+		orders: TOrder[];
+		newOffset: number;
+		total: number;
+	};
 	message: string;
 };
 

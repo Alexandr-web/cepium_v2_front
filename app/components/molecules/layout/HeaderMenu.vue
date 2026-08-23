@@ -15,11 +15,11 @@
 					:to="{ name: 'profile' }"
 				>
 					<div class="w-full h-full rounded-full overflow-hidden">
-						<NuxtImg
+						<img
 							class="object-cover w-full h-full"
 							:src="userStore.avatar"
-							:preload="{ fetchPriority: 'high' }"
-							:alt="userStore.user.name"
+							fetchpriority="high"
+							:alt="userStore.user.name ?? ''"
 						/>
 					</div>
 				</NuxtLink>

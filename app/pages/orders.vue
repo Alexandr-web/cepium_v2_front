@@ -1,10 +1,9 @@
 <template>
 	<div class="flex flex-col gap-24 grow">
-		<LazyOrganismsOrdersFilters :disabled="!orders.length" @execute="console.log('execute filters')" />
-		<LazyOrganismsOrdersList :orders="orders" />
+		<LazyOrganismsOrdersFilters @execute="(query = {}) => filters = query" />
+		<LazyOrganismsOrdersList :filters="filters" />
 	</div>
 </template>
 <script setup lang="ts">
-// моковые данные
-const orders: TOrder[] = [];
+const filters = ref<Record<string, string>>({});
 </script>

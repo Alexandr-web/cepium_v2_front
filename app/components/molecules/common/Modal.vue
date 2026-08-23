@@ -10,7 +10,7 @@
 	>
 		<div
 			v-show="show"
-			class="fixed top-0 left-0 w-screen h-dvh overflow-hidden z-999 bg-neutral-100/80 flex flex-col justify-end lg:justify-none"
+			class="fixed top-0 left-0 w-screen h-dvh overflow-hidden z-999 bg-neutral-100/80 flex flex-col justify-end lg:justify-start"
 		>
 			<Transition
 				enter-active-class="duration-300 ease-out transform transition-all"
@@ -59,5 +59,5 @@ const emits = defineEmits(["close"]);
 
 onClickOutside(target, () => {
 	if (show.value && !props.disabled) show.value = false;
-});
+}, { ignore: [] });
 </script>

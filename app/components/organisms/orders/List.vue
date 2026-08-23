@@ -12,7 +12,7 @@
 			<APagination
 				v-model:page="page"
 				:total="totalItems"
-				:per-page="10"
+				:per-page="PER_PAGE"
 			/>
 		</template>
 		<Empty v-else />
@@ -23,11 +23,56 @@ import Card from "@/components/molecules/orders/Card.vue";
 import Table from "@/components/molecules/orders/Table.vue";
 import APagination from "@/components/atoms/APagination.vue";
 import Empty from "@/components/molecules/common/Empty.vue";
+import { useExchangeStore } from "@/store/useExchangeStore";
+import { useOrders } from "@/composables/api/useOrders";
 
-defineProps<{
-	orders: TOrder[];
-}>();
+const props = withDefaults(
+	defineProps<{
+		filters?: Record<string, string>;
+	}>(),
+	{
+		filters: () => ({}),
+	}
+);
+
+const exchangeStore = useExchangeStore();
+const { searchOrders } = useOrders();
+
+const PER_PAGE = 10;
 
 const page = ref(1);
-const totalItems = 100;
+const orders = ref<TOrder[]>([]);
+const totalItems = ref(0);
+
+const fetchOrders = async () => {
+	try {
+		const res = await searchOrders(exchangeStore?.activeExchange ?? "", {
+			...props.filters,
+			l: PER_PAGE,
+			o: (page.value - 1) * PER_PAGE,
+		});
+
+		orders.value = res.data.orders;
+		totalItems.value = res.data.total ?? 1; // заменить на бек
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+watch(
+	() => props.filters,
+	async () => {
+		if (page.value !== 1) {
+			page.value = 1;
+			return;
+		}
+
+		await fetchOrders();
+	},
+	{ deep: true }
+);
+
+watch(page, fetchOrders);
+
+onMounted(fetchOrders);
 </script>

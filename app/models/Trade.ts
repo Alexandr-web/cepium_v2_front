@@ -30,18 +30,6 @@ export default class Trade {
 		this.trade = trade;
 	}
 
-	// обновление данных сделки при получении с ws
-	updateData(data: TPosition) {
-		this.leverage = data.leverage;
-		this.amount = data.size;
-		this.pnl = data.unrealizedPnl;
-		this.pnlPercent = data.pnlPercent / 100;
-		this.markPrice = data.markPrice;
-		this.liquidationPrice = data.liquidationPrice;
-		this.takeProfitPrice = data.takeProfitPrice;
-		this.stopLossPrice = data.stopLossPrice;
-	}
-
 	get shortSymbol() {
 		return this.symbol.replace(/\/.+:.+$/, "");
 	}

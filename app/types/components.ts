@@ -43,10 +43,12 @@ export type TSelectItem = {
 };
 
 export type TFilterItem = {
+	name: string;
 	component: Component;
 	label: string;
-	value: string|string[];
+	value: string|string[]|boolean;
 	items?: TSelectItem[];
+	classes?: string;
 };
 
 export type TStatisticsCard = {
