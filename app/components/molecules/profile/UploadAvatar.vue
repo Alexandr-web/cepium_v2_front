@@ -5,10 +5,10 @@
 			@click="open()"
 		>
 			<div class="w-full h-full rounded-8 overflow-hidden">
-				<NuxtImg
+				<img
 					class="object-cover w-full h-full"
 					:src="getURLFile(fileModel)"
-					:preload="{ fetchPriority: 'high' }"
+					fetchpriority="high"
 					alt=""
 				/>
 			</div>
