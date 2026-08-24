@@ -20,7 +20,7 @@
 							:src="userStore.avatar"
 							fetchpriority="high"
 							:alt="userStore.user.name ?? ''"
-						/>
+						>
 					</div>
 				</NuxtLink>
 			</li>

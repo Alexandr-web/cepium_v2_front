@@ -41,7 +41,7 @@ const summary = computed<TIndexCardSummary[]>(() => [
 		type: "positions",
 	},
 	{
-		title: "24ч реализованный PNL",
+		title: "24Ч PNL",
 		icon: "money-bag-outline-rounded",
 		value: dashboardStore.data.pnl24h,
 		formattedValue: formatNum(dashboardStore.data.pnl24h, { currency: "USD", style: "currency" }),

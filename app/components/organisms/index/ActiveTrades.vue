@@ -6,8 +6,8 @@
 		</div>
 		<div v-if="trades.length" class="flex lg:hidden flex-col gap-12">
 			<MobTradeCard
-				v-for="(trade, idx) in trades"
-				:key="idx"
+				v-for="trade in trades"
+				:key="trade.id"
 				:trade="trade"
 				@controls="selectedTrade = trade"
 			/>

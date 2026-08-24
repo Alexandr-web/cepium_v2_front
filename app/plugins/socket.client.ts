@@ -45,7 +45,21 @@ export default defineNuxtPlugin(() => {
 
 		// активные сделки
 		socket.on("deals", (data: TPosition[]) => {
-			tradeStore.trades = data.map((p) => new Trade(p));
+			// удаляем позиции, если их нет в приходящих сделках
+			tradeStore.trades.forEach((pos, idx) => {
+				if (!data.find(({ id }) => id === pos.id)) tradeStore.trades.splice(idx, 1);
+			});
+
+			data.forEach((pos) => {
+				const findPosIdx = tradeStore.trades.findIndex(({ id }) => id === pos.id);
+
+				if (findPosIdx === -1) {
+					tradeStore.trades.push(new Trade(pos));
+					return;
+				}
+
+				tradeStore.trades[findPosIdx]?.updateData(pos);
+			});
 		});
 
 		// информация на дашборде

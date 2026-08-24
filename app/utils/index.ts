@@ -186,7 +186,7 @@ export const parseExchangeErrorMessage = (rawData: unknown, exchangeName: string
 
 		if (exchangeName === "bybit" && parsed.retCode === 10002) return "";
 		
-		return prettyError(parsed.retMsg || parsed.message || rawData);
+		return prettyError(parsed.message || parsed.retMsg || rawData);
 	} catch {
 		return rawData;
 	}

@@ -13,7 +13,7 @@
 		</div>
 		<div class="hidden lg:flex justify-between gap-16 bg-neutral-100 rounded-8 p-16 border border-solid border-white/10">
 			<Filters ref="deskFilters" :filters="filters" :disabled="disabled" />
-			<FilterControls preset="desk" :disabled="disabled" @execute="emits('execute', query)" @reset="reset" />
+			<FilterControls preset="desk" :disabled="disabled" @execute="execute" @reset="reset" />
 		</div>
 	</section>
 	<Teleport to="body">
@@ -25,7 +25,7 @@
 					:filters="filters"
 				>
 					<template #footer>
-						<FilterControls preset="mob" :disabled="disabled" @execute="emits('execute', query)" @reset="reset" />
+						<FilterControls preset="mob" :disabled="disabled" @execute="execute" @reset="reset" />
 					</template>
 				</Filters>
 			</div>
@@ -51,7 +51,7 @@ withDefaults(
 	}
 );
 
-const emits = defineEmits(["execute"]);
+const emits = defineEmits(["execute", "reset"]);
 
 const { isMobile } = useDevice();
 
@@ -104,15 +104,34 @@ const query = computed(() =>
 );
 
 const reset = async () => {
-	filters.value = createFilters();
-	
-	if (isMobile) await mobFilters.value?.initDefaultValuesAtButtonGroup();
-	else await deskFilters.value?.initDefaultValuesAtButtonGroup();
+	try {
+		filters.value = createFilters();
+		
+		if (isMobile) {
+			await mobFilters.value?.initDefaultValuesAtButtonGroup();
+			showMobFilters.value = false;
+		} else {
+			await deskFilters.value?.initDefaultValuesAtButtonGroup();
+		}
+
+		emits("reset", query.value);
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+const execute = () => {
+	if (isMobile) showMobFilters.value = false;
+	emits("execute", query.value);
 };
 
 watch(showMobFilters, async (v) => {
-	if (v && isMobile) await mobFilters.value?.initDefaultValuesAtButtonGroup();
-	else if (v) await deskFilters.value?.initDefaultValuesAtButtonGroup();
+	try {
+		if (v && isMobile) await mobFilters.value?.initDefaultValuesAtButtonGroup();
+		else if (v) await deskFilters.value?.initDefaultValuesAtButtonGroup();
+	} catch (err) {
+		console.error(err);
+	}
 });
 
 watch(() => isMobile, (v) => !v && (showMobFilters.value = false));

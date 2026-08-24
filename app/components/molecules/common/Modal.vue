@@ -23,12 +23,15 @@
 				<div
 					v-show="show"
 					ref="target"
-					class="bg-neutral-100 rounded-t-8 lg:rounded-8 border-t-1 w-full lg:border border-solid border-t-white/10 lg:border-white/10 py-32 px-16 relative lg:m-auto"
+					class="bg-neutral-100 rounded-t-8 lg:rounded-8 border-t-1 w-full lg:border border-solid border-t-white/10 lg:border-white/10 pb-32 pt-50 lg:pt-32 px-16 relative lg:m-auto"
 					:class="[
 						size === 'small' && 'lg:max-w-500',
 						size === 'default' && 'lg:max-w-900'
 					]"
 				>
+					<AButton class="absolute right-12 top-12 z-99 lg:hidden" @click="show = false">
+						<IconClose class="w-32 h-32 text-white/50" />
+					</AButton>
 					<div class="lg:hidden absolute top-16 right-0 left-0 mx-auto w-36 h-2 bg-white/50 rounded-8"/>
 					<slot />
 				</div>
@@ -37,6 +40,8 @@
 	</Transition>
 </template>
 <script setup lang="ts">
+import IconClose from "@/assets/icons/close-small-outline-rounded.svg";
+import AButton from "@/components/atoms/AButton.vue";
 import { onClickOutside } from "@vueuse/core";
 import { useTemplateRef } from "vue";
 
@@ -59,5 +64,5 @@ const emits = defineEmits(["close"]);
 
 onClickOutside(target, () => {
 	if (show.value && !props.disabled) show.value = false;
-}, { ignore: [] });
+});
 </script>

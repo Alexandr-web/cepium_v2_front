@@ -70,11 +70,15 @@ export default defineNuxtConfig({
 	},
 	image: {
 		format: ["webp"],
+		provider: "ipx",
+		ipx: {
+			maxAge: 2592000,
+		},
 	},
 	echarts: {
 		renderer: "svg",
-		charts: ["BarChart", "LineChart", "PieChart", "ScatterChart"],
-		components: ["DatasetComponent", "GridComponent", "TooltipComponent", "LegendComponent", "GraphicComponent"],
+		charts: ["BarChart", "LineChart", "PieChart"],
+		components: ["GridComponent", "TooltipComponent", "LegendComponent"],
 		features: ["LabelLayout", "UniversalTransition", "LegacyGridContainLabel"],
 	},
 	imports: {
