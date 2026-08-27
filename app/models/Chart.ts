@@ -8,6 +8,9 @@ export type TChartDataPoint = {
 	[key: string]: unknown;
 };
 
+const WEEKDAYS_RU = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+const WEEK_ORDER_RU = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+
 export default class Chart {
 	type: TChartType;
 	data: TChartDataPoint[] = [];
@@ -119,5 +122,56 @@ export default class Chart {
 		}
 
 		return finalOptions;
+	}
+
+	// "Динамика профита" - сумма realizedPnl по дням недели (Пн→Вс), только закрытые сделки.
+	static fromOrdersProfitByDay(orders: TOrder[], customOptions: Partial<EChartsOption> = {}): Chart {
+		const sums = new Map<string, number>();
+
+		WEEK_ORDER_RU.forEach((day) => sums.set(day, 0));
+ 
+		orders
+			.filter((o) => o.closedAt && typeof o.realizedPnl === "number")
+			.forEach((o) => {
+				const day = String(WEEKDAYS_RU[new Date(String(o.closedAt)).getDay()]);
+				sums.set(day, (sums.get(day) ?? 0) + Number(o.realizedPnl));
+			});
+ 
+		const data: TChartDataPoint[] = WEEK_ORDER_RU.map((day) => ({
+			name: day,
+			value: Number((sums.get(day) ?? 0).toFixed(2)),
+		}));
+ 
+		return new Chart("line", data, customOptions);
+	}
+
+	// "Количество сделок" - сколько сделок по каждому символу (открытые + закрытые).
+	static fromOrdersBySymbol(orders: TOrder[], customOptions: Partial<EChartsOption> = {}): Chart {
+		const counts = new Map<string, number>();
+ 
+		orders.forEach((o) => {
+			const symbol = String(o.symbol);
+			counts.set(symbol, (counts.get(symbol) ?? 0) + 1);
+		});
+ 
+		const data: TChartDataPoint[] = Array.from(counts.entries())
+			.sort((a, b) => b[1] - a[1])
+			.map(([symbol, count]) => ({ name: symbol, value: count }));
+ 
+		return new Chart("bar", data, customOptions);
+	}
+
+	// "Соотношение Win/Loss" - сколько закрытых сделок ушло в плюс/минус.
+	static fromOrdersWinLoss(orders: TOrder[], customOptions: Partial<EChartsOption> = {}): Chart {
+		const closed = orders.filter((o) => o.closedAt && typeof o.realizedPnl === "number");
+		const wins = closed.filter((o) => Number(o.realizedPnl) > 0).length;
+		const losses = closed.length - wins;
+ 
+		const data: TChartDataPoint[] = [
+			{ name: "Прибыльные", value: wins },
+			{ name: "Убыточные", value: losses },
+		];
+ 
+		return new Chart("pie", data, customOptions);
 	}
 };

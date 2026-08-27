@@ -243,24 +243,22 @@ export type TConfigCreateResponse = {
 export type TConfigChangeResponse = TConfigCreateResponse;
 
 export type TOrder = {
-	id: string;
-	symbol: string;
-	side: string;
-	size: number;
+	id?: string;
+	symbol?: string;
+	side?: string;
+	size?: number;
 	entryPrice?: number;
-	exitPrice?: number;
 	markPrice?: number;
+	leverage?: number;
 	liquidationPrice?: number;
 	unrealizedPnl?: number;
-	leverage?: number;
-	realizedPnl?: number;
 	pnlPercent?: number;
-	createdAt?: string;
-	closedAt?: string;
-	exchangeName: string;
-	closeReason?: string;
+	exitPrice?: number;
 	takeProfitPrice?: number;
 	stopLossPrice?: number;
+	createdAt: string;
+	realizedPnl?: number;
+	closedAt?: string;
 };
 
 export type TOrderResponse = {
