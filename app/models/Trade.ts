@@ -1,3 +1,5 @@
+import { formatTimeAgo } from "@vueuse/core";
+
 export default class Trade {
 	leverage?: number;
 	amount: number;
@@ -13,6 +15,7 @@ export default class Trade {
 	readonly direction?: string;
 	readonly trade: TPosition;
 	readonly symbol: string;
+	readonly createdAt?: string;
 
 	constructor(trade: TPosition) {
 		this.leverage = trade.leverage;
@@ -28,6 +31,7 @@ export default class Trade {
 		this.stopLossPrice = trade.stopLossPrice;
 		this.id = trade.id;
 		this.trade = trade;
+		this.createdAt = trade.createdAt;
 	}
 
 	// обновление данных сделки при получении с ws
@@ -40,6 +44,10 @@ export default class Trade {
 		this.liquidationPrice = data.liquidationPrice;
 		this.takeProfitPrice = data.takeProfitPrice;
 		this.stopLossPrice = data.stopLossPrice;
+	}
+
+	get prettyCreatedAt() {
+		return formatTimeAgo(new Date(String(this.createdAt)), { messages: RU_TIME_MESSAGES });
 	}
 
 	get shortSymbol() {

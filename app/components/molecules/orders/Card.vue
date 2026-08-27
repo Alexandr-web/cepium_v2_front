@@ -42,7 +42,7 @@ const { card } = defineProps<{
 
 const time = useTimeAgo(String(card.createdAt), { messages: RU_TIME_MESSAGES });
 const enterPrice = computed(() => formatNum(Number(card.entryPrice), { currency: "USD", style: "currency", defaultValue: "-" }));
-const amount = computed(() => formatNum(card.size, { padZero: true }));
+const amount = computed(() => formatNum(Number(card.size), { padZero: true }));
 const pnl = computed(() => {
 	if (!card.realizedPnl) return "0";
 	return formatNum(card.realizedPnl, { currency: "USD", style: "currency" });

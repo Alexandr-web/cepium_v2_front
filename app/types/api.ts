@@ -286,6 +286,7 @@ export type TExchangesMarketsResponse = {
 
 export type TPosition = {
 	closedAt: null|number;
+	createdAt?: string;
 	entryPrice: number;
 	leverage: number;
 	liquidationPrice: number;
