@@ -16,8 +16,8 @@
 			]"
 		>
 			<component
-				:is="iconsMap[prependIcon]"
-				v-if="prependIcon"
+				:is="icon"
+				v-if="icon"
 				class="transition min-w-15 lg:min-w-18 max-w-15 lg:max-w-18 min-h-15 lg:min-h-18 max-h-15 lg:max-h-18 block mr-8 transition"
 				:class="[
 					error && 'text-secondary-500',
@@ -50,29 +50,34 @@ import IconVisibilityOutlineRounded from "@/assets/icons/visibility-outline-roun
 import IconAccountCircle from "@/assets/icons/account-circle.svg";
 import IconLockOutline from "@/assets/icons/lock-outline.svg";
 import IconSearchRounded from "@/assets/icons/search-rounded.svg";
-import type { InputTypeHTMLAttribute, PropType } from "vue";
+import type { InputTypeHTMLAttribute } from "vue";
 import type z from "zod";
 
-const { check, prependIcon } = defineProps({
-	label: {
-		type: String,
-		default: "",
-	},
-	prependIcon: {
-		type: String,
-		default: "",
-	},
-	check: {
-		type: Object as PropType<z.ZodType>,
-		default: undefined,
-	},
-});
+const props = withDefaults(
+	defineProps<{
+		label?: string;
+		prependIcon?: string;
+		check?: z.ZodType;
+	}>(),
+	{
+		label: "",
+		prependIcon: "",
+		check: undefined,
+	}
+);
 
-const iconsMap: Record<string, string> = {
-	"account-circle": IconAccountCircle,
-	"lock-outline": IconLockOutline,
-	"search-rounded": IconSearchRounded,
-};
+const icon = computed(() => {
+	switch (props.prependIcon) {
+		case "account-circle":
+			return IconAccountCircle;
+		case "lock-outline":
+			return IconLockOutline;
+		case "search-rounded":
+			return IconSearchRounded;
+		default:
+			return null;
+	}
+});
 
 const attrs = useAttrs();
 
@@ -81,7 +86,7 @@ const error = defineModel<string>("error", { default: "" });
 
 const showPassword = ref(false);
 
-const checkValidMessage = computed(() => check?.safeParse(value.value)?.error?.message ?? "");
+const checkValidMessage = computed(() => props.check?.safeParse(value.value)?.error?.message ?? "");
 const inputType = computed<InputTypeHTMLAttribute>(() => {
 	if (!attrs.type) return "text";
 	if (attrs.type !== "password") return String(attrs.type);

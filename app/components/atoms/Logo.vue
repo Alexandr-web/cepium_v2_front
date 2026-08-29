@@ -13,12 +13,15 @@
 </template>
 
 <script setup lang="ts">
+import type { NuxtLinkProps } from "#app";
 import { NuxtLink } from "#components";
 
-defineProps({
-	to: {
-		type: [Object, String],
-		default: "",
-	},
-});
+withDefaults(
+	defineProps<{
+		to?: NuxtLinkProps["to"],
+	}>(),
+	{
+		to: "",
+	}
+);
 </script>

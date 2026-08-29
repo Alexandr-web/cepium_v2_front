@@ -5,11 +5,11 @@
 				{{ card.title }}
 			</span>
 			<div 
-				v-if="card.icon && iconsMap[card.icon]" 
+				v-if="icon" 
 				class="flex items-center justify-center p-8 rounded-8 bg-neutral-200/50 text-neutral-600 transition group-hover:scale-105 group-hover:bg-primary-50/50 group-hover:text-primary-600 shrink-0"
 			>
 				<component
-					:is="iconsMap[card.icon]"
+					:is="icon"
 					class="w-20 h-20"
 				/>
 			</div>
@@ -33,11 +33,18 @@ const { card } = defineProps<{
 	card: TStatisticsCard;
 }>();
 
-const iconsMap: Record<string, string> = {
-	"arrows-more-up-rounded": IconArrowsMoreUpRounded,
-	"card-travel-outline-rounded": IconCardTravelOutlineRounded,
-	"money-bag-outline-rounded": IconMoneyBagOutlineRounded,
-};
+const icon = computed(() => {
+	switch (card.icon) {
+		case "arrows-more-up-rounded":
+			return IconArrowsMoreUpRounded;
+		case "card-travel-outline-rounded":
+			return IconCardTravelOutlineRounded;
+		case "money-bag-outline-rounded":
+			return IconMoneyBagOutlineRounded;
+		default:
+			return null;
+	}
+});
 
 const value = computed(() => {
 	if (card.normalizer instanceof Function) return card.normalizer(card.value);

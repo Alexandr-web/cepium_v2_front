@@ -2,7 +2,7 @@
 	<div class="flex flex-col rounded-8 border border-solid border-neutral-300 bg-primary-100/50">
 		<div class="flex items-center justify-between gap-10 cursor-pointer p-12" @click="isActive = !isActive">
 			<div class="flex items-center gap-10">
-				<component :is="iconsMap[prependIcon]" v-if="prependIcon" class="w-20 h-20 text-primary-600" />
+				<component :is="icon" v-if="icon" class="w-20 h-20 text-primary-600" />
 				<h3 class="text-16 lg:text-18 text-neutral-800 select-none">{{ label }}</h3>
 			</div>
 			<IconKeyboardArrowDownRounded
@@ -33,11 +33,18 @@ const props = withDefaults(
 	}
 );
 
-const iconsMap: Record<string, string> = {
-	"person-edit-outline-rounded": IconPersonEditOutlineRounded,
-	"lock-outline": IconLockOutline,
-	"partner-exchange-rounded": IconPartnerExchangeRounded,
-};
+const icon = computed(() => {
+	switch (props.prependIcon) {
+		case "person-edit-outline-rounded":
+			return IconPersonEditOutlineRounded;
+		case "lock-outline":
+			return IconLockOutline;
+		case "partner-exchange-rounded":
+			return IconPartnerExchangeRounded;
+		default:
+			return null;
+	}
+});
 
 const isActive = ref(props.isOpen);
 </script>
