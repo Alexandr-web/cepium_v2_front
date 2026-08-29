@@ -20,7 +20,7 @@
 		/>
 	</section>
 	<Teleport to="body">
-		<Modal v-model="showModal" @close="selectedTrade = undefined">
+		<Modal v-model="showModal" @close="selectedTrade = null">
 			<TradeControlsList :preset-menu="presetControlsList" :trade="selectedTrade" />
 		</Modal>
 	</Teleport>
@@ -38,7 +38,7 @@ defineProps<{ trades: Trade[] }>();
 
 const { $events } = useNuxtApp();
 
-const selectedTrade = ref<Trade|undefined>(undefined);
+const selectedTrade = ref<Trade|null>(null);
 const showModal = ref(false);
 
 const presetControlsList = computed(() => selectedTrade.value ? "trade" : "trades");

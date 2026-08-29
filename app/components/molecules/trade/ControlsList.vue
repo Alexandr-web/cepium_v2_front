@@ -16,11 +16,11 @@ import AButton from "@/components/atoms/AButton.vue";
 const props = withDefaults(
 	defineProps<{
 		presetMenu?: string;
-		trade?: Trade;
+		trade?: Trade|null;
 	}>(),
 	{
 		presetMenu: "",
-		trade: undefined,
+		trade: null,
 	}
 );
 
