@@ -10,7 +10,7 @@
 			<div class="flex flex-col-reverse lg:flex-row lg:items-center gap-10">
 				<AError :message="errChangePasswordMessage" />
 				<AButton
-					class="w-full lg:w-auto rounded-4 p-16 lg:py-8 lg:px-24 lg:h-46 lg:ml-auto"
+					class="w-full lg:w-auto rounded-4 py-10 px-24 lg:ml-auto"
 					mode="primary-fill"
 					type="submit"
 					:disabled="isPendingChangePassword"

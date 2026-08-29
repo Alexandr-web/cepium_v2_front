@@ -7,7 +7,7 @@
 		>
 			<ul class="flex items-center relative z-1 w-max">
 				<div
-					class="transition-all cubic-bezier(0.4, 0, 0.2, 1) absolute -z-1 top-0 left-0 bg-primary-600 rounded-8 h-full min-h-0 shadow-sm shadow-primary-500/10"
+					class="transition-all cubic-bezier(0.4, 0, 0.2, 1) absolute -z-1 top-0 left-0 bg-primary-400 rounded-8 h-full min-h-0 shadow-sm shadow-primary-500/10"
 					:class="[
 						!value && 'opacity-0',
 						value && 'opacity-100'

@@ -10,7 +10,7 @@
 			<div class="flex flex-col-reverse lg:flex-row">
 				<AError :message="errMessage" />
 				<AButton
-					class="w-full lg:w-auto rounded-4 p-16 lg:px-24 lg:ml-auto"
+					class="w-full lg:w-auto rounded-4 py-10 px-24 lg:ml-auto"
 					mode="primary-fill"
 					:disabled="isPending"
 					type="submit"

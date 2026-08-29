@@ -12,7 +12,7 @@
 		>
 			<template #content>
 				<AButton
-					class="group flex items-center justify-center gap-8 rounded-4 h-56 lg:mt-16"
+					class="group flex items-center justify-center gap-8 rounded-4 lg:mt-16 py-10 px-24"
 					type="submit"
 					mode="primary-fill"
 					:disabled="disabledBtn"

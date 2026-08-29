@@ -31,14 +31,14 @@
 		<div class="flex flex-col gap-20">
 			<div class="flex flex-col lg:flex-row-reverse gap-10">
 				<AButton
-					class="text-14 lg:text-16 p-10 rounded-8 lg:w-1/2"
+					class="text-14 lg:text-16 py-10 px-24 rounded-8 lg:w-1/2"
 					mode="primary-fill"
 					@click="submit"
 				>
 					{{ sendTextBtn }}
 				</AButton>
 				<AButton
-					class="text-14 lg:text-16 p-10 rounded-8 lg:w-1/2"
+					class="text-14 lg:text-16 py-10 px-24 rounded-8 lg:w-1/2"
 					mode="remove-border"
 					:disabled="disabledBtn"
 					@click="emits('cancel')"
