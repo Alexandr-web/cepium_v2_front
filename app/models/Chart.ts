@@ -130,12 +130,15 @@ export default class Chart {
 
 		WEEK_ORDER_RU.forEach((day) => sums.set(day, 0));
  
-		orders
-			.filter((o) => o.closedAt && typeof o.realizedPnl === "number")
-			.forEach((o) => {
-				const day = String(WEEKDAYS_RU[new Date(String(o.closedAt)).getDay()]);
-				sums.set(day, (sums.get(day) ?? 0) + Number(o.realizedPnl));
-			});
+		orders.forEach((o) => {
+			if (!o.closedAt || typeof o.realizedPnl !== "number") return;
+
+			const day = new Date(String(o.closedAt)).getDay();
+			const orderDay = String(WEEKDAYS_RU[day]);
+			const sum = (sums.get(orderDay) ?? 0) + Number(o.realizedPnl);
+
+			sums.set(orderDay, sum);
+		});
  
 		const data: TChartDataPoint[] = WEEK_ORDER_RU.map((day) => ({
 			name: day,
@@ -164,11 +167,11 @@ export default class Chart {
 	// "Соотношение Win/Loss" - сколько закрытых сделок ушло в плюс/минус.
 	static fromOrdersWinLoss(orders: TOrder[], customOptions: Partial<EChartsOption> = {}): Chart {
 		const closed = orders.filter((o) => o.closedAt && typeof o.realizedPnl === "number");
-		const wins = closed.filter((o) => Number(o.realizedPnl) > 0).length;
-		const losses = closed.length - wins;
+		const wins = closed.filter((o) => Number(o.realizedPnl) > 0);
+		const losses = closed.length - wins.length;
  
 		const data: TChartDataPoint[] = [
-			{ name: "Прибыльные", value: wins },
+			{ name: "Прибыльные", value: wins.length },
 			{ name: "Убыточные", value: losses },
 		];
  
