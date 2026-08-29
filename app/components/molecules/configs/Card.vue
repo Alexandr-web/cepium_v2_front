@@ -31,7 +31,7 @@
 				>{{ s }}</span>
 			</div>
 		</div>
-		<div class="flex gap-12 justify-between items-center border-t-1 border-t-solid border-t-neutral-200 pt-16">
+		<div class="flex gap-12 justify-between items-center border-t-1 border-t-solid border-t-neutral-200 pt-16 mt-auto">
 			<NuxtLink
 				class="group flex items-center gap-10 rounded-8 p-8 bg-black/80 transition hover:bg-black"
 				:to="{ name: 'edit-config', params: { id: card.id } }"
