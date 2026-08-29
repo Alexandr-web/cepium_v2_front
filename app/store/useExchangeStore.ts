@@ -15,8 +15,11 @@ export const useExchangeStore = defineStore("exchange-store",
 
 		const getAllExchanges = (): Exchange[] => Array.from(exchangesMap.value.values());
 		const getExchangeById = (id: TExchange["id"]): Exchange | undefined => exchangesMap.value.get(id);
-		
-		return { exchanges, activeExchange, getAllExchanges, getExchangeById };
+		const getFilledExchanges = () => getAllExchanges()
+			.filter((item) => item.filled)
+			.map((item) => ({ label: item.name, value: item.name }));
+
+		return { exchanges, activeExchange, getAllExchanges, getExchangeById, getFilledExchanges };
 	},
 	{
 		persist: {

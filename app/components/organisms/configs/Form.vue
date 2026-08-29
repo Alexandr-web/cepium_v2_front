@@ -60,11 +60,7 @@ const emits = defineEmits(["execute"]);
 const exchangeStore = useExchangeStore();
 
 const strategiesList = computed<TSelectItem[]>(() => props.strategies.map((s) => ({ label: s.name, value: s.id })) ?? []);
-const exchangesList = computed<TSelectItem[]>(() =>
-	exchangeStore.getAllExchanges()
-		.filter((item) => item.filled)
-		.map((item) => ({ label: item.name, value: item.name }))
-);
+const exchangesList = computed<TSelectItem[]>(() => exchangeStore.getFilledExchanges());
 
 const MARGIN_MODE_LIST: TSelectItem[] = [
 	{ label: "Изолированная", value: "isolated" },

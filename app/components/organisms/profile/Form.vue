@@ -112,10 +112,5 @@ const areas = ref([
 ]);
 
 const fileField = computed(() => generalFields.value.find(({ name }) => name === "avatar"));
-
-const exchanges = computed<TSelectItem[]>(() =>
-	exchangeStore.getAllExchanges()
-		.filter((i) => i.filled)
-		.map((i) => ({ label: i.name, value: i.name }))
-);
+const exchanges = computed<TSelectItem[]>(() => exchangeStore.getFilledExchanges());
 </script>
