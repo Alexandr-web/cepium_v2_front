@@ -1,44 +1,39 @@
 <template>
 	<section class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-		<div
-			v-for="(item, idx) in summary"
-			:key="idx"
-			class="flex flex-col justify-between gap-32 rounded-8 bg-neutral-100/80 border-solid border border-white/5 p-16"
-		>
-			<div class="flex items-center justify-between">
-				<h3 class="text-12 lg:text-16 uppercase">{{ item.title }}</h3>
-				<component :is="iconsMap[item.icon]" v-if="item.icon" :name="item.icon" class="w-22 lg:w-26 h-18 lg:h-22 text-primary-800" />
-			</div>
-			<div class="flex flex-col gap-8">
-				<span
-					class="text-18 font-semibold"
-					:class="[
-						item.type === 'balance' && 'lg:text-48',
-						item.type !== 'balance' && 'lg:text-36',
-						(item.type === 'pnl' && Number(item.value) > 0) && 'text-tertiary-800',
-						(item.type === 'pnl' && Number(item.value) < 0) && 'text-secondary-500',
-						item.type !== 'pnl' && 'text-white'
-					]"
-				>{{ item.formattedValue }}</span>
-				<slot name="note" v-bind="item" />
-			</div>
-		</div>
+		<Card v-for="card in summary" :key="card.type" :card="card" />
 	</section>
 </template>
 <script setup lang="ts">
-import IconArrowsMoreUpRounded from "@/assets/icons/arrows-more-up-rounded.svg";
-import IconShelfPositionSharp from "@/assets/icons/shelf-position-sharp.svg";
-import IconMoneyBagOutlineRounded from "@/assets/icons/money-bag-outline-rounded.svg";
-
-const { summary } = defineProps<{ summary: TIndexCardSummary[]; }>();
+import Card from "@/components/molecules/index/SummaryCard.vue";
+import { useDashboardStore } from "@/store/useDashboardStore";
 
 const { $events } = useNuxtApp();
 
-const iconsMap: Record<string, string> = {
-	"arrows-more-up-rounded": IconArrowsMoreUpRounded,
-	"shelf-position-sharp": IconShelfPositionSharp,
-	"money-bag-outline-rounded": IconMoneyBagOutlineRounded,
-};
+const dashboardStore = useDashboardStore();
+
+const summary = computed<TIndexCardSummary[]>(() => [
+	{
+		title: "Баланс",
+		icon: "arrows-more-up-rounded",
+		value: dashboardStore.data.balance,
+		formattedValue: formatNum(dashboardStore.data.balance, { currency: "USD", style: "currency" }),
+		type: "balance",
+	},
+	{
+		title: "Активные позиции",
+		icon: "shelf-position-sharp",
+		value: dashboardStore.data.activePositionsCount,
+		formattedValue: formatNum(dashboardStore.data.activePositionsCount, { padZero: true }),
+		type: "positions",
+	},
+	{
+		title: "24Ч PNL",
+		icon: "money-bag-outline-rounded",
+		value: dashboardStore.data.pnl24h,
+		formattedValue: formatNum(dashboardStore.data.pnl24h, { currency: "USD", style: "currency" }),
+		type: "pnl",
+	},
+]);
 
 onMounted(() => $events.subscribeAccountInfo());
 onUnmounted(() => $events.unsubscribeAccountInfo());
