@@ -25,7 +25,7 @@
 					:disabled="!isOver"
 					@click="sendCodeAgain"
 				>Отправить код еще раз</AButton>
-				<span class="text-14 lg:text-16 text-neutral-500">({{ formatTime(currentTime) }})</span>
+				<span class="text-14 lg:text-16 text-neutral-500">({{ time }})</span>
 			</div>
 		</div>
 		<div class="flex flex-col gap-20">
@@ -74,6 +74,7 @@ const inputCodeEl = useTemplateRef<HTMLInputElement | null>("inputCode");
 
 const maskPattern = computed(() => "# ".repeat(codeLen).slice(0, codeLen * 2 - 1));
 const placeholder = computed(() => maskPattern.value.replace(/#/g, "0"));
+const time = computed(() => formatTime(currentTime.value));
 
 const codeIsValid = ref(true);
 

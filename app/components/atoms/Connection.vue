@@ -3,10 +3,7 @@
 		<ClientOnly>
 			<span
 				class="w-6 h-6 rounded-full transition-colors"
-				:class="[
-					statusBg[connectionStore.status],
-					connectionStore.status === ConnectionStatuses.CONNECTING && 'animate-pulse'
-				]"
+				:class="statusBgClasses"
 			/>
 			
 			<p class="text-10 font-semibold tracking-wider text-neutral-500 uppercase">
@@ -21,11 +18,20 @@ import { useConnectionStore } from "@/store/useConnectionStore";
 
 const connectionStore = useConnectionStore();
 
-const statusBg = {
-	[ConnectionStatuses.CONNECTING]: "bg-amber-500",
-	[ConnectionStatuses.OPEN]: "bg-emerald-500",
-	[ConnectionStatuses.CLOSING]: "bg-neutral-400",
-	[ConnectionStatuses.CLOSED]: "bg-rose-500",
-	[ConnectionStatuses.NONE]: "bg-neutral-500",
-};
+const statusBgClasses = computed(() => {
+	switch (connectionStore.status) {
+		case ConnectionStatuses.CONNECTING:
+			return "bg-amber-500 animate-pulse";
+		case ConnectionStatuses.OPEN:
+			return "bg-emerald-500";
+		case ConnectionStatuses.CLOSING:
+			return "bg-neutral-400";
+		case ConnectionStatuses.CLOSED:
+			return "bg-rose-500";
+		case ConnectionStatuses.NONE:
+			return "bg-neutral-500";
+		default:
+			return "";
+	}
+});
 </script>
