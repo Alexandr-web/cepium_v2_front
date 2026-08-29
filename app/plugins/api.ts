@@ -12,7 +12,6 @@ export default defineNuxtPlugin(() => {
 		onResponseError({ response }) {
 			if (response.status === 401) {
 				authStore.clearToken();
-				navigateTo({ name: "login" });
 			}
 		},
 	});
