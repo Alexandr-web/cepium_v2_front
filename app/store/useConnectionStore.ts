@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 
 export const useConnectionStore = defineStore("connection-store", () => {
 	const status = ref(ConnectionStatuses.NONE);
+	const errorMessage = ref("");
 
 	const statusText = computed(() => {
 		switch (status.value) {
@@ -18,5 +19,5 @@ export const useConnectionStore = defineStore("connection-store", () => {
 		}
 	});
 
-	return { status, statusText };
+	return { status, statusText, errorMessage };
 });

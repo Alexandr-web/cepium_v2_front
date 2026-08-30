@@ -29,6 +29,8 @@ export default defineNuxtPlugin(() => {
 	const unsubscribeAccountInfo = () => socket?.emit("unsubscribeAccountInfo", payload.value);
 
 	const connectSocket = () => {
+		connectionStore.errorMessage = "";
+
 		if (socket) return;
 
 		socket = io(config.public.wsUrl, {
@@ -81,7 +83,7 @@ export default defineNuxtPlugin(() => {
 			const message = parseExchangeErrorMessage(data.message, exchangeStore.activeExchange ?? "");
 			
 			if (message) {
-				push.error(message);
+				connectionStore.errorMessage = message;
 				console.error(data);
 			}
 		});
