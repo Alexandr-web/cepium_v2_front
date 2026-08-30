@@ -53,7 +53,7 @@ const fetchOrders = async () => {
 		});
 
 		orders.value = res.data.orders;
-		totalItems.value = res.data.total ?? 1; // заменить на бек
+		totalItems.value = res.data.total;
 	} catch (err) {
 		console.error(err);
 	}
