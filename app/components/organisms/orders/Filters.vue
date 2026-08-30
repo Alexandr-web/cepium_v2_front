@@ -96,6 +96,8 @@ const mobFilters = ref<FiltersExpose|null>(null);
 const deskFilters = ref<FiltersExpose|null>(null);
 const showMobFilters = ref(false);
 
+if (isMobile) showMobFilters.value = false;
+
 const query = computed(() =>
 	filters.value.reduce<Record<string, string>>((query, filter) => {
 		query[filter.name] = String(filter.value);
@@ -133,6 +135,4 @@ watch(showMobFilters, async (v) => {
 		console.error(err);
 	}
 });
-
-watch(() => isMobile, (v) => !v && (showMobFilters.value = false));
 </script>

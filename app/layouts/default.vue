@@ -33,7 +33,7 @@ import { slateTheme, type NotivueTheme } from "notivue";
 const route = useRoute();
 const router = useRouter();
 
-const showMobMenu = useState("show-mob-menu");
+const showMobMenu = useState("show-mob-menu", () => false);
 
 const theme: NotivueTheme = {
 	...slateTheme,
