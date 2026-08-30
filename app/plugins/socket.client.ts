@@ -80,7 +80,7 @@ export default defineNuxtPlugin(() => {
 
 		// обработка ошибок
 		socket.on("accountInfoError", (data) => {
-			const message = parseExchangeErrorMessage(data, exchangeStore.activeExchange ?? "");
+			const message = parseExchangeErrorMessage(data.message, exchangeStore.activeExchange ?? "");
 			
 			if (message) {
 				connectionStore.errorMessage = message;
