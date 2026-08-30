@@ -50,7 +50,7 @@ withDefaults(
 );
 
 export type ButtonGroupExpose = {
-	setDefaultValue: () => Promise<void>;
+	setDefaultValue: (targetValue?: string) => Promise<void>;
 };
 
 defineOptions({ name: "ButtonGroup" });
@@ -61,6 +61,19 @@ const floatingStyles = ref({});
 const wrapper = useTemplateRef("wrapper");
 const group = useTemplateRef("group");
 
+/**
+ * Позиционирует "бегунок" (floating background) под конкретный <li> и
+ * синхронизирует v-model.
+ *
+ * ВАЖНО: offsetLeft/offsetWidth читаются из реального DOM-элемента.
+ * Если wrapper в момент вызова скрыт через display:none (например,
+ * находится в неактивной desktop/mobile ветке разметки), оба значения
+ * будут равны 0, и бегунок схлопнется в левый край с нулевой шириной,
+ * хотя value.value при этом обновится корректно.
+ *
+ * @param val - value выбранного пункта (из data-value)
+ * @param el - DOM-элемент <li>, на который кликнули / который нашли программно
+ */
 const setValue = (val: string, el?: unknown) => {
 	if (!(el instanceof HTMLElement)) return;
 
@@ -76,15 +89,36 @@ const setValue = (val: string, el?: unknown) => {
 	wrapper.value?.scrollTo({ behavior: "smooth", left: offsetLeft });
 };
 
-const setDefaultValue = async () => {
+/**
+ * Программно выставляет активное значение и пересчитывает позицию бегунка.
+ *
+ * Принимает targetValue ЯВНО, а не читает value.value изнутри.
+ * Это принципиально: родительский компонент (Filters.vue) может обновить
+ * массив filters (v-model) и почти сразу же дёрнуть этот метод - но само
+ * обновление defineModel-пропа до дочернего компонента может долететь на
+ * один тик позже, чем ожидается. Если бы мы читали value.value здесь,
+ * можно было бы найти элемент по УЖЕ УСТАРЕВШЕМУ значению (race condition).
+ * Явный параметр убирает эту зависимость от порядка реактивных обновлений.
+ *
+ * @param targetValue - значение, на которое нужно встать. Если не передано,
+ *   используется текущее value.value (fallback для случаев без race,
+ *   например ручного onMounted).
+ */
+const setDefaultValue = async (targetValue?: string) => {
 	await nextTick();
-	const el = group.value?.find((i) => i.dataset.value === value.value);
+	const target = targetValue ?? value.value;
+	const el = group.value?.find((i) => i.dataset.value === target);
 	if (el) setValue(el.dataset.value ?? "", el);
 };
 
-// Следим за изменением размеров контейнера через ResizeObserver
-// Это решает проблему нулевых размеров внутри модалок при их открытии
-if (import.meta.client) useResizeObserver(wrapper, setDefaultValue);
+// Следим за изменением размеров контейнера через ResizeObserver.
+// Это решает проблему нулевых размеров внутри модалок при их открытии.
+//
+// Колбэк ResizeObserver вызывается с массивом ResizeObserverEntry, поэтому
+// сюда НЕЛЬЗЯ передавать setDefaultValue напрямую (иначе entries попадёт
+// в параметр targetValue и сломает поиск элемента) - оборачиваем в стрелку
+// без аргументов, чтобы использовался fallback на value.value.
+if (import.meta.client) useResizeObserver(wrapper, () => setDefaultValue());
 
 onMounted(setDefaultValue);
 
