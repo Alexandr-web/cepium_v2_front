@@ -54,84 +54,98 @@
 
 ## Установка и запуск
 
+Проект запускается **только через Docker**, и это репозиторий фронтенда — не полный проект. Для запуска нужно собрать общую директорию, в которой рядом лежат репозитории фронта и бека.
+
 ### Требования
 
-- Node.js ≥ 22.22.1
-- npm или yarn
-- (опционально) Docker и Docker Compose
+- Docker и Docker Compose
+- Node.js ≥ 22.22.1 (нужен только для локальной разработки без Docker)
 
-### Локальная установка
+### Структура общей директории
 
-```bash
-# npm
-npm install
+Создайте общую директорию проекта и склонируйте в неё оба репозитория так, чтобы получилась структура:
 
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+```
+project/
+├── frontend/              # этот репозиторий
+│   ├── .env               # создать по примеру .env.example
+│   ├── .env.example
+│   └── ...
+├── backend/                # репозиторий бека
+│   └── ...
+├── .env                    # общий .env для docker-compose
+├── docker-compose.yml
+└── nginx.conf
 ```
 
-## Сервер
+### Шаг 1. Настройка окружения фронта
 
-Запуск сервера происходит через команду:
+Внутри директории `frontend` (этого репозитория) создайте файл `.env` по примеру `.env.example`, подставив свои значения:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+cp .env.example .env
 ```
 
-## Docker (dev режим)
+### Шаг 2. Общие файлы
 
-### Сборка образа
+В корне общей директории (`project/`, на уровень выше `frontend` и `backend`) должны находиться три файла:
+
+- `.env` — общие переменные окружения для docker-compose
+- `docker-compose.yml` — описание сервисов (фронт, бек, миграции, nginx и т.д.)
+- `nginx.conf` — конфигурация nginx
+
+### Шаг 3. Миграции
+
+Если в проекте участвует бек, перед первым запуском выполните миграции. Команда выполняется из общей директории (там, где лежит `docker-compose.yml`):
 
 ```bash
-docker build -t cepium_v2_front-app .
+docker compose run --rm migrate
 ```
 
-### Запуск контейнера
+### Шаг 4. Запуск проекта
+
+Из той же общей директории соберите и запустите все сервисы:
 
 ```bash
-docker run -d -p 3000:3000 --env-file .env --name cepium_v2_front cepium_v2_front-app
-```
-
-## Docker (prod режим)
-
-### Запуск проекта
-
-```bash
-docker compose -f docker-compose.prod.yml up -d --build
+docker compose up --build -d
 ```
 
 ### Просмотр логов
 
 ```bash
-docker compose -f docker-compose.prod.yml logs -f nuxt-prod
+docker compose logs -f
 ```
 
-### Остановка контейнера
+### Остановка контейнеров
 
 ```bash
-docker compose -f docker-compose.prod.yml down
+docker compose down
 ```
 
-Сервер запускается по ссылке `http://localhost:3000`
+После запуска сервер будет доступен по ссылке `http://localhost:3000` (либо по адресу, настроенному в `nginx.conf`).
 
-## Запуск бека
+## Локальная разработка без Docker (опционально)
 
-Для корректной работы с REST API и WebSockets необходимо подключиться к беку. Для этого необходимо создать файл `.env` по примеру из `.env.example`, подставив туда свои данные.
+Если нужно запустить только фронт без Docker, для разработки/отладки:
+
+```bash
+# npm
+npm install
+npm run dev
+
+# pnpm
+pnpm install
+pnpm dev
+
+# yarn
+yarn install
+yarn dev
+
+# bun
+bun install
+bun run dev
+```
+
+Обратите внимание: для корректной работы с REST API и WebSocket в этом режиме также необходим файл `.env` внутри `frontend`, созданный по примеру `.env.example`.
 
 Документация будет пополняться.
