@@ -188,6 +188,6 @@ export const parseExchangeErrorMessage = (rawData: unknown, exchangeName: string
 		
 		return prettyError(parsed.message || parsed.retMsg || rawData);
 	} catch {
-		return rawData;
+		return prettyError(rawData);
 	}
 };
