@@ -18,7 +18,10 @@
 			</div>
 		</template>
 		<template #cell-symbol="{ row }">
-			<span class="text-14 text-white font-bold">{{ row.symbol }}</span>
+			<span
+				class="text-14 text-white font-bold cursor-pointer"
+				@click="emits('selectSymbol', row.symbol)"
+			>{{ row.symbol }}</span>
 		</template>
 		<template #cell-direction="{ row }">
 			<div
@@ -74,7 +77,7 @@ withDefaults(
 	}
 );
 
-const emits = defineEmits(["removeOne", "removeAll"]);
+const emits = defineEmits(["removeOne", "removeAll", "selectSymbol"]);
 
 const columns = computed<TTableColumn<Trade>[]>(() => [
 	{

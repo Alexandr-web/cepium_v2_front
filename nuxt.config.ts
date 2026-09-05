@@ -42,7 +42,12 @@ export default defineNuxtConfig({
 	},
 	vue: {
 		compilerOptions: {
-			isCustomElement: (tag) => ["gecko-coin-price-marquee-widget", "gecko-coin-ticker-widget"].includes(tag),
+			isCustomElement: (tag) =>
+				[
+					"gecko-coin-price-marquee-widget",
+					"gecko-coin-ticker-widget",
+					"gecko-coin-price-chart-widget",
+				].includes(tag),
 		},
 	},
 	svgo: {

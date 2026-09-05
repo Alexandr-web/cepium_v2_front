@@ -24,6 +24,10 @@ useHead({
 			src: "https://widgets.coingecko.com/gecko-coin-price-marquee-widget.js",
 			defer: true,
 		},
+		{
+			src: "https://widgets.coingecko.com/gecko-coin-price-chart-widget.js",
+			defer: true,
+		},
 	],
 });
 </script>
