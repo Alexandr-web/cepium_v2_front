@@ -7,6 +7,6 @@
 const route = useRoute();
 
 useHead({
-	title: () => `${route.meta?.seo?.title ?? ""} | Bitrit`,
+	title: () => `${route.meta?.seo?.title ?? ""} | Cepium`,
 });
 </script>
