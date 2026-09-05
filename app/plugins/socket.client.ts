@@ -29,8 +29,6 @@ export default defineNuxtPlugin(() => {
 	const unsubscribeAccountInfo = () => socket?.emit("unsubscribeAccountInfo", payload.value);
 
 	const connectSocket = () => {
-		connectionStore.errorMessage = "";
-
 		if (socket) return;
 
 		socket = io(undefined, {
@@ -42,12 +40,25 @@ export default defineNuxtPlugin(() => {
 		});
 
 		// системные события
-		socket.on("connect", () => connectionStore.status = ConnectionStatuses.OPEN);
-		socket.on("disconnect", () => connectionStore.status = ConnectionStatuses.CLOSED);
-		socket.on("connect_error", () => connectionStore.status = ConnectionStatuses.CONNECTING);
+		socket.on("connect", () => {
+			connectionStore.errorMessage = "";
+			connectionStore.status = ConnectionStatuses.OPEN;
+		});
+		
+		socket.on("disconnect", () => {
+			connectionStore.errorMessage = "";
+			connectionStore.status = ConnectionStatuses.CLOSED;
+		});
+
+		socket.on("connect_error", () => {
+			connectionStore.errorMessage = "";
+			connectionStore.status = ConnectionStatuses.CONNECTING;
+		});
 
 		// активные сделки
 		socket.on("deals", (data: TPosition[]) => {
+			connectionStore.errorMessage = "";
+
 			// удаляем позиции, если их нет в приходящих сделках
 			tradeStore.trades.forEach((pos, idx) => {
 				if (!data.find(({ id }) => id === pos.id)) tradeStore.trades.splice(idx, 1);
@@ -67,6 +78,8 @@ export default defineNuxtPlugin(() => {
 
 		// информация на дашборде
 		socket.on("accountInfo", (data: TDashboard) => {
+			connectionStore.errorMessage = "";
+
 			dashboardStore.data = {
 				activePositionsCount: data?.activePositionsCount ?? 0,
 				availableMargin: data?.availableMargin ?? 0,
