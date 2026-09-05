@@ -102,7 +102,9 @@ export default defineNuxtPlugin(() => {
 		});
 	};
 
-	const disconnectSocket = () => {
+	const disconnectSocket = async () => {
+		await nextTick();
+
 		connectionStore.errorMessage = "";
 
 		socket?.disconnect();
