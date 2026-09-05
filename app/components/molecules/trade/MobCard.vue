@@ -39,6 +39,7 @@
 				<AButton
 					class="py-6 px-16 rounded-4 text-12"
 					mode="neutral-fill"
+					:disabled="disabled"
 					@click="emits('controls', trade)"
 				>Управление</AButton>
 			</div>
@@ -49,7 +50,15 @@
 import type Trade from "@/models/Trade";
 import AButton from "@/components/atoms/AButton.vue";
 
-defineProps<{ trade: Trade }>();
+withDefaults(
+	defineProps<{
+		trade: Trade;
+		disabled?: boolean;
+	}>(),
+	{
+		disabled: false,
+	}
+);
 
 const emits = defineEmits(["controls"]);
 </script>

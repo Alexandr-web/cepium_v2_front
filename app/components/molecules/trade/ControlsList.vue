@@ -24,17 +24,19 @@ const props = withDefaults(
 	}
 );
 
+const emits = defineEmits(["removeOne", "removeAll"]);
+
 const tradeMenu = computed(() => [
 	{
 		label: `Закрыть позицию ${props.trade?.symbol}`,
-		onClick: () => console.log("close trade: ", props.trade?.id),
+		onClick: () => emits("removeOne", props.trade),
 	},
 ]);
 
 const tradesMenu = computed(() => [
 	{
 		label: "Закрыть все позиции",
-		onClick: () => console.log("close all trades"),
+		onClick: () => emits("removeAll"),
 	},
 ]);
 

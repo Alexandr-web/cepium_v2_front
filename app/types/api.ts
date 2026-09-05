@@ -271,6 +271,12 @@ export type TOrderResponse = {
 	message: string;
 };
 
+export type TRemoveOrderResponse = {
+	statusCode: number;
+	data: TOrder;
+	message: string;
+};
+
 export type TExchangeMarket = {
   symbol: string;
   base: string;

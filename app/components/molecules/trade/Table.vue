@@ -9,7 +9,12 @@
 	>
 		<template #head-controls>
 			<div v-if="trades.length" class="flex items-center gap-10">
-				<AButton class="py-4 px-12 rounded-4 text-14" mode="remove-border" @click="emits('removeAll')">Закрыть все</AButton>
+				<AButton
+					class="py-4 px-12 rounded-4 text-14"
+					mode="remove-border"
+					:disabled="disabled"
+					@click="emits('removeAll')"
+				>Закрыть все</AButton>
 			</div>
 		</template>
 		<template #cell-symbol="{ row }">
@@ -57,7 +62,8 @@
 			<AButton
 				class="rounded-4 px-12 py-6 text-14 w-full"
 				mode="remove-fill"
-				@click="emits('remove', row)"
+				:disabled="disabled"
+				@click="emits('removeOne', row)"
 			>Закрыть</AButton>
 		</template>
 	</MTable>
@@ -67,9 +73,17 @@ import type Trade from "@/models/Trade";
 import AButton from "@/components/atoms/AButton.vue";
 import MTable from "@/components/molecules/common/MTable.vue";
 
-defineProps<{ trades: Trade[] }>();
+withDefaults(
+	defineProps<{
+		trades: Trade[];
+		disabled?: boolean;
+	}>(),
+	{
+		disabled: false,
+	}
+);
 
-const emits = defineEmits(["remove", "removeAll"]);
+const emits = defineEmits(["removeOne", "removeAll"]);
 
 const columns = computed<TTableColumn<Trade>[]>(() => [
 	{
