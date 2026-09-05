@@ -18,10 +18,7 @@
 			</div>
 		</template>
 		<template #cell-symbol="{ row }">
-			<div class="flex items-center gap-12">
-				<div class="rounded-12 flex justify-center items-center bg-primary-300 text-primary-950 w-38 h-40 text-10 border border-solid border-white/10">{{ row.shortSymbol }}</div>
-				<span class="text-14 text-white font-bold">{{ row.symbol }}</span>
-			</div>
+			<span class="text-14 text-white font-bold">{{ row.symbol }}</span>
 		</template>
 		<template #cell-direction="{ row }">
 			<div

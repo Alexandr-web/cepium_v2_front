@@ -1,17 +1,14 @@
 <template>
 	<div class="flex flex-col border border-solid border-white/5 rounded-8 bg-secondary-100 text-white p-8">
 		<div class="flex justify-between pb-12">
-			<div class="flex gap-12 items-center">
-				<div class="rounded-12 w-40 h-40 flex justify-center items-center border border-solid border-white/5 uppercase text-neutral-700 font-bold text-12">{{ trade.shortSymbol }}</div>
-				<div class="flex flex-col">
-					<h3 class="font-bold text-14 text-white/80">{{ trade.shortSymbol }} {{ trade.direction }}</h3>
-					<p class="inline-flex items-center text-12 font-medium text-white/50">
-						{{ trade.prettyLeverage }}
-						<span class="w-4 h-4 rounded-full bg-white/50 mx-4 block"/>
-						{{ trade.prettyAmount }}
-						{{ trade.shortSymbol }}
-					</p>
-				</div>
+			<div class="flex flex-col">
+				<h3 class="font-bold text-14 text-white/80">{{ trade.shortSymbol }} {{ trade.direction }}</h3>
+				<p class="inline-flex items-center text-12 font-medium text-white/50">
+					{{ trade.prettyLeverage }}
+					<span class="w-4 h-4 rounded-full bg-white/50 mx-4 block"/>
+					{{ trade.prettyAmount }}
+					{{ trade.shortSymbol }}
+				</p>
 			</div>
 			<div
 				class="flex flex-col items-end"
