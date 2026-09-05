@@ -1,6 +1,6 @@
 <template>
 	<section class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-		<Card v-for="card in summary" :key="card.type" :card="card" />
+		<Card v-for="card in summary" :key="card.type" :card="card" data-allow-mismatch="" />
 	</section>
 </template>
 <script setup lang="ts">

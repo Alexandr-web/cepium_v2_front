@@ -191,3 +191,5 @@ export const parseExchangeErrorMessage = (rawData: unknown, exchangeName: string
 		return prettyError(rawData);
 	}
 };
+
+export const extractBaseSymbol = (pair: string): string => pair.split("/")[0]?.trim().toUpperCase() ?? "";

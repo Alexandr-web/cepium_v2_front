@@ -14,6 +14,7 @@ export type TGeneralFormField = {
 	items?: TSelectItem[];
 	disabled?: boolean;
 	search?: (value: string) => Promise<TSelectItem[]>;
+	itemClickHandler?: (item: TSelectItem) => Promise<void>;
 	showTooltip?: string;
 	min?: number;
 	max?: number;

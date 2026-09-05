@@ -17,6 +17,10 @@
 	}
 }
 
+body {
+	font-size: calc(var(--spacing) * 16);
+}
+
 @utility text-* {
 	font-size: calc(var(--spacing) * --value(integer));
 }

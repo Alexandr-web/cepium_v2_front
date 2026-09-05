@@ -28,6 +28,7 @@
 				:items="item.items"
 				:disabled="item.disabled"
 				:search="item.search"
+				:item-click-handler="item.itemClickHandler"
 				:max="item.max"
 				:min="item.min"
 				:show-tooltip="item.showTooltip"

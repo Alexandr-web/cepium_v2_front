@@ -22,6 +22,7 @@
 						:key="idx"
 						:label="item.label"
 						@remove="removeItem(idx)"
+						@click="itemClickHandler?.(item)"
 					/>
 				</div>
 			</div>
@@ -67,11 +68,13 @@ const props = withDefaults(
 		placeholder?: string;
 		disabled?: boolean;
 		search: (value: string) => Promise<TSelectItem[]>;
+		itemClickHandler?: (item: TSelectItem) => Promise<void>;
 	}>(),
 	{
 		label: "",
 		placeholder: "Поиск",
 		disabled: false,
+		itemClickHandler: undefined,
 	}
 );
 

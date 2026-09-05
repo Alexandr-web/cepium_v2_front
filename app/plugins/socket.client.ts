@@ -17,23 +17,21 @@ export default defineNuxtPlugin(() => {
 
 	const config = useRuntimeConfig();
 
-	let socket: Socket|null = null;
+	const socket = ref<Socket|null>(null);
 
 	// общий payload для работы со всеми событиями
 	const payload = computed(() => ({ exchangeName: exchangeStore.activeExchange }));
 
 	// основные события
-	const subscribeDeals = () => socket?.emit("subscribeDeals", payload.value);
-	const unsubscribeDeals = () => socket?.emit("unsubscribeDeals", payload.value);
-	const subscribeAccountInfo = () => socket?.emit("subscribeAccountInfo", payload.value);
-	const unsubscribeAccountInfo = () => socket?.emit("unsubscribeAccountInfo", payload.value);
+	const subscribeDeals = () => socket.value?.emit("subscribeDeals", payload.value);
+	const unsubscribeDeals = () => socket.value?.emit("unsubscribeDeals", payload.value);
+	const subscribeAccountInfo = () => socket.value?.emit("subscribeAccountInfo", payload.value);
+	const unsubscribeAccountInfo = () => socket.value?.emit("unsubscribeAccountInfo", payload.value);
 
 	const connectSocket = () => {
-		connectionStore.errorMessage = "";
+		if (socket.value) return;
 
-		if (socket) return;
-
-		socket = io(undefined, {
+		socket.value = io(undefined, {
 			path: config.public.wsUrl,
 			autoConnect: true,
 			withCredentials: true,
@@ -42,31 +40,40 @@ export default defineNuxtPlugin(() => {
 		});
 
 		// системные события
-		socket.on("connect", () => connectionStore.status = ConnectionStatuses.OPEN);
-		socket.on("disconnect", () => connectionStore.status = ConnectionStatuses.CLOSED);
-		socket.on("connect_error", () => connectionStore.status = ConnectionStatuses.CONNECTING);
+		socket.value.on("connect", () => {
+			connectionStore.errorMessage = "";
+			connectionStore.status = ConnectionStatuses.OPEN;
+		});
+		
+		socket.value.on("disconnect", () => {
+			connectionStore.errorMessage = "";
+			connectionStore.status = ConnectionStatuses.CLOSED;
+		});
+
+		socket.value.on("connect_error", () => {
+			connectionStore.errorMessage = "";
+			connectionStore.status = ConnectionStatuses.CONNECTING;
+		});
 
 		// активные сделки
-		socket.on("deals", (data: TPosition[]) => {
+		socket.value.on("deals", (data: TPosition[]) => {
+			connectionStore.errorMessage = "";
+
 			// удаляем позиции, если их нет в приходящих сделках
-			tradeStore.trades.forEach((pos, idx) => {
-				if (!data.find(({ id }) => id === pos.id)) tradeStore.trades.splice(idx, 1);
-			});
+			tradeStore.trades = tradeStore.trades.filter((pos) => data.some(({ id }) => id === pos.id));
 
 			data.forEach((pos) => {
-				const findPosIdx = tradeStore.trades.findIndex(({ id }) => id === pos.id);
+				const findTrade = tradeStore.trades.find(({ id }) => id === pos.id);
 
-				if (findPosIdx === -1) {
-					tradeStore.trades.push(new Trade(pos));
-					return;
-				}
-
-				tradeStore.trades[findPosIdx]?.updateData(pos);
+				if (findTrade) findTrade.updateData(pos);
+				else tradeStore.trades.push(new Trade(pos));
 			});
 		});
 
 		// информация на дашборде
-		socket.on("accountInfo", (data: TDashboard) => {
+		socket.value.on("accountInfo", (data: TDashboard) => {
+			connectionStore.errorMessage = "";
+
 			dashboardStore.data = {
 				activePositionsCount: data?.activePositionsCount ?? 0,
 				availableMargin: data?.availableMargin ?? 0,
@@ -79,7 +86,7 @@ export default defineNuxtPlugin(() => {
 		});
 
 		// обработка ошибок
-		socket.on("accountInfoError", (data) => {
+		socket.value.on("accountInfoError", (data) => {
 			const message = parseExchangeErrorMessage(data.message, exchangeStore.activeExchange ?? "");
 			
 			if (message) {
@@ -90,8 +97,10 @@ export default defineNuxtPlugin(() => {
 	};
 
 	const disconnectSocket = () => {
-		socket?.disconnect();
-		socket = null;
+		connectionStore.errorMessage = "";
+
+		socket.value?.disconnect();
+		socket.value = null;
 	};
 
 	router.afterEach((to) => {

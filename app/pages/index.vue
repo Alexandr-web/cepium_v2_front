@@ -1,8 +1,9 @@
 <template>
 	<div class="flex flex-col gap-16 lg:gap-32">
+		<LazyOrganismsCommonCoinsMarquee class="-mx-16" />
 		<LazyOrganismsIndexSummary />
 		<LazyOrganismsIndexErrors />
-		<div class="-mx-16 bg-neutral-300/50 p-16">
+		<div class="flex flex-col -mx-16 bg-neutral-300/50 p-16">
 			<LazyOrganismsIndexActiveTrades :trades="tradeStore.trades" />
 		</div>
 	</div>
@@ -16,4 +17,17 @@ const { suspense } = useUser();
 await suspense();
 
 const tradeStore = useTradeStore();
+
+useHead({
+	script: [
+		{
+			src: "https://widgets.coingecko.com/gecko-coin-price-marquee-widget.js",
+			defer: true,
+		},
+		{
+			src: "https://widgets.coingecko.com/gecko-coin-price-chart-widget.js",
+			defer: true,
+		},
+	],
+});
 </script>

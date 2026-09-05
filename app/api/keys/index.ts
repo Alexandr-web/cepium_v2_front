@@ -7,4 +7,5 @@ export default {
 	getConfig: (id: string) => ["configs", id],
 	getCredentials: (exchangeName: string) => ["credentials", exchangeName],
 	getOrders: (exchangeName: string, query = {}) => ["orders", exchangeName, ...Object.values(query)],
+	getCoinGeckoId: (symbol: string) => ["gecko-coin-id", symbol],
 };

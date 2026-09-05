@@ -1,4 +1,4 @@
-import { formatTimeAgo } from "@vueuse/core";
+import { useLocaleFormatTimeAgo } from "@/composables/useLocaleTime";
 
 export default class Trade {
 	leverage?: number;
@@ -47,11 +47,11 @@ export default class Trade {
 	}
 
 	get prettyCreatedAt() {
-		return formatTimeAgo(new Date(String(this.createdAt)), { messages: RU_TIME_MESSAGES });
+		return useLocaleFormatTimeAgo(new Date(String(this.createdAt)));
 	}
 
 	get shortSymbol() {
-		return this.symbol.replace(/\/.+:.+$/, "");
+		return extractBaseSymbol(this.symbol);
 	}
 
 	get prettyLiquidationPrice() {

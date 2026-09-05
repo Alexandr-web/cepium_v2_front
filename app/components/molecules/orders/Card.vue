@@ -40,7 +40,7 @@ const { card } = defineProps<{
 	card: TOrder;
 }>();
 
-const time = useTimeAgo(String(card.createdAt), { messages: RU_TIME_MESSAGES });
+const time = useLocaleTimeAgo(card.createdAt);
 const enterPrice = computed(() => formatNum(Number(card.entryPrice), { currency: "USD", style: "currency", defaultValue: "-" }));
 const amount = computed(() => formatNum(Number(card.size), { padZero: true }));
 const pnl = computed(() => {

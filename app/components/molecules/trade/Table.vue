@@ -18,10 +18,10 @@
 			</div>
 		</template>
 		<template #cell-symbol="{ row }">
-			<div class="flex items-center gap-12">
-				<div class="rounded-12 flex justify-center items-center bg-primary-300 text-primary-950 w-38 h-40 text-10 border border-solid border-white/10">{{ row.shortSymbol }}</div>
-				<span class="text-14 text-white font-bold">{{ row.symbol }}</span>
-			</div>
+			<span
+				class="text-14 text-white font-bold cursor-pointer"
+				@click="emits('selectSymbol', row.symbol)"
+			>{{ row.symbol }}</span>
 		</template>
 		<template #cell-direction="{ row }">
 			<div
@@ -35,23 +35,17 @@
 			</div>
 		</template>
 		<template #cell-prettyLiquidationPrice="{ row }">
-			<p class="text-primary-500 text-16">{{ row.prettyLiquidationPrice }}</p>
+			<p class="text-primary-500">{{ row.prettyLiquidationPrice }}</p>
 		</template>
 		<template #cell-prettyStopLossPrice="{ row }">
-			<p
-				class="text-16"
-				:class="[row.prettyStopLossPrice !== '-' && 'text-secondary-500']"
-			>{{ row.prettyStopLossPrice }}</p>
+			<p :class="[row.prettyStopLossPrice !== '-' && 'text-secondary-500']">{{ row.prettyStopLossPrice }}</p>
 		</template>
 		<template #cell-prettyTakeProfitPrice="{ row }">
-			<p
-				class="text-16"
-				:class="[row.prettyTakeProfitPrice !== '-' && 'text-tertiary-500']"
-			>{{ row.prettyTakeProfitPrice }}</p>
+			<p :class="[row.prettyTakeProfitPrice !== '-' && 'text-tertiary-500']">{{ row.prettyTakeProfitPrice }}</p>
 		</template>
 		<template #cell-pnl="{ row }">
 			<p
-				class="font-bold text-16"
+				class="font-bold"
 				:class="[
 					row.pnl >= 0 && 'text-tertiary-600',
 					row.pnl < 0 && 'text-secondary-600',
@@ -83,7 +77,7 @@ withDefaults(
 	}
 );
 
-const emits = defineEmits(["removeOne", "removeAll"]);
+const emits = defineEmits(["removeOne", "removeAll", "selectSymbol"]);
 
 const columns = computed<TTableColumn<Trade>[]>(() => [
 	{

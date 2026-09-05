@@ -5,7 +5,7 @@ export default defineNuxtConfig({
 	compatibilityDate: "2025-07-15",
 	app: {
 		head: {
-			title: "Bitrit",
+			title: "Cepium",
 			viewport: "width=device-width, initial-scale=1.0, viewport-fit=cover",
 			htmlAttrs: {
 				lang: "ru",
@@ -30,6 +30,7 @@ export default defineNuxtConfig({
 		"@nuxt/fonts",
 	],
 	runtimeConfig: {
+		geckoApiUrl: process.env.NUXT_GECKO_API_URL,
 		public: {
 			apiUrl: process.env.NUXT_PUBLIC_API_URL,
 			wsUrl: process.env.NUXT_PUBLIC_WS_URL,
@@ -38,6 +39,16 @@ export default defineNuxtConfig({
 	css: ["@/assets/css/global.css", "notivue/notification.css", "notivue/animations.css"],
 	vite: {
 		plugins: [tailwindcss()],
+	},
+	vue: {
+		compilerOptions: {
+			isCustomElement: (tag) =>
+				[
+					"gecko-coin-price-marquee-widget",
+					"gecko-coin-ticker-widget",
+					"gecko-coin-price-chart-widget",
+				].includes(tag),
+		},
 	},
 	svgo: {
 		defaultImport: "component",
@@ -61,9 +72,15 @@ export default defineNuxtConfig({
 		queryClientOptions: {
 			defaultOptions: {
 				queries: {
-					staleTime: 60 * 5000,
+					staleTime: 60 * 1000,
+					gcTime: 5 * 60 * 1000,
 					refetchOnWindowFocus: false,
-					retry: false,
+					refetchOnReconnect: true,
+					retry: 1,
+					retryDelay: 1000,
+				},
+				mutations: {
+					retry: 0,
 				},
 			},
 		},

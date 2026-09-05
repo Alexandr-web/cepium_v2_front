@@ -11,7 +11,6 @@
 		>
 			<template #content>
 				<div class="flex flex-col-reverse lg:flex-row">
-					<AError message="" />
 					<AButton
 						class="w-full lg:w-auto rounded-4 py-10 px-24 lg:ml-auto"
 						mode="primary-fill"
@@ -24,19 +23,31 @@
 			</template>
 		</GeneralForm>
 	</section>
+	<Teleport to="body">
+		<Modal :model-value="!!choosedSymbol" @close="choosedSymbol = null">
+			<gecko-coin-ticker-widget
+				v-if="choosedSymbol"
+				locale="ru"
+				dark-mode="true"
+				:coin-id="choosedSymbol"
+				initial-currency="usd"
+			/>
+		</Modal>
+	</Teleport>
 </template>
 <script setup lang="ts">
 import * as z from "zod";
 import AButton from "@/components/atoms/AButton.vue";
-import AError from "@/components/atoms/AError.vue";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import ASelect from "@/components/atoms/ASelect.vue";
 import AInput from "@/components/atoms/AInput.vue";
 import SearchList from "@/components/molecules/common/SearchList.vue";
 import ASlider from "@/components/atoms/ASlider.vue";
-import { useExchangeStore } from "@/store/useExchangeStore";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
+import Modal from "@/components/molecules/common/Modal.vue";
+import { useExchangeStore } from "@/store/useExchangeStore";
 import { useMarketsSearch } from "@/composables/api/useExchanges";
+import { useCoinGeckoSearch } from "@/composables/api/useCoinGecko";
 
 const props = withDefaults(
 	defineProps<{
@@ -53,6 +64,7 @@ const props = withDefaults(
 	}
 );
 
+const { findCoinId } = useCoinGeckoSearch();
 const { searchMarkets } = useMarketsSearch();
 
 const emits = defineEmits(["execute"]);
@@ -67,6 +79,7 @@ const MARGIN_MODE_LIST: TSelectItem[] = [
 	{ label: "Кросс", value: "cross" },
 ];
 
+const choosedSymbol = ref<string|null>(null);
 const choosedExchange = ref(props.data?.exchangeName || "");
 
 const fields = ref<TGeneralFormField[]>([
@@ -163,6 +176,10 @@ const fields = ref<TGeneralFormField[]>([
 		placeholder: "Поиск отслеживаемых монет",
 		component: markRaw(SearchList),
 		classes: "lg:col-span-6",
+		itemClickHandler: async (item: TSelectItem) => {
+			const id = await findCoinId(item.value);
+			if (id) choosedSymbol.value = id;
+		},
 		search: async (search: string): Promise<TSelectItem[]> => {
 			const res = await searchMarkets(choosedExchange.value, search);
 			return res.data.map((s) => ({ label: s.symbol, value: s.symbol })) ?? [];
