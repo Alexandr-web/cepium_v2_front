@@ -1,33 +1,33 @@
 <template>
 	<section class="flex flex-col gap-16">
-		<ClientOnly>
-			<div class="flex lg:hidden items-center justify-between">
-				<h2 class="font-bold text-20">Активные сделки <span class="text-14 text-white/50">({{ trades.length }})</span></h2>
-				<AButton
-					v-if="trades.length"
-					class="py-4 px-12 rounded-12 text-12"
-					mode="remove-border"
-					:disabled="isPendingRemovePosition"
-					@click="showModal = true"
-				>Закрыть все</AButton>
-			</div>
-			<div v-if="trades.length" class="flex lg:hidden flex-col gap-12">
-				<MobTradeCard
-					v-for="trade in trades"
-					:key="trade.id"
-					:disabled="isPendingRemovePosition"
-					:trade="trade"
-					@controls="selectedTrade = trade"
-				/>
-			</div>
-			<Empty v-else class="lg:hidden" />
-			<TradesTable
-				:trades="trades"
+		<div class="flex lg:hidden items-center justify-between">
+			<h2 class="font-bold text-20" data-allow-mismatch="">Активные сделки <span class="text-14 text-white/50">({{ trades.length }})</span></h2>
+			<AButton
+				v-if="trades.length"
+				class="py-4 px-12 rounded-12 text-12"
+				mode="remove-border"
 				:disabled="isPendingRemovePosition"
-				@remove-one="removePosition"
-				@remove-all="() => console.log('remove all')"
+				data-allow-mismatch=""
+				@click="showModal = true"
+			>Закрыть все</AButton>
+		</div>
+		<div v-if="trades.length" class="flex lg:hidden flex-col gap-12" data-allow-mismatch="">
+			<MobTradeCard
+				v-for="trade in trades"
+				:key="trade.id"
+				:disabled="isPendingRemovePosition"
+				:trade="trade"
+				@controls="selectedTrade = trade"
 			/>
-		</ClientOnly>
+		</div>
+		<Empty v-else class="lg:hidden" />
+		<TradesTable
+			:trades="trades"
+			:disabled="isPendingRemovePosition"
+			data-allow-mismatch=""
+			@remove-one="removePosition"
+			@remove-all="() => console.log('remove all')"
+		/>
 	</section>
 	<Teleport to="body">
 		<Modal v-model="showModal" @close="selectedTrade = null">

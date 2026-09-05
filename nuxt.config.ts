@@ -39,6 +39,11 @@ export default defineNuxtConfig({
 	vite: {
 		plugins: [tailwindcss()],
 	},
+	vue: {
+		compilerOptions: {
+			isCustomElement: (tag) => ["gecko-coin-price-marquee-widget"].includes(tag),
+		},
+	},
 	svgo: {
 		defaultImport: "component",
 	},
