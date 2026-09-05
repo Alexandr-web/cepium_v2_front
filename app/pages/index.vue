@@ -3,7 +3,7 @@
 		<LazyOrganismsCommonCoinsMarquee class="-mx-16" />
 		<LazyOrganismsIndexSummary />
 		<LazyOrganismsIndexErrors />
-		<div class="-mx-16 bg-neutral-300/50 p-16">
+		<div class="flex flex-col -mx-16 bg-neutral-300/50 p-16">
 			<LazyOrganismsIndexActiveTrades :trades="tradeStore.trades" />
 		</div>
 	</div>

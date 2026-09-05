@@ -30,6 +30,7 @@ export default defineNuxtConfig({
 		"@nuxt/fonts",
 	],
 	runtimeConfig: {
+		geckoApiUrl: process.env.NUXT_GECKO_API_URL,
 		public: {
 			apiUrl: process.env.NUXT_PUBLIC_API_URL,
 			wsUrl: process.env.NUXT_PUBLIC_WS_URL,
@@ -41,7 +42,7 @@ export default defineNuxtConfig({
 	},
 	vue: {
 		compilerOptions: {
-			isCustomElement: (tag) => ["gecko-coin-price-marquee-widget"].includes(tag),
+			isCustomElement: (tag) => ["gecko-coin-price-marquee-widget", "gecko-coin-ticker-widget"].includes(tag),
 		},
 	},
 	svgo: {

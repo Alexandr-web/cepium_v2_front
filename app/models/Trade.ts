@@ -51,7 +51,7 @@ export default class Trade {
 	}
 
 	get shortSymbol() {
-		return this.symbol.replace(/\/.+:.+$/, "");
+		return extractBaseSymbol(this.symbol);
 	}
 
 	get prettyLiquidationPrice() {

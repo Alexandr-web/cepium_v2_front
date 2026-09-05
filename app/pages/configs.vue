@@ -11,4 +11,13 @@ const { data, suspense } = useConfigs();
 await suspense();
 
 const configs = computed(() => data.value?.data ?? []);
+
+useHead({
+	script: [
+		{
+			src: "https://widgets.coingecko.com/gecko-coin-ticker-widget.js",
+			defer: true,
+		},
+	],
+});
 </script>

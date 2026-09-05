@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col rounded-8 overflow-hidden border border-solid border-white/5">
+	<div class="flex flex-col rounded-8 max-w-full w-full min-w-0 overflow-hidden border border-solid border-white/5">
 		<HeadTable v-if="headIcon || title || $slots['head-controls']" :title="title" :icon="headIcon">
 			<slot name="head-controls" />
 		</HeadTable>

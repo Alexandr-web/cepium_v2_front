@@ -307,3 +307,17 @@ export type TPosition = {
 	unrealizedPnl: number;
 	id: string;
 };
+
+export type TCoinGecko = {
+	id: string;
+	name: string;
+	api_symbol: string;
+	symbol: string;
+	market_cap_rank: number | null;
+	thumb: string;
+	large: string;
+};
+
+export type TGeckoSearchResponse = {
+	coins: TCoinGecko[];
+};

@@ -3,7 +3,6 @@
 		<gecko-coin-price-marquee-widget
 			locale="ru"
 			dark-mode="true"
-			outlined="true"
 			coin-ids=""
 			initial-currency="usd"
 		/>
