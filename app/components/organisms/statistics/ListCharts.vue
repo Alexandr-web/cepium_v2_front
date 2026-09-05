@@ -6,7 +6,7 @@
 			class="flex flex-col bg-neutral-200 border border border-neutral-300 rounded-12 p-12 lg:p-20 gap-16"
 			:class="item.classes"
 		>
-			<h3 class="text-16 font-medium text-neutral-700">{{ item.label }}</h3>
+			<h3 class="font-medium text-neutral-700">{{ item.label }}</h3>
 			<div class="h-200 lg:h-300 w-full">
 				<VChart :option="item.options" class="w-full h-full" />
 			</div>

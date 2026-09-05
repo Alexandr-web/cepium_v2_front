@@ -3,7 +3,7 @@
 		<div class="flex items-center justify-between gap-10 cursor-pointer p-12" @click="isActive = !isActive">
 			<div class="flex items-center gap-10">
 				<component :is="icon" v-if="icon" class="w-20 h-20 text-primary-600" />
-				<h3 class="text-16 lg:text-18 text-neutral-800 select-none">{{ label }}</h3>
+				<h3 class="lg:text-18 text-neutral-800 select-none">{{ label }}</h3>
 			</div>
 			<IconKeyboardArrowDownRounded
 				class="w-24 h-24 text-neutral-800"

@@ -35,23 +35,17 @@
 			</div>
 		</template>
 		<template #cell-prettyLiquidationPrice="{ row }">
-			<p class="text-primary-500 text-16">{{ row.prettyLiquidationPrice }}</p>
+			<p class="text-primary-500">{{ row.prettyLiquidationPrice }}</p>
 		</template>
 		<template #cell-prettyStopLossPrice="{ row }">
-			<p
-				class="text-16"
-				:class="[row.prettyStopLossPrice !== '-' && 'text-secondary-500']"
-			>{{ row.prettyStopLossPrice }}</p>
+			<p :class="[row.prettyStopLossPrice !== '-' && 'text-secondary-500']">{{ row.prettyStopLossPrice }}</p>
 		</template>
 		<template #cell-prettyTakeProfitPrice="{ row }">
-			<p
-				class="text-16"
-				:class="[row.prettyTakeProfitPrice !== '-' && 'text-tertiary-500']"
-			>{{ row.prettyTakeProfitPrice }}</p>
+			<p :class="[row.prettyTakeProfitPrice !== '-' && 'text-tertiary-500']">{{ row.prettyTakeProfitPrice }}</p>
 		</template>
 		<template #cell-pnl="{ row }">
 			<p
-				class="font-bold text-16"
+				class="font-bold"
 				:class="[
 					row.pnl >= 0 && 'text-tertiary-600',
 					row.pnl < 0 && 'text-secondary-600',

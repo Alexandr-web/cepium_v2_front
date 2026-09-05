@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<div class="flex flex-col min-w-0 grow gap-2">
-			<h2 class="font-bold text-16 lg:text-20 text-neutral-900 truncate tracking-tight" :title="name">
+			<h2 class="font-bold lg:text-20 text-neutral-900 truncate tracking-tight" :title="name">
 				{{ name }}
 			</h2>
 			<h3 class="font-medium text-13 lg:text-14 text-neutral-500 truncate" :title="email">
