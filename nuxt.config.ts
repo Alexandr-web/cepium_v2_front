@@ -61,9 +61,15 @@ export default defineNuxtConfig({
 		queryClientOptions: {
 			defaultOptions: {
 				queries: {
-					staleTime: 60 * 5000,
+					staleTime: 60 * 1000,
+					gcTime: 5 * 60 * 1000,
 					refetchOnWindowFocus: false,
-					retry: false,
+					refetchOnReconnect: true,
+					retry: 1,
+					retryDelay: 1000,
+				},
+				mutations: {
+					retry: 0,
 				},
 			},
 		},
