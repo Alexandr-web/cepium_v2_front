@@ -1,5 +1,3 @@
-import { defineStore } from "pinia";
-
 export const useConnectionStore = defineStore("connection-store", () => {
 	const status = ref(ConnectionStatuses.NONE);
 	const errorMessage = ref("");
