@@ -19,7 +19,7 @@
 		</template>
 		<template #cell-symbol="{ row }">
 			<span
-				class="text-14 text-white font-bold cursor-pointer"
+				class="text-14 text-white font-bold cursor-pointer hover:underline"
 				@click="emits('selectSymbol', row.symbol)"
 			>{{ row.symbol }}</span>
 		</template>

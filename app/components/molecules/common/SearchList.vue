@@ -21,6 +21,7 @@
 						v-for="(item, idx) in addedItems"
 						:key="idx"
 						:label="item.label"
+						:class="[!!itemClickHandler && 'hover:underline']"
 						@remove="removeItem(idx)"
 						@click="itemClickHandler?.(item)"
 					/>
