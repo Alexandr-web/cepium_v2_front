@@ -185,3 +185,18 @@ body {
 .tap {
 	-webkit-tap-highlight-color: transparent;
 }
+
+/* Состояние элемента, который уходит со страницы */
+.page-leave-to {
+	opacity: 0.5;
+}
+
+.page-leave-active,
+.page-enter-active {
+	transition: opacity 0.3s ease;
+}
+
+/* Состояние элемента, который только появляется */
+.page-enter-from {
+	opacity: 0.5;
+}

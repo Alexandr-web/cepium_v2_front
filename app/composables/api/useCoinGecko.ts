@@ -12,7 +12,7 @@ export const useCoinGeckoSearch = () => {
 		const data = await queryClient.fetchQuery({
 			queryKey: keys.getCoinGeckoId(baseSymbol),
 			queryFn: () => searchCoin(baseSymbol),
-			staleTime: 1000 * 60 * 60,
+			staleTime: 1000 * 60 * 60 * 24,
 		});
 
 		return data.coins.find((coin) => coin.symbol.toUpperCase() === baseSymbol)?.id ?? data.coins[0]?.id ?? null;

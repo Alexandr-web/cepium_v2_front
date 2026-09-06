@@ -14,6 +14,7 @@ export default defineNuxtConfig({
 				{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
 			],
 		},
+		pageTransition: { name: "page", mode: "out-in" },
 	},
 	modules: [
 		"@nuxt/eslint",
