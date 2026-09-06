@@ -13,11 +13,11 @@ export default class Trade {
 	readonly id: string;
 	readonly entryPrice: number;
 	readonly direction?: string;
-	readonly trade: TPosition;
+	readonly trade: Position;
 	readonly symbol: string;
 	readonly createdAt?: string;
 
-	constructor(trade: TPosition) {
+	constructor(trade: Position) {
 		this.leverage = trade.leverage;
 		this.amount = trade.size;
 		this.pnl = trade.unrealizedPnl;
@@ -35,7 +35,7 @@ export default class Trade {
 	}
 
 	// обновление данных сделки при получении с ws
-	updateData(data: TPosition) {
+	updateData(data: Position) {
 		this.leverage = data.leverage;
 		this.amount = data.size;
 		this.pnl = data.unrealizedPnl;

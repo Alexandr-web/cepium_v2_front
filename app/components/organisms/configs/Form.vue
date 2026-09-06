@@ -1,7 +1,7 @@
 <template>
 	<section class="flex flex-col gap-12 lg:max-w-1200 w-full lg:mx-auto">
 		<h2 class="text-20 lg:text-24 font-semibold">{{ title }}</h2>
-		<!-- @vue-generic {TConfigData}-->
+		<!-- @vue-generic {ConfigData}-->
 		<GeneralForm
 			:fields="fields"
 			:normalized-data="normalizedData"
@@ -51,13 +51,13 @@ import { useCoinGeckoSearch } from "@/composables/api/useCoinGecko";
 
 const props = withDefaults(
 	defineProps<{
-		strategies: TStrategyEntity[];
+		strategies: StrategyEntity[];
 		isPendingStrategy: boolean;
 		isPendingExchanges: boolean;
 		isPendingConfig: boolean;
 		title: string;
 		btnText: string;
-		data?: TConfigByIdResponse["data"];
+		data?: ConfigByIdResponse["data"];
 	}>(),
 	{
 		data: undefined,
@@ -71,10 +71,10 @@ const emits = defineEmits(["execute"]);
 
 const exchangeStore = useExchangeStore();
 
-const strategiesList = computed<TSelectItem[]>(() => props.strategies.map((s) => ({ label: s.name, value: s.id })) ?? []);
-const exchangesList = computed<TSelectItem[]>(() => exchangeStore.getFilledExchanges());
+const strategiesList = computed<SelectItem[]>(() => props.strategies.map((s) => ({ label: s.name, value: s.id })) ?? []);
+const exchangesList = computed<SelectItem[]>(() => exchangeStore.getFilledExchanges());
 
-const MARGIN_MODE_LIST: TSelectItem[] = [
+const MARGIN_MODE_LIST: SelectItem[] = [
 	{ label: "Изолированная", value: "isolated" },
 	{ label: "Кросс", value: "cross" },
 ];
@@ -82,7 +82,7 @@ const MARGIN_MODE_LIST: TSelectItem[] = [
 const choosedSymbol = ref<string|null>(null);
 const choosedExchange = ref(props.data?.exchangeName || "");
 
-const fields = ref<TGeneralFormField[]>([
+const fields = ref<GeneralFormField[]>([
 	{
 		name: "exchange",
 		value: String(props.data?.exchangeName ?? ""),
@@ -176,11 +176,11 @@ const fields = ref<TGeneralFormField[]>([
 		placeholder: "Поиск отслеживаемых монет",
 		component: markRaw(SearchList),
 		classes: "lg:col-span-6",
-		itemClickHandler: async (item: TSelectItem) => {
+		itemClickHandler: async (item: SelectItem) => {
 			const id = await findCoinId(item.value);
 			if (id) choosedSymbol.value = id;
 		},
-		search: async (search: string): Promise<TSelectItem[]> => {
+		search: async (search: string): Promise<SelectItem[]> => {
 			const res = await searchMarkets(choosedExchange.value, search);
 			return res.data.map((s) => ({ label: s.symbol, value: s.symbol })) ?? [];
 		},
@@ -196,7 +196,7 @@ const fields = ref<TGeneralFormField[]>([
 
 const { validateFields } = useForm(fields);
 
-const normalizedData = (): TConfigData => {
+const normalizedData = (): ConfigData => {
 	const allowedSymbols = fields.value.find(({ name }) => name === "allowedSymbols")?.value;
 
 	return {
@@ -211,7 +211,7 @@ const normalizedData = (): TConfigData => {
 	};
 };
 
-const execute = async (configData: TConfigData) => {
+const execute = async (configData: ConfigData) => {
 	if (!validateFields()) return;
 	emits("execute", { data: configData, exchangeName: String(choosedExchange.value || "") });
 };

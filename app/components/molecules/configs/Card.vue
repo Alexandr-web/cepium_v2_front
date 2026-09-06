@@ -46,7 +46,7 @@
 <script setup lang="ts">
 import IconEdit from "@/assets/icons/edit-outline-rounded.svg";
 
-const { card } = defineProps<{ card: TConfigResponse; }>();
+const { card } = defineProps<{ card: ConfigResponse; }>();
 
 const activeLabel = computed(() => card.activate ? "Активно" : "Не активно");
 

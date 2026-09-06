@@ -1,10 +1,10 @@
 <template>
-	<!-- @vue-generic {TUserEditGeneralData}-->
+	<!-- @vue-generic {UserEditGeneralData}-->
 	<GeneralForm
 		:fields="inputFields"
 		:normalized-data="normalizedData"
 		mode="grid"
-		@send="(data: TUserEditGeneralData) => validateFields() && sendChangeData(data)"
+		@send="(data: UserEditGeneralData) => validateFields() && sendChangeData(data)"
 	>
 		<template #content>
 			<div class="flex flex-col-reverse lg:flex-row">
@@ -28,8 +28,8 @@ import AButton from "@/components/atoms/AButton.vue";
 import AError from "@/components/atoms/AError.vue";
 
 const { fields } = defineProps<{
-	fields: TGeneralFormField[];
-	normalizedData: (fields: TGeneralFormField[]) => TUserEditGeneralData;
+	fields: GeneralFormField[];
+	normalizedData: (fields: GeneralFormField[]) => UserEditGeneralData;
 }>();
 
 const { isPending, errMessage, mutate: sendChangeData } = useChangeData();

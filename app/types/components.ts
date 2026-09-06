@@ -1,8 +1,8 @@
 import type { Component, InputTypeHTMLAttribute } from "vue";
 import type z from "zod";
 
-export type TGeneralFormField = {
-	value: string|number|boolean|string[]|null|File;
+export type GeneralFormField = {
+	value: string | number | boolean | string[] | null | File;
 	name: string;
 	placeholder?: string;
 	prependIcon?: string;
@@ -11,52 +11,52 @@ export type TGeneralFormField = {
 	check?: z.ZodType;
 	error?: string;
 	type?: InputTypeHTMLAttribute;
-	items?: TSelectItem[];
+	items?: SelectItem[];
 	disabled?: boolean;
-	search?: (value: string) => Promise<TSelectItem[]>;
-	itemClickHandler?: (item: TSelectItem) => Promise<void>;
+	search?: (value: string) => Promise<SelectItem[]>;
+	itemClickHandler?: (item: SelectItem) => Promise<void>;
 	showTooltip?: string;
 	min?: number;
 	max?: number;
 	size?: string;
-	format?: object|((v: number) => unknown);
+	format?: object | ((v: number) => unknown);
 	classes?: string;
 };
 
-export type TIndexCardSummary = {
+export type IndexCardSummary = {
 	title: string;
 	icon?: string;
-	value: number|string;
-	formattedValue: number|string;
+	value: number | string;
+	formattedValue: number | string;
 	type: "balance" | "pnl" | "positions";
 };
 
-export type TTableColumn<T> = {
-  key: keyof T | "controls" | "index";
-  label: string;
-  align?: "left" | "center" | "right";
-  normalizer?: (val: number | string | T[keyof T]) => string;
+export type TableColumn<T> = {
+	key: keyof T | "controls" | "index";
+	label: string;
+	align?: "left" | "center" | "right";
+	normalizer?: (val: number | string | T[keyof T]) => string;
 };
 
-export type TSelectItem = {
+export type SelectItem = {
 	label: string;
 	value: string;
 };
 
-export type TFilterItem = {
+export type FilterItem = {
 	name: string;
 	component: Component;
 	label: string;
-	value: string|string[]|boolean;
-	items?: TSelectItem[];
+	value: string | string[] | boolean;
+	items?: SelectItem[];
 	classes?: string;
 };
 
-export type TStatisticsCard = {
+export type StatisticsCard = {
 	id: string;
 	title: string;
 	icon?: string;
 	classesValue?: string;
-	normalizer?: (value: string|number) => string;
-	value: string|number;
+	normalizer?: (value: string | number) => string;
+	value: string | number;
 };

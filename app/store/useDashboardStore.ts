@@ -1,6 +1,6 @@
 export const useDashboardStore = defineStore("dashboard-store",
 	() => {
-		const data = ref<TDashboard>({
+		const data = ref<Dashboard>({
 			balance: 0,
 			balanceDailyChangePercent: 0,
 			activePositionsCount: 0,

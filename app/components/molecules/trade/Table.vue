@@ -79,7 +79,7 @@ withDefaults(
 
 const emits = defineEmits(["removeOne", "removeAll", "selectSymbol"]);
 
-const columns = computed<TTableColumn<Trade>[]>(() => [
+const columns = computed<TableColumn<Trade>[]>(() => [
 	{
 		key: "index",
 		label: "№",

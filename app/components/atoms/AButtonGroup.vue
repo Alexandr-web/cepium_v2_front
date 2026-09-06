@@ -38,7 +38,7 @@
 <script setup lang="ts">
 withDefaults(
 	defineProps<{
-		items?: TSelectItem[];
+		items?: SelectItem[];
 		label?: string;
 		disabled?: boolean;
 	}>(),

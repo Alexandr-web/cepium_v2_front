@@ -125,7 +125,7 @@ export default class Chart {
 	}
 
 	// "Динамика профита" - сумма realizedPnl по дням недели (Пн→Вс), только закрытые сделки.
-	static fromOrdersProfitByDay(orders: TOrder[], customOptions: Partial<EChartsOption> = {}): Chart {
+	static fromOrdersProfitByDay(orders: Order[], customOptions: Partial<EChartsOption> = {}): Chart {
 		const sums = new Map<string, number>();
 
 		WEEK_ORDER_RU.forEach((day) => sums.set(day, 0));
@@ -149,7 +149,7 @@ export default class Chart {
 	}
 
 	// "Количество сделок" - сколько сделок по каждому символу (открытые + закрытые).
-	static fromOrdersBySymbol(orders: TOrder[], customOptions: Partial<EChartsOption> = {}): Chart {
+	static fromOrdersBySymbol(orders: Order[], customOptions: Partial<EChartsOption> = {}): Chart {
 		const counts = new Map<string, number>();
  
 		orders.forEach((o) => {
@@ -165,7 +165,7 @@ export default class Chart {
 	}
 
 	// "Соотношение Win/Loss" - сколько закрытых сделок ушло в плюс/минус.
-	static fromOrdersWinLoss(orders: TOrder[], customOptions: Partial<EChartsOption> = {}): Chart {
+	static fromOrdersWinLoss(orders: Order[], customOptions: Partial<EChartsOption> = {}): Chart {
 		const closed = orders.filter((o) => o.closedAt && typeof o.realizedPnl === "number");
 		const wins = closed.filter((o) => Number(o.realizedPnl) > 0);
 		const losses = closed.length - wins.length;

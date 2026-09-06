@@ -1,5 +1,5 @@
 <template>
-	<!-- @vue-generic {TOrder}-->
+	<!-- @vue-generic {Order}-->
 	<MTable
 		class="hidden lg:flex"
 		:columns="columns"
@@ -38,9 +38,9 @@
 import MTable from "@/components/molecules/common/MTable.vue";
 import { useLocaleFormatTimeAgo } from "@/composables/useLocaleTime";
 
-defineProps<{ orders: TOrder[] }>();
+defineProps<{ orders: Order[] }>();
 
-const columns = computed<TTableColumn<TOrder>[]>(() => [
+const columns = computed<TableColumn<Order>[]>(() => [
 	{
 		key: "index",
 		label: "№",

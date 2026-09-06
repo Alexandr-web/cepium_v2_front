@@ -17,7 +17,7 @@
 </template>
 <script setup lang="ts" generic="T extends object">
 const props = defineProps<{
-	col: TTableColumn<T>;
+	col: TableColumn<T>;
 	row: T;
 	rowIndex: number;
 }>();

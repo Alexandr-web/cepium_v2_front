@@ -55,19 +55,19 @@ const emits = defineEmits(["execute", "reset"]);
 
 const { isMobile } = useDevice();
 
-const STATUSES_LIST: TSelectItem[] = [
+const STATUSES_LIST: SelectItem[] = [
 	{ label: "Все", value: "all" },
 	{ label: "Закрытые", value: "closed" },
 	{ label: "Открытые", value: "open" },
 ];
 
-const RESULTS_LIST: TSelectItem[] = [
+const RESULTS_LIST: SelectItem[] = [
 	{ label: "Все", value: "all" },
 	{ label: "Тейк-профит", value: "take-profit" },
 	{ label: "Стоп-лосс", value: "stop-loss" },
 ];
 
-const createFilters = (): TFilterItem[] => [
+const createFilters = (): FilterItem[] => [
 	{
 		name: "type",
 		component: markRaw(AButtonGroup),
@@ -91,7 +91,7 @@ const createFilters = (): TFilterItem[] => [
 	},
 ];
 
-const filters = ref<TFilterItem[]>(createFilters());
+const filters = ref<FilterItem[]>(createFilters());
 const mobFilters = ref<FiltersExpose|null>(null);
 const deskFilters = ref<FiltersExpose|null>(null);
 const showMobFilters = ref(false);

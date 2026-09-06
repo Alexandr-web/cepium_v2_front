@@ -67,8 +67,8 @@ const props = withDefaults(
 		label?: string;
 		placeholder?: string;
 		disabled?: boolean;
-		search: (value: string) => Promise<TSelectItem[]>;
-		itemClickHandler?: (item: TSelectItem) => Promise<void>;
+		search: (value: string) => Promise<SelectItem[]>;
+		itemClickHandler?: (item: SelectItem) => Promise<void>;
 	}>(),
 	{
 		label: "",
@@ -82,8 +82,8 @@ const value = defineModel<string[]>({ default: () => [] });
 const error = defineModel<string>("error", { default: "" });
 
 const isPending = ref(false);
-const foundItems = ref<TSelectItem[]>([]);
-const addedItems = ref<TSelectItem[]>(value.value.map((v) => ({ label: v, value: v })));
+const foundItems = ref<SelectItem[]>([]);
+const addedItems = ref<SelectItem[]>(value.value.map((v) => ({ label: v, value: v })));
 
 const input = ref("");
 const inputSearch = debouncedRef(input, 500);
@@ -117,9 +117,9 @@ watch(inputSearch, async (v) => {
 	}
 });
 
-const hasItem = (item: TSelectItem) => addedItems.value.some((i) => i.value === item.value);
+const hasItem = (item: SelectItem) => addedItems.value.some((i) => i.value === item.value);
 const removeItem = (idx: number) => idx !== -1 && addedItems.value.splice(idx, 1);
-const addItem = (item: TSelectItem) => {
+const addItem = (item: SelectItem) => {
 	const itemIdx = addedItems.value.findIndex((i) => i.value === item.value);
 	if (itemIdx === -1) addedItems.value.push(item);
 	else removeItem(itemIdx);

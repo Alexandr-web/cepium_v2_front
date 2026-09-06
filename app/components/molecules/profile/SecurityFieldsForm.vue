@@ -1,5 +1,5 @@
 <template>
-	<!-- @vue-generic {TUserEditSecurityData}-->
+	<!-- @vue-generic {UserEditSecurityData}-->
 	<GeneralForm
 		:fields="fields"
 		:normalized-data="normalizedData"
@@ -53,8 +53,8 @@ import ConfirmCode from "@/components/molecules/common/ConfirmCode.vue";
 import { useChangePassword, useConfirmChangePassword } from "@/composables/api/useUser";
 
 const { fields } = defineProps<{
-	fields: TGeneralFormField[];
-	normalizedData: (fields: TGeneralFormField[]) => TUserEditSecurityData;
+	fields: GeneralFormField[];
+	normalizedData: (fields: GeneralFormField[]) => UserEditSecurityData;
 }>();
 
 const userStore = useUserStore();
@@ -79,7 +79,7 @@ const {
 const { validateFields } = useForm(fields);
 
 // запрашиваем код на почту
-const requestChangePassword = async (data: TUserEditSecurityData) => {
+const requestChangePassword = async (data: UserEditSecurityData) => {
 	errChangePasswordMessage.value = "";
 	errConfirmCodeMessage.value = "";
 	if (validateFields()) sendChangePassword(data);

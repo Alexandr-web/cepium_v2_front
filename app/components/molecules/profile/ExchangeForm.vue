@@ -1,5 +1,5 @@
 <template>
-	<!-- @vue-generic {TExchangeCredentials}-->
+	<!-- @vue-generic {ExchangeCredentials}-->
 	<GeneralForm
 		:fields="fields"
 		:normalized-data="normalizedData"
@@ -35,7 +35,7 @@ import ACheckbox from "@/components/atoms/ACheckbox.vue";
 const props = withDefaults(
 	defineProps<{
 		exchange: Exchange|null;
-		credentials?: TExchangeCredentialsResponse;
+		credentials?: ExchangeCredentialsResponse;
 	}>(),
 	{
 		credentials: undefined,
@@ -143,11 +143,11 @@ const createFields = () => ([
 	},
 ]);
 
-const fields = ref<TGeneralFormField[]>(createFields());
+const fields = ref<GeneralFormField[]>(createFields());
 
 const { validateFields } = useForm(fields);
 
-const normalizedData = (): TExchangeCredentials => ({
+const normalizedData = (): ExchangeCredentials => ({
 	apiKey: String(fields.value.find(({ name }) => name === "apiKey")?.value ?? ""),
 	secretKey: String(fields.value.find(({ name }) => name === "secretKey")?.value ?? ""),
 	password: String(fields.value.find(({ name }) => name === "password")?.value ?? ""),
@@ -157,7 +157,7 @@ const normalizedData = (): TExchangeCredentials => ({
 	demoTrading: Boolean(fields.value.find(({ name }) => name === "demoTrading")?.value),
 });
 
-const execute = async (data: TExchangeCredentials) => {
+const execute = async (data: ExchangeCredentials) => {
 	if (!validateFields() || isPending.value) return;
 
 	if (!props.exchange?.filled) {

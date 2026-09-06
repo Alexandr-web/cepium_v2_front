@@ -11,7 +11,7 @@ export const useLogin = () => {
 
 	const { mutate, isPending } = useMutation({
 		mutationFn: login,
-		onSuccess: (data: TAuthLoginResponse) => {
+		onSuccess: (data: AuthLoginResponse) => {
 			const token = data.data?.token;
 
 			if (token) {

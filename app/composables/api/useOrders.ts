@@ -6,9 +6,9 @@ import { getList, removeOne } from "@/api/orders";
 export const useOrders = () => {
 	const queryClient = useQueryClient();
 
-	const searchOrders = async (exchangeName: string, query = {}): Promise<TOrderResponse> => {
+	const searchOrders = async (exchangeName: string, query = {}): Promise<OrderResponse> => {
 		return queryClient.fetchQuery({
-			queryKey: keys.getOrders(exchangeName, query),
+			queryKey: keys.geOrders(exchangeName, query),
 			queryFn: () => getList(exchangeName, { query }),
 		});
 	};
@@ -21,7 +21,7 @@ export const useRemoveOne = (_exchangeName: MaybeRefOrGetter<string>, onSuccess?
 	const errMessage = ref("");
 
 	const { mutate, isPending } = useMutation<
-		TRemoveOrderResponse,
+		RemoveOrderResponse,
 		FetchError,
 		string
 	>({

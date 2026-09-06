@@ -41,7 +41,7 @@ const { searchOrders } = useOrders();
 const PER_PAGE = 10;
 
 const page = ref(1);
-const orders = ref<TOrder[]>([]);
+const orders = ref<Order[]>([]);
 const totalItems = ref(0);
 
 const fetchOrders = async () => {

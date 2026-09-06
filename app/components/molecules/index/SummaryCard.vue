@@ -30,7 +30,7 @@ import IconShelfPositionSharp from "@/assets/icons/shelf-position-sharp.svg";
 import IconMoneyBagOutlineRounded from "@/assets/icons/money-bag-outline-rounded.svg";
 
 const props = defineProps<{
-	card: TIndexCardSummary;
+	card: IndexCardSummary;
 }>();
 
 const icon = computed(() => {

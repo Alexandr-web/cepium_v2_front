@@ -30,7 +30,7 @@ import IconCardTravelOutlineRounded from "@/assets/icons/card-travel-outline-rou
 import IconMoneyBagOutlineRounded from "@/assets/icons/money-bag-outline-rounded.svg";
 
 const { card } = defineProps<{
-	card: TStatisticsCard;
+	card: StatisticsCard;
 }>();
 
 const icon = computed(() => {

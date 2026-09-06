@@ -55,7 +55,7 @@ const props = withDefaults(
 		placeholder?: string;
 		label?: string;
 		disabled?: boolean;
-		items: TSelectItem[];
+		items: SelectItem[];
 	}>(),
 	{
 		placeholder: "",
@@ -83,7 +83,7 @@ const selectedLabel = computed(() => props.items.find((i) => i.value === value.v
 const inputLabel = computed(() => selectedLabel.value || props.placeholder);
 const disabled = computed(() => props.disabled ?? !props.items.length);
 
-const select = (item: TSelectItem) => {
+const select = (item: SelectItem) => {
 	error.value = "";
 	value.value = item.value;
 };

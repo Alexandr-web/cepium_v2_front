@@ -1,2 +1,2 @@
 // получение стратегий
-export const getData = async (): Promise<TStrategyDataResponse> => useNuxtApp().$api("/api/strategies");
+export const getData = async (): Promise<StrategyDataResponse> => useNuxtApp().$api("/api/strategies");

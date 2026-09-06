@@ -11,7 +11,7 @@ const { $events } = useNuxtApp();
 
 const dashboardStore = useDashboardStore();
 
-const summary = computed<TIndexCardSummary[]>(() => [
+const summary = computed<IndexCardSummary[]>(() => [
 	{
 		title: "Баланс",
 		icon: "arrows-more-up-rounded",

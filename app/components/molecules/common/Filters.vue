@@ -20,7 +20,7 @@ import type { ButtonGroupExpose } from "@/components/atoms/AButtonGroup.vue";
 const props = withDefaults(
 	defineProps<{
 		disabled?: boolean;
-		filters: TFilterItem[];
+		filters: FilterItem[];
 	}>(),
 	{
 		disabled: false,

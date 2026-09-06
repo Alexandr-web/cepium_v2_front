@@ -7,7 +7,7 @@ export const useExchanges = () => {
 	const exchangeStore = useExchangeStore();
 
 	const query = useQuery({
-		queryKey: keys.getExchanges,
+		queryKey: keys.geExchanges,
 		queryFn: getList,
 	});
 
@@ -27,9 +27,9 @@ export const useExchanges = () => {
 export const useMarketsSearch = () => {
 	const queryClient = useQueryClient();
 
-	const searchMarkets = async (exchangeName: string, search: string): Promise<TExchangesMarketsResponse> => {
+	const searchMarkets = async (exchangeName: string, search: string): Promise<ExchangesMarketsResponse> => {
 		return queryClient.fetchQuery({
-			queryKey: keys.getExchangesMarkets(exchangeName, search),
+			queryKey: keys.geExchangesMarkets(exchangeName, search),
 			queryFn: () => getMarkets(exchangeName, { query: { search } }),
 		});
 	};

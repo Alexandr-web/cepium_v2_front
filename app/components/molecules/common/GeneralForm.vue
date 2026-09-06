@@ -45,10 +45,10 @@
 <script setup lang="ts" generic="TSendData">
 const props = withDefaults(
 	defineProps<{
-		fields?: TGeneralFormField[];
+		fields?: GeneralFormField[];
 		mode?: "default" | "grid";
 		fieldsListClasses?: string;
-		normalizedData: (fields: TGeneralFormField[]) => TSendData;
+		normalizedData: (fields: GeneralFormField[]) => TSendData;
 	}>(),
 	{
 		fields: () => [],

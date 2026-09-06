@@ -29,6 +29,6 @@ import Empty from "@/components/molecules/common/Empty.vue";
 import ConfigCard from "@/components/molecules/configs/Card.vue";
 
 defineProps<{
-	configs: TConfigResponse[];
+	configs: ConfigResponse[];
 }>();
 </script>

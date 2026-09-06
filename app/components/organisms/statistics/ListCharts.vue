@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import Chart from "@/models/Chart";
 
-const mockOrders: TOrder[] = [
+const mockOrders: Order[] = [
 	{
 		id: "order-1",
 		symbol: "BTC",

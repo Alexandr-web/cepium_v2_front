@@ -1,5 +1,5 @@
 // авторизация
-export const login = async (body: TAuthLoginData): Promise<TAuthLoginResponse> => 
+export const login = async (body: AuthLoginData): Promise<AuthLoginResponse> => 
 	$fetch("/api/auth/login", {
 		method: "POST",
 		body,

@@ -3,7 +3,7 @@
 		<div class="mx-auto inline-flex items-center flex-col gap-8">
 			<Logo />
 		</div>
-		<!-- @vue-generic {TAuthLoginData} -->
+		<!-- @vue-generic {AuthLoginData} -->
 		<GeneralForm
 			class="lg:max-w-420 lg:mx-auto lg:w-full"
 			:fields="fields"
@@ -41,7 +41,7 @@ import AButton from "@/components/atoms/AButton.vue";
 
 import { useLogin } from "@/composables/api/useAuth";
 
-const fields = ref<TGeneralFormField[]>([
+const fields = ref<GeneralFormField[]>([
 	{
 		component: markRaw(AInput),
 		value: "",
@@ -71,12 +71,12 @@ const { validateFields, hasInvalidFields } = useForm(fields);
 const disabledBtn = computed(() => !!(isPending.value || hasInvalidFields.value));
 
 // нормализация данных для отправки на бек
-const normalizedData = (): TAuthLoginData => ({
+const normalizedData = (): AuthLoginData => ({
 	email: String(fields.value.find((f) => f.name === "email")?.value ?? ""),
 	password: String(fields.value.find((f) => f.name === "password")?.value ?? ""),
 });
 
-const execute = async (data: TAuthLoginData) => {
+const execute = async (data: AuthLoginData) => {
 	errMessage.value = "";
 	if (validateFields()) sendLogin(data);
 };

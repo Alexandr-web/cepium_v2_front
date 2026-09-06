@@ -1,19 +1,19 @@
 // изменение пароля
-export const changePassword = async (body: TUserEditSecurityData): Promise<TUserChangePasswordResponse> => 
+export const changePassword = async (body: UserEditSecurityData): Promise<UserChangePasswordResponse> => 
 	useNuxtApp().$api("/api/users/me/password/request-change", {
 		method: "POST",
 		body,
 	});
 
 // подтверждение изменения пароля
-export const confirmChangePassword = async (body: TUserConfirmChangeSecurityData): Promise<TUserConfirmChangePasswordResponse> => 
+export const confirmChangePassword = async (body: UserConfirmChangeSecurityData): Promise<UserConfirmChangePasswordResponse> => 
 	useNuxtApp().$api("/api/users/me/password/confirm-change", {
 		method: "POST",
 		body,
 	});
 
 // изменение данных пользователя
-export const changeData = async (data: TUserEditGeneralData): Promise<TUserEditGeneralDataResponse> => {
+export const changeData = async (data: UserEditGeneralData): Promise<UserEditGeneralDataResponse> => {
 	const formData = new FormData();
 
 	Object.entries(data).forEach(([key, value]) => {
@@ -27,4 +27,4 @@ export const changeData = async (data: TUserEditGeneralData): Promise<TUserEditG
 };
 
 // получение данных пользователя
-export const getData = async (): Promise<TUserDataResponse> => useNuxtApp().$api("/api/users/me");
+export const getData = async (): Promise<UserDataResponse> => useNuxtApp().$api("/api/users/me");

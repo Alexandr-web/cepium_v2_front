@@ -24,9 +24,9 @@ export const useCreateOne = (onSuccess?: () => void) => {
 	const errMessage = ref("");
 
 	const { mutate, isPending } = useMutation<
-		TConfigCreateResponse,
+		ConfigCreateResponse,
 		FetchError,
-		{ body: TConfigData, exchangeName: string }
+		{ body: ConfigData, exchangeName: string }
 	>({
 		mutationFn: ({ body, exchangeName }) => createOne(exchangeName, body),
 		onSuccess: () => {
@@ -48,9 +48,9 @@ export const useChangeOne = (_id: MaybeRefOrGetter<string>, onSuccess?: () => vo
 	const errMessage = ref("");
 
 	const { mutate, isPending } = useMutation<
-		TConfigChangeResponse,
+		ConfigChangeResponse,
 		FetchError,
-		TConfigData
+		ConfigData
 	>({
 		mutationFn: (body) => changeOne(id.value, body),
 		onSuccess: () => {

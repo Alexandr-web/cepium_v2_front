@@ -27,10 +27,10 @@ export const useChangeData = () => {
 	const errMessage = ref("");
 
 	const { mutate, isPending } = useMutation<
-		TUserEditGeneralDataResponse,
+		UserEditGeneralDataResponse,
 		FetchError,
-		TUserEditGeneralData,
-		{ previousData?: TUserEditGeneralDataResponse }
+		UserEditGeneralData,
+		{ previousData?: UserEditGeneralDataResponse }
 	>({
 		mutationFn: changeData,
 		onMutate: async (data) => {
@@ -38,8 +38,8 @@ export const useChangeData = () => {
 
 			await queryClient.cancelQueries({ queryKey: keys.getDataProfile });
 
-			const previousData = queryClient.getQueryData<TUserEditGeneralDataResponse>(keys.getDataProfile);
-			queryClient.setQueryData(keys.getDataProfile, (old: TUserEditGeneralDataResponse) => ({
+			const previousData = queryClient.getQueryData<UserEditGeneralDataResponse>(keys.getDataProfile);
+			queryClient.setQueryData(keys.getDataProfile, (old: UserEditGeneralDataResponse) => ({
 				...old,
 				data: {
 					...old?.data,
@@ -81,9 +81,9 @@ export const useChangePassword = (onSuccess?: () => void) => {
 	const errMessage = ref("");
 
 	const { mutate, isPending } = useMutation<
-		TUserChangePasswordResponse,
+		UserChangePasswordResponse,
 		FetchError,
-		TUserEditSecurityData
+		UserEditSecurityData
 	>({
 		mutationFn: changePassword,
 		onSuccess,
@@ -100,9 +100,9 @@ export const useConfirmChangePassword = (onSuccess?: () => void) => {
 	const errMessage = ref("");
 
 	const { mutate, isPending } = useMutation<
-		TUserConfirmChangePasswordResponse,
+		UserConfirmChangePasswordResponse,
 		FetchError,
-		TUserConfirmChangeSecurityData
+		UserConfirmChangeSecurityData
 	>({
 		mutationFn: confirmChangePassword,
 		onSuccess: () => {

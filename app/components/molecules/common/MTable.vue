@@ -52,7 +52,7 @@ import ColTable from "@/components/molecules/table/Col.vue";
 withDefaults(
 	defineProps<{
 		data: T[];
-		columns: TTableColumn<T>[];
+		columns: TableColumn<T>[];
 		title?: string;
 		headIcon?: string;
 	}>(),

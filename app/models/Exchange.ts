@@ -3,7 +3,7 @@ export default class Exchange {
 	readonly id: string;
 	readonly filled: boolean;
 
-	constructor(item: TExchange) {
+	constructor(item: Exchange) {
 		this.name = item.name;
 		this.id = item.id;
 		this.filled = item.filled;

@@ -1,6 +1,6 @@
 export const useUserStore = defineStore("user-store",
 	() => {
-		const user = reactive<TUser>({
+		const user = reactive<User>({
 			avatar: null,
 			email: null,
 			name: null,
@@ -13,8 +13,8 @@ export const useUserStore = defineStore("user-store",
 			return `${config.public.apiUrl}/users/me/avatars/${user.avatar || ""}`;
 		});
 
-		const updateData = (data: TUser) => {
-			(Object.keys(data) as (keyof TUser)[]).forEach((key) => {
+		const updateData = (data: User) => {
+			(Object.keys(data) as (keyof User)[]).forEach((key) => {
 				const value = data[key];
 				if (key in user && value !== undefined) {
 					user[key] = value;

@@ -31,7 +31,7 @@ import ASelect from "@/components/atoms/ASelect.vue";
 const userStore = useUserStore();
 const exchangeStore = useExchangeStore();
 
-const generalFields = ref<TGeneralFormField[]>([
+const generalFields = ref<GeneralFormField[]>([
 	{
 		name: "avatar",
 		value: userStore.avatar,
@@ -58,7 +58,7 @@ const generalFields = ref<TGeneralFormField[]>([
 	},
 ]);
 
-const securityFields = ref<TGeneralFormField[]>([
+const securityFields = ref<GeneralFormField[]>([
 	{
 		name: "oldPassword",
 		value: "",
@@ -89,7 +89,7 @@ const areas = ref([
 		formProps: {
 			fields: generalFields.value,
 			// нормализация данных для отправки на бек
-			normalizedData: (): TUserEditGeneralData => ({
+			normalizedData: (): UserEditGeneralData => ({
 				avatar: !(fileField.value?.value instanceof File) ? undefined : fileField.value?.value,
 				email: String(generalFields.value.find((f) => f.name === "email")?.value ?? ""),
 				name: String(generalFields.value.find((f) => f.name === "name")?.value ?? ""),
@@ -103,7 +103,7 @@ const areas = ref([
 		formProps: {
 			fields: securityFields.value,
 			// нормализация данных для отправки на бек
-			normalizedData: (): TUserEditSecurityData => ({
+			normalizedData: (): UserEditSecurityData => ({
 				oldPassword: String(securityFields.value.find((f) => f.name === "oldPassword")?.value ?? ""),
 				newPassword: String(securityFields.value.find((f) => f.name === "newPassword")?.value ?? ""),
 			}),
@@ -112,5 +112,5 @@ const areas = ref([
 ]);
 
 const fileField = computed(() => generalFields.value.find(({ name }) => name === "avatar"));
-const exchanges = computed<TSelectItem[]>(() => exchangeStore.getFilledExchanges());
+const exchanges = computed<SelectItem[]>(() => exchangeStore.getFilledExchanges());
 </script>

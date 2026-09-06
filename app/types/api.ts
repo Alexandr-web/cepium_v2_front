@@ -1,4 +1,4 @@
-export type TDashboard = {
+export type Dashboard = {
 	balance: number;
 	balanceDailyChangePercent: number;
 	activePositionsCount: number;
@@ -8,78 +8,71 @@ export type TDashboard = {
 	availableMargin: number;
 };
 
-export type TUser = {
-	email?: string|null;
-	avatar?: string|null;
-	name?: string|null;
-	xApiKeyRegenerationAllowedAt?: string|null;
+export type User = {
+	email?: string | null;
+	avatar?: string | null;
+	name?: string | null;
+	xApiKeyRegenerationAllowedAt?: string | null;
 };
 
-export type TAuthLoginData = {
+export type AuthLoginData = {
 	email: string;
 	password: string;
 };
 
-export type TAuthLoginResponseData = {
+export type AuthLoginResponseData = {
 	token?: string;
 };
-export type TAuthLoginResponse = {
-	message?: string|string[];
+
+export type AuthLoginResponse = {
+	message?: string | string[];
 	path?: string;
 	statusCode?: number;
 	timestamp?: string;
-	data?: TAuthLoginResponseData;
+	data?: AuthLoginResponseData;
 };
 
-export type TNews = {
-	id: number;
-	title: string;
-	timestamp: string;
-	content: string;
-	risk: "high" | "moderate" | "low";
-};
-
-export type TUserEditGeneralData = {
-	avatar?: File|null|string;
+export type UserEditGeneralData = {
+	avatar?: File | null | string;
 	email?: string;
 	name?: string;
-	xApiKeyRegenerationAllowedAt?: string|null;
+	xApiKeyRegenerationAllowedAt?: string | null;
 };
 
-export type TUserEditGeneralDataResponse = {
-	data?: TUser;
-	message?: string|string[];
+export type UserEditGeneralDataResponse = {
+	data?: User;
+	message?: string | string[];
 	statusCode?: number;
 };
 
-export type TUserEditSecurityData = {
+export type UserEditSecurityData = {
 	oldPassword?: string;
 	newPassword?: string;
 };
 
-export type TUserConfirmChangeSecurityData = {
+export type UserConfirmChangeSecurityData = {
 	code: string;
 };
 
-export type TUserChangePasswordResponse = {
+export type UserChangePasswordResponse = {
 	data?: boolean;
 	message?: string;
 	statusCode?: number;
 };
 
-export type TUserConfirmChangePasswordResponse = {
+export type UserConfirmChangePasswordResponse = {
 	data?: boolean;
 	message?: string;
 	statusCode?: number;
 };
 
-export type TUserDataResponse = {
-	data?: TUser;
+export type UserDataResponse = {
+	data?: User;
 	message?: string;
 	statusCode?: number;
 };
 
-export type TConfigData = {
+export type ConfigData = {
 	margin: string;
 	allowedSymbols: string[];
 	maxLeverage: number;
@@ -90,7 +83,7 @@ export type TConfigData = {
 	activate: boolean;
 };
 
-export type TStrategyEntity = {
+export type StrategyEntity = {
 	id: string;
 	name: string;
 	description: string;
@@ -102,19 +95,23 @@ export type TStrategyEntity = {
 	params: object;
 };
 
-export type TStrategyDataResponse = {
+export type StrategyDataResponse = {
 	statusCode: number;
-	data: TStrategyEntity[];
+	data: StrategyEntity[];
 	message?: string;
 };
 
-export type TExchange = {
+export type Exchange = {
 	id: string;
 	name: string;
 	filled: boolean;
 };
 
-export type TExchangeCredentials = {
+export type ExchangeWithCredentials = Exchange & {
+	credentials: string[];
+};
+
+export type ExchangeCredentials = {
 	apiKey: string;
 	secretKey: string;
 	password: string;
@@ -124,7 +121,7 @@ export type TExchangeCredentials = {
 	demoTrading: boolean;
 };
 
-export type TExchangeCredentialsResponse = {
+export type ExchangeCredentialsResponse = {
 	data: {
 		id?: string;
 		apiKey?: string;
@@ -138,16 +135,66 @@ export type TExchangeCredentialsResponse = {
 		userId?: string;
 		exchangeName?: string;
 		user?: string;
-		exchange?: TExchange;
+		exchange?: Exchange;
 		demoTrading?: boolean;
 	};
 	statusCode: number;
 	message: string;
 };
 
-export type TChangeExchangeCredentialsResponse = TCreateExchangeCredentialsResponse;
+export type UserConfigEntity = {
+	id: string;
+	demoTrading: boolean;
+	maxPositionSize: number;
+	margin: string;
+	dailyGoalPercent: number;
+	activate: boolean;
+	allowedSymbols: string[];
+	maxLeverage: number;
+	maxLossPercent: number;
+	exchangeName: string;
+	strategyId: string;
+	userId: string;
+	user: string;
+	strategy: StrategyEntity;
+};
 
-export type TCreateExchangeCredentialsResponse = {
+export type UserOrderEntity = {
+	id: string;
+	symbol: string;
+	side: string;
+	size: number;
+	entryPrice: number;
+	exitPrice: number;
+	markPrice: number;
+	liquidationPrice: number;
+	unrealizedPnl: number;
+	leverage: number;
+	realizedPnl: number;
+	pnlPercent: number;
+	createdAt: string;
+	closedAt: string;
+	exchangeName: string;
+	userId: string;
+	user: string;
+};
+
+export type CreateExchangeCredentialsUser = {
+	id: string;
+	name: string;
+	avatar: string;
+	email: string;
+	password: string;
+	xApiKeyEmailSent: boolean;
+	xApiKeyId: string;
+	xApiKeySecret: string;
+	xApiKeyRegenerationAllowedAt: string;
+	credentials: string[];
+	userConfigs: [UserConfigEntity];
+	orders: [UserOrderEntity];
+};
+
+export type CreateExchangeCredentialsResponse = {
 	id: string;
 	apiKey: string;
 	secretKey: string;
@@ -160,89 +207,45 @@ export type TCreateExchangeCredentialsResponse = {
 	userId: string;
 	exchangeName: string;
 	demoTrading: boolean;
-	user: {
-		id: string;
-		name: string;
-		avatar: string;
-		email: string;
-		password: string;
-		xApiKeyEmailSent: boolean;
-		xApiKeyId: string;
-		xApiKeySecret: string;
-		xApiKeyRegenerationAllowedAt: string;
-		credentials: string[];
-		userConfigs: [
-			{
-				id: string;
-				demoTrading: boolean;
-				maxPositionSize: number;
-				margin: string;
-				dailyGoalPercent: number;
-				activate: boolean;
-				allowedSymbols: string[];
-				maxLeverage: number;
-				maxLossPercent: number;
-				exchangeName: string;
-				strategyId: string;
-				userId: string;
-				user: string;
-				strategy: TStrategyEntity;
-			}
-		];
-		orders: [
-			{
-				id: string;
-				symbol: string;
-				side: string;
-				size: number;
-				entryPrice: number;
-				exitPrice: number;
-				markPrice: number;
-				liquidationPrice: number;
-				unrealizedPnl: number;
-				leverage: number;
-				realizedPnl: number;
-				pnlPercent: number;
-				createdAt: string;
-				closedAt: string;
-				exchangeName: string;
-				userId: string;
-				user: string;
-			}
-		]
-	};
-	exchange: TExchange & { credentials: string[]; };
+	user: CreateExchangeCredentialsUser;
+	exchange: ExchangeWithCredentials;
 };
 
-export type TExchangesResponse = {
-  statusCode: number;
-  data: TExchange[];
-  message: string;
-};
+export type ChangeExchangeCredentialsResponse = CreateExchangeCredentialsResponse;
 
-export type TConfigResponse = Omit<TConfigData, "strategyId"> & { strategy: TStrategyEntity; id: string; exchangeName: string; };
-
-export type TConfigsResponse = {
+export type ExchangesResponse = {
 	statusCode: number;
-	data: TConfigResponse[];
+	data: Exchange[];
 	message: string;
 };
 
-export type TConfigByIdResponse = {
+export type ConfigResponse = Omit<ConfigData, "strategyId"> & {
+	strategy: StrategyEntity;
+	id: string;
+	exchangeName: string;
+};
+
+export type ConfigsResponse = {
 	statusCode: number;
-	data: TConfigResponse;
+	data: ConfigResponse[];
 	message: string;
 };
 
-export type TConfigCreateResponse = {
+export type ConfigByIdResponse = {
 	statusCode: number;
-	data: TConfigResponse[];
+	data: ConfigResponse;
 	message: string;
 };
 
-export type TConfigChangeResponse = TConfigCreateResponse;
+export type ConfigCreateResponse = {
+	statusCode: number;
+	data: ConfigResponse[];
+	message: string;
+};
 
-export type TOrder = {
+export type ConfigChangeResponse = ConfigCreateResponse;
+
+export type Order = {
 	id?: string;
 	symbol?: string;
 	side?: string;
@@ -261,54 +264,54 @@ export type TOrder = {
 	closedAt?: string;
 };
 
-export type TOrderResponse = {
+export type OrderResponse = {
 	statusCode: number;
 	data: {
-		orders: TOrder[];
+		orders: Order[];
 		newOffset: number;
 		total: number;
 	};
 	message: string;
 };
 
-export type TRemoveOrderResponse = {
+export type RemoveOrderResponse = {
 	statusCode: number;
-	data: TOrder;
+	data: Order;
 	message: string;
 };
 
-export type TExchangeMarket = {
-  symbol: string;
-  base: string;
-  quote: string;
-  active: boolean;
+export type ExchangeMarket = {
+	symbol: string;
+	base: string;
+	quote: string;
+	active: boolean;
 };
 
-export type TExchangesMarketsResponse = {
+export type ExchangesMarketsResponse = {
 	statusCode: number;
-	data: TExchangeMarket[];
+	data: ExchangeMarket[];
 	message: string;
 };
 
-export type TPosition = {
-	closedAt: null|number;
+export type Position = {
+	closedAt: null | number;
 	createdAt?: string;
 	entryPrice: number;
 	leverage: number;
 	liquidationPrice: number;
 	markPrice: number;
 	pnlPercent: number;
-	realizedPnl: null|number;
+	realizedPnl: null | number;
 	side: string;
 	size: number;
-	stopLossPrice: null|number;
+	stopLossPrice: null | number;
 	symbol: string;
-	takeProfitPrice: null|number;
+	takeProfitPrice: null | number;
 	unrealizedPnl: number;
 	id: string;
 };
 
-export type TCoinGecko = {
+export type CoinGecko = {
 	id: string;
 	name: string;
 	api_symbol: string;
@@ -318,6 +321,6 @@ export type TCoinGecko = {
 	large: string;
 };
 
-export type TGeckoSearchResponse = {
-	coins: TCoinGecko[];
+export type GeckoSearchResponse = {
+	coins: CoinGecko[];
 };

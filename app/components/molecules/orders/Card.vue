@@ -37,7 +37,7 @@
 </template>
 <script setup lang="ts">
 const { card } = defineProps<{
-	card: TOrder;
+	card: Order;
 }>();
 
 const time = useLocaleTimeAgo(card.createdAt);

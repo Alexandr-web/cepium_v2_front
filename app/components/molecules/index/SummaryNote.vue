@@ -46,7 +46,7 @@ import { useDashboardStore } from "@/store/useDashboardStore";
 import ProgressLine from "@/components/atoms/ProgressLine.vue";
 
 defineProps<{
-	card: TIndexCardSummary;
+	card: IndexCardSummary;
 }>();
 
 const dashboardStore = useDashboardStore();

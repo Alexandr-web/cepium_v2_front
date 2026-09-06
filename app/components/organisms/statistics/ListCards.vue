@@ -16,7 +16,7 @@
 import IconTrendingUp from "@/assets/icons/material-symbols-trending-up.svg";
 import Card from "@/components/molecules/statistics/Card.vue";
 
-const cards: TStatisticsCard[] = [
+const cards: StatisticsCard[] = [
 	{
 		id: "profit",
 		title: "Общий профит",
