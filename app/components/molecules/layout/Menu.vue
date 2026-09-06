@@ -76,7 +76,7 @@ const menu = [
 const activeClass = computed(() => 
 	props.preset === "desk"
 		? "text-primary-700 bg-primary-300/50 font-semibold shadow-sm shadow-primary-500/5"
-		: "text-white bg-primary-600/20 font-semibold border-l-2 border-solid border-primary-500 rounded-l-none pl-10"
+		: "text-white/80 bg-primary-600/10 font-semibold border-l-2 border-solid border-primary-500 rounded-l-none pl-10"
 );
 
 const logout = () => {
