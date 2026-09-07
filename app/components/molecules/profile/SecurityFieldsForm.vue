@@ -8,7 +8,7 @@
 	>
 		<template #content>
 			<div class="flex flex-col-reverse lg:flex-row lg:items-center gap-10">
-				<AError :message="errChangePasswordMessage" />
+				<AError v-if="!showModal" :message="errChangePasswordMessage" />
 				<AButton
 					class="w-full lg:w-auto rounded-4 py-10 px-24 lg:ml-auto"
 					mode="primary-fill"

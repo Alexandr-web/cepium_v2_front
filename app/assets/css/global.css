@@ -199,4 +199,6 @@ body {
 /* Состояние элемента, который только появляется */
 .page-enter-from {
 	opacity: 0.5;
+	pointer-events: none;
+	cursor: default;
 }
