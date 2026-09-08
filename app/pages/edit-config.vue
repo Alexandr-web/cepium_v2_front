@@ -46,7 +46,7 @@ useHead({
 	script: [
 		{
 			src: "https://widgets.coingecko.com/gecko-coin-ticker-widget.js",
-			defer: true,
+			async: true,
 		},
 	],
 });

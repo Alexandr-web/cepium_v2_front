@@ -25,4 +25,13 @@ const { mutate: createConfig, isPending: isPendingConfig } = useCreateOne(() => 
 await Promise.all([suspenseStrategy(), suspenseExchanges()]);
 
 const strategies = computed(() => strategiesData.value?.data ?? []);
+
+useHead({
+	script: [
+		{
+			src: "https://widgets.coingecko.com/gecko-coin-ticker-widget.js",
+			async: true,
+		},
+	],
+});
 </script>
