@@ -25,12 +25,12 @@
 				class="z-50 pointer-events-none"
 			>
 				<div
-					ref="arrow"
+					ref="arrowEl"
 					class="absolute z-0 w-8 h-8 rotate-45 bg-neutral-200 border border-neutral-400/50"
 					:style="arrowStyles"
 				/>
 				<div
-					class="relative z-10 px-5 py-6 rounded-3 max-w-xs text-13 leading-normal font-medium tracking-tight text-center text-neutral-950 bg-neutral-200/95 backdrop-blur-md border border-neutral-400/50 shadow-xl shadow-black/30"
+					class="relative z-10 px-12 py-6 rounded-3 max-w-xs text-13 leading-normal font-medium tracking-tight text-center text-neutral-950 bg-neutral-200/95 backdrop-blur-md border border-neutral-400/50 shadow-xl shadow-black/30"
 				>
 					<slot name="content" />
 				</div>
@@ -57,7 +57,7 @@ const isOpen = ref(false);
 
 const reference = useTemplateRef("reference");
 const floating = useTemplateRef("floating");
-const arrowEl = useTemplateRef("arrow");
+const arrowEl = useTemplateRef("arrowEl");
 
 const { floatingStyles, placement: currentPlacement, middlewareData } = useFloating(reference, floating, {
 	placement: () => props.placement,

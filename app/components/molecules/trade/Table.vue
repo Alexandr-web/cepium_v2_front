@@ -4,17 +4,32 @@
 		class="hidden lg:flex"
 		head-icon="view-list"
 		title="Активные позиции"
-		:data="trades"
+		:data="tradeStore.trades"
 		:columns="columns"
 	>
 		<template #head-controls>
-			<div v-if="trades.length" class="flex items-center gap-10">
-				<AButton
-					class="py-4 px-12 rounded-4 text-14"
-					mode="remove-border"
-					:disabled="disabled"
-					@click="emits('removeAll')"
-				>Закрыть все</AButton>
+			<div v-if="tradeStore.trades.length" class="flex items-center gap-10">
+				<Tooltip placement="left">
+					<template #trigger>
+						<AButton
+							class="py-4 px-12 rounded-4 text-14"
+							mode="remove-border"
+							:disabled="disabled"
+							@click="emits('removeAll')"
+						>Закрыть все</AButton>
+					</template>
+					<template #content>
+						<p class="font-light">
+							Закрыть все позиции<br>Общий профит:&nbsp;
+							<span
+								:class="[
+									totalProfit >= 0 && 'text-tertiary-600',
+									totalProfit < 0 && 'text-secondary-600',
+								]"
+							>{{ prettyTotalProfit }}</span>
+						</p>
+					</template>
+				</Tooltip>
 			</div>
 		</template>
 		<template #cell-symbol="{ row }">
@@ -53,29 +68,48 @@
 			>{{ row.prettyPnl }}</p>
 		</template>
 		<template #cell-controls="{ row }">
-			<AButton
-				class="rounded-4 px-12 py-6 text-14 w-full"
-				mode="remove-fill"
-				:disabled="disabled"
-				@click="emits('removeOne', row)"
-			>Закрыть</AButton>
+			<Tooltip placement="left">
+				<template #trigger>
+					<AButton
+						class="rounded-4 px-12 py-6 text-14 w-full"
+						mode="remove-fill"
+						:disabled="disabled"
+						@click="emits('removeOne', row)"
+					>Закрыть</AButton>
+				</template>
+				<template #content>
+					<p class="text-14 font-light">
+						Закрыть позицию <span class="uppercase font-medium">{{ row.direction }} {{ row.shortSymbol }}</span><br>
+						Профит:&nbsp;
+						<span
+							:class="[
+								row.pnl >= 0 && 'text-tertiary-600',
+								row.pnl < 0 && 'text-secondary-600',
+							]"
+						>{{ row.prettyPnl }}</span>
+					</p>
+				</template>
+			</Tooltip>
 		</template>
 	</MTable>
 </template>
 <script setup lang="ts">
 import type Trade from "@/models/Trade";
+import Tooltip from "@/components/molecules/common/Tooltip.vue";
 import AButton from "@/components/atoms/AButton.vue";
 import MTable from "@/components/molecules/common/MTable.vue";
+import { useTradeStore } from "@/store/useTradeStore";
 
 withDefaults(
 	defineProps<{
-		trades: Trade[];
 		disabled?: boolean;
 	}>(),
 	{
 		disabled: false,
 	}
 );
+
+const tradeStore = useTradeStore();
 
 const emits = defineEmits(["removeOne", "removeAll", "selectSymbol"]);
 
@@ -126,4 +160,7 @@ const columns = computed<TableColumn<Trade>[]>(() => [
 		label: "Действия",
 	},
 ] as const);
+
+const totalProfit = computed(() => tradeStore.trades.reduce<number>((sum, trade) => sum += trade.pnl, 0));
+const prettyTotalProfit = computed(() => formatNum(totalProfit.value, { currency: "USD", style: "currency" }));
 </script>

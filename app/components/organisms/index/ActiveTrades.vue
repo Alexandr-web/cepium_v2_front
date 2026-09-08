@@ -2,10 +2,10 @@
 	<section class="flex flex-col gap-16">
 		<div class="flex lg:hidden items-center justify-between">
 			<h2 class="font-bold text-20" data-allow-mismatch="">
-				Активные сделки <span class="text-14 text-white/50">({{ trades.length }})</span>
+				Активные сделки <span class="text-14 text-white/50">({{ tradeStore.trades.length }})</span>
 			</h2>
 			<AButton
-				v-if="trades.length"
+				v-if="tradeStore.trades.length"
 				class="py-4 px-12 rounded-12 text-12"
 				mode="remove-border"
 				:disabled="isPendingRemovePosition"
@@ -13,9 +13,9 @@
 				@click="openAllControls"
 			>Закрыть все</AButton>
 		</div>
-		<div v-if="trades.length" class="flex lg:hidden flex-col gap-12" data-allow-mismatch="">
+		<div v-if="tradeStore.trades.length" class="flex lg:hidden flex-col gap-12" data-allow-mismatch="">
 			<MobTradeCard
-				v-for="trade in trades"
+				v-for="trade in tradeStore.trades"
 				:key="trade.id"
 				:disabled="isPendingRemovePosition"
 				:trade="trade"
@@ -24,7 +24,6 @@
 		</div>
 		<Empty v-else class="lg:hidden" />
 		<TradesTable
-			:trades="trades"
 			:disabled="isPendingRemovePosition"
 			data-allow-mismatch=""
 			@remove-one="removePosition"
@@ -63,8 +62,6 @@ import { useRemoveOne } from "@/composables/api/useOrders";
 import { useExchangeStore } from "@/store/useExchangeStore";
 import { useTradeStore } from "@/store/useTradeStore";
 import { useCoinGeckoSearch } from "@/composables/api/useCoinGecko";
-
-defineProps<{ trades: Trade[] }>();
 
 const { isDesktop } = useDevice();
 const { findCoinId } = useCoinGeckoSearch();
