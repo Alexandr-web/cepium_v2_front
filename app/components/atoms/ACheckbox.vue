@@ -19,10 +19,18 @@
 				]"
 			/>
 		</div>
-		<span v-if="label" class="transition group-hover:opacity-100 opacity-80">{{ label }}</span>
+		<Tooltip :disabled="!tooltipText">
+			<template #trigger>
+				<span v-if="label" class="transition group-hover:opacity-100 opacity-80">{{ label }}</span>
+			</template>
+			<template #content>
+				{{ tooltipText }}
+			</template>
+		</Tooltip>
 	</div>
 </template>
 <script setup lang="ts">
+import Tooltip from "@/components/molecules/common/Tooltip.vue";
 import IconCheckSmallRounded from "@/assets/icons/check-small-rounded.svg";
 
 withDefaults(
@@ -32,6 +40,7 @@ withDefaults(
 		size?: "small" | "big";
 		hideBox?: boolean;
 		theme?: "primary" | "neutral";
+		tooltipText?: string;
 	}>(),
 	{
 		modelValue: false,
@@ -39,6 +48,7 @@ withDefaults(
 		size: "small",
 		hideBox: false,
 		theme: "primary",
+		tooltipText: "",
 	}
 );
 

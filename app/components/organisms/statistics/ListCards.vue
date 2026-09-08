@@ -16,7 +16,7 @@
 import IconTrendingUp from "@/assets/icons/material-symbols-trending-up.svg";
 import Card from "@/components/molecules/statistics/Card.vue";
 
-const cards: StatisticsCard[] = [
+const cards = computed<StatisticsCard[]>(() => [
 	{
 		id: "profit",
 		title: "Общий профит",
@@ -40,5 +40,5 @@ const cards: StatisticsCard[] = [
 		normalizer: (value) => formatNum(value, { padZero: true }),
 		icon: "card-travel-outline-rounded",
 	},
-];
+]);
 </script>

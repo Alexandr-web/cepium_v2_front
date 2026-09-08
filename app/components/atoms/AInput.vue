@@ -1,13 +1,6 @@
 <template>
 	<div class="flex flex-col gap-6">
-		<h3
-			v-if="label"
-			class="text-12 lg:text-14 transition"
-			:class="[
-				error && 'text-secondary-500',
-				!error && 'text-primary-700'
-			]"
-		>{{ label }}</h3>
+		<LabelField v-model:error="error" :label="label" :tooltip-text="tooltipText" />
 		<div
 			class="group transition flex items-center px-16 bg-neutral-100 h-48 rounded-4 border-solid border"
 			:class="[
@@ -45,6 +38,7 @@
 </template>
 <script setup lang="ts">
 import AButton from "@/components/atoms/AButton.vue";
+import LabelField from "@/components/atoms/LabelField.vue";
 import IconVisibilityOffOutline from "@/assets/icons/visibility-off-outline.svg";
 import IconVisibilityOutlineRounded from "@/assets/icons/visibility-outline-rounded.svg";
 import IconAccountCircle from "@/assets/icons/account-circle.svg";
@@ -58,10 +52,12 @@ const props = withDefaults(
 		label?: string;
 		prependIcon?: string;
 		check?: z.ZodType;
+		tooltipText?: string;
 	}>(),
 	{
 		label: "",
 		prependIcon: "",
+		tooltipText: "",
 		check: undefined,
 	}
 );

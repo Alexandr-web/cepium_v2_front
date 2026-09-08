@@ -1,16 +1,6 @@
 <template>
 	<div class="flex flex-col gap-24">
-		<div class="flex items-center gap-5">
-			<h3
-				v-if="label"
-				class="text-12 lg:text-14 transition"
-				:class="[
-					error && 'text-secondary-500',
-					!error && 'text-primary-700'
-				]"
-			>{{ label }}</h3>
-			<p class="text-neutral-600 text-12 lg:text-14">({{ percent }})</p>
-		</div>
+		<LabelField v-model:error="error" :label="label" :count="percent" :tooltip-text="tooltipText" />
 		<Slider
 			v-model="value"
 			:min="min"
@@ -22,6 +12,7 @@
 	</div>
 </template>
 <script setup lang="ts">
+import LabelField from "@/components/atoms/LabelField.vue";
 import Slider from "@vueform/slider";
 
 import "@vueform/slider/themes/default.css";
@@ -32,12 +23,14 @@ withDefaults(
 		max?: number;
 		min?: number;
 		showTooltip?: string;
+		tooltipText?: string;
 		format?: object|((v: number) => unknown)
 	}>(),
 	{
 		max: 100,
 		min: 0,
 		showTooltip: "always",
+		tooltipText: "",
 		format: undefined,
 	}
 );

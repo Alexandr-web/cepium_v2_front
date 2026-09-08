@@ -46,10 +46,12 @@ const props = withDefaults(
 	defineProps<{
 		placement?: Placement;
 		offsetDistance?: number;
+		disabled?: boolean;
 	}>(),
 	{
 		placement: "top",
 		offsetDistance: 8,
+		disabled: false,
 	}
 );
 
@@ -100,6 +102,6 @@ const arrowStyles = computed(() => ({
 	borderBottomColor: !props.placement.startsWith("top") ? undefined : "transparent",
 }));
 
-const showTooltip = () => isOpen.value = true;
+const showTooltip = () => !props.disabled && (isOpen.value = true);
 const hideTooltip = () => isOpen.value = false;
 </script>

@@ -57,7 +57,7 @@ import AButton from "@/components/atoms/AButton.vue";
 import TradeControlsList from "@/components/molecules/trade/ControlsList.vue";
 import TradesTable from "@/components/molecules/trade/Table.vue";
 import Empty from "@/components/molecules/common/Empty.vue";
-import CoinChart from "@/components/molecules/common/CoinChart.vue";
+import CoinChart from "@/components/molecules/widgets/CoinChart.vue";
 import { useRemoveOne } from "@/composables/api/useOrders";
 import { useExchangeStore } from "@/store/useExchangeStore";
 import { useTradeStore } from "@/store/useTradeStore";

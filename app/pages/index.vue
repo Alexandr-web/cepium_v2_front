@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col gap-16 lg:gap-32">
-		<LazyMoleculesCommonCoinsMarquee class="-mx-16" />
+		<LazyMoleculesWidgetsCoinsMarquee class="-mx-16" />
 		<LazyOrganismsIndexSummary />
 		<LazyOrganismsIndexErrors />
 		<div class="flex flex-col -mx-16 bg-neutral-300/50 p-16">

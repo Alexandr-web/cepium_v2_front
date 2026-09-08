@@ -25,13 +25,7 @@
 	</section>
 	<Teleport to="body">
 		<Modal :model-value="!!choosedSymbol" @close="choosedSymbol = null">
-			<gecko-coin-ticker-widget
-				v-if="choosedSymbol"
-				locale="ru"
-				dark-mode="true"
-				:coin-id="choosedSymbol"
-				initial-currency="usd"
-			/>
+			<CoinTicker v-if="choosedSymbol" :symbol="choosedSymbol" />
 		</Modal>
 	</Teleport>
 </template>
@@ -45,6 +39,7 @@ import SearchList from "@/components/molecules/common/SearchList.vue";
 import ASlider from "@/components/atoms/ASlider.vue";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
 import Modal from "@/components/molecules/common/Modal.vue";
+import CoinTicker from "@/components/molecules/widgets/CoinTicker.vue";
 import { useExchangeStore } from "@/store/useExchangeStore";
 import { useMarketsSearch } from "@/composables/api/useExchanges";
 import { useCoinGeckoSearch } from "@/composables/api/useCoinGecko";
@@ -93,6 +88,7 @@ const fields = ref<GeneralFormField[]>([
 		component: markRaw(ASelect),
 		items: exchangesList.value,
 		disabled: props.isPendingExchanges || !exchangesList.value.length,
+		tooltipText: "Укажите биржу, где будут исполняться торговые ордера. Убедитесь, что для неё подключены активные API-ключи.",
 		classes: "lg:col-span-2",
 	},
 	{
@@ -104,6 +100,7 @@ const fields = ref<GeneralFormField[]>([
 		placeholder: "Выберите режим маржи",
 		component: markRaw(ASelect),
 		items: MARGIN_MODE_LIST,
+		tooltipText: "Определяет, какими средствами вы рискуете. Кросс-маржа использует весь доступный баланс для удержания позиций. Изолированная маржа жестко ограничивает убыток размером самой сделки.",
 		classes: "lg:col-span-2",
 	},
 	{
@@ -116,6 +113,7 @@ const fields = ref<GeneralFormField[]>([
 		component: markRaw(ASelect),
 		items: strategiesList.value,
 		disabled: props.isPendingStrategy,
+		tooltipText: "Определяет алгоритм и правила, по которым сервис будет искать точки входа в рынок.",
 		classes: "lg:col-span-2",
 	},
 	{
@@ -128,6 +126,7 @@ const fields = ref<GeneralFormField[]>([
 		component: markRaw(ASlider),
 		showTooltip: "focus",
 		format: (v: number) => formatNum(v / 100, { style: "percent" }),
+		tooltipText: "Ограничение максимальных потерь. При падении цены на указанный процент сервис автоматически закроет позицию в убыток, чтобы защитить оставшийся баланс от дальнейшего падения.",
 		classes: "lg:col-span-3",
 	},
 	{
@@ -140,6 +139,7 @@ const fields = ref<GeneralFormField[]>([
 		component: markRaw(ASlider),
 		showTooltip: "focus",
 		format: (v: number) => formatNum(v / 100, { style: "percent" }),
+		tooltipText: "Желаемая прибыль за сутки в процентах от баланса.",
 		classes: "lg:col-span-3",
 	},
 	{
@@ -153,6 +153,7 @@ const fields = ref<GeneralFormField[]>([
 		showTooltip: "focus",
 		format: (v: number) => formatNum(v / 100, { style: "percent" }),
 		type: "number",
+		tooltipText: "Ограничивает максимальный размер одной сделки. Задает долю от вашего общего баланса, которую сервис может использовать в качестве стартовой маржи для входа в одну позицию.",
 		classes: "lg:col-span-3",
 	},
 	{
@@ -164,6 +165,7 @@ const fields = ref<GeneralFormField[]>([
 		placeholder: "Укажите максимальное плечо",
 		component: markRaw(AInput),
 		type: "number",
+		tooltipText: "Верхний лимит кредитного плеча для сделок. Множитель заемных средств от биржи, который увеличивает объем позиции.",
 		classes: "lg:col-span-3",
 	},
 	{
@@ -176,6 +178,7 @@ const fields = ref<GeneralFormField[]>([
 		placeholder: "Поиск отслеживаемых монет",
 		component: markRaw(SearchList),
 		classes: "lg:col-span-6",
+		tooltipText: "Список активов, на которых сервис будет искать точки входа. Стратегия будет анализировать графики только выбранных вами монет.",
 		itemClickHandler: async (item: SelectItem) => {
 			const id = await findCoinId(item.value);
 			if (id) choosedSymbol.value = id;
@@ -190,6 +193,7 @@ const fields = ref<GeneralFormField[]>([
 		value: props.data?.activate ?? true,
 		label: "Активировать",
 		component: markRaw(ACheckbox),
+		tooltipText: "Запускает конфигурацию в работу. Сервис сразу начнет отслеживать выбранные монеты и открывать сделки по заданной стратегии.",
 		size: "big",
 	},
 ]);

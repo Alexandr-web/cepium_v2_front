@@ -1,13 +1,6 @@
 <template>
 	<div class="flex flex-col gap-6">
-		<h3
-			v-if="label"
-			class="text-12 lg:text-14 transition"
-			:class="[
-				error && 'text-secondary-500',
-				!error && 'text-primary-700'
-			]"
-		>{{ label }}</h3>
+		<LabelField v-model:error="error" :label="label" :tooltip-text="tooltipText" />
 		<div
 			ref="selectRef"
 			class="relative h-50 bg-primary-200 flex flex-col"
@@ -47,19 +40,22 @@
 </template>
 <script setup lang="ts">
 import IconKeyboardArrowDownRounded from "@/assets/icons/keyboard-arrow-down-rounded.svg";
-import { useFloating } from "@floating-ui/vue";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
+import LabelField from "@/components/atoms/LabelField.vue";
+import { useFloating } from "@floating-ui/vue";
 
 const props = withDefaults(
 	defineProps<{
 		placeholder?: string;
 		label?: string;
 		disabled?: boolean;
+		tooltipText?: string;
 		items: SelectItem[];
 	}>(),
 	{
 		placeholder: "",
 		label: "",
+		tooltipText: "",
 		disabled: false,
 	}
 );

@@ -10,10 +10,8 @@ export const useConnectionStore = defineStore("connection-store", () => {
 				return "Подключено";
 			case ConnectionStatuses.CLOSING:
 				return "Отключение";
-			case ConnectionStatuses.CLOSED:
-				return "Отключено";
 			default:
-				return "";
+				return "Отключено";
 		}
 	});
 

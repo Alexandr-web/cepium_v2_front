@@ -1,18 +1,6 @@
 <template>
 	<div class="flex flex-col gap-6">
-		<div class="flex items center gap-5">
-			<h3
-				v-if="label"
-				class="text-12 lg:text-14 transition"
-				:class="[
-					error && 'text-secondary-500',
-					!error && 'text-primary-700'
-				]"
-			>
-				{{ label }}
-			</h3>
-			<p v-if="addedItems.length" class="text-neutral-600 text-12 lg:text-14">({{ addedItems.length }})</p>
-		</div>
+		<LabelField v-model:error="error" :count="addedItems.length" :label="label" :tooltip-text="tooltipText" />
 		<div class="flex flex-col gap-10">
 			<AInput v-model="input" :placeholder="placeholder" prepend-icon="search-rounded" :disabled="disabled" />
 			<div class="overflow-auto max-h-150 scroll-block">
@@ -61,6 +49,7 @@
 import AInput from "@/components/atoms/AInput.vue";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
 import ATag from "@/components/atoms/ATag.vue";
+import LabelField from "@/components/atoms/LabelField.vue";
 import IconLoader from "@/assets/icons/loader.svg";
 
 const props = withDefaults(
@@ -68,12 +57,14 @@ const props = withDefaults(
 		label?: string;
 		placeholder?: string;
 		disabled?: boolean;
+		tooltipText?: string;
 		search: (value: string) => Promise<SelectItem[]>;
 		itemClickHandler?: (item: SelectItem) => Promise<void>;
 	}>(),
 	{
 		label: "",
 		placeholder: "Поиск",
+		tooltipText: "",
 		disabled: false,
 		itemClickHandler: undefined,
 	}

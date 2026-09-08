@@ -34,6 +34,7 @@
 				:show-tooltip="item.showTooltip"
 				:format="item.format"
 				:size="item.size"
+				:tooltip-text="item.tooltipText"
 				:class="item.classes"
 			/>
 		</div>

@@ -21,6 +21,7 @@ export type GeneralFormField = {
 	size?: string;
 	format?: object | ((v: number) => unknown);
 	classes?: string;
+	tooltipText?: string;
 };
 
 export type IndexCardSummary = {
