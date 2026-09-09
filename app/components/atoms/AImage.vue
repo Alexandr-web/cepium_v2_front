@@ -35,6 +35,11 @@ const attrs = useAttrs();
 
 const isFallback = ref(!attrs.src);
 
+watch(
+	() => attrs.src,
+	(newSrc) => isFallback.value = !newSrc
+);
+
 const component = computed(() => props.isNuxtImg ? markRaw(NuxtImg) : "img");
 
 const classes = computed(() => {
