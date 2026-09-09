@@ -76,3 +76,8 @@ export enum ButtonMode {
 	PRIMARY_FILL = "primary-fill",
 	PRIMARY_BORDER = "primary-border",
 };
+
+export enum FormMode {
+	DEFAULT = "default",
+	GRID = "grid",
+};

@@ -3,7 +3,7 @@
 	<GeneralForm
 		:fields="fields"
 		:normalized-data="normalizedData"
-		mode="grid"
+		:mode="FormMode.GRID"
 		@send="execute"
 	>
 		<template #content>

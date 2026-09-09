@@ -3,7 +3,7 @@
 	<GeneralForm
 		:fields="inputFields"
 		:normalized-data="normalizedData"
-		mode="grid"
+		:mode="FormMode.GRID"
 		@send="(data: UserEditGeneralData) => validateFields() && sendChangeData(data)"
 	>
 		<template #content>

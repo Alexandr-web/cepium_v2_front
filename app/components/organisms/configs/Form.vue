@@ -5,7 +5,7 @@
 		<GeneralForm
 			:fields="fields"
 			:normalized-data="normalizedData"
-			mode="grid"
+			:mode="FormMode.GRID"
 			fields-list-classes="lg:grid-cols-6"
 			@send="execute"
 		>

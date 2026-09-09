@@ -1,16 +1,12 @@
 <template>
 	<form
 		class="flex flex-col rounded-12 border border-solid border-neutral-200/60 bg-neutral-100/50"
-		:class="[
-			mode === 'default' && 'p-24 gap-20',
-			mode === 'grid' && 'p-20 gap-16'
-		]"
+		:class="formClassesByMode"
 		@submit.prevent="emits('send', formattedData)"
 	>
 		<div
 			:class="[
-				mode === 'default' && 'flex flex-col gap-16',
-				mode === 'grid' && 'grid grid-cols-1 lg:grid-cols-2 gap-16',
+				wrapperClassesByMode,
 				fieldsListClasses
 			]"
 		>
@@ -47,13 +43,13 @@
 const props = withDefaults(
 	defineProps<{
 		fields?: GeneralFormField[];
-		mode?: "default" | "grid";
+		mode?: FormMode;
 		fieldsListClasses?: string;
 		normalizedData: (fields: GeneralFormField[]) => TSendData;
 	}>(),
 	{
 		fields: () => [],
-		mode: "default",
+		mode: FormMode.DEFAULT,
 		fieldsListClasses: "",
 	}
 );
@@ -61,4 +57,25 @@ const props = withDefaults(
 const emits = defineEmits<{ send: [TSendData] }>();
 
 const formattedData = computed<TSendData>(() => props.normalizedData(props.fields));
+const formClassesByMode = computed(() => {
+	switch (props.mode) {
+		case FormMode.DEFAULT:
+			return "p-24 gap-20";
+		case FormMode.GRID:
+			return "p-20 gap-16";
+		default:
+			return "";
+	}
+});
+
+const wrapperClassesByMode = computed(() => {
+	switch (props.mode) {
+		case FormMode.DEFAULT:
+			return "flex flex-col gap-16";
+		case FormMode.GRID:
+			return "grid grid-cols-1 lg:grid-cols-2 gap-16";
+		default:
+			return "";
+	}
+});
 </script>
