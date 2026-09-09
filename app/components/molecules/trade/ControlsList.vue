@@ -3,7 +3,7 @@
 		<li v-for="(item, idx) in menu" :key="idx">
 			<AButton
 				class="w-full rounded-8 py-8 px-16"
-				mode="remove-fill"
+				:mode="ButtonMode.REMOVE_FILL"
 				@click="item.onClick"
 			>{{ item.label }}</AButton>
 		</li>

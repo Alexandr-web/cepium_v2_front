@@ -20,7 +20,7 @@
 				<AButton
 					v-else
 					class="flex items-center justify-center w-36 h-36 rounded-8 text-12! transition tap"
-					:mode="item === currentPage ? 'primary-border' : 'neutral-fill'"
+					:mode="item === currentPage ? ButtonMode.PRIMARY_BORDER : ButtonMode.NEUTRAL_FILL"
 					@click="currentPage = item"
 				>
 					{{ item }}

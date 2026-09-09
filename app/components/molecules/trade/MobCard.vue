@@ -44,7 +44,7 @@
 			<div class="flex">
 				<AButton
 					class="py-6 px-16 rounded-4 text-12"
-					mode="neutral-fill"
+					:mode="ButtonMode.NEUTRAL_FILL"
 					:disabled="disabled"
 					@click="emits('controls', trade)"
 				>Управление</AButton>

@@ -4,7 +4,7 @@
 			<h2 class="text-20 lg:text-24 font-semibold">Ордера</h2>
 			<AButton
 				class="flex lg:hidden items-center justify-center p-12 rounded-8 border border-solid border-neutral-400"
-				mode="neutral-fill"
+				:mode="ButtonMode.NEUTRAL_FILL"
 				:disabled="disabled"
 				@click="showMobFilters = true"
 			>

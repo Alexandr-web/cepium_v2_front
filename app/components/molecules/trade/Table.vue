@@ -13,7 +13,7 @@
 					<template #trigger>
 						<AButton
 							class="py-4 px-12 rounded-4 text-14"
-							mode="remove-border"
+							:mode="ButtonMode.REMOVE_BORDER"
 							:disabled="disabled"
 							@click="emits('removeAll')"
 						>Закрыть все</AButton>
@@ -81,7 +81,7 @@
 				<template #trigger>
 					<AButton
 						class="rounded-4 px-12 py-6 text-14 w-full"
-						mode="remove-fill"
+						:mode="ButtonMode.REMOVE_FILL"
 						:disabled="disabled"
 						@click="emits('removeOne', row)"
 					>Закрыть</AButton>

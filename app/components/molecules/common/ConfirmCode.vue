@@ -32,14 +32,14 @@
 			<div class="flex flex-col lg:flex-row-reverse gap-10">
 				<AButton
 					class="text-14 lg:text-16 py-10 px-24 rounded-8 lg:w-1/2"
-					mode="primary-fill"
+					:mode="ButtonMode.PRIMARY_FILL"
 					@click="submit"
 				>
 					{{ sendTextBtn }}
 				</AButton>
 				<AButton
 					class="text-14 lg:text-16 py-10 px-24 rounded-8 lg:w-1/2"
-					mode="remove-border"
+					:mode="ButtonMode.REMOVE_BORDER"
 					:disabled="disabledBtn"
 					@click="emits('cancel')"
 				>

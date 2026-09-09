@@ -13,7 +13,7 @@
 				<div class="flex flex-col-reverse lg:flex-row">
 					<AButton
 						class="w-full lg:w-auto rounded-4 py-10 px-24 lg:ml-auto"
-						mode="primary-fill"
+						:mode="ButtonMode.PRIMARY_FILL"
 						type="submit"
 						:disabled="isPendingConfig"
 					>

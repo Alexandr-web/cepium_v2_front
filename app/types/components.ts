@@ -66,3 +66,13 @@ export enum ImagePreset {
 	COIN = "coin",
 	AVATAR = "avatar",
 };
+
+export enum ButtonMode {
+	DEFAULT = "default",
+	REMOVE_FILL = "remove-fill",
+	REMOVE_BORDER = "remove-border",
+	NEUTRAL_FILL = "neutral-fill",
+	BLACK_FILL = "black-fill",
+	PRIMARY_FILL = "primary-fill",
+	PRIMARY_BORDER = "primary-border",
+};

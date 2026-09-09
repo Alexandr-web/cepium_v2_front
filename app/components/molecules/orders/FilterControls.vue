@@ -13,7 +13,7 @@
 				preset === 'mob' && 'p-14'
 			]"
 			:disabled="disabled"
-			mode="primary-border"
+			:mode="ButtonMode.PRIMARY_BORDER"
 			@click="emits('execute')"
 		>Применить</AButton>
 		<AButton

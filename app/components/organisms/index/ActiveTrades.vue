@@ -7,7 +7,7 @@
 			<AButton
 				v-if="tradeStore.trades.length"
 				class="py-4 px-12 rounded-12 text-12"
-				mode="remove-border"
+				:mode="ButtonMode.REMOVE_BORDER"
 				:disabled="isPendingRemovePosition"
 				data-allow-mismatch=""
 				@click="openAllControls"

@@ -14,7 +14,7 @@
 				<AButton
 					class="group flex items-center justify-center gap-8 rounded-4 lg:mt-16 py-10 px-24"
 					type="submit"
-					mode="primary-fill"
+					:mode="ButtonMode.PRIMARY_FILL"
 					:disabled="disabledBtn"
 				>
 					<span class="uppercase text-primary-100 text-14 lg:text-16 font-medium">Войти</span>

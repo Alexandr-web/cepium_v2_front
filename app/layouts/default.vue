@@ -6,12 +6,11 @@
 			<main ref="content" class="flex flex-col scroll-block grow text-white p-16 overflow-auto">
 				<AButton
 					v-if="route.meta.hasBack"
-					class="flex lg:hidden items-center gap-5 py-6 px-12 rounded-4 mr-auto mb-10"
-					mode="neutral-fill"
+					class="flex lg:hidden items-center py-6 px-12 rounded-4 mr-auto mb-10"
+					:mode="ButtonMode.NEUTRAL_FILL"
 					@click="router.back()"
 				>
 					<IconArrowBack class="text-neutral-700 w-16 h-16" />
-					<span>Назад</span>
 				</AButton>
 				<NuxtPage />
 			</main>
