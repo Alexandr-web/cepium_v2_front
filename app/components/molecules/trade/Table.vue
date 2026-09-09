@@ -33,10 +33,19 @@
 			</div>
 		</template>
 		<template #cell-symbol="{ row }">
-			<span
-				class="text-14 text-white font-bold cursor-pointer hover:underline"
-				@click="emits('selectSymbol', row.symbol)"
-			>{{ row.symbol }}</span>
+			<div class="flex items-center gap-6">
+				<AImage
+					:src="getUrlCoinIcon(row.symbol)"
+					:preset="ImagePreset.COIN"
+					:is-nuxt-img="false"
+					loading="lazy"
+					:alt="row.symbol"
+				/>
+				<span
+					class="text-14 text-white font-bold cursor-pointer hover:underline"
+					@click="emits('selectSymbol', row.symbol)"
+				>{{ row.symbol }}</span>
+			</div>
 		</template>
 		<template #cell-direction="{ row }">
 			<div
@@ -97,6 +106,7 @@
 import type Trade from "@/models/Trade";
 import Tooltip from "@/components/molecules/common/Tooltip.vue";
 import AButton from "@/components/atoms/AButton.vue";
+import AImage from "@/components/atoms/AImage.vue";
 import MTable from "@/components/molecules/common/MTable.vue";
 import { useTradeStore } from "@/store/useTradeStore";
 

@@ -15,12 +15,13 @@
 					:to="{ name: 'profile' }"
 				>
 					<div class="w-full h-full rounded-full overflow-hidden">
-						<img
-							class="object-cover w-full h-full"
+						<AImage
 							:src="userStore.avatar"
+							:preset="ImagePreset.AVATAR"
+							:is-nuxt-img="false"
 							fetchpriority="high"
 							:alt="userStore.user.name ?? ''"
-						>
+						/>
 					</div>
 				</NuxtLink>
 			</li>
@@ -43,6 +44,7 @@
 import { useUserStore } from "@/store/useUserStore";
 import Modal from "@/components/molecules/common/Modal.vue";
 import Menu from "@/components/molecules/layout/Menu.vue";
+import AImage from "@/components/atoms/AImage.vue";
 import AButton from "@/components/atoms/AButton.vue";
 import IconSettingsOutline from "@/assets/icons/settings-outline.svg";
 import IconMenuRounded from "@/assets/icons/menu-rounded.svg";

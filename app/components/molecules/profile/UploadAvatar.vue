@@ -5,12 +5,13 @@
 			@click="open()"
 		>
 			<div class="w-full h-full rounded-8 overflow-hidden">
-				<img
-					class="object-cover w-full h-full"
+				<AImage
 					:src="getURLFile(fileModel)"
 					fetchpriority="high"
+					:preset="ImagePreset.AVATAR"
+					:is-nuxt-img="false"
 					alt=""
-				>
+				/>
 			</div>
 			<div class="absolute -bottom-4 -right-4 rounded-8 p-6 flex justify-center items-center bg-primary-600 hover:bg-primary-700 active:scale-95 text-white w-24 h-24 shadow-sm shadow-primary-500/30 transition">
 				<IconEditOutlineRounded class="w-14 h-14" />
@@ -29,6 +30,7 @@
 
 <script setup lang="ts">
 import IconEditOutlineRounded from "@/assets/icons/edit-outline-rounded.svg";
+import AImage from "@/components/atoms/AImage.vue";
 import { useUserStore } from "@/store/useUserStore";
 
 const userStore = useUserStore();

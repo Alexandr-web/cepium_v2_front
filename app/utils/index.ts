@@ -193,3 +193,5 @@ export const parseExchangeErrorMessage = (rawData: unknown, exchangeName: string
 };
 
 export const extractBaseSymbol = (pair: string): string => pair.split("/")[0]?.trim().toUpperCase() ?? "";
+
+export const getUrlCoinIcon = (symbol: string) => `https://cdn.jsdelivr.net/gh/vadimmalykhin/binance-icons/crypto/${extractBaseSymbol(symbol).toLowerCase()}.svg`;

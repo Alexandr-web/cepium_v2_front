@@ -1,8 +1,17 @@
 <template>
 	<div class="flex flex-col border border-solid border-white/5 rounded-8 bg-secondary-100 text-white p-8">
 		<div class="flex justify-between pb-12">
-			<div class="flex flex-col">
-				<h3 class="font-bold text-14 text-white/80">{{ trade.shortSymbol }} {{ trade.direction }}</h3>
+			<div class="flex flex-col gap-2">
+				<div class="flex items-center gap-6">
+					<AImage
+						:src="getUrlCoinIcon(trade.symbol)"
+						:preset="ImagePreset.COIN"
+						:is-nuxt-img="false"
+						loading="lazy"
+						:alt="trade.symbol"
+					/>
+					<h3 class="font-bold text-14 text-white/80">{{ trade.shortSymbol }} {{ trade.direction }}</h3>
+				</div>
 				<p class="inline-flex items-center text-12 font-medium text-white/50">
 					{{ trade.prettyLeverage }}
 					<span class="w-4 h-4 rounded-full bg-white/50 mx-4 block"/>
@@ -46,6 +55,7 @@
 <script setup lang="ts">
 import type Trade from "@/models/Trade";
 import AButton from "@/components/atoms/AButton.vue";
+import AImage from "@/components/atoms/AImage.vue";
 
 withDefaults(
 	defineProps<{

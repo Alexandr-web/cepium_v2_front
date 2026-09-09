@@ -61,3 +61,8 @@ export type StatisticsCard = {
 	normalizer?: (value: string | number) => string;
 	value: string | number;
 };
+
+export enum ImagePreset {
+	COIN = "coin",
+	AVATAR = "avatar",
+};
