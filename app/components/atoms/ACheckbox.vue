@@ -1,12 +1,12 @@
 <template>
-	<div class="flex items-center gap-10 cursor-pointer select-none group" @click="emits('update:modelValue', !modelValue)">
+	<div class="flex items-center gap-10 cursor-pointer select-none group" @click="checked = !checked">
 		<div
 			v-if="!hideBox"
 			class="rounded-6 border-solid border border-neutral-400"
 			:class="wrapperClasses"
 		>
 			<IconCheckSmallRounded
-				v-if="modelValue"
+				v-if="checked"
 				class="w-full h-full"
 				:class="iconClasses"
 			/>
@@ -27,7 +27,6 @@ import IconCheckSmallRounded from "@/assets/icons/check-small-rounded.svg";
 
 const props = withDefaults(
 	defineProps<{
-		modelValue?: boolean;
 		label?: string;
 		size?: CheckboxSize;
 		hideBox?: boolean;
@@ -35,7 +34,6 @@ const props = withDefaults(
 		tooltipText?: string;
 	}>(),
 	{
-		modelValue: false,
 		label: "",
 		size: CheckboxSize.SMALL,
 		hideBox: false,
@@ -44,11 +42,11 @@ const props = withDefaults(
 	}
 );
 
-const emits = defineEmits(["update:modelValue"]);
+const checked = defineModel<boolean>({ default: false });
 
 const wrapperClasses = computed(() => [
-	(props.modelValue && props.theme === CheckboxTheme.PRIMARY) && "border-primary-400 bg-primary-300",
-	(props.modelValue && props.theme === CheckboxTheme.NEUTRAL) && "border-neutral-400 bg-neutral-800",
+	(checked.value && props.theme === CheckboxTheme.PRIMARY) && "border-primary-400 bg-primary-300",
+	(checked.value && props.theme === CheckboxTheme.NEUTRAL) && "border-neutral-400 bg-neutral-800",
 	props.size === CheckboxSize.SMALL && "w-16 h-16",
 	props.size === CheckboxSize.BIG && "w-24 h-24",
 ]);
