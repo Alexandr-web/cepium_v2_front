@@ -139,7 +139,7 @@ const createFields = () => ([
 		name: "demoTrading",
 		label: "Демо аккаунт",
 		classes: "text-white/80",
-		size: "big",
+		size: CheckboxSize.BIG,
 	},
 ]);
 

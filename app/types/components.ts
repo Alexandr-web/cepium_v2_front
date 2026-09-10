@@ -91,3 +91,13 @@ export enum FilterControlsPreset {
 	MOBILE = "mob",
 	DESKTOP = "desk",
 };
+
+export enum CheckboxTheme {
+	PRIMARY = "primary",
+	NEUTRAL = "neutral",
+};
+
+export enum CheckboxSize {
+	SMALL = "small",
+	BIG = "big",
+};

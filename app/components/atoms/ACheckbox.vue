@@ -3,20 +3,12 @@
 		<div
 			v-if="!hideBox"
 			class="rounded-6 border-solid border border-neutral-400"
-			:class="[
-				(modelValue && theme === 'primary') && 'border-primary-400 bg-primary-300',
-				(modelValue && theme === 'neutral') && 'border-neutral-400 bg-neutral-800',
-				size === 'small' && 'w-16 h-16',
-				size === 'big' && 'w-24 h-24',
-			]"
+			:class="wrapperClasses"
 		>
 			<IconCheckSmallRounded
 				v-if="modelValue"
 				class="w-full h-full"
-				:class="[
-					theme === 'primary' && 'text-white/80',
-					theme === 'neutral' && 'text-primary-200'
-				]"
+				:class="iconClasses"
 			/>
 		</div>
 		<Tooltip :disabled="!tooltipText">
@@ -33,24 +25,42 @@
 import Tooltip from "@/components/molecules/common/Tooltip.vue";
 import IconCheckSmallRounded from "@/assets/icons/check-small-rounded.svg";
 
-withDefaults(
+const props = withDefaults(
 	defineProps<{
 		modelValue?: boolean;
 		label?: string;
-		size?: "small" | "big";
+		size?: CheckboxSize;
 		hideBox?: boolean;
-		theme?: "primary" | "neutral";
+		theme?: CheckboxTheme;
 		tooltipText?: string;
 	}>(),
 	{
 		modelValue: false,
 		label: "",
-		size: "small",
+		size: CheckboxSize.SMALL,
 		hideBox: false,
-		theme: "primary",
+		theme: CheckboxTheme.PRIMARY,
 		tooltipText: "",
 	}
 );
 
 const emits = defineEmits(["update:modelValue"]);
+
+const wrapperClasses = computed(() => [
+	(props.modelValue && props.theme === CheckboxTheme.PRIMARY) && "border-primary-400 bg-primary-300",
+	(props.modelValue && props.theme === CheckboxTheme.NEUTRAL) && "border-neutral-400 bg-neutral-800",
+	props.size === CheckboxSize.SMALL && "w-16 h-16",
+	props.size === CheckboxSize.BIG && "w-24 h-24",
+]);
+
+const iconClasses = computed(() => {
+	switch (props.theme) {
+		case CheckboxTheme.PRIMARY:
+			return "text-white/80";
+		case CheckboxTheme.NEUTRAL:
+			return "text-primary-200";
+		default:
+			return "";
+	}
+});
 </script>

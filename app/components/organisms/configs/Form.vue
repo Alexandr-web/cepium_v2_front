@@ -194,7 +194,7 @@ const fields = ref<GeneralFormField[]>([
 		label: "Активировать",
 		component: markRaw(ACheckbox),
 		tooltipText: "Запускает конфигурацию в работу. Сервис сразу начнет отслеживать выбранные монеты и открывать сделки по заданной стратегии.",
-		size: "big",
+		size: CheckboxSize.BIG,
 	},
 ]);
 
