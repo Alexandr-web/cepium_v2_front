@@ -5,10 +5,10 @@
 		head-icon="view-list"
 		title="Активные позиции"
 		:data="tradeStore.trades"
-		:columns="columns"
+		:columns="tradeColumns"
 	>
-		<template #head-controls>
-			<div v-if="tradeStore.trades.length" class="flex items-center gap-10">
+		<template v-if="tradeStore.trades.length" #head-controls>
+			<div class="flex items-center gap-10">
 				<Tooltip placement="left">
 					<template #trigger>
 						<AButton
@@ -58,24 +58,6 @@
 				<p>{{ row.direction }} {{ row.prettyLeverage }}</p>
 			</div>
 		</template>
-		<template #cell-prettyLiquidationPrice="{ row }">
-			<p class="text-primary-500">{{ row.prettyLiquidationPrice }}</p>
-		</template>
-		<template #cell-prettyStopLossPrice="{ row }">
-			<p :class="[row.prettyStopLossPrice !== '-' && 'text-secondary-500']">{{ row.prettyStopLossPrice }}</p>
-		</template>
-		<template #cell-prettyTakeProfitPrice="{ row }">
-			<p :class="[row.prettyTakeProfitPrice !== '-' && 'text-tertiary-500']">{{ row.prettyTakeProfitPrice }}</p>
-		</template>
-		<template #cell-pnl="{ row }">
-			<p
-				class="font-bold"
-				:class="[
-					row.pnl >= 0 && 'text-tertiary-600',
-					row.pnl < 0 && 'text-secondary-600',
-				]"
-			>{{ row.prettyPnl }}</p>
-		</template>
 		<template #cell-controls="{ row }">
 			<Tooltip placement="left">
 				<template #trigger>
@@ -103,6 +85,7 @@
 	</MTable>
 </template>
 <script setup lang="ts">
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type Trade from "@/models/Trade";
 import Tooltip from "@/components/molecules/common/Tooltip.vue";
 import AButton from "@/components/atoms/AButton.vue";
@@ -122,54 +105,6 @@ withDefaults(
 const tradeStore = useTradeStore();
 
 const emits = defineEmits(["removeOne", "removeAll", "selectSymbol"]);
-
-const columns = computed<TableColumn<Trade>[]>(() => [
-	{
-		key: "index",
-		label: "№",
-		normalizer: (v) => formatNum(Number(v) + 1,  { padZero: true }),
-	},
-	{
-		key: "symbol",
-		label: "Монета",
-	},
-	{
-		key: "direction",
-		label: "Направление",
-	},
-	{
-		key: "prettyLiquidationPrice",
-		label: "Цена ликвидации",
-	},
-	{
-		key: "prettyStopLossPrice",
-		label: "Стоп",
-	},
-	{
-		key: "prettyTakeProfitPrice",
-		label: "Тейк",
-	},
-	{
-		key: "prettyEntryPrice",
-		label: "Вход",
-	},
-	{
-		key: "prettyCurrentPrice",
-		label: "Текущая цена",
-	},
-	{
-		key: "pnl",
-		label: "PNL",
-	},
-	{
-		key: "prettyCreatedAt",
-		label: "Время открытия",
-	},
-	{
-		key: "controls",
-		label: "Действия",
-	},
-] as const);
 
 const totalProfit = computed(() => tradeStore.trades.reduce<number>((sum, trade) => sum += trade.pnl, 0));
 const prettyTotalProfit = computed(() => formatNum(totalProfit.value, { currency: "USD", style: "currency" }));

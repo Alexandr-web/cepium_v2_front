@@ -1,10 +1,7 @@
 <template>
 	<td 
 		class="p-24 text-14 text-neutral-950 vertical-middle"
-		:class="[
-			col.align === 'center' && 'text-center',
-			col.align === 'right' && 'text-right',
-		]"
+		:class="classes"
 	>
 		<slot 
 			:name="`cell-${String(col.key)}`" 
@@ -21,6 +18,12 @@ const props = defineProps<{
 	row: T;
 	rowIndex: number;
 }>();
+
+const classes = computed(() => [
+	props.col.align === "center" && "text-center",
+	props.col.align === "right" && "text-right",
+	props.col.classes instanceof Function ? props.col.classes(props.row) : props.col.classes,
+]);
 
 /**
  * Вычисляемое свойство для безопасного извлечения и форматирования значения ячейки.

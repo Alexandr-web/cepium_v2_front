@@ -2,12 +2,9 @@
 	<!-- @vue-generic {Order}-->
 	<MTable
 		class="hidden lg:flex"
-		:columns="columns"
+		:columns="ordersColumns"
 		:data="orders"
 	>
-		<template #cell-symbol="{ value }">
-			<span class="font-bold">{{ value }}</span>
-		</template>
 		<template #cell-side="{ value }">
 			<span
 				class="p-10 rounded-8 font-medium"
@@ -17,62 +14,10 @@
 				]"
 			>{{ value }}</span>
 		</template>
-		<template #cell-realizedPnl="{ row, value }">
-			<span
-				class="font-medium"
-				:class="[
-					(row.realizedPnl ?? 0) > 0 && 'text-tertiary-600',
-					(row.realizedPnl ?? 0) < 0 && 'text-secondary-500'
-				]"
-			>{{ value }}</span>
-		</template>
-		<template #cell-entryPrice="{ value }">
-			<span class="text-primary-600">{{ value }}</span>
-		</template>
-		<template #cell-createdAt="{ value }">
-			<span class="opacity-80">{{ value }}</span>
-		</template>
 	</MTable>
 </template>
 <script setup lang="ts">
 import MTable from "@/components/molecules/common/MTable.vue";
-import { useLocaleFormatTimeAgo } from "@/composables/useLocaleTime";
 
 defineProps<{ orders: Order[] }>();
-
-const columns = computed<TableColumn<Order>[]>(() => [
-	{
-		key: "index",
-		label: "№",
-		normalizer: (v) => formatNum(Number(v) + 1,  { padZero: true }),
-	},
-	{
-		key: "symbol",
-		label: "Монета",
-	},
-	{
-		key: "side",
-		label: "Направление",
-	},
-	{
-		key: "realizedPnl",
-		label: "Профит",
-		normalizer: (v) => formatNum(Number(v), { currency: "USD", style: "currency", defaultValue: "-" }),
-	},
-	{
-		key: "size",
-		label: "Кол-во",
-		normalizer: (v) => formatNum(Number(v), { padZero: true }),
-	},
-	{
-		key: "entryPrice",
-		label: "Цена входа",
-		normalizer: (v) => formatNum(Number(v), { currency: "USD", style: "currency" }),
-	},
-	{
-		key: "createdAt",
-		label: "Время создания",
-		normalizer: (v) => useLocaleFormatTimeAgo(new Date(String(v))),
-	},
-] as const);
 </script>

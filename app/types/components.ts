@@ -36,6 +36,7 @@ export type TableColumn<T> = {
 	key: keyof T | "controls" | "index";
 	label: string;
 	align?: "left" | "center" | "right";
+	classes?: string | string[] | ((row: T) => string | string[]);
 	normalizer?: (val: number | string | T[keyof T]) => string;
 };
 
