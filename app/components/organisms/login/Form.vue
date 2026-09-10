@@ -1,7 +1,7 @@
 <template>
 	<section class="flex flex-col my-auto gap-40 p-24">
 		<div class="mx-auto inline-flex items-center flex-col gap-8">
-			<Logo />
+			<IconLogo class="w-auto h-40 lg:h-50 object-contain" />
 		</div>
 		<!-- @vue-generic {AuthLoginData} -->
 		<GeneralForm
@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import * as z from "zod";
 import IconKeyboardDoubleArrowRight from "@/assets/icons/keyboard-double-arrow-right.svg";
-import Logo from "@/components/atoms/Logo.vue";
+import IconLogo from "@/assets/icons/logo.svg";
 import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import AInput from "@/components/atoms/AInput.vue";
 import AError from "@/components/atoms/AError.vue";
