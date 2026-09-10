@@ -2,7 +2,7 @@
 	<div class="flex flex-col bg-neutral-200 h-dvh max-h-dvh">
 		<Header />
 		<div class="flex grow min-h-0">
-			<Menu class="hidden lg:flex" preset="desk" />
+			<Menu class="hidden lg:flex" :preset="MenuPreset.DESKTOP" />
 			<main ref="content" class="flex flex-col scroll-block grow text-white p-16 overflow-auto">
 				<AButton
 					v-if="route.meta.hasBack"

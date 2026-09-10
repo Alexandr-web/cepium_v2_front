@@ -81,3 +81,8 @@ export enum FormMode {
 	DEFAULT = "default",
 	GRID = "grid",
 };
+
+export enum MenuPreset {
+	MOBILE = "mob",
+	DESKTOP = "desk",
+};

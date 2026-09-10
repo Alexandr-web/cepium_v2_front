@@ -1,20 +1,12 @@
 <template>
-	<div
-		:class="[
-			preset === 'desk' && 'flex flex-col justify-between gap-24 py-16 px-12 bg-neutral-100/60 border-r border-solid border-r-white/5 max-w-256 w-full transition-all',
-			preset === 'mob' && 'flex flex-col gap-24 w-full'
-		]"
-	>
-		<nav class="scroll-block overflow-auto" :class="[preset === 'desk' && 'grow', preset === 'mob' && 'max-h-350']">
-			<ul class="flex flex-col" :class="[preset === 'desk' && 'gap-4', preset === 'mob' && 'gap-8']">
-				<li v-for="item in menu" :key="item.route" :class="[preset === 'desk' && 'w-full']">
+	<div :class="menuClasses">
+		<nav class="scroll-block overflow-auto" :class="navClasses">
+			<ul class="flex flex-col" :class="listClasses">
+				<li v-for="item in menu" :key="item.route" :class="[preset === MenuPreset.DESKTOP && 'w-full']">
 					<NuxtLink
 						class="group flex items-center rounded-8 transition-all duration-200 text-14 text-neutral-600"
 						:to="{ name: item.route }"
-						:class="[
-							preset === 'desk' && 'gap-12 p-10  hover:text-neutral-950 hover:bg-neutral-300/40',
-							preset === 'mob' && 'gap-14 p-12'
-						]"
+						:class="linkClasses"
 						:active-class="activeClass"
 					>
 						<component
@@ -28,7 +20,7 @@
 				</li>
 			</ul>
 		</nav>
-		<div class="flex items-center justify-between pt-12 border-t border-solid border-t-white/5" :class="[preset === 'mob' && 'mt-16']">
+		<div class="flex items-center justify-between pt-12 border-t border-solid border-t-white/5" :class="[preset === MenuPreset.MOBILE && 'mt-16']">
 			<AButton
 				class="flex items-center gap-10 text-secondary-500 hover:text-secondary-600 active:scale-95 transition-all duration-150 group/btn"
 				@click="logout"
@@ -55,10 +47,10 @@ import { useAuthStore } from "@/store/useAuthStore";
 
 const props = withDefaults(
 	defineProps<{
-		preset?: "mob" | "desk";
+		preset?: MenuPreset;
 	}>(),
 	{
-		preset: "mob",
+		preset: MenuPreset.MOBILE,
 	}
 );
 
@@ -73,11 +65,60 @@ const menu = [
 	{ route: "profile", label: "Профиль", icon: IconPersonOutlineRounded },
 ];
 
-const activeClass = computed(() => 
-	props.preset === "desk"
-		? "text-primary-700 bg-primary-300/50 font-semibold shadow-sm shadow-primary-500/5"
-		: "text-white/80 bg-primary-600/10 font-semibold border-l-2 border-solid border-primary-500 rounded-l-none pl-10"
-);
+const menuClasses = computed(() => {
+	switch (props.preset) {
+		case MenuPreset.DESKTOP:
+			return "flex flex-col justify-between gap-24 py-16 px-12 bg-neutral-100/60 border-r border-solid border-r-white/5 max-w-256 w-full transition-all";
+		case MenuPreset.MOBILE:
+			return "flex flex-col gap-24 w-full";
+		default:
+			return "";
+	}
+});
+
+const navClasses = computed(() => {
+	switch (props.preset) {
+		case MenuPreset.DESKTOP:
+			return "grow";
+		case MenuPreset.MOBILE:
+			return "max-h-350";
+		default:
+			return "";
+	}
+});
+
+const listClasses = computed(() => {
+	switch (props.preset) {
+		case MenuPreset.DESKTOP:
+			return "gap-4";
+		case MenuPreset.MOBILE:
+			return "gap-8";
+		default:
+			return "";
+	}
+});
+
+const linkClasses = computed(() => {
+	switch (props.preset) {
+		case MenuPreset.DESKTOP:
+			return "gap-12 p-10 hover:text-neutral-950 hover:bg-neutral-300/40";
+		case MenuPreset.MOBILE:
+			return "gap-14 p-12";
+		default:
+			return "";
+	}
+});
+
+const activeClass = computed(() => {
+	switch (props.preset) {
+		case MenuPreset.DESKTOP:
+			return "text-primary-700 bg-primary-300/50 font-semibold shadow-sm shadow-primary-500/5";
+		case MenuPreset.MOBILE:
+			return "text-white/80 bg-primary-600/10 font-semibold border-l-2 border-solid border-primary-500 rounded-l-none pl-10";
+		default:
+			return "";
+	}
+});
 
 const logout = () => {
 	authStore.clearToken();
