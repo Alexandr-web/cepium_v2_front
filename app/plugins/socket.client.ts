@@ -56,7 +56,7 @@ export default defineNuxtPlugin(() => {
 		});
 
 		// активные сделки
-		socket.value.on("deals", (data: TPosition[]) => {
+		socket.value.on("deals", (data: Position[]) => {
 			connectionStore.errorMessage = "";
 
 			// удаляем позиции, если их нет в приходящих сделках
@@ -71,7 +71,7 @@ export default defineNuxtPlugin(() => {
 		});
 
 		// информация на дашборде
-		socket.value.on("accountInfo", (data: TDashboard) => {
+		socket.value.on("accountInfo", (data: Dashboard) => {
 			connectionStore.errorMessage = "";
 
 			dashboardStore.data = {
@@ -104,7 +104,7 @@ export default defineNuxtPlugin(() => {
 	};
 
 	router.afterEach((to) => {
-		if (to.meta.hasSocket) connectSocket();
+		if (!to.meta.noSocket) connectSocket();
 		else disconnectSocket();
 	});
 

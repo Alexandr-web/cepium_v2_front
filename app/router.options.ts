@@ -9,7 +9,6 @@ export default {
 			component: () => import("@/pages/index.vue"),
 			meta: {
 				middleware: "auth",
-				hasSocket: true,
 				seo: {
 					title: "Главная",
 				},
@@ -25,7 +24,6 @@ export default {
 					component: () => import("@/pages/configs.vue"),
 					meta: {
 						hasBack: true,
-						hasSocket: true,
 						middleware: "auth",
 						seo: {
 							title: "Доступные конфиги",
@@ -38,7 +36,6 @@ export default {
 					component: () => import("@/pages/add-config.vue"),
 					meta: {
 						hasBack: true,
-						hasSocket: true,
 						middleware: "auth",
 						seo: {
 							title: "Добавление конфига",
@@ -51,7 +48,6 @@ export default {
 					component: () => import("@/pages/edit-config.vue"),
 					meta: {
 						hasBack: true,
-						hasSocket: true,
 						middleware: "auth",
 						seo: {
 							title: "Изменение конфига",
@@ -66,7 +62,6 @@ export default {
 			component: () => import("@/pages/profile.vue"),
 			meta: {
 				middleware: "auth",
-				hasSocket: true,
 				seo: {
 					title: "Профиль",
 				},
@@ -78,7 +73,6 @@ export default {
 			component: StatisticsPage,
 			meta: {
 				hasBack: true,
-				hasSocket: true,
 				middleware: "auth",
 				seo: {
 					title: "Статистика",
@@ -91,7 +85,6 @@ export default {
 			component: () => import("@/pages/orders.vue"),
 			meta: {
 				hasBack: true,
-				hasSocket: true,
 				middleware: "auth",
 				seo: {
 					title: "История ордеров",
@@ -105,6 +98,7 @@ export default {
 			meta: {
 				middleware: "login",
 				layout: false,
+				noSocket: true,
 				seo: {
 					title: "Вход",
 				},
