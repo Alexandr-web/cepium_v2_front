@@ -55,13 +55,19 @@ import * as z from "zod";
 import AButton from "@/components/atoms/AButton.vue";
 import AError from "@/components/atoms/AError.vue";
 
-const { codeLen } = defineProps<{
-	title: string;
-	codeLen: number;
-	sendTextBtn: string;
-	cancelTextBtn: string;
-	disabledBtn: boolean;
-}>();
+const props = withDefaults(
+	defineProps<{
+		title?: string;
+		codeLen: number;
+		sendTextBtn: string;
+		cancelTextBtn: string;
+		disabledBtn?: boolean;
+	}>(),
+	{
+		title: "",
+		disabledBtn: false,
+	}
+);
 
 const emits = defineEmits(["submit", "cancel", "sendCodeAgain"]);
 
@@ -72,14 +78,14 @@ const error = defineModel<string>("error", { default: "" });
 
 const inputCodeEl = useTemplateRef<HTMLInputElement | null>("inputCode");
 
-const maskPattern = computed(() => "# ".repeat(codeLen).slice(0, codeLen * 2 - 1));
+const maskPattern = computed(() => "# ".repeat(props.codeLen).slice(0, props.codeLen * 2 - 1));
 const placeholder = computed(() => maskPattern.value.replace(/#/g, "0"));
 const time = computed(() => formatTime(currentTime.value));
 
 const codeIsValid = ref(true);
 
 const submit = () => {
-	codeIsValid.value = z.string().min(codeLen).safeParse(code.value).success;
+	codeIsValid.value = z.string().min(props.codeLen).safeParse(code.value).success;
 
 	if (!codeIsValid.value) {
 		inputCodeEl.value?.focus();

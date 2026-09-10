@@ -3,12 +3,12 @@ import type { FetchError } from "ofetch";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { getData, createData, changeData } from "@/api/credentials";
 
-type TUseCredentialsOptions = {
+type UseCredentialsOptions = {
 	query: { exchangeName: MaybeRefOrGetter<string> };
 	enabled?: MaybeRefOrGetter<boolean>;
 };
 
-export const useCredentials = (options: TUseCredentialsOptions) => {
+export const useCredentials = (options: UseCredentialsOptions) => {
 	const exchangeName = computed(() => toValue(options.query.exchangeName));
 
 	return useQuery({

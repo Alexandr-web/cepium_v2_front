@@ -10,29 +10,31 @@
 				fieldsListClasses
 			]"
 		>
-			<component
-				:is="item.component"
-				v-for="(item, idx) in fields"
-				:key="idx"
-				v-model="item.value"
-				v-model:error="item.error"
-				:check="item.check"
-				:placeholder="item.placeholder"
-				:label="item.label"
-				:prepend-icon="item.prependIcon"
-				:type="item.type"
-				:items="item.items"
-				:disabled="item.disabled"
-				:search="item.search"
-				:item-click-handler="item.itemClickHandler"
-				:max="item.max"
-				:min="item.min"
-				:show-tooltip="item.showTooltip"
-				:format="item.format"
-				:size="item.size"
-				:tooltip-text="item.tooltipText"
-				:class="item.classes"
-			/>
+			<slot name="components">
+				<component
+					:is="item.component"
+					v-for="(item, idx) in fields"
+					:key="idx"
+					v-model="item.value"
+					v-model:error="item.error"
+					:check="item.check"
+					:placeholder="item.placeholder"
+					:label="item.label"
+					:prepend-icon="item.prependIcon"
+					:type="item.type"
+					:items="item.items"
+					:disabled="item.disabled"
+					:search="item.search"
+					:item-click-handler="item.itemClickHandler"
+					:max="item.max"
+					:min="item.min"
+					:show-tooltip="item.showTooltip"
+					:format="item.format"
+					:size="item.size"
+					:tooltip-text="item.tooltipText"
+					:class="item.classes"
+				/>
+			</slot>
 		</div>
 		<slot name="content" />
 		<slot name="footer" />
