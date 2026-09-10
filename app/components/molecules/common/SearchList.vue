@@ -1,39 +1,39 @@
 <template>
 	<div class="flex flex-col gap-6">
-		<LabelField v-model:error="error" :count="addedItems.length" :label="label" :tooltip-text="tooltipText" />
+		<LabelField v-model:error="error" :count="addedItemsMap.size" :label="label" :tooltip-text="tooltipText" />
 		<div class="flex flex-col gap-10">
 			<AInput v-model="input" :placeholder="placeholder" prepend-icon="search-rounded" :disabled="disabled" />
 			<div class="overflow-auto max-h-150 scroll-block">
-				<div v-if="addedItems.length" class="grid lg:flex grid-cols-2 lg:flex-wrap gap-10">
+				<div v-if="addedItemsMap.size" class="grid lg:flex grid-cols-2 lg:flex-wrap gap-10">
 					<ATag
-						v-for="(item, idx) in addedItems"
-						:key="idx"
+						v-for="item in addedItemsMap.values()"
+						:key="item.value"
 						:label="item.label"
 						:class="[!!itemClickHandler && 'hover:underline']"
-						@remove="removeItem(idx)"
+						@remove="addedItemsMap.delete(item.value)"
 						@click="itemClickHandler?.(item)"
 					/>
 				</div>
 			</div>
 			<div
 				class="flex flex-col rounded-6 p-12 bg-primary-100 h-150 overflow-auto scroll-block relative"
-				:class="[(!foundItems.length || isPending) && 'items-center justify-center']"
+				:class="[(!foundItemsMap.size || isPending) && 'items-center justify-center']"
 			>
 				<IconLoader v-if="isPending" class="text-white absolute w-26 lg:w-36 h-26 lg:h-36" />
 				<template v-else>
-					<p v-if="!foundItems.length" class="text-14 text-neutral-500 text-center">{{ message }}</p>
-					<ul v-else-if="foundItems.length && input.length" class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+					<p v-if="!foundItemsMap.size" class="text-14 text-neutral-500 text-center">{{ message }}</p>
+					<ul v-else-if="foundItemsMap.size && input.length" class="grid grid-cols-1 lg:grid-cols-3 gap-5">
 						<li
-							v-for="(item, idx) in foundItems"
-							:key="idx"
+							v-for="item in foundItemsMap.values()"
+							:key="item.value"
 							class="text-neutral-800 text-14 rounded-6"
 							:class="[
-								hasItem(item) && 'bg-primary-200',
-								!hasItem(item) && 'bg-primary-200/50'
+								addedItemsMap.has(item.value) && 'bg-primary-200',
+								!addedItemsMap.has(item.value) && 'bg-primary-200/50'
 							]"
 						>
 							<ACheckbox
-								:model-value="hasItem(item)"
+								:model-value="addedItemsMap.has(item.value)"
 								:label="item.label"
 								class="p-10"
 								@update:model-value="addItem(item)"
@@ -74,34 +74,35 @@ const value = defineModel<string[]>({ default: () => [] });
 const error = defineModel<string>("error", { default: "" });
 
 const isPending = ref(false);
-const foundItems = ref<SelectItem[]>([]);
-const addedItems = ref<SelectItem[]>(value.value.map((v) => ({ label: v, value: v })));
+const foundItemsMap = ref<Map<string, SelectItem>>(new Map());
+const addedItemsMap = ref<Map<string, SelectItem>>(new Map(value.value.map((v) => ([v, { label: v, value: v }]))));
 
 const input = ref("");
 const inputSearch = debouncedRef(input, 500);
 
 const message = computed(() => {
 	if (props.disabled) return "Недостаточно данных. Поиск невозможен";
-	if (!foundItems.value.length) return "Ничего не найдено";
+	if (!foundItemsMap.value.size) return "Ничего не найдено";
 	return "";
 });
 
-watch(() => addedItems.value.length, () => {
-	value.value = addedItems.value.map((i) => i.value);
+watch(() => addedItemsMap.value.size, () => {
+	value.value = Array.from(addedItemsMap.value.keys());
 });
 
 watch(inputSearch, async (v) => {
 	if (props.disabled) return;
 
 	if (!v) {
-		foundItems.value = [];
+		foundItemsMap.value.clear();
 		return;
 	}
 
 	isPending.value = true;
 
 	try {
-		foundItems.value = await props.search(v);
+		const res = await props.search(v);
+		foundItemsMap.value = new Map(res.map((item) => [item.value, item]));
 	} catch (err) {
 		console.error(err);
 	} finally {
@@ -109,11 +110,8 @@ watch(inputSearch, async (v) => {
 	}
 });
 
-const hasItem = (item: SelectItem) => addedItems.value.some((i) => i.value === item.value);
-const removeItem = (idx: number) => idx !== -1 && addedItems.value.splice(idx, 1);
 const addItem = (item: SelectItem) => {
-	const itemIdx = addedItems.value.findIndex((i) => i.value === item.value);
-	if (itemIdx === -1) addedItems.value.push(item);
-	else removeItem(itemIdx);
+	if (!addedItemsMap.value.has(item.value)) addedItemsMap.value.set(item.value, item);
+	else addedItemsMap.value.delete(item.value);
 };
 </script>
