@@ -86,3 +86,8 @@ export enum MenuPreset {
 	MOBILE = "mob",
 	DESKTOP = "desk",
 };
+
+export enum FilterControlsPreset {
+	MOBILE = "mob",
+	DESKTOP = "desk",
+};

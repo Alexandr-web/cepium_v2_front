@@ -13,7 +13,7 @@
 		</div>
 		<div class="hidden lg:flex justify-between gap-16 bg-neutral-100 rounded-8 p-16 border border-solid border-white/10">
 			<Filters ref="deskFilters" :filters="filters" :disabled="disabled" />
-			<FilterControls preset="desk" :disabled="disabled" @execute="execute" @reset="reset" />
+			<FilterControls :preset="FilterControlsPreset.DESKTOP" :disabled="disabled" @execute="execute" @reset="reset" />
 		</div>
 	</section>
 	<Teleport to="body">
@@ -25,7 +25,7 @@
 					:filters="filters"
 				>
 					<template #footer>
-						<FilterControls preset="mob" :disabled="disabled" @execute="execute" @reset="reset" />
+						<FilterControls :preset="FilterControlsPreset.MOBILE" :disabled="disabled" @execute="execute" @reset="reset" />
 					</template>
 				</Filters>
 			</div>
