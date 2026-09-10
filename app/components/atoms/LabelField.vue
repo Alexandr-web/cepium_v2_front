@@ -13,7 +13,7 @@
 			</h3>
 			<p v-if="count" class="text-neutral-600 text-12 lg:text-14">({{ count }})</p>
 		</div>
-		<Tooltip v-if="tooltipText">
+		<Tooltip v-if="tooltipText && isDesktop">
 			<template #trigger>
 				<IconHelpRounded class="w-16 h-16 text-white/80" />
 			</template>
@@ -38,6 +38,8 @@ withDefaults(
 		count: 0,
 	}
 );
+
+const { isDesktop } = useDevice();
 
 const error = defineModel<string>("error", { default: "" });
 </script>
