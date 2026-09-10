@@ -5,3 +5,8 @@ export enum ConnectionStatuses {
 	CLOSED = 3,
 	NONE = 4
 };
+
+export enum TradeDirection {
+	LONG = "long",
+	SHORT = "short",
+};

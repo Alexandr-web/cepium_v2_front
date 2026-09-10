@@ -6,8 +6,8 @@
 					<span
 						class="rounded-2 inline-block uppercase py-2 px-8 text-10 font-bold"
 						:class="[
-							card.side === 'long' && 'bg-tertiary-400/20 text-tertiary-700',
-							card.side === 'short' && 'bg-secondary-300/20 text-secondary-500',
+							card.side === TradeDirection.LONG && 'bg-tertiary-400/20 text-tertiary-700',
+							card.side === TradeDirection.SHORT && 'bg-secondary-300/20 text-secondary-500',
 						]"
 					>{{ card.side }}</span>
 					<span class="font-bold text-neutral-800 uppercase text-18">{{ card.symbol }}</span>

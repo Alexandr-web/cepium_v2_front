@@ -51,8 +51,8 @@
 			<div
 				class="p-8 rounded-4 inline-flex items-center text-12 uppercase"
 				:class="[
-					row.direction === 'long' && 'bg-tertiary-200 text-tertiary-600',
-					row.direction === 'short' && 'bg-secondary-200 text-secondary-600',
+					row.direction === TradeDirection.LONG && 'bg-tertiary-200 text-tertiary-600',
+					row.direction === TradeDirection.SHORT && 'bg-secondary-200 text-secondary-600',
 				]"
 			>
 				<p>{{ row.direction }} {{ row.prettyLeverage }}</p>

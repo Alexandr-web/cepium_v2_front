@@ -20,7 +20,7 @@ const mockOrders: Order[] = [
 	{
 		id: "order-1",
 		symbol: "BTC",
-		side: "long",
+		side: TradeDirection.LONG,
 		size: 0.05,
 		entryPrice: 61200,
 		leverage: 10,
@@ -33,7 +33,7 @@ const mockOrders: Order[] = [
 	{
 		id: "order-2",
 		symbol: "ETH",
-		side: "short",
+		side: TradeDirection.SHORT,
 		size: 1.2,
 		entryPrice: 3400,
 		leverage: 5,
@@ -46,7 +46,7 @@ const mockOrders: Order[] = [
 	{
 		id: "order-3",
 		symbol: "SOL",
-		side: "long",
+		side: TradeDirection.LONG,
 		size: 20,
 		entryPrice: 148,
 		leverage: 20,
@@ -59,7 +59,7 @@ const mockOrders: Order[] = [
 	{
 		id: "order-4",
 		symbol: "TON",
-		side: "long",
+		side: TradeDirection.LONG,
 		size: 300,
 		entryPrice: 5.6,
 		leverage: 2,
@@ -72,7 +72,7 @@ const mockOrders: Order[] = [
 	{
 		id: "order-5",
 		symbol: "BTC",
-		side: "short",
+		side: TradeDirection.SHORT,
 		size: 0.03,
 		entryPrice: 63000,
 		leverage: 15,
@@ -85,7 +85,7 @@ const mockOrders: Order[] = [
 	{
 		id: "order-6",
 		symbol: "ETH",
-		side: "long",
+		side: TradeDirection.LONG,
 		size: 0.8,
 		entryPrice: 3350,
 		leverage: 10,
@@ -98,7 +98,7 @@ const mockOrders: Order[] = [
 	{
 		id: "order-7",
 		symbol: "SOL",
-		side: "short",
+		side: TradeDirection.SHORT,
 		size: 15,
 		entryPrice: 152,
 		leverage: 10,
@@ -111,7 +111,7 @@ const mockOrders: Order[] = [
 	{
 		id: "order-8",
 		symbol: "TON",
-		side: "long",
+		side: TradeDirection.LONG,
 		size: 500,
 		entryPrice: 5.5,
 		leverage: 3,
@@ -124,7 +124,7 @@ const mockOrders: Order[] = [
 	{
 		id: "order-10",
 		symbol: "ETH",
-		side: "short",
+		side: TradeDirection.SHORT,
 		size: 0.6,
 		entryPrice: 3480,
 		leverage: 8,
@@ -139,7 +139,7 @@ const mockOrders: Order[] = [
 	{
 		id: "order-11",
 		symbol: "SOL",
-		side: "long",
+		side: TradeDirection.LONG,
 		size: 10,
 		entryPrice: 150,
 		leverage: 10,
@@ -154,7 +154,7 @@ const mockOrders: Order[] = [
 	{
 		id: "order-12",
 		symbol: "TON",
-		side: "short",
+		side: TradeDirection.SHORT,
 		size: 200,
 		entryPrice: 5.7,
 		leverage: 4,
