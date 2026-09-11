@@ -80,8 +80,8 @@ const setValue = (val: string, el?: unknown) => {
 	const { offsetLeft = 0, offsetWidth = 0 } = el;
 
 	floatingStyles.value = { 
-		transform: `translateX(calc(var(--spacing)*${offsetLeft}))`, 
-		width: `calc(var(--spacing)*${offsetWidth})`,
+		transform: `translateX(${offsetLeft}px)`, 
+		width: `${offsetWidth}px`,
 		willChange: "transform, width",
 	};
 	value.value = val;

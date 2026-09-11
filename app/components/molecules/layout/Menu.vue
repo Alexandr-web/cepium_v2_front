@@ -112,9 +112,9 @@ const linkClasses = computed(() => {
 const activeClass = computed(() => {
 	switch (props.preset) {
 		case MenuPreset.DESKTOP:
-			return "text-primary-700 bg-primary-300/50 font-semibold shadow-sm shadow-primary-500/5";
+			return "text-primary-600 bg-primary-500/5 font-medium transition-colors duration-200";
 		case MenuPreset.MOBILE:
-			return "text-white/80 bg-primary-600/10 font-semibold border-l-2 border-solid border-primary-500 rounded-l-none pl-10";
+			return "text-primary-700 bg-primary-500/5 font-medium transition-all duration-200";
 		default:
 			return "";
 	}
