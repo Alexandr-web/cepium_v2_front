@@ -1,17 +1,33 @@
 <template>
-	<div class="flex flex-col rounded-8 border border-solid border-neutral-300 bg-primary-100/50">
-		<div class="flex items-center justify-between gap-10 cursor-pointer p-12" @click="isActive = !isActive">
+	<div class="flex flex-col rounded-8 border border-solid bg-neutral-100/80 border-white/10">
+		<div
+			class="flex items-center justify-between gap-10 cursor-pointer p-16 transition-colors duration-200 hover:bg-neutral-300/50 rounded-8"
+			:class="[isActive && 'bg-neutral-300/30']"
+			@click="toggleAccordion"
+		>
 			<div class="flex items-center gap-10">
-				<component :is="icon" v-if="icon" class="w-20 h-20 text-primary-600" />
-				<h3 class="lg:text-18 text-neutral-800 select-none">{{ label }}</h3>
+				<component
+					:is="icon"
+					v-if="icon"
+					class="w-20 h-20 text-primary-600 duration-200"
+				/>
+				<h3 class="text-15 lg:text-16 text-neutral-900 select-none">{{ label }}</h3>
 			</div>
 			<IconKeyboardArrowDownRounded
-				class="w-24 h-24 text-neutral-800"
+				class="w-24 h-24 text-neutral-700 transition duration-200"
 				:class="[isActive && 'rotate-x-180']"
 			/>
 		</div>
-		<div v-show="isActive" class="p-12 pt-0 grow">
-			<slot />
+		<div
+			class="grid transition-[grid-template-rows] duration-300 ease-in-out"
+			:class="[isActive && 'grid-rows-[1fr]', !isActive && 'grid-rows-[0fr]']"
+			@transitionend="onTransitionEnd"
+		>
+			<div class="min-h-0" :class="[isContentVisible && 'overflow-visible', !isContentVisible && 'overflow-hidden']">
+				<div class="p-12 grow">
+					<slot />
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -47,4 +63,17 @@ const icon = computed(() => {
 });
 
 const isActive = ref(props.isOpen);
+const isContentVisible = ref(props.isOpen);
+
+const toggleAccordion = () => {
+	// при закрытии сразу включаем обрезку, чтобы контент не протекал во время сворачивания
+	if (isActive.value) isContentVisible.value = false;
+	isActive.value = !isActive.value;
+};
+
+const onTransitionEnd = (event: TransitionEvent) => {
+	if (event.propertyName === "grid-template-rows" && isActive.value) {
+		isContentVisible.value = true;
+	}
+};
 </script>
