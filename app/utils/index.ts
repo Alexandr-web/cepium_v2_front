@@ -195,3 +195,14 @@ export const parseExchangeErrorMessage = (rawData: unknown, exchangeName: string
 export const extractBaseSymbol = (pair: string): string => pair.split("/")[0]?.trim().toUpperCase() ?? "";
 
 export const getUrlCoinIcon = (symbol: string) => `https://cdn.jsdelivr.net/gh/vadimmalykhin/binance-icons/crypto/${extractBaseSymbol(symbol).toLowerCase()}.svg`;
+
+/**
+ * Проверяет, что переданный ключ действительно существует в объекте,
+ * и сужает тип ключа до `keyof T` для дальнейшей безопасной индексации.
+ *
+ * @template T Тип объекта
+ * @param obj Объект, в котором проверяется наличие ключа
+ * @param key Проверяемый ключ
+ * @returns `true`, если ключ присутствует в объекте (с сужением типа до `keyof T`)
+ */
+export const hasKey = <T extends object>(obj: T, key: PropertyKey): key is keyof T => key in obj;

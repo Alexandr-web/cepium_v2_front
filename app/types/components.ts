@@ -37,7 +37,8 @@ export type TableColumn<T> = {
 	label: string;
 	align?: "left" | "center" | "right";
 	classes?: string | string[] | ((row: T) => string | string[]);
-	normalizer?: (val: number | string | T[keyof T]) => string;
+	sort?: boolean;
+	normalizer?: (val: number | string | T[keyof T], row: T) => string;
 };
 
 export type SelectItem = {
