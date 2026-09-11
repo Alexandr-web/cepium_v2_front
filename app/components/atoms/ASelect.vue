@@ -14,27 +14,41 @@
 			<div ref="reference" class="p-12 flex items-center justify-between gap-10" @click="!disabled && (isOpen = !isOpen)">
 				<span v-if="inputLabel" class="text-neutral-800 select-none truncate" :title="inputLabel">{{ inputLabel }}</span>
 				<IconKeyboardArrowDownRounded
-					class="text-neutral-800 w-24 h-24"
+					class="text-neutral-800 w-24 h-24 transition"
 					:class="[isOpen && 'rotate-x-180']"
 				/>
 			</div>
-			<div
-				v-if="isOpen"
-				ref="floating"
-				class="scroll-block w-full border border-solid border-neutral-400 rounded-b-4 lg:rounded-b-8 bg-primary-200 z-99 overflow-auto max-h-180 lg:max-h-280"
-				:style="floatingStyles"
+			<Transition
+				enter-active-class="transition-all duration-150 ease-out"
+				enter-from-class="opacity-0"
+				enter-to-class="opacity-100"
+				leave-active-class="transition-all duration-100 ease-in"
+				leave-from-class="opacity-100"
+				leave-to-class="opacity-0"
 			>
-				<ul v-if="items.length" class="flex flex-col">
-					<li
-						v-for="(item, idx) in items"
-						:key="idx"
-						class="flex items-center cursor-pointer p-10 text-neutral-800 text-14 lg:text-15 odd:bg-neutral-300/70 last:rounded-b-4 lg:last:rounded-b-8"
-						@click="select(item)"
-					>
-						<ACheckbox :model-value="item.value === value" :label="item.label" />
-					</li>
-				</ul>
-			</div>
+				<div
+					v-if="isOpen"
+					ref="floating"
+					class="scroll-block w-full rounded-b-8 bg-neutral-200 z-99 overflow-auto max-h-180 lg:max-h-280"
+					:style="floatingStyles"
+				>
+					<ul v-if="items.length" class="flex flex-col">
+						<li
+							v-for="(item, idx) in items"
+							:key="idx"
+							class="flex items-center cursor-pointer p-10 text-neutral-800 text-14 lg:text-15 odd:bg-neutral-300/40 transition-colors duration-150 last:rounded-b-8"
+							:class="[item.value === value && 'text-neutral-950']"
+							@click="select(item)"
+						>
+							<ACheckbox
+								:model-value="item.value === value"
+								:label="item.label"
+								@update:model-value="(v: boolean) => value = v ? item.value : ''"
+							/>
+						</li>
+					</ul>
+				</div>
+			</Transition>
 		</div>
 	</div>
 </template>
