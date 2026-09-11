@@ -11,7 +11,7 @@
 					v-if="icon"
 					class="w-20 h-20 text-primary-600 duration-200"
 				/>
-				<h3 class="text-15 lg:text-16 text-neutral-900 select-none">{{ label }}</h3>
+				<h3 class="text-15 lg:text-16 text-neutral-900 select-none font-semibold">{{ label }}</h3>
 			</div>
 			<IconKeyboardArrowDownRounded
 				class="w-24 h-24 text-neutral-700 transition duration-200"
