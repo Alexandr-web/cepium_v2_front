@@ -93,8 +93,8 @@ const arrowSide = computed(() => {
 });
 
 const arrowStyles = computed(() => ({
-	left: !arrowX.value ? "" : `calc(var(--spacing)*${arrowX.value})`,
-	top: !arrowY.value ? "" : `calc(var(--spacing)*${arrowY.value})`,
+	left: !arrowX.value ? "" : `${arrowX.value}px`,
+	top: !arrowY.value ? "" : `${arrowY.value}px`,
 	[arrowSide.value]: "calc(var(--spacing)*(-4))",
 	borderTopColor: !props.placement.startsWith("bottom") ? undefined : "transparent",
 	borderLeftColor: !props.placement.startsWith("right") ? undefined : "transparent",
