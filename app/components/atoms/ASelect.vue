@@ -29,7 +29,7 @@
 				<div
 					v-if="isOpen"
 					ref="floating"
-					class="scroll-block w-full rounded-b-8 bg-neutral-200 z-99 overflow-auto max-h-180 lg:max-h-280"
+					class="scroll-block w-full rounded-b-8 bg-neutral-200 z-99 overflow-auto max-h-180 lg:max-h-280 border-x border-b border-x-white/10 border-b-white/10"
 					:style="floatingStyles"
 				>
 					<ul v-if="items.length" class="flex flex-col">
