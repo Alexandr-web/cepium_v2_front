@@ -26,11 +26,11 @@
 			>
 				<div
 					ref="arrowEl"
-					class="absolute z-0 w-8 h-8 rotate-45 bg-neutral-200 border border-neutral-400/50"
+					class="absolute z-0 w-12 h-12 rotate-45 rounded-2 bg-neutral-200 border border-neutral-400 shadow-sm shadow-black/40"
 					:style="arrowStyles"
 				/>
 				<div
-					class="relative z-10 px-12 py-6 rounded-3 max-w-xs text-13 leading-normal font-medium tracking-tight text-center text-neutral-950 bg-neutral-200/95 backdrop-blur-md border border-neutral-400/50 shadow-xl shadow-black/30"
+					class="relative z-10 px-12 py-6 rounded-3 max-w-xs text-13 leading-normal font-medium tracking-tight text-center text-neutral-950 bg-neutral-200 border border-neutral-400/40"
 				>
 					<slot name="content" />
 				</div>
@@ -54,6 +54,9 @@ const props = withDefaults(
 		disabled: false,
 	}
 );
+
+const ARROW_SIZE = 12;
+const ARROW_OFFSET = ARROW_SIZE / 2;
 
 const isOpen = ref(false);
 
@@ -95,7 +98,7 @@ const arrowSide = computed(() => {
 const arrowStyles = computed(() => ({
 	left: !arrowX.value ? "" : `${arrowX.value}px`,
 	top: !arrowY.value ? "" : `${arrowY.value}px`,
-	[arrowSide.value]: "calc(var(--spacing)*(-4))",
+	[arrowSide.value]: `calc(var(--spacing) * -${ARROW_OFFSET})`,
 	borderTopColor: !props.placement.startsWith("bottom") ? undefined : "transparent",
 	borderLeftColor: !props.placement.startsWith("right") ? undefined : "transparent",
 	borderRightColor: !props.placement.startsWith("left") ? undefined : "transparent",
