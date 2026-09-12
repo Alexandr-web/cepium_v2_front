@@ -10,7 +10,7 @@
 						:key="item.value"
 						:label="item.label"
 						:class="[!!itemClickHandler && 'hover:underline']"
-						@remove="addedItemsMap.delete(item.value)"
+						@remove="removeItem(item)"
 						@click="itemClickHandler?.(item)"
 					/>
 				</div>
@@ -51,6 +51,7 @@ import ACheckbox from "@/components/atoms/ACheckbox.vue";
 import ATag from "@/components/atoms/ATag.vue";
 import LabelField from "@/components/atoms/LabelField.vue";
 import IconLoader from "@/assets/icons/loader.svg";
+import type z from "zod";
 
 const props = withDefaults(
 	defineProps<{
@@ -58,6 +59,7 @@ const props = withDefaults(
 		placeholder?: string;
 		disabled?: boolean;
 		tooltipText?: string;
+		check?: z.ZodType;
 		search: (value: string) => Promise<SelectItem[]>;
 		itemClickHandler?: (item: SelectItem) => Promise<void>;
 	}>(),
@@ -67,6 +69,7 @@ const props = withDefaults(
 		tooltipText: "",
 		disabled: false,
 		itemClickHandler: undefined,
+		check: undefined,
 	}
 );
 
@@ -75,7 +78,11 @@ const error = defineModel<string>("error", { default: "" });
 
 const isPending = ref(false);
 const foundItemsMap = ref<Map<string, SelectItem>>(new Map());
-const addedItemsMap = ref<Map<string, SelectItem>>(new Map(value.value.map((v) => ([v, { label: v, value: v }]))));
+
+const checkValidMessage = computed(() => props.check?.safeParse(value.value)?.error?.message ?? "");
+const addedItemsMap = computed<Map<string, SelectItem>>(() =>
+	new Map(value.value.map((v) => ([v, { label: v, value: v }])))
+);
 
 const input = ref("");
 const inputSearch = debouncedRef(input, 500);
@@ -86,9 +93,7 @@ const message = computed(() => {
 	return "";
 });
 
-watch(() => addedItemsMap.value.size, () => {
-	value.value = Array.from(addedItemsMap.value.keys());
-});
+watch(() => value.value.length, (v) => error.value = !v ? "" : checkValidMessage.value);
 
 watch(inputSearch, async (v) => {
 	if (props.disabled) return;
@@ -111,7 +116,11 @@ watch(inputSearch, async (v) => {
 });
 
 const addItem = (item: SelectItem) => {
-	if (!addedItemsMap.value.has(item.value)) addedItemsMap.value.set(item.value, item);
-	else addedItemsMap.value.delete(item.value);
+	if (!addedItemsMap.value.has(item.value)) value.value.push(item.value);
+	else removeItem(item);
+};
+
+const removeItem = (item: SelectItem) => {
+	value.value = value.value.filter((s) => s !== item.value);
 };
 </script>
