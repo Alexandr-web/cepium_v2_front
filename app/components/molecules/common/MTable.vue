@@ -19,7 +19,7 @@
 						>
 							<div
 								class="flex items-center gap-5"
-								:class="[col.sort && 'cursor-pointer']"
+								:class="[(col.sort && sortedData.length) && 'cursor-pointer']"
 								@click="setSort(col)"
 							>
 								{{ col.label }}
@@ -27,8 +27,8 @@
 									v-if="col.sort"
 									class="w-14 h-14"
 									:class="[
-										(col.key === sortKey && sortOrder === 'asc') && 'rotate-x-180 text-primary-400',
-										(col.key === sortKey && sortOrder === 'desc') && 'rotate-x-0 text-primary-400',
+										(col.key === sortKey && sortOrder === 'asc') && 'rotate-x-180 text-white',
+										(col.key === sortKey && sortOrder === 'desc') && 'rotate-x-0 text-white',
 									]"
 								/>
 							</div>
@@ -114,7 +114,7 @@ const sortedData = computed(() => {
 });
 
 const setSort = (col: TableColumn<T>) => {
-	if (!col.sort || typeof col.key !== "string") return;
+	if (!col.sort || typeof col.key !== "string" || !props.data.length) return;
 
 	if (col.key === sortKey.value) {
 		sortOrder.value = sortOrder.value === "asc" ? "desc" : "asc";
