@@ -19,7 +19,7 @@
 						>Закрыть все</AButton>
 					</template>
 					<template #content>
-						<p class="font-light">
+						<p>
 							Закрыть все позиции<br>Общий профит:&nbsp;
 							<span
 								:class="[
@@ -69,7 +69,7 @@
 					>Закрыть</AButton>
 				</template>
 				<template #content>
-					<p class="text-14 font-light">
+					<p class="text-16">
 						Закрыть позицию <span class="uppercase font-medium">{{ row.direction }} {{ row.shortSymbol }}</span><br>
 						Профит:&nbsp;
 						<span
