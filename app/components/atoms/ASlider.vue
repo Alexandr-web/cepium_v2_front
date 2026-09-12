@@ -41,9 +41,13 @@ const error = defineModel<string>("error", { default: "" });
 const percent = computed(() => formatNum(value.value / 100, { style: "percent" }));
 </script>
 
-<style>
+<style scoped>
 .slider-blue {
   --slider-connect-bg: var(--color-primary-500);
   --slider-tooltip-bg: var(--color-primary-500);
+  --slider-handle-width: calc(var(--spacing) * 16);
+  --slider-handle-height: calc(var(--spacing) * 16);
+  --slider-tooltip-font-size: calc(var(--spacing) * 14);
+  --slider-handle-shadow: none;
 }
 </style>
