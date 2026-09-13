@@ -51,7 +51,6 @@ export default defineNuxtPlugin(() => {
 		});
 
 		socket.value.on("connect_error", () => {
-			connectionStore.errorMessage = "";
 			connectionStore.status = ConnectionStatuses.CONNECTING;
 		});
 
@@ -89,7 +88,7 @@ export default defineNuxtPlugin(() => {
 		socket.value.on("accountInfoError", (data) => {
 			const message = parseExchangeErrorMessage(data.message, exchangeStore.activeExchange ?? "");
 			
-			if (message) {
+			if (message && connectionStore.errorMessage !== message) {
 				connectionStore.errorMessage = message;
 				console.error(data);
 			}
