@@ -40,7 +40,7 @@ const { card } = defineProps<{
 	card: Order;
 }>();
 
-const time = useLocaleTimeAgo(card.createdAt);
+const time = computed(() => useLocaleFormatTimeAgo(new Date(card.createdAt)));
 const enterPrice = computed(() => formatNum(Number(card.entryPrice), { currency: "USD", style: "currency", defaultValue: "-" }));
 const amount = computed(() => formatNum(Number(card.size), { padZero: true }));
 const pnl = computed(() => {
