@@ -1,14 +1,19 @@
-<svg width="60" height="20" viewBox="0 0 60 20" xmlns="http://w3.org" fill="currentColor">
-  <circle cx="10" cy="10" r="6">
-    <animate attributeName="opacity" dur="1s" values="0.3;1;0.3" repeatCount="indefinite" begin="0.1"/>
-    <animate attributeName="r" dur="1s" values="4;6;4" repeatCount="indefinite" begin="0.1"/>
-  </circle>
-  <circle cx="30" cy="10" r="6">
-    <animate attributeName="opacity" dur="1s" values="0.3;1;0.3" repeatCount="indefinite" begin="0.2"/>
-    <animate attributeName="r" dur="1s" values="4;6;4" repeatCount="indefinite" begin="0.2"/>
-  </circle>
-  <circle cx="50" cy="10" r="6">
-    <animate attributeName="opacity" dur="1s" values="0.3;1;0.3" repeatCount="indefinite" begin="0.3"/>
-    <animate attributeName="r" dur="1s" values="4;6;4" repeatCount="indefinite" begin="0.3"/>
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <circle
+    cx="25" cy="25" r="20"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-dasharray="90 150"
+  >
+    <animateTransform
+      attributeName="transform"
+      type="rotate"
+      from="0 25 25"
+      to="360 25 25"
+      dur="1s"
+      repeatCount="indefinite"
+    />
   </circle>
 </svg>

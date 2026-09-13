@@ -23,7 +23,7 @@
 							Закрыть все позиции<br>Общий профит:&nbsp;
 							<span
 								:class="[
-									totalProfit >= 0 && 'text-tertiary-600',
+									totalProfit > 0 && 'text-tertiary-600',
 									totalProfit < 0 && 'text-secondary-600',
 								]"
 							>{{ prettyTotalProfit }}</span>
@@ -74,7 +74,7 @@
 						Профит:&nbsp;
 						<span
 							:class="[
-								row.pnl >= 0 && 'text-tertiary-600',
+								row.pnl > 0 && 'text-tertiary-600',
 								row.pnl < 0 && 'text-secondary-600',
 							]"
 						>{{ row.prettyPnl }}</span>

@@ -79,7 +79,6 @@ const error = defineModel<string>("error", { default: "" });
 const isPending = ref(false);
 const foundItemsMap = ref<Map<string, SelectItem>>(new Map());
 
-const checkValidMessage = computed(() => props.check?.safeParse(value.value)?.error?.message ?? "");
 const addedItemsMap = computed<Map<string, SelectItem>>(() =>
 	new Map(value.value.map((v) => ([v, { label: v, value: v }])))
 );
@@ -93,7 +92,7 @@ const message = computed(() => {
 	return "";
 });
 
-watch(() => value.value.length, (v) => error.value = !v ? "" : checkValidMessage.value);
+watch(() => value.value.length, () => error.value = props.check?.safeParse(value.value)?.error?.message ?? "");
 
 watch(inputSearch, async (v) => {
 	if (props.disabled) return;

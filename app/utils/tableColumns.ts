@@ -52,8 +52,12 @@ export const tradeColumns: TableColumn<Trade>[] = [
 	{
 		key: "pnl",
 		label: "PNL",
-		classes: (row) => ["font-bold", row.pnl >= 0 ? "text-tertiary-600" : "text-secondary-600"],
 		sort: true,
+		classes: (row) => [
+			"font-bold",
+			row.pnl > 0 ? "text-tertiary-600" : "",
+			row.pnl < 0 ? "text-secondary-600" : "",
+		],
 		normalizer: (_, row) => row.prettyPnl,
 	},
 	{
@@ -87,7 +91,11 @@ export const ordersColumns: TableColumn<Order>[] = [
 		label: "Профит",
 		sort: true,
 		normalizer: (v) => formatNum(Number(v), { currency: "USD", style: "currency", defaultValue: "-" }),
-		classes: (row) => ["font-bold", (row.realizedPnl ?? 0) > 0 ? "text-tertiary-600" : "text-secondary-500"],
+		classes: (row) => [
+			"font-bold",
+			(row.realizedPnl ?? 0) > 0 ? "text-tertiary-600" : "",
+			(row.realizedPnl ?? 0) < 0 ? "text-secondary-500" : "",
+		],
 	},
 	{
 		key: "size",

@@ -3,7 +3,7 @@
 		<HeadTable v-if="headIcon || title || $slots['head-controls']" :title="title" :icon="headIcon">
 			<slot name="head-controls" />
 		</HeadTable>
-		<div class="w-full overflow-x-auto">
+		<div class="w-full overflow-x-auto relative">
 			<table class="w-max min-w-full">
 				<thead>
 					<tr class="border-b-1 border-solid border-white/5 bg-neutral-100/80">
@@ -19,7 +19,10 @@
 						>
 							<div
 								class="flex items-center gap-5"
-								:class="[(col.sort && sortedData.length) && 'cursor-pointer']"
+								:class="[
+									(col.sort && sortedData.length) && 'cursor-pointer',
+									col.key === sortKey && 'text-white',
+								]"
 								@click="setSort(col)"
 							>
 								{{ col.label }}
@@ -27,8 +30,8 @@
 									v-if="col.sort"
 									class="w-14 h-14"
 									:class="[
-										(col.key === sortKey && sortOrder === 'asc') && 'rotate-x-180 text-white',
-										(col.key === sortKey && sortOrder === 'desc') && 'rotate-x-0 text-white',
+										(col.key === sortKey && sortOrder === 'asc') && 'rotate-x-180',
+										(col.key === sortKey && sortOrder === 'desc') && 'rotate-x-0',
 									]"
 								/>
 							</div>
@@ -57,6 +60,13 @@
 					</tr>
 				</tbody>
 			</table>
+			<div v-if="isPending" class="absolute top-0 left-0 w-full h-full">
+				<slot name="pending">
+					<div class="bg-primary-200/60 flex justify-center items-center w-full h-full">
+						<IconLoader class="w-30 h-30" />
+					</div>
+				</slot>
+			</div>
 		</div>
 	</div>
 </template>
@@ -65,6 +75,7 @@ import Empty from "@/components/molecules/common/Empty.vue";
 import HeadTable from "@/components/molecules/table/Head.vue";
 import ColTable from "@/components/molecules/table/Col.vue";
 import IconSort from "@/assets/icons/sort-down-fill.svg";
+import IconLoader from "@/assets/icons/loader.svg";
 
 const props = withDefaults(
 	defineProps<{
@@ -72,10 +83,12 @@ const props = withDefaults(
 		columns: TableColumn<T>[];
 		title?: string;
 		headIcon?: string;
+		isPending?: boolean;
 	}>(),
 	{
 		headIcon: "",
 		title: "",
+		isPending: false,
 	}
 );
 

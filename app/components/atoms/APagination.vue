@@ -1,7 +1,7 @@
 <template>
 	<div class="flex items-center gap-6 max-w-full w-full lg:w-auto lg:mx-auto select-none">
 		<AButton
-			:disabled="isFirstPage"
+			:disabled="isFirstPage || isPending"
 			class="flex items-center justify-center w-36 h-36"
 			@click="prev"
 		>
@@ -21,6 +21,7 @@
 					v-else
 					class="flex items-center justify-center w-36 h-36 rounded-8 text-12! transition tap"
 					:mode="item === currentPage ? ButtonMode.PRIMARY_BORDER : ButtonMode.NEUTRAL_FILL"
+					:disabled="isPending"
 					@click="currentPage = item"
 				>
 					{{ item }}
@@ -29,7 +30,7 @@
 		</ul>
 
 		<AButton
-			:disabled="isLastPage"
+			:disabled="isLastPage || isPending"
 			class="flex items-center justify-center w-36 h-36"
 			@click="next"
 		>
@@ -44,13 +45,15 @@ import IconArrowDown from "@/assets/icons/keyboard-arrow-down-rounded.svg";
 
 const props = withDefaults(
 	defineProps<{
-		total: number
-		perPage?: number
-		siblingCount?: number
+		total: number;
+		perPage?: number;
+		siblingCount?: number;
+		isPending?: boolean;
 	}>(),
 	{
 		perPage: 10,
 		siblingCount: 1,
+		isPending: false,
 	}
 );
 

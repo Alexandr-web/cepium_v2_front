@@ -8,11 +8,12 @@
 					:card="item"
 				/>
 			</div>
-			<Table :orders="orders" />
+			<Table :orders="orders" :is-pending="isPending" />
 			<APagination
 				v-model:page="page"
 				:total="totalItems"
 				:per-page="PER_PAGE"
+				:is-pending="isPending"
 			/>
 		</template>
 		<Empty v-else />
@@ -43,8 +44,11 @@ const PER_PAGE = 10;
 const page = ref(1);
 const orders = ref<Order[]>([]);
 const totalItems = ref(0);
+const isPending = ref(false);
 
 const fetchOrders = async () => {
+	isPending.value = true;
+
 	try {
 		const res = await searchOrders(exchangeStore?.activeExchange ?? "", {
 			...props.filters,
@@ -56,6 +60,8 @@ const fetchOrders = async () => {
 		totalItems.value = res.data.total;
 	} catch (err) {
 		console.error(err);
+	} finally {
+		isPending.value = false;
 	}
 };
 

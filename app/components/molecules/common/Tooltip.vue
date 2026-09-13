@@ -2,7 +2,6 @@
 	<div class="inline-block">
 		<div
 			ref="reference"
-			class="inline-block"
 			@mouseenter="showTooltip"
 			@mouseleave="hideTooltip"
 			@focusin="showTooltip"
@@ -22,7 +21,7 @@
 				v-if="isOpen"
 				ref="floating"
 				:style="floatingStyles"
-				class="z-50 pointer-events-none"
+				class="z-999 pointer-events-none"
 			>
 				<div
 					ref="arrowEl"
