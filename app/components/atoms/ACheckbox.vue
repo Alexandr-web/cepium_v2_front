@@ -11,7 +11,7 @@
 				:class="iconClasses"
 			/>
 		</div>
-		<Tooltip :disabled="!tooltipText">
+		<Tooltip :disabled="!tooltipText || !isDesktop">
 			<template #trigger>
 				<span v-if="label" class="transition group-hover:opacity-100 opacity-80">{{ label }}</span>
 			</template>
@@ -41,6 +41,8 @@ const props = withDefaults(
 		tooltipText: "",
 	}
 );
+
+const { isDesktop } = useDevice();
 
 const checked = defineModel<boolean>({ default: false });
 
