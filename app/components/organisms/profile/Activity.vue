@@ -1,35 +1,67 @@
 <template>
-	<div class="overflow-x-auto w-full lg:max-w-1200 lg:mx-auto">
-		<table class="w-max border-separate border-spacing-2">
-			<thead>
-				<tr>
-					<td />
-					<td
-						v-for="label in monthLabels"
-						:key="label.colStart"
-						:colspan="label.colSpan"
-						class="text-12 lg:text-14 text-neutral-500 pl-1"
-					>
-						{{ label.name }}
-					</td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="(dayName, row) in WEEKDAY_LABELS" :key="dayName">
-					<td class="text-12 lg:text-14 text-neutral-500 pr-2">{{ dayName }}</td>
-					<td v-for="(week, col) in weeks" :key="col">
+	<div class="flex flex-col lg:flex-row-reverse gap-6 w-full">
+		<div class="flex items-center lg:self-end gap-6">
+			<p class="text-neutral-700 text-12 lg:text-14">Меньше</p>
+			<div class="flex items-center gap-3">
+				<Tooltip
+					v-for="(_, idx) in Object.keys(colorClasses)"
+					:key="idx"
+					:disabled="!isDesktop"
+				>
+					<template #trigger>
 						<div
-							v-if="week[row]"
-							:class="['w-12 lg:w-16 h-12 lg:h-16 rounded-2', colorClasses[week[row]!.level]]"
+							class="w-10 lg:w-14 h-10 lg:h-14 rounded-3"
+							:class="colorClasses[idx]"
 						/>
-						<div v-else class="w-12 lg:w-16 h-12 lg:h-16" />
-					</td>
-				</tr>
-			</tbody>
-		</table>
+					</template>
+					<template #content>
+						{{ legendRanges[idx] }}
+					</template>
+				</Tooltip>
+			</div>
+			<p class="text-neutral-700 text-12 lg:text-14">Больше</p>
+		</div>
+		<div class="w-full overflow-x-auto lg:max-w-1200 lg:mx-auto">
+			<table class="w-max border-separate border-spacing-2">
+				<thead>
+					<tr>
+						<td />
+						<td
+							v-for="label in monthLabels"
+							:key="label.colStart"
+							:colspan="label.colSpan"
+							class="text-12 lg:text-14 text-neutral-600 pl-1"
+						>
+							{{ label.name }}
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(dayName, row) in WEEKDAY_LABELS" :key="dayName">
+						<td class="text-12 lg:text-14 text-neutral-600 pr-2">{{ dayName }}</td>
+						<td v-for="(week, col) in weeks" :key="col">
+							<Tooltip v-if="week[row]" :disabled="!isDesktop">
+								<template #trigger>
+									<div class="w-12 lg:w-16 h-12 lg:h-16 rounded-2" :class="colorClasses[week[row]!.level]" />
+								</template>
+								<template #content>
+									<div class="flex flex-col">
+										<p>{{ week[row]?.date }}</p>
+										<span v-if="week[row]?.value" class="font-bold text-primary-600">{{ week[row]?.value }}</span>
+									</div>
+								</template>
+							</Tooltip>
+							<div v-else class="w-12 lg:w-16 h-12 lg:h-16" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </template>
 <script setup lang="ts">
+import Tooltip from "@/components/molecules/common/Tooltip.vue";
+
 const props = withDefaults(
 	defineProps<{
 		activities?: ActivityItem[]
@@ -41,38 +73,38 @@ const props = withDefaults(
 	}
 );
 
+const { isDesktop } = useDevice();
+
+// Фиксированные границы уровней активности.
+const LEVEL_THRESHOLDS = [5, 10, 15, 20] as const;
+
 const colorClasses = [
 	"bg-primary-100",
-	"bg-primary-950",
-	"bg-primary-700",
-	"bg-primary-500",
 	"bg-primary-300",
+	"bg-primary-500",
+	"bg-primary-700",
+	"bg-primary-950",
 ];
 
 const activitiesMap = computed(() => new Map<string, number>(props.activities.map((i) => [i.date, i.value])));
-const maxValue = computed(() => props.activities.reduce((max, item) => Math.max(max, item.value), 0));
 
-/**
- * Переводит числовое значение активности в уровень 0-4 (для выбора цвета).
- * Уровень относительный: делит диапазон [0, max] на 4 части.
- */
+const legendRanges = computed(() => [
+	"0",
+	`1-${LEVEL_THRESHOLDS[0]}`,
+	`${LEVEL_THRESHOLDS[0] + 1}-${LEVEL_THRESHOLDS[1]}`,
+	`${LEVEL_THRESHOLDS[1] + 1}-${LEVEL_THRESHOLDS[2]}`,
+	`${LEVEL_THRESHOLDS[2] + 1}+`,
+]);
+
+// Переводит числовое значение активности в уровень 0-4 (для выбора цвета).
 const getLevel = (value: number): number => {
 	if (!value) return 0;
 
-	const ratio = value / (maxValue.value || 1);
+	if (value <= LEVEL_THRESHOLDS[0]) return 1;
+	if (value <= LEVEL_THRESHOLDS[1]) return 2;
+	if (value <= LEVEL_THRESHOLDS[2]) return 3;
 
-	if (ratio > 0.75) return 4;
-	if (ratio > 0.5) return 3;
-	if (ratio > 0.25) return 2;
-
-	return 1;
-};
-
-const formatDateLocal = (d: Date): string => {
-	const y = d.getFullYear();
-	const m = String(d.getMonth() + 1).padStart(2, "0");
-	const day = String(d.getDate()).padStart(2, "0");
-	return `${y}-${m}-${day}`;
+	return 4;
 };
 
 /**
@@ -98,12 +130,12 @@ const allDaysWithPadding = computed<(ActivityItemCell | null)[]>(() => {
 		days.push(null);
 	}
 
-	// "бегущая" дата, стартует с 1 января и шагает по одному дню
-	// до конца года включительно (currentDate <= end).
+	// стартует с 1 января и шагает по одному дню
+	// до конца года включительно.
 	const currentDate = new Date(start);
 
 	while (currentDate <= end) {
-		const dateStr = formatDateLocal(currentDate);
+		const dateStr = formatIsoToPrettyStr(currentDate.toISOString(), { type: "dmy" });
 		const value = activitiesMap.value.get(dateStr) ?? 0;
 
 		days.push({

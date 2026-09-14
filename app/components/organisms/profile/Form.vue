@@ -1,7 +1,7 @@
 <template>
 	<section class="flex flex-col gap-16 w-full lg:max-w-1200 lg:mx-auto">
-		<UploadAvatar v-model="fileField!.value as File|string|null" />
-		<Activity />
+		<UploadAvatar v-model="(fileField!.value as File|string|null)" />
+		<Activity :activities="testActivities" />
 		<div v-for="(area, idx) in areas" :key="idx" class="flex flex-col gap-16">
 			<Collapse :label="area.title" :prepend-icon="area.icon" is-open>
 				<component :is="area.component" v-bind="area.formProps" />
@@ -115,4 +115,20 @@ const areas = ref([
 
 const fileField = computed(() => generalFields.value.find(({ name }) => name === "avatar"));
 const exchanges = computed<SelectItem[]>(() => exchangeStore.getFilledExchanges());
+
+const testActivities = [
+	{ date: "2026-01-01", value: 1 },
+	{ date: "2026-01-07", value: 7 },
+	{ date: "2026-01-09", value: 10 },
+	{ date: "2026-01-13", value: 8 },
+	{ date: "2026-02-18", value: 15 },
+	{ date: "2026-02-24", value: 15 },
+	{ date: "2026-02-25", value: 15 },
+	{ date: "2026-03-30", value: 15 },
+	{ date: "2026-06-09", value: 15 },
+	{ date: "2026-06-10", value: 15 },
+	{ date: "2026-06-11", value: 15 },
+	{ date: "2026-12-31", value: 6 },
+	{ date: "2026-11-31", value: 60 },
+].map((i) => ({ date: formatIsoToPrettyStr(new Date(i.date).toISOString(), { type: "dmy" }), value: i.value }));
 </script>
