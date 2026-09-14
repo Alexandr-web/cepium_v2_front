@@ -1,10 +1,10 @@
 <template>
 	<div class="group flex items-center gap-20 lg:gap-24 p-16 lg:p-24 bg-neutral-100 rounded-12 border border-solid border-neutral-200 shadow-sm transition hover:shadow-md">
 		<div
-			class="relative flex justify-center select-none items-center rounded-12 bg-neutral-300/40 p-4 border border-solid border-neutral-200/60 cursor-pointer shrink-0 w-72 lg:w-112 h-72 lg:h-112"
+			class="relative flex justify-center select-none items-center rounded-full bg-neutral-300/40 p-4 border border-solid border-neutral-200/60 cursor-pointer shrink-0 w-84 lg:w-144 h-84 lg:h-144"
 			@click="open()"
 		>
-			<div class="w-full h-full rounded-8 overflow-hidden">
+			<div class="w-full h-full rounded-full overflow-hidden">
 				<AImage
 					:src="getURLFile(fileModel)"
 					fetchpriority="high"
