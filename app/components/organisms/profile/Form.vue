@@ -1,6 +1,7 @@
 <template>
 	<section class="flex flex-col gap-16 w-full lg:max-w-1200 lg:mx-auto">
 		<UploadAvatar v-model="fileField!.value as File|string|null" />
+		<Activity />
 		<div v-for="(area, idx) in areas" :key="idx" class="flex flex-col gap-16">
 			<Collapse :label="area.title" :prepend-icon="area.icon" is-open>
 				<component :is="area.component" v-bind="area.formProps" />
@@ -27,6 +28,7 @@ import GeneralFieldsForm from "@/components/molecules/profile/GeneralFieldsForm.
 import SecurityFieldsForm from "@/components/molecules/profile/SecurityFieldsForm.vue";
 import Collapse from "@/components/molecules/common/Collapse.vue";
 import ASelect from "@/components/atoms/ASelect.vue";
+import Activity from "@/components/organisms/profile/Activity.vue";
 
 const userStore = useUserStore();
 const exchangeStore = useExchangeStore();

@@ -2,6 +2,13 @@ import type { UseTimeAgoMessages } from "@vueuse/core";
 
 export const VERSION = "v2.0";
 
+export const WEEKDAY_LABELS = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
+
+export const MONTHS_LIST = [
+	"Янв", "Фев", "Мар", "Апр", "Май", "Июн",
+	"Июл", "Авг", "Сен", "Окт", "Ноя", "Дек",
+];
+
 export const MAX_SIZE_FILE_AVATAR = 5 * 1024 * 1024; // 5 мб
 
 export const RU_TIME_MESSAGES: UseTimeAgoMessages = {
