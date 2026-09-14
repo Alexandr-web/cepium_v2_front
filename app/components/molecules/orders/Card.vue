@@ -43,10 +43,7 @@ const { card } = defineProps<{
 const time = computed(() => useLocaleFormatTimeAgo(new Date(card.createdAt)));
 const enterPrice = computed(() => formatNum(Number(card.entryPrice), { currency: "USD", style: "currency", defaultValue: "-" }));
 const amount = computed(() => formatNum(Number(card.size), { padZero: true }));
-const pnl = computed(() => {
-	if (!card.realizedPnl) return "0";
-	return formatNum(card.realizedPnl, { currency: "USD", style: "currency" });
-});
+const pnl = computed(() => formatNum(Number(card.realizedPnl), { currency: "USD", style: "currency", defaultValue: "0" }));
 
 const bottomInfo = computed(() =>
 	[
