@@ -116,6 +116,7 @@ const areas = ref([
 const fileField = computed(() => generalFields.value.find(({ name }) => name === "avatar"));
 const exchanges = computed<SelectItem[]>(() => exchangeStore.getFilledExchanges());
 
+// моковые данные
 const testActivities = [
 	{ date: "2026-01-01T00:00:00.000Z", value: 1 },
 	{ date: "2026-01-07T00:00:00.000Z", value: 7 },
