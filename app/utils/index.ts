@@ -236,3 +236,12 @@ export const getUrlCoinIcon = (symbol: string) => `https://cdn.jsdelivr.net/gh/v
  * @returns `true`, если ключ присутствует в объекте (с сужением типа до `keyof T`)
  */
 export const hasKey = <T extends object>(obj: T, key: PropertyKey): key is keyof T => key in obj;
+
+export const isCurrentDate = (_date: string) => {
+	const date = new Date(_date);
+	const now = new Date();
+
+	return date.getFullYear() === now.getFullYear() &&
+			date.getMonth() === now.getMonth() &&
+			date.getDate() === now.getDate();
+};

@@ -117,18 +117,18 @@ const fileField = computed(() => generalFields.value.find(({ name }) => name ===
 const exchanges = computed<SelectItem[]>(() => exchangeStore.getFilledExchanges());
 
 const testActivities = [
-	{ date: "2026-01-01", value: 1 },
-	{ date: "2026-01-07", value: 7 },
-	{ date: "2026-01-09", value: 10 },
-	{ date: "2026-01-13", value: 8 },
-	{ date: "2026-02-18", value: 15 },
-	{ date: "2026-02-24", value: 15 },
-	{ date: "2026-02-25", value: 15 },
-	{ date: "2026-03-30", value: 15 },
-	{ date: "2026-06-09", value: 15 },
-	{ date: "2026-06-10", value: 15 },
-	{ date: "2026-06-11", value: 15 },
-	{ date: "2026-12-31", value: 6 },
-	{ date: "2026-11-31", value: 60 },
-].map((i) => ({ date: formatIsoToPrettyStr(new Date(i.date).toISOString(), { type: "dmy" }), value: i.value }));
+	{ date: "2026-01-01T00:00:00.000Z", value: 1 },
+	{ date: "2026-01-07T00:00:00.000Z", value: 7 },
+	{ date: "2026-01-09T00:00:00.000Z", value: 10 },
+	{ date: "2026-01-13T00:00:00.000Z", value: 8 },
+	{ date: "2026-02-18T00:00:00.000Z", value: 15 },
+	{ date: "2026-02-24T00:00:00.000Z", value: 15 },
+	{ date: "2026-02-25T00:00:00.000Z", value: 15 },
+	{ date: "2026-03-30T00:00:00.000Z", value: 15 },
+	{ date: "2026-06-09T00:00:00.000Z", value: 15 },
+	{ date: "2026-06-10T00:00:00.000Z", value: 15 },
+	{ date: "2026-06-11T00:00:00.000Z", value: 15 },
+	{ date: "2026-12-31T00:00:00.000Z", value: 6 },
+	{ date: "2026-11-30T00:00:00.000Z", value: 60 },
+];
 </script>

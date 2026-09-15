@@ -114,4 +114,6 @@ export type ActivityItemCell = {
 	value: number;
 	level: number;
 	month: number;
+	isToday: boolean;
+	formatDate: string;
 };

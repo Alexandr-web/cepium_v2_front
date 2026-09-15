@@ -4,18 +4,18 @@
 			<p class="text-neutral-700 text-12 lg:text-14">Меньше</p>
 			<div class="flex items-center gap-3">
 				<Tooltip
-					v-for="(_, idx) in Object.keys(colorClasses)"
-					:key="idx"
+					v-for="i in colorClasses.length"
+					:key="i"
 					:disabled="!isDesktop"
 				>
 					<template #trigger>
 						<div
 							class="w-10 lg:w-14 h-10 lg:h-14 rounded-3"
-							:class="colorClasses[idx]"
+							:class="colorClasses[i]"
 						/>
 					</template>
 					<template #content>
-						{{ legendRanges[idx] }}
+						{{ legendRanges[i] }}
 					</template>
 				</Tooltip>
 			</div>
@@ -30,7 +30,7 @@
 							v-for="label in monthLabels"
 							:key="label.colStart"
 							:colspan="label.colSpan"
-							class="text-12 lg:text-14 text-neutral-600 pl-1"
+							class="text-12 text-neutral-600 pl-1"
 						>
 							{{ label.name }}
 						</td>
@@ -38,19 +38,33 @@
 				</thead>
 				<tbody>
 					<tr v-for="(dayName, row) in WEEKDAY_LABELS" :key="dayName">
-						<td class="text-12 lg:text-14 text-neutral-600 pr-2">{{ dayName }}</td>
+						<td class="text-12 text-neutral-600 pr-2">{{ dayName }}</td>
 						<td v-for="(week, col) in weeks" :key="col">
-							<Tooltip v-if="week[row]" :disabled="!isDesktop">
+							<Tooltip v-if="week[row] && isDesktop" class="h-full">
 								<template #trigger>
-									<div class="w-12 lg:w-16 h-12 lg:h-16 rounded-2" :class="colorClasses[week[row]!.level]" />
+									<div
+										class="w-12 lg:w-16 h-12 lg:h-16 rounded-2"
+										:class="[
+											colorClasses[week[row]!.level],
+											week[row]?.isToday && 'border border-tertiary-400'
+										]"
+									/>
 								</template>
 								<template #content>
 									<div class="flex flex-col">
-										<p>{{ week[row]?.date }}</p>
+										<p>{{ week[row]?.formatDate }}</p>
 										<span v-if="week[row]?.value" class="font-bold text-primary-600">{{ week[row]?.value }}</span>
 									</div>
 								</template>
 							</Tooltip>
+							<div
+								v-else-if="week[row]"
+								class="w-12 lg:w-16 h-12 lg:h-16 rounded-2"
+								:class="[
+									colorClasses[week[row]!.level],
+									week[row]?.isToday && 'border border-tertiary-400'
+								]"
+							/>
 							<div v-else class="w-12 lg:w-16 h-12 lg:h-16" />
 						</td>
 					</tr>
@@ -86,15 +100,15 @@ const colorClasses = [
 	"bg-primary-950",
 ];
 
-const activitiesMap = computed(() => new Map<string, number>(props.activities.map((i) => [i.date, i.value])));
-
-const legendRanges = computed(() => [
+const legendRanges = [
 	"0",
 	`1-${LEVEL_THRESHOLDS[0]}`,
 	`${LEVEL_THRESHOLDS[0] + 1}-${LEVEL_THRESHOLDS[1]}`,
 	`${LEVEL_THRESHOLDS[1] + 1}-${LEVEL_THRESHOLDS[2]}`,
 	`${LEVEL_THRESHOLDS[2] + 1}+`,
-]);
+];
+
+const activitiesMap = computed(() => new Map<string, number>(props.activities.map((i) => ([new Date(i.date).toDateString(), i.value]))));
 
 // Переводит числовое значение активности в уровень 0-4 (для выбора цвета).
 const getLevel = (value: number): number => {
@@ -135,14 +149,16 @@ const allDaysWithPadding = computed<(ActivityItemCell | null)[]>(() => {
 	const currentDate = new Date(start);
 
 	while (currentDate <= end) {
-		const dateStr = formatIsoToPrettyStr(currentDate.toISOString(), { type: "dmy" });
+		const dateStr = currentDate.toDateString();
 		const value = activitiesMap.value.get(dateStr) ?? 0;
 
 		days.push({
 			date: dateStr,
+			formatDate: new Date(dateStr).toLocaleDateString(),
 			value,
 			level: getLevel(value),
 			month: currentDate.getMonth(),
+			isToday: isCurrentDate(dateStr),
 		});
 
 		// двигаем дату на следующий день
