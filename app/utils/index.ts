@@ -92,18 +92,41 @@ export const formatTime = (ms: number): string => {
 	return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 };
 
+type FormatIsoToPrettyStrOptions = {
+	type?: "dmy" | "default" | "hms",
+};
+
 /**
- * Преобразует ISO-строку даты в формат "YYYY-MM-DD HH:mm:ss".
- * Входное время в формате UTC (Z) автоматически переводится в локальное время пользователя.
+ * Преобразует ISO-строку даты в отформатированную строку с датой и/или временем.
+ * Входное время в формате UTC (Z) автоматически переводится в локальное время пользователя
+ * (используется локальный часовой пояс среды выполнения).
  *
  * @param {string} isoString - Строка даты в формате ISO (например, "2026-07-28T16:15:22Z").
- * @returns {string} Отформатированная строка даты (например, "2026-07-28 19:15:22").
+ * @param {FormatIsoToPrettyStrOptions} [options] - Опции форматирования.
+ * @param {"dmy" | "hms"} [options.type] - Тип возвращаемого формата:
+ *   - "dmy" — только дата в формате "DD-MM-YYYY";
+ *   - "hms" — только время в формате "HH:mm:ss";
+ *   - если не указан — дата и время в формате "DD-MM-YYYY HH:mm:ss".
+ * @returns {string} Отформатированная строка даты/времени, либо пустая строка,
+ *   если переданная строка не может быть распознана как дата.
  *
  * @example
- * const formatted = formatIsoToPrettyStr("2026-07-28T16:15:22Z");
- * console.log(formatted); // "2026-07-28 19:15:22" (для часового пояса GMT+3)
+ * formatIsoToPrettyStr("2026-07-28T16:15:22Z");
+ * // "28-07-2026 19:15:22" (для часового пояса GMT+3)
+ *
+ * @example
+ * formatIsoToPrettyStr("2026-07-28T16:15:22Z", { type: "dmy" });
+ * // "28-07-2026"
+ *
+ * @example
+ * formatIsoToPrettyStr("2026-07-28T16:15:22Z", { type: "hms" });
+ * // "19:15:22"
+ *
+ * @example
+ * formatIsoToPrettyStr("invalid-date");
+ * // ""
  */
-export const formatIsoToPrettyStr = (isoString: string): string => {
+export const formatIsoToPrettyStr = (isoString: string, options: FormatIsoToPrettyStrOptions = {}): string => {
 	const date = new Date(isoString);
 
 	if (isNaN(date.getTime())) return "";
@@ -116,7 +139,14 @@ export const formatIsoToPrettyStr = (isoString: string): string => {
 	const minutes = String(date.getMinutes()).padStart(2, "0");
 	const seconds = String(date.getSeconds()).padStart(2, "0");
 
-	return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+	switch (options.type) {
+		case "dmy":
+			return `${day}-${month}-${year}`;
+		case "hms":
+			return `${hours}:${minutes}:${seconds}`;
+		default:
+			return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+	}
 };
 
 /**
@@ -206,3 +236,12 @@ export const getUrlCoinIcon = (symbol: string) => `https://cdn.jsdelivr.net/gh/v
  * @returns `true`, если ключ присутствует в объекте (с сужением типа до `keyof T`)
  */
 export const hasKey = <T extends object>(obj: T, key: PropertyKey): key is keyof T => key in obj;
+
+export const isCurrentDate = (_date: string) => {
+	const date = new Date(_date);
+	const now = new Date();
+
+	return date.getFullYear() === now.getFullYear() &&
+			date.getMonth() === now.getMonth() &&
+			date.getDate() === now.getDate();
+};

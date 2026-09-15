@@ -1,5 +1,5 @@
 <template>
-	<div class="inline-block">
+	<div>
 		<div
 			ref="reference"
 			@mouseenter="showTooltip"

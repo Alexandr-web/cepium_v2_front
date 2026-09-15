@@ -103,3 +103,17 @@ export enum CheckboxSize {
 	SMALL = "small",
 	BIG = "big",
 };
+
+export type ActivityItem = {
+	date: string;
+	value: number;
+};
+
+export type ActivityItemCell = {
+	date: string;
+	value: number;
+	level: number;
+	month: number;
+	isToday: boolean;
+	formatDate: string;
+};
