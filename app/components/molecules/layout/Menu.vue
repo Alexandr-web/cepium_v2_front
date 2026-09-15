@@ -22,7 +22,7 @@
 		</nav>
 		<div class="flex items-center justify-between pt-12 border-t border-solid border-t-white/5" :class="[preset === MenuPreset.MOBILE && 'mt-16']">
 			<AButton
-				class="flex items-center gap-10 text-secondary-500 hover:text-secondary-600 active:scale-95 transition-all duration-150 group/btn"
+				class="flex items-center gap-10 text-secondary-500 hover:text-secondary-600 group/btn"
 				@click="logout"
 			>
 				<IconLogoutRounded class="w-18 h-18" />
