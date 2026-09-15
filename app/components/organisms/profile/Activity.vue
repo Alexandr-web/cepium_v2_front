@@ -4,7 +4,7 @@
 			<p class="text-neutral-700 text-12 lg:text-14">Меньше</p>
 			<div class="flex items-center gap-3">
 				<Tooltip
-					v-for="i in colorClasses.length"
+					v-for="i in colorClasses.length - 1"
 					:key="i"
 					:disabled="!isDesktop"
 				>
