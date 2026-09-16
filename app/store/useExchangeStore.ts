@@ -5,12 +5,7 @@ export const useExchangeStore = defineStore("exchange-store",
 		const exchanges = ref<Exchange[]>([]);
 		const activeExchange = ref<Exchange["name"]>();
 
-		const exchangesMap = computed(() => 
-			exchanges.value.reduce<Map<Exchange["id"], Exchange>>((map, i) => {
-				if (!map.has(i.id)) map.set(i.id, new Exchange(i));
-				return map;
-			}, new Map())
-		);
+		const exchangesMap = computed<Map<Exchange["id"], Exchange>>(() => new Map(exchanges.value.map((i) => [i.id, new Exchange(i)])));
 
 		const getAllExchanges = (): Exchange[] => Array.from(exchangesMap.value.values());
 		const geExchangeById = (id: Exchange["id"]): Exchange | undefined => exchangesMap.value.get(id);

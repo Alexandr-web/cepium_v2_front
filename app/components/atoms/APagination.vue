@@ -20,6 +20,7 @@
 				<AButton
 					v-else
 					class="flex items-center justify-center w-36 h-36 rounded-8 text-12! transition tap"
+					:class="[item === currentPage && 'cursor-default!']"
 					:mode="item === currentPage ? ButtonMode.PRIMARY_BORDER : ButtonMode.NEUTRAL_FILL"
 					:disabled="isPending"
 					@click="currentPage = item"
