@@ -1,5 +1,5 @@
 import type Trade from "@/models/Trade";
-import { useLocaleFormatTimeAgo } from "@/composables/useLocaleTime";
+import { formatTimeAgo } from "@vueuse/core";
 
 export const tradeColumns: TableColumn<Trade>[] = [
 	{
@@ -113,7 +113,7 @@ export const ordersColumns: TableColumn<Order>[] = [
 	{
 		key: "createdAt",
 		label: "Время создания",
-		normalizer: (v) => useLocaleFormatTimeAgo(new Date(String(v))),
+		normalizer: (v) => formatTimeAgo(new Date(String(v)), { messages: RU_TIME_MESSAGES }),
 		classes: "opacity-80",
 	},
 ];
