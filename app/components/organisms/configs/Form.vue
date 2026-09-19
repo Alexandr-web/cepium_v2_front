@@ -40,13 +40,13 @@ import ASlider from "@/components/atoms/ASlider.vue";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
 import Modal from "@/components/molecules/common/Modal.vue";
 import CoinTicker from "@/components/molecules/widgets/CoinTicker.vue";
-import { useExchangeStore } from "@/store/useExchangeStore";
 import { useMarketsSearch } from "@/composables/api/useExchanges";
 import { useCoinGeckoSearch } from "@/composables/api/useCoinGecko";
 
 const props = withDefaults(
 	defineProps<{
 		strategies: StrategyEntity[];
+		exchanges: ExchangeDto[];
 		isPendingStrategy: boolean;
 		isPendingExchanges: boolean;
 		isPendingConfig: boolean;
@@ -64,10 +64,12 @@ const { searchMarkets } = useMarketsSearch();
 
 const emits = defineEmits(["execute"]);
 
-const exchangeStore = useExchangeStore();
-
 const strategiesList = computed<SelectItem[]>(() => props.strategies.map((s) => ({ label: s.name, value: s.id })) ?? []);
-const exchangesList = computed<SelectItem[]>(() => exchangeStore.getFilledExchanges());
+const exchangesList = computed<SelectItem[]>(() =>
+	props.exchanges
+		.filter((item) => item.filled)
+		.map((item) => ({ label: item.name, value: item.name }))
+);
 
 const MARGIN_MODE_LIST: SelectItem[] = [
 	{ label: "Изолированная", value: "isolated" },

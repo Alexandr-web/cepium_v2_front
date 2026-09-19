@@ -3,6 +3,7 @@
 		<LazyOrganismsConfigsForm
 			title="Изменение конфига"
 			btn-text="Изменить"
+			:exchanges="exchanges"
 			:strategies="strategies"
 			:is-pending-exchanges="isPendingExchanges"
 			:is-pending-strategy="isPendingStrategy"
@@ -35,12 +36,13 @@ if (!configData.value) {
 
 const { mutate: changeConfig, isPending: isPendingConfig } = useChangeOne(configId, () => router.push({ name: "configs" }));
 const { data: strategiesData, suspense: suspenseStrategy, isPending: isPendingStrategy } = useStrategy();
-const { suspense: suspenseExchanges, isPending: isPendingExchanges } = useExchanges();
+const { data: exchangesData, suspense: suspenseExchanges, isPending: isPendingExchanges } = useExchanges();
 
 await Promise.all([suspenseStrategy(), suspenseExchanges()]);
 
 const config = computed(() => configData.value?.data ?? {});
 const strategies = computed(() => strategiesData.value?.data ?? []);
+const exchanges = computed(() => exchangesData.value?.data ?? []);
 
 useHead({
 	script: [

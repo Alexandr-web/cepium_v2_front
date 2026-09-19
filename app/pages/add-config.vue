@@ -3,6 +3,7 @@
 		<LazyOrganismsConfigsForm
 			title="Добавление конфига"
 			btn-text="Добавить"
+			:exchanges="exchanges"
 			:strategies="strategies"
 			:is-pending-exchanges="isPendingExchanges"
 			:is-pending-strategy="isPendingStrategy"
@@ -19,11 +20,12 @@ import { useCreateOne } from "@/composables/api/useConfigs";
 const router = useRouter();
 
 const { data: strategiesData, suspense: suspenseStrategy, isPending: isPendingStrategy } = useStrategy();
-const { suspense: suspenseExchanges, isPending: isPendingExchanges } = useExchanges();
+const { data: exchangesData, suspense: suspenseExchanges, isPending: isPendingExchanges } = useExchanges();
 const { mutate: createConfig, isPending: isPendingConfig } = useCreateOne(() => router.push({ name: "configs" }));
 
 await Promise.all([suspenseStrategy(), suspenseExchanges()]);
 
+const exchanges = computed(() => exchangesData.value?.data ?? []);
 const strategies = computed(() => strategiesData.value?.data ?? []);
 
 useHead({

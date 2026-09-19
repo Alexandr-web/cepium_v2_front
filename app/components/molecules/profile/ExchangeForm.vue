@@ -23,7 +23,6 @@
 </template>
 <script setup lang="ts">
 import * as z from "zod";
-import type Exchange from "@/models/Exchange";
 import AError from "@/components/atoms/AError.vue";
 import AButton from "@/components/atoms/AButton.vue";
 import AInput from "@/components/atoms/AInput.vue";
@@ -34,7 +33,7 @@ import ACheckbox from "@/components/atoms/ACheckbox.vue";
 
 const props = withDefaults(
 	defineProps<{
-		exchange: Exchange|null;
+		exchange: ExchangeDto|null;
 		credentials?: ExchangeCredentialsResponse;
 	}>(),
 	{

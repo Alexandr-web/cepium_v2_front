@@ -1,10 +1,10 @@
 <template>
 	<div class="group flex items-center justify-between gap-10 rounded-8 lg:rounded-12 border border-solid border-neutral-300 bg-primary-100 p-10 lg:p-16 cursor-pointer">
 		<div class="flex items-center gap-10">
-			<div v-show="item.logo" class="border-r-1 border-r-solid border-r-neutral-400 pr-12">
+			<div v-if="logo" class="border-r-1 border-r-solid border-r-neutral-400 pr-12">
 				<AImage
 					class="object-contain w-100 h-50"
-					:src="item.logo"
+					:src="logo"
 					loading="lazy"
 					:alt="item.name"
 				/>
@@ -14,7 +14,7 @@
 				<span
 					class="text-12 lg:text-14"
 					:class="[item.filled && 'text-tertiary-600', !item.filled && 'text-secondary-500']"
-				>{{ item.prettyConnectedMessage }}</span>
+				>{{ connectedMessage }}</span>
 			</div>
 		</div>
 		<IconAddRounded v-if="!item.filled" class="w-24 h-24 group-hover:text-white text-white/80 transition" />
@@ -25,7 +25,24 @@
 import IconAddRounded from "@/assets/icons/add-rounded.svg";
 import IconEditOutlineRounded from "@/assets/icons/edit-outline-rounded.svg";
 import AImage from "@/components/atoms/AImage.vue";
-import type Exchange from "@/models/Exchange";
 
-const { item } = defineProps<{ item: Exchange; }>();
+const props = defineProps<{ item: ExchangeDto; }>();
+
+const logo = computed(() => {
+	switch (props.item.name) {
+		case "bybit":
+			return "/images/exchanges/bybit-logo.svg";
+		case "binance":
+			return "/images/exchanges/binance-logo.webp";
+		case "okx":
+			return "/images/exchanges/okx-logo.webp";
+		default:
+			return "";
+	}
+});
+
+const connectedMessage = computed(() => {
+	if (props.item.filled) return "Подключено";
+	return "Не подключено";
+});
 </script>

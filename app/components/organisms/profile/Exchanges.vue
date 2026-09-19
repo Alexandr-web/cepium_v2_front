@@ -26,15 +26,12 @@
 import ExchangeCard from "@/components/molecules/profile/ExchangeCard.vue";
 import ExchangeForm from "@/components/molecules/profile/ExchangeForm.vue";
 import Modal from "@/components/molecules/common/Modal.vue";
-import { useExchangeStore } from "@/store/useExchangeStore";
 import { useCredentials } from "@/composables/api/useCredentials";
-import type Exchange from "@/models/Exchange";
 
-const exchangeStore = useExchangeStore();
+defineProps<{ exchanges: ExchangeDto[]; }>();
 
-const exchange = ref<Exchange|null>(null);
+const exchange = ref<ExchangeDto|null>(null);
 
-const exchanges = computed(() => exchangeStore.getAllExchanges());
 const title = computed(() => exchange.value?.name ?? "-");
 const showModal = computed({
 	get: () => !!exchange.value,

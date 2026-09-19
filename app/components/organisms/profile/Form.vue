@@ -30,6 +30,8 @@ import Collapse from "@/components/molecules/common/Collapse.vue";
 import ASelect from "@/components/atoms/ASelect.vue";
 import Activity from "@/components/organisms/profile/Activity.vue";
 
+const props = defineProps<{ exchanges: ExchangeDto[]; }>();
+
 const userStore = useUserStore();
 const exchangeStore = useExchangeStore();
 
@@ -114,7 +116,11 @@ const areas = ref([
 ]);
 
 const fileField = computed(() => generalFields.value.find(({ name }) => name === "avatar"));
-const exchanges = computed<SelectItem[]>(() => exchangeStore.getFilledExchanges());
+const exchanges = computed<SelectItem[]>(() =>
+	props.exchanges
+		.filter((item) => item.filled)
+		.map((item) => ({ label: item.name, value: item.name }))
+);
 
 // моковые данные
 const testActivities = [
