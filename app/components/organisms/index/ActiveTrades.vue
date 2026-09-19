@@ -2,10 +2,10 @@
 	<section class="flex flex-col gap-16">
 		<div class="flex lg:hidden items-center justify-between">
 			<h2 class="font-bold text-20" data-allow-mismatch="">
-				Активные сделки <span v-if="tradeStore.trades.length" class="text-14 text-white/50">({{ tradeStore.trades.length }})</span>
+				Активные сделки <span v-if="tradeStore.tradesMap.size" class="text-14 text-white/50">({{ tradeStore.tradesMap.size }})</span>
 			</h2>
 			<AButton
-				v-if="tradeStore.trades.length"
+				v-if="tradeStore.tradesMap.size"
 				class="py-4 px-12 rounded-12 text-12"
 				:mode="ButtonMode.REMOVE_BORDER"
 				:disabled="isPendingRemovePosition"
@@ -14,9 +14,9 @@
 			>Закрыть все</AButton>
 		</div>
 		<template v-if="!isDesktop">
-			<div v-if="tradeStore.trades.length" class="flex flex-col gap-12" data-allow-mismatch="">
+			<div v-if="tradeStore.tradesMap.size" class="flex flex-col gap-12" data-allow-mismatch="">
 				<MobTradeCard
-					v-for="trade in tradeStore.trades"
+					v-for="trade in tradeStore.getAllTrades()"
 					:key="trade.id"
 					:disabled="isPendingRemovePosition"
 					:trade="trade"
@@ -77,7 +77,7 @@ const {
 	mutate,
 } = useRemoveOne(
 	exchangeStore.activeExchange ?? "",
-	(id: string) => tradeStore.trades = tradeStore.trades.filter((t) => t.id !== id)
+	(id: string) => tradeStore.tradesMap.delete(id)
 );
 
 const { $events } = useNuxtApp();

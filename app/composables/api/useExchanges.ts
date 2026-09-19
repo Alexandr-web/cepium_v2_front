@@ -1,4 +1,5 @@
 import keys from "@/api/keys";
+import Exchange from "@/models/Exchange";
 import { useQuery, useQueryClient } from "@tanstack/vue-query";
 import { getList, getMarkets } from "@/api/exchanges";
 import { useExchangeStore } from "@/store/useExchangeStore";
@@ -7,7 +8,7 @@ export const useExchanges = () => {
 	const exchangeStore = useExchangeStore();
 
 	const query = useQuery({
-		queryKey: keys.geExchanges,
+		queryKey: keys.getExchanges,
 		queryFn: getList,
 	});
 
@@ -15,7 +16,7 @@ export const useExchanges = () => {
 		() => query.data.value,
 		(data) => {
 			if (data?.data) {
-				exchangeStore.exchanges = data.data;
+				exchangeStore.exchangesMap = new Map(data.data.map((i) => [i.id, new Exchange(i)]));
 			}
 		},
 		{ immediate: true }
@@ -29,7 +30,7 @@ export const useMarketsSearch = () => {
 
 	const searchMarkets = async (exchangeName: string, search: string): Promise<ExchangesMarketsResponse> => {
 		return queryClient.fetchQuery({
-			queryKey: keys.geExchangesMarkets(exchangeName, search),
+			queryKey: keys.getExchangesMarkets(exchangeName, search),
 			queryFn: () => getMarkets(exchangeName, { query: { search } }),
 		});
 	};

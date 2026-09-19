@@ -4,11 +4,11 @@
 		class="flex"
 		head-icon="view-list"
 		title="Активные позиции"
-		:data="tradeStore.trades"
+		:data="tradeStore.getAllTrades()"
 		:columns="tradeColumns"
 		:is-pending="!tradeStore.isLoaded"
 	>
-		<template v-if="tradeStore.trades.length" #head-controls>
+		<template v-if="tradeStore.tradesMap.size" #head-controls>
 			<div class="flex items-center gap-10">
 				<Tooltip placement="left">
 					<template #trigger>
@@ -24,8 +24,8 @@
 							Закрыть все позиции<br>Общий профит:&nbsp;
 							<span
 								:class="[
-									totalProfit > 0 && 'text-tertiary-600',
-									totalProfit < 0 && 'text-secondary-600',
+									tradeStore.totalSum > 0 && 'text-tertiary-600',
+									tradeStore.totalSum < 0 && 'text-secondary-600',
 								]"
 							>{{ prettyTotalProfit }}</span>
 						</p>
@@ -107,6 +107,5 @@ const tradeStore = useTradeStore();
 
 const emits = defineEmits(["removeOne", "removeAll", "selectSymbol"]);
 
-const totalProfit = computed(() => tradeStore.trades.reduce<number>((sum, trade) => sum += trade.pnl, 0));
-const prettyTotalProfit = computed(() => formatNum(totalProfit.value, { currency: "USD", style: "currency" }));
+const prettyTotalProfit = computed(() => formatNum(tradeStore.totalSum, { currency: "USD", style: "currency" }));
 </script>

@@ -101,13 +101,13 @@ export type StrategyDataResponse = {
 	message?: string;
 };
 
-export type Exchange = {
+export type ExchangeDto = {
 	id: string;
 	name: string;
 	filled: boolean;
 };
 
-export type ExchangeWithCredentials = Exchange & {
+export type ExchangeWithCredentials = ExchangeDto & {
 	credentials: string[];
 };
 
@@ -135,7 +135,7 @@ export type ExchangeCredentialsResponse = {
 		userId?: string;
 		exchangeName?: string;
 		user?: string;
-		exchange?: Exchange;
+		exchange?: ExchangeDto;
 		demoTrading?: boolean;
 	};
 	statusCode: number;
@@ -215,7 +215,7 @@ export type ChangeExchangeCredentialsResponse = CreateExchangeCredentialsRespons
 
 export type ExchangesResponse = {
 	statusCode: number;
-	data: Exchange[];
+	data: ExchangeDto[];
 	message: string;
 };
 

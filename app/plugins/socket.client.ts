@@ -66,13 +66,15 @@ export default defineNuxtPlugin(() => {
 			tradeStore.isLoaded = true;
 
 			// удаляем позиции, если их нет в приходящих сделках
-			tradeStore.trades = tradeStore.trades.filter((pos) => data.some(({ id }) => id === pos.id));
+			tradeStore.getAllTrades().forEach((trade) => {
+				if (data.some(({ id }) => id !== trade.id)) tradeStore.tradesMap.delete(trade.id);
+			});
 
 			data.forEach((pos) => {
-				const findTrade = tradeStore.trades.find(({ id }) => id === pos.id);
+				const findTrade = tradeStore.getTradeById(pos.id);
 
 				if (findTrade) findTrade.updateData(pos);
-				else tradeStore.trades.push(new Trade(pos));
+				else tradeStore.tradesMap.set(pos.id, new Trade(pos));
 			});
 		});
 

@@ -10,7 +10,7 @@ export const useCoinGeckoSearch = () => {
 		if (!baseSymbol) return null;
 
 		const data = await queryClient.fetchQuery({
-			queryKey: keys.geCoinGeckoId(baseSymbol),
+			queryKey: keys.getCoinGeckoId(baseSymbol),
 			queryFn: () => searchCoin(baseSymbol),
 			staleTime: 1000 * 60 * 60 * 24,
 		});

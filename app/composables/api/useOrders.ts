@@ -8,7 +8,7 @@ export const useOrders = () => {
 
 	const searchOrders = async (exchangeName: string, query = {}): Promise<OrderResponse> => {
 		return queryClient.fetchQuery({
-			queryKey: keys.geOrders(exchangeName, query),
+			queryKey: keys.getOrders(exchangeName, query),
 			queryFn: () => getList(exchangeName, { query }),
 		});
 	};

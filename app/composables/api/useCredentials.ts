@@ -31,7 +31,7 @@ export const useCreateData = (_exchangeName: MaybeRefOrGetter<string>, onSuccess
 		mutationFn: (body) => createData(body, exchangeName.value),
 		onSuccess: () => {
 			onSuccess?.();
-			queryClient.invalidateQueries({ queryKey: keys.geExchanges });
+			queryClient.invalidateQueries({ queryKey: keys.getExchanges });
 			queryClient.invalidateQueries({ queryKey: keys.getCredentials(exchangeName.value) });
 			push.success(`Данные для биржи ${exchangeName.value} успешно добавлены!`);
 		},
@@ -57,7 +57,7 @@ export const useChangeData = (_exchangeName: MaybeRefOrGetter<string>, onSuccess
 		mutationFn: (body) => changeData(body, exchangeName.value),
 		onSuccess: () => {
 			onSuccess?.();
-			queryClient.invalidateQueries({ queryKey: keys.geExchanges });
+			queryClient.invalidateQueries({ queryKey: keys.getExchanges });
 			queryClient.invalidateQueries({ queryKey: keys.getCredentials(exchangeName.value) });
 			push.success(`Данные для биржи ${exchangeName.value} успешно изменены!`);
 		},
