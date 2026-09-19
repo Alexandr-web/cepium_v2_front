@@ -15,11 +15,11 @@ import AButton from "@/components/atoms/AButton.vue";
 
 const props = withDefaults(
 	defineProps<{
-		presetMenu?: string;
+		presetMenu?: ControlsListPreset;
 		trade?: Trade|null;
 	}>(),
 	{
-		presetMenu: "",
+		presetMenu: ControlsListPreset.TRADES,
 		trade: null,
 	}
 );
@@ -42,9 +42,9 @@ const tradesMenu = computed(() => [
 
 const menu = computed(() => {
 	switch (props.presetMenu) {
-		case "trade":
+		case ControlsListPreset.TRADE:
 			return tradeMenu.value;
-		case "trades":
+		case ControlsListPreset.TRADES:
 			return tradesMenu.value;
 		default:
 			return [];

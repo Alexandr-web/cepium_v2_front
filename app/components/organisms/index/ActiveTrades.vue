@@ -2,7 +2,7 @@
 	<section class="flex flex-col gap-16">
 		<div class="flex lg:hidden items-center justify-between">
 			<h2 class="font-bold text-20" data-allow-mismatch="">
-				Активные сделки <span class="text-14 text-white/50">({{ tradeStore.trades.length }})</span>
+				Активные сделки <span v-if="tradeStore.trades.length" class="text-14 text-white/50">({{ tradeStore.trades.length }})</span>
 			</h2>
 			<AButton
 				v-if="tradeStore.trades.length"
@@ -13,17 +13,20 @@
 				@click="openAllControls"
 			>Закрыть все</AButton>
 		</div>
-		<div v-if="tradeStore.trades.length" class="flex lg:hidden flex-col gap-12" data-allow-mismatch="">
-			<MobTradeCard
-				v-for="trade in tradeStore.trades"
-				:key="trade.id"
-				:disabled="isPendingRemovePosition"
-				:trade="trade"
-				@controls="openTradeControls(trade)"
-			/>
-		</div>
-		<Empty v-else class="lg:hidden" />
+		<template v-if="!isDesktop">
+			<div v-if="tradeStore.trades.length" class="flex flex-col gap-12" data-allow-mismatch="">
+				<MobTradeCard
+					v-for="trade in tradeStore.trades"
+					:key="trade.id"
+					:disabled="isPendingRemovePosition"
+					:trade="trade"
+					@controls="openTradeControls(trade)"
+				/>
+			</div>
+			<Empty v-else :is-pending="!tradeStore.isLoaded" />
+		</template>
 		<TradesTable
+			v-else
 			:disabled="isPendingRemovePosition"
 			data-allow-mismatch=""
 			@remove-one="removePosition"
@@ -83,7 +86,7 @@ const selectedSymbol = ref<string | null>(null);
 const selectedTrade = ref<Trade | null>(null);
 const showControlsModal = ref(false);
 
-const presetControlsList = computed(() => selectedTrade.value ? "trade" : "trades");
+const presetControlsList = computed(() => selectedTrade.value ? ControlsListPreset.TRADE : ControlsListPreset.TRADES);
 
 /**
  * Открывает мобильную модалку управления конкретной сделкой
@@ -125,9 +128,9 @@ const closeControlsModal = () => {
  *
  * @param trade - Сделка, которую нужно удалить.
  */
-const removePosition = async (trade: Trade) => {
+const removePosition = (trade: Trade) => {
 	if (!isDesktop) closeControlsModal();
-	await mutate(trade.id);
+	mutate(trade.id);
 };
 
 /**

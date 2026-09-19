@@ -23,7 +23,11 @@ export default defineNuxtPlugin(() => {
 	const payload = computed(() => ({ exchangeName: exchangeStore.activeExchange }));
 
 	// основные события
-	const subscribeDeals = () => socket.value?.emit("subscribeDeals", payload.value);
+	const subscribeDeals = () => {
+		tradeStore.isLoaded = false;
+		socket.value?.emit("subscribeDeals", payload.value);
+	};
+
 	const unsubscribeDeals = () => socket.value?.emit("unsubscribeDeals", payload.value);
 	const subscribeAccountInfo = () => socket.value?.emit("subscribeAccountInfo", payload.value);
 	const unsubscribeAccountInfo = () => socket.value?.emit("unsubscribeAccountInfo", payload.value);
@@ -47,16 +51,19 @@ export default defineNuxtPlugin(() => {
 		
 		socket.value.on("disconnect", () => {
 			connectionStore.errorMessage = "";
+			tradeStore.isLoaded = true;
 			connectionStore.status = ConnectionStatuses.CLOSED;
 		});
 
 		socket.value.on("connect_error", () => {
+			tradeStore.isLoaded = true;
 			connectionStore.status = ConnectionStatuses.CONNECTING;
 		});
 
 		// активные сделки
 		socket.value.on("deals", (data: Position[]) => {
 			connectionStore.errorMessage = "";
+			tradeStore.isLoaded = true;
 
 			// удаляем позиции, если их нет в приходящих сделках
 			tradeStore.trades = tradeStore.trades.filter((pos) => data.some(({ id }) => id === pos.id));
@@ -87,6 +94,8 @@ export default defineNuxtPlugin(() => {
 		// обработка ошибок
 		socket.value.on("accountInfoError", (data) => {
 			const message = parseExchangeErrorMessage(data.message, exchangeStore.activeExchange ?? "");
+
+			tradeStore.isLoaded = true;
 			
 			if (message && connectionStore.errorMessage !== message) {
 				connectionStore.errorMessage = message;

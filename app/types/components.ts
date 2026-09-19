@@ -104,6 +104,11 @@ export enum CheckboxSize {
 	BIG = "big",
 };
 
+export enum ControlsListPreset {
+	TRADE = "trade",
+	TRADES = "trades",
+};
+
 export type ActivityItem = {
 	date: string;
 	value: number;

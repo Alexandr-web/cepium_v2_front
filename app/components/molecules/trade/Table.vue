@@ -1,11 +1,12 @@
 <template>
 	<!-- @vue-generic {Trade} -->
 	<MTable
-		class="hidden lg:flex"
+		class="flex"
 		head-icon="view-list"
 		title="Активные позиции"
 		:data="tradeStore.trades"
 		:columns="tradeColumns"
+		:is-pending="!tradeStore.isLoaded"
 	>
 		<template v-if="tradeStore.trades.length" #head-controls>
 			<div class="flex items-center gap-10">

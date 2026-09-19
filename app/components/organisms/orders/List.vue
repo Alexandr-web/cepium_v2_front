@@ -2,15 +2,17 @@
 	<section class="flex flex-col gap-24">
 		<OrdersFilters v-model="filters" />
 		<div class="flex flex-col justify-between gap-15 grow">
-			<div v-if="orders.length" class="flex lg:hidden flex-col gap-8">
-				<Card
-					v-for="(item, idx) in orders"
-					:key="idx"
-					:card="item"
-				/>
-			</div>
-			<Empty v-else class="lg:hidden" />
-			<Table :orders="orders" :is-pending="isPending" />
+			<template v-if="!isDesktop">
+				<div v-if="orders.length" class="flex flex-col gap-8">
+					<Card
+						v-for="(item, idx) in orders"
+						:key="idx"
+						:card="item"
+					/>
+				</div>
+				<Empty v-else :is-pending="isPending" />
+			</template>
+			<Table v-else :orders="orders" :is-pending="isPending" />
 			<APagination
 				v-if="orders.length"
 				v-model:page="page"
@@ -32,6 +34,8 @@ import { useOrders } from "@/composables/api/useOrders";
 
 const exchangeStore = useExchangeStore();
 const { searchOrders } = useOrders();
+
+const { isDesktop } = useDevice();
 
 const PER_PAGE = 10;
 

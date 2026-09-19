@@ -1,7 +1,7 @@
 <template>
 	<!-- @vue-generic {Order}-->
 	<MTable
-		class="hidden lg:flex"
+		class="flex"
 		:columns="ordersColumns"
 		:data="orders"
 	>
