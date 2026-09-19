@@ -1,46 +1,38 @@
 <template>
-	<section class="flex flex-col gap-24">
+	<div class="flex flex-col gap-24">
 		<div class="flex items-center justify-between gap-10">
 			<h2 class="text-20 lg:text-24 font-semibold">Ордера</h2>
 			<AButton
-				class="flex lg:hidden items-center justify-center p-12 rounded-8 border border-solid border-neutral-400"
+				class="flex lg:hidden items-center justify-center p-8 rounded-8 border border-solid border-neutral-400"
 				:mode="ButtonMode.NEUTRAL_FILL"
 				:disabled="disabled"
 				@click="showMobFilters = true"
 			>
-				<IconFilter class="w-18 h-18 text-white/50" />
+				<IconFilter class="w-22 h-22 text-white/50" />
 			</AButton>
 		</div>
 		<div class="hidden lg:flex justify-between gap-16 bg-neutral-100 rounded-8 p-16 border border-solid border-white/10">
-			<Filters ref="deskFilters" :filters="filters" :disabled="disabled" />
-			<FilterControls :preset="FilterControlsPreset.DESKTOP" :disabled="disabled" @execute="execute" @reset="reset" />
+			<Filters :filters="filters" :disabled="disabled" />
 		</div>
-	</section>
+	</div>
 	<Teleport to="body">
 		<Modal v-model="showMobFilters">
 			<div class="scroll-block max-h-450 overflow-auto">
 				<Filters
-					ref="mobFilters"
 					class="lg:hidden"
 					:filters="filters"
-				>
-					<template #footer>
-						<FilterControls :preset="FilterControlsPreset.MOBILE" :disabled="disabled" @execute="execute" @reset="reset" />
-					</template>
-				</Filters>
+				/>
 			</div>
 		</Modal>
 	</Teleport>
 </template>
 <script setup lang="ts">
 import Filters from "@/components/molecules/common/Filters.vue";
-import type { FiltersExpose } from "@/components/molecules/common/Filters.vue";
 import AButton from "@/components/atoms/AButton.vue";
 import Modal from "@/components/molecules/common/Modal.vue";
-import FilterControls from "@/components/molecules/orders/FilterControls.vue";
-import IconFilter from "@/assets/icons/filter-alt-outline-sharp.svg";
-import AButtonGroup from "@/components/atoms/AButtonGroup.vue";
+import IconFilter from "@/assets/icons/filter-big.svg";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
+import ASelect from "~/components/atoms/ASelect.vue";
 
 withDefaults(
 	defineProps<{
@@ -51,9 +43,7 @@ withDefaults(
 	}
 );
 
-const emits = defineEmits(["execute", "reset"]);
-
-const { isMobile } = useDevice();
+const filtersQuery = defineModel<Record<string, string>>({ default: () => ({}) });
 
 const STATUSES_LIST: SelectItem[] = [
 	{ label: "Все", value: "all" },
@@ -70,69 +60,36 @@ const RESULTS_LIST: SelectItem[] = [
 const createFilters = (): FilterItem[] => [
 	{
 		name: "type",
-		component: markRaw(AButtonGroup),
+		component: markRaw(ASelect),
 		label: "Статус",
 		value: String(STATUSES_LIST[0]?.value ?? ""),
 		items: STATUSES_LIST,
+		classes: "lg:min-w-250",
 	},
 	{
 		name: "result",
-		component: markRaw(AButtonGroup),
+		component: markRaw(ASelect),
 		label: "Результат",
 		value: String(RESULTS_LIST[0]?.value ?? ""),
 		items: RESULTS_LIST,
+		classes: "lg:min-w-250",
 	},
 	{
 		name: "activeConfig",
 		component: markRaw(ACheckbox),
-		label: "Ордера активного конфига",
-		value: true,
+		label: "Только активный конфиг",
+		value: false,
 		classes: "text-white",
 	},
 ];
 
 const filters = ref<FilterItem[]>(createFilters());
-const mobFilters = ref<FiltersExpose|null>(null);
-const deskFilters = ref<FiltersExpose|null>(null);
 const showMobFilters = ref(false);
 
-if (isMobile) showMobFilters.value = false;
-
-const query = computed(() =>
-	filters.value.reduce<Record<string, string>>((query, filter) => {
+watch(filters, (v) => {
+	filtersQuery.value = v.reduce<Record<string, string>>((query, filter) => {
 		query[filter.name] = String(filter.value);
 		return query;
-	}, {})
-);
-
-const reset = async () => {
-	try {
-		filters.value = createFilters();
-		
-		if (isMobile) {
-			await mobFilters.value?.initDefaultValuesAtButtonGroup();
-			showMobFilters.value = false;
-		} else {
-			await deskFilters.value?.initDefaultValuesAtButtonGroup();
-		}
-
-		emits("reset", query.value);
-	} catch (err) {
-		console.error(err);
-	}
-};
-
-const execute = () => {
-	if (isMobile) showMobFilters.value = false;
-	emits("execute", query.value);
-};
-
-watch(showMobFilters, async (v) => {
-	try {
-		if (v && isMobile) await mobFilters.value?.initDefaultValuesAtButtonGroup();
-		else if (v) await deskFilters.value?.initDefaultValuesAtButtonGroup();
-	} catch (err) {
-		console.error(err);
-	}
-});
+	}, {});
+}, { immediate: true, deep: true });
 </script>
