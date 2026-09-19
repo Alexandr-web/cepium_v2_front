@@ -1,6 +1,6 @@
 import type { FetchError } from "ofetch";
 
-type TFormatNumOptions = {
+type FormatNumOptions = {
 	currency?: string;
 	style?: "decimal" | "currency" | "percent" | "unit";
 	defaultValue?: string;
@@ -10,10 +10,10 @@ type TFormatNumOptions = {
 /**
  * Превращает число в красивую строку с разделителями.
  * @param {number|string} _value - Исходное число или строка
- * @param {TFormatNumOptions} options - Опции
+ * @param {FormatNumOptions} options - Опции
  * @returns {string}
  */
-export const formatNum = (_value: number | string, options?: TFormatNumOptions): string => {
+export const formatNum = (_value: number | string, options?: FormatNumOptions): string => {
 	const num = typeof _value === "string" ? parseFloat(_value.replace(",", ".")) : _value;
 	const { style, currency, padZero, defaultValue = "0" } = options ?? {};
 
