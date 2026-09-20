@@ -7,6 +7,7 @@
 		<div class="flex flex-col gap-8">
 			<span class="text-18 font-semibold lg:text-48">{{ formattedValue }}</span>
 			<p
+				class="text-12 lg:text-16"
 				:class="[
 					dashboardStore.data.balanceDailyChangePercent > 0 && 'text-tertiary-800',
 					dashboardStore.data.balanceDailyChangePercent < 0 && 'text-secondary-600',
