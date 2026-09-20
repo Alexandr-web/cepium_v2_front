@@ -24,14 +24,6 @@ export type GeneralFormField = {
 	tooltipText?: string;
 };
 
-export type IndexCardSummary = {
-	title: string;
-	icon?: string;
-	value: number | string;
-	formattedValue: number | string;
-	type: "balance" | "pnl" | "positions";
-};
-
 export type TableColumn<T> = {
 	key: keyof T | "controls" | "index";
 	label: string;
