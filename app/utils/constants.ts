@@ -67,6 +67,7 @@ export const CHART_COLORS = {
 				colorStops: ["#f87171", "#dc2626"],
 			},
 		],
+		positions: ["#3b82f6", "#a855f7", "#22d3ee", "#34d399", "#f59e0b", "#8b949e"],
 	},
 	series: {
 		line: {
