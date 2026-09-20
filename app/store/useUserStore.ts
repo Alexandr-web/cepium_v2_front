@@ -26,8 +26,7 @@ export const useUserStore = defineStore("user-store",
 	},
 	{
 		persist: {
-      		// @ts-expect-error typescript не может определить тип path
-			paths: ["user"],
+			pick: ["user"],
 			storage: persistedState.cookiesWithOptions({ sameSite: "strict" }),
 		},
 	}

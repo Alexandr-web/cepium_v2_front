@@ -14,8 +14,7 @@ export const useDashboardStore = defineStore("dashboard-store",
 	},
 	{
 		persist: {
-			// @ts-expect-error typescript не может определить тип path
-			paths: ["data"],
+			pick: ["data"],
 			storage: persistedState.cookiesWithOptions({ sameSite: "strict" }),
 		},
 	}
