@@ -14,11 +14,11 @@ export const useUserStore = defineStore("user-store",
 		});
 
 		const updateData = (data: User) => {
-			(Object.keys(data) as (keyof User)[]).forEach((key) => {
+			Object.keys(data).forEach((key) => {
+				if (!hasKey(data, key)) return;
+
 				const value = data[key];
-				if (key in user && value !== undefined) {
-					user[key] = value;
-				}
+				if (value !== undefined) user[key] = value;
 			});
 		};
 

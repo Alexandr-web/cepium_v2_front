@@ -31,6 +31,8 @@ const props = withDefaults(
 	}
 );
 
+defineOptions({ inheritAttrs: false });
+
 const attrs = useAttrs();
 
 const isFallback = ref(!attrs.src);

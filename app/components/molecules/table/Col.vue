@@ -59,7 +59,7 @@ const classes = computed(() => [
  */
 const cellValue = computed(() => {
 	let val: string | number | T[keyof T] = "";
-	if (props.col.key in props.row) val = props.row[props.col.key as keyof T];
+	if (hasKey(props.row, props.col.key)) val = props.row[props.col.key];
 	if (props.col.key === "index") val = props.rowIndex;
 
 	return props.col.normalizer instanceof Function ? props.col.normalizer(val, props.row) : val;
