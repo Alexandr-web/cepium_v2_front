@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import Chart from "@/models/Chart";
 
+// тестовые данные
 const mockOrders: Order[] = [
 	{
 		id: "order-1",
@@ -168,27 +169,20 @@ const mockOrders: Order[] = [
 	},
 ];
 
-const profitChart = Chart.fromOrdersProfitByDay(mockOrders);
-const dealsChart = Chart.fromOrdersBySymbol(mockOrders);
-const winrateChart = Chart.fromOrdersWinLoss(mockOrders);
-
 const charts = computed(() => [
 	{
 		label: "Динамика профита",
-		chart: profitChart,
-		options: profitChart.getComputedOptions(),
+		options: Chart.fromOrdersProfitByDay(mockOrders).getComputedOptions(),
 		classes: "lg:col-span-4",
 	},
 	{
 		label: "Количество сделок",
-		chart: dealsChart,
-		options: dealsChart.getComputedOptions(),
+		options: Chart.fromOrdersBySymbol(mockOrders).getComputedOptions(),
 		classes: "lg:col-span-3",
 	},
 	{
 		label: "Соотношение Win/Loss",
-		chart: winrateChart,
-		options: winrateChart.getComputedOptions(),
+		options: Chart.fromOrdersWinLoss(mockOrders).getComputedOptions(),
 	},
 ]);
 </script>
