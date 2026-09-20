@@ -9,7 +9,6 @@ export type ChartDataPoint = {
 	[key: string]: unknown;
 };
 
-const WEEKDAYS_RU = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
 const WEEK_ORDER_RU = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 
 // максимум секторов в диаграмме, остальные схлопываются в "другие"
@@ -138,7 +137,7 @@ export default class Chart {
 			if (!o.closedAt || typeof o.realizedPnl !== "number") return;
 
 			const day = new Date(String(o.closedAt)).getDay();
-			const orderDay = String(WEEKDAYS_RU[day]);
+			const orderDay = String(WEEK_ORDER_RU[(day + 6) % 7]);
 			const sum = (sums.get(orderDay) ?? 0) + Number(o.realizedPnl);
 
 			sums.set(orderDay, sum);
@@ -172,6 +171,7 @@ export default class Chart {
 			},
 			xAxis: {
 				type: "category",
+				data: WEEK_ORDER_RU,
 				axisLine: { show: false },
 				axisTick: { show: false },
 				axisLabel: { color: CHART_COLORS.xAxis.axisLabel.color, margin: 12 },
