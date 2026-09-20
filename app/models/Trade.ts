@@ -84,11 +84,15 @@ export default class Trade {
 	}
 
 	get prettyPnlPercent() {
-		const n = formatNum(this.pnlPercent, { style: "percent" });
+		const n = formatNum(this.pnlPercent / 100, { style: "percent" });
 		return this.pnlPercent > 0 ? "+" + n : n;
 	}
 
 	get prettyLeverage() {
 		return !this.leverage ? "-" : this.leverage + "x";
+	}
+
+	get margin() {
+		return (this.amount * this.entryPrice) / (this.leverage || 1);
 	}
 };
