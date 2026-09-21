@@ -4,6 +4,7 @@
 			<div
 				class="bg-tertiary-800 h-full"
 				:style="lineStyles"
+				data-allow-mismatch=""
 			/>
 		</div>
 		<slot name="footer" v-bind="{ percent }" />

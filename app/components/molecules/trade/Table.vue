@@ -4,7 +4,7 @@
 		class="flex"
 		head-icon="view-list"
 		title="Активные позиции"
-		:data="tradeStore.getAllTrades()"
+		:data="trades"
 		:columns="tradeColumns"
 		:is-pending="!tradeStore.isLoaded"
 	>
@@ -86,7 +86,6 @@
 	</MTable>
 </template>
 <script setup lang="ts">
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type Trade from "@/models/Trade";
 import Tooltip from "@/components/molecules/common/Tooltip.vue";
 import AButton from "@/components/atoms/AButton.vue";
@@ -97,6 +96,7 @@ import { useTradeStore } from "@/store/useTradeStore";
 withDefaults(
 	defineProps<{
 		disabled?: boolean;
+		trades: Trade[];
 	}>(),
 	{
 		disabled: false,

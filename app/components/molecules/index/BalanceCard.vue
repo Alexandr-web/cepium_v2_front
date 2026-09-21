@@ -5,12 +5,20 @@
 			<IconArrowsMoreUpRounded class="w-22 lg:w-26 h-18 lg:h-22 text-primary-800" />
 		</div>
 		<div class="flex flex-col gap-8">
-			<span class="text-18 font-semibold lg:text-48">{{ formattedValue }}</span>
+			<span
+				class="text-18 font-semibold"
+				:class="[
+					showMarginChart && 'lg:text-58',
+					!showMarginChart && 'lg:text-48'
+				]"
+			>{{ formattedValue }}</span>
 			<p
-				class="text-12 lg:text-16"
+				class="text-12"
 				:class="[
 					dashboardStore.data.balanceDailyChangePercent > 0 && 'text-tertiary-800',
 					dashboardStore.data.balanceDailyChangePercent < 0 && 'text-secondary-600',
+					showMarginChart && 'lg:text-18',
+					!showMarginChart && 'lg:text-16'
 				]">
 				{{ dailyBalancePercentage }} за сегодня
 			</p>
@@ -20,6 +28,8 @@
 <script setup lang="ts">
 import IconArrowsMoreUpRounded from "@/assets/icons/arrows-more-up-rounded.svg";
 import { useDashboardStore } from "@/store/useDashboardStore";
+
+const showMarginChart = useState("show-margin-chart", () => false);
 
 const dashboardStore = useDashboardStore();
 

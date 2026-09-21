@@ -15,14 +15,22 @@
 					</div>
 				</div>
 				<div class="flex flex-col gap-8">
-					<span class="text-18 font-semibold lg:text-36">{{ prettyCount }}</span>
+					<span
+						class="text-18 font-semibold"
+						:class="[
+							showCharts && 'lg:text-46',
+							!showCharts && 'lg:text-36',
+						]"
+					>{{ prettyCount }}</span>
 					<ul class="flex gap-16">
 						<li
 							v-for="(item, idx) in margin"
 							:key="idx"
-							class="flex flex-col text-11 lg:text-14 font-medium"
+							class="flex flex-col text-11 font-medium"
 							:class="[
-								idx !== 0 && 'pl-16 border-l-1 border-solid border-l-white/5'
+								idx !== 0 && 'pl-16 border-l-1 border-solid border-l-white/5',
+								showCharts && 'lg:text-16',
+								!showCharts && 'lg:text-14',
 							]"
 						>
 							<span class="text-white/80">{{ item.title }}</span>

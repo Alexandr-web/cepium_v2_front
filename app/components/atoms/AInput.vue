@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col gap-6">
-		<LabelField v-model:error="error" :label="label" :tooltip-text="tooltipText" />
+		<LabelField v-if="label" v-model:error="error" :label="label" :tooltip-text="tooltipText" />
 		<div
 			class="group transition flex items-center px-16 bg-neutral-100 h-48 rounded-4 border-solid border"
 			:class="[

@@ -15,7 +15,7 @@
 					dashboardStore.data.pnl24h < 0 && 'text-secondary-500',
 				]"
 			>{{ formattedValue }}</span>
-			<ProgressLine :max="dashboardStore.data.dailyGoalPNL" :value="dashboardStore.data.pnl24h" data-allow-mismatch="">
+			<ProgressLine :max="dashboardStore.data.dailyGoalPNL" :value="dashboardStore.data.pnl24h">
 				<template #footer="{ percent }">
 					<div class="flex justify-between items-center text-11 lg:text-14 text-white/50 font-medium">
 						<p>Дневная цель: <span>{{ dailyGoalPNL }}</span></p>

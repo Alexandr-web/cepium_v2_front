@@ -13,10 +13,26 @@
 				@click="openAllControls"
 			>Закрыть все</AButton>
 		</div>
+		<div class="flex flex-col lg:flex-row-reverse lg:justify-between gap-8">
+			<AInput
+				v-model.trim="search"
+				placeholder="Поиск по позициям..."
+				prepend-icon="search-rounded"
+				class="lg:grow lg:h-full lg:min-h-0"
+				:disabled="!tradeStore.tradesMap.size || !tradeStore.isLoaded"
+			/>
+			<ATabs
+				class="lg:h-full lg:min-h-0"
+				:disabled="!tradeStore.tradesMap.size || !tradeStore.isLoaded"
+				:items="tabs"
+				:active-value="activeTab"
+				@select="(v: TabsValues) => activeTab = v"
+			/>
+		</div>
 		<template v-if="!isDesktop">
-			<div v-if="tradeStore.tradesMap.size" class="flex flex-col gap-12" data-allow-mismatch="">
+			<div v-if="displayTrades.length" class="flex flex-col gap-12" data-allow-mismatch="">
 				<MobTradeCard
-					v-for="trade in tradeStore.getAllTrades()"
+					v-for="trade in displayTrades"
 					:key="trade.id"
 					:disabled="isPendingRemovePosition"
 					:trade="trade"
@@ -29,6 +45,7 @@
 			v-else
 			:disabled="isPendingRemovePosition"
 			data-allow-mismatch=""
+			:trades="displayTrades"
 			@remove-one="removePosition"
 			@remove-all="() => console.log('remove all')"
 			@select-symbol="selectSymbol"
@@ -61,10 +78,20 @@ import TradeControlsList from "@/components/molecules/trade/ControlsList.vue";
 import TradesTable from "@/components/molecules/trade/Table.vue";
 import Empty from "@/components/molecules/common/Empty.vue";
 import CoinChart from "@/components/molecules/widgets/CoinChart.vue";
+import ATabs from "@/components/atoms/ATabs.vue";
+import AInput from "@/components/atoms/AInput.vue";
 import { useRemoveOne } from "@/composables/api/useOrders";
 import { useExchangeStore } from "@/store/useExchangeStore";
 import { useTradeStore } from "@/store/useTradeStore";
 import { useCoinGeckoSearch } from "@/composables/api/useCoinGecko";
+
+enum TabsValues {
+	ALL = "all",
+	SHORT = "short",
+	LONG = "long",
+	POSITIVE_PNL = "positive-pnl",
+	NEGATIVE_PNL = "negative-pnl",
+};
 
 const { isDesktop } = useDevice();
 const { findCoinId } = useCoinGeckoSearch();
@@ -81,6 +108,39 @@ const {
 );
 
 const { $events } = useNuxtApp();
+
+const search = ref("");
+
+const activeTab = ref<TabsValues>(TabsValues.ALL);
+const tabs = ref<SelectItem[]>([
+	{ label: "Все", value: TabsValues.ALL },
+	{ label: "Шорт", value: TabsValues.SHORT },
+	{ label: "Лонг", value: TabsValues.LONG },
+	{ label: "Положительный профит", value: TabsValues.POSITIVE_PNL },
+	{ label: "Отрицательный профит", value: TabsValues.NEGATIVE_PNL },
+]);
+
+const displayTrades = computed(() =>
+	tradeStore.getAllTrades()
+		.filter((t) => {
+			const isSearchMatch = search.value.length >= 2
+				? t.shortSymbol.toLowerCase().includes(search.value.toLowerCase())
+				: true;
+
+			switch (activeTab.value) {
+				case TabsValues.SHORT:
+					return isSearchMatch && t.direction === TradeDirection.SHORT;
+				case TabsValues.LONG:
+					return isSearchMatch && t.direction === TradeDirection.LONG;
+				case TabsValues.POSITIVE_PNL:
+					return isSearchMatch && t.pnl > 0;
+				case TabsValues.NEGATIVE_PNL:
+					return isSearchMatch && t.pnl <= 0;
+				default:
+					return isSearchMatch;
+			}
+		})
+);
 
 const selectedSymbol = ref<string | null>(null);
 const selectedTrade = ref<Trade | null>(null);
