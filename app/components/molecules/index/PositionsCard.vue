@@ -91,7 +91,7 @@ const signature = computed(() =>
  */
 const getMarginView = useMemoize((_signature: string) => {
 	const chart = Chart.fromTradesByMargin(tradeStore.getAllTrades(), dashboardStore.data.usedMargin);
-	const total = chart.data.reduce((sum, item) => sum + item.value, 0);
+	const total = dashboardStore.data.usedMargin;
 
 	return {
 		options: chart.getComputedOptions(),
