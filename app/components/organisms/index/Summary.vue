@@ -9,9 +9,4 @@
 import BalanceCard from "@/components/molecules/index/BalanceCard.vue";
 import PositionsCard from "@/components/molecules/index/PositionsCard.vue";
 import PnlCard from "@/components/molecules/index/PnlCard.vue";
-
-const { $events } = useNuxtApp();
-
-onMounted(() => $events.subscribeAccountInfo());
-onUnmounted(() => $events.unsubscribeAccountInfo());
 </script>

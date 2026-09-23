@@ -11,6 +11,7 @@
 <script setup lang="ts">
 import { useUser } from "@/composables/api/useUser";
 
+const { $events } = useNuxtApp();
 const { suspense } = useUser();
 
 await suspense();
@@ -26,5 +27,15 @@ useHead({
 			async: true,
 		},
 	],
+});
+
+onMounted(() => {
+	$events.subscribeAccountInfo();
+	$events.subscribeDeals();
+});
+
+onUnmounted(() => {
+	$events.unsubscribeAccountInfo();
+	$events.unsubscribeDeals();
 });
 </script>

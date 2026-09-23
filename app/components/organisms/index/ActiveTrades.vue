@@ -46,7 +46,6 @@
 			:disabled="isPendingRemovePosition || !$isLoadedTrades"
 			data-allow-mismatch=""
 			:trades="displayTrades"
-			:is-pending="!$isLoadedTrades"
 			@remove-one="removePosition"
 			@remove-all="removePositions"
 			@select-symbol="selectSymbol"
@@ -108,7 +107,7 @@ const {
 	(id: string) => tradeStore.tradesMap.delete(id)
 );
 
-const { $events, $isLoadedTrades } = useNuxtApp();
+const { $isLoadedTrades } = useNuxtApp();
 
 const search = ref("");
 
@@ -215,7 +214,4 @@ const selectSymbol = async (s: string) => {
 	const id = await findCoinId(s);
 	if (id) selectedSymbol.value = id;
 };
-
-onMounted(() => $events.subscribeDeals());
-onUnmounted(() => $events.unsubscribeDeals());
 </script>
