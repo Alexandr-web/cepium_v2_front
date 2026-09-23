@@ -20,7 +20,7 @@ export const useRemoveOne = (_exchangeName: MaybeRefOrGetter<string>, onSuccess?
 	const exchangeName = computed(() => toValue(_exchangeName));
 	const errMessage = ref("");
 
-	const { mutate, isPending } = useMutation<
+	const { mutateAsync, isPending } = useMutation<
 		RemoveOrderResponse,
 		FetchError,
 		string
@@ -38,5 +38,5 @@ export const useRemoveOne = (_exchangeName: MaybeRefOrGetter<string>, onSuccess?
 		},
 	});
 
-	return { mutate, isPending, errMessage };
+	return { mutateAsync, isPending, errMessage };
 };

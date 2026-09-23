@@ -7,7 +7,5 @@ export const useTradeStore = defineStore("trade-store",	() => {
 	const getAllTrades = () => Array.from(tradesMap.value.values());
 	const getTradeById = (id: Trade["id"]) => tradesMap.value.get(id);
 
-	const totalSum = computed(() => getAllTrades().reduce<number>((sum, trade) => sum += trade.pnl, 0));
-
-	return { tradesMap, isLoaded, totalSum, getAllTrades, getTradeById };
+	return { tradesMap, isLoaded, getAllTrades, getTradeById };
 });

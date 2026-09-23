@@ -24,8 +24,8 @@
 							Закрыть все позиции<br>Общий профит:&nbsp;
 							<span
 								:class="[
-									tradeStore.totalSum > 0 && 'text-tertiary-600',
-									tradeStore.totalSum < 0 && 'text-secondary-600',
+									totalSum > 0 && 'text-tertiary-600',
+									totalSum < 0 && 'text-secondary-600',
 								]"
 							>{{ prettyTotalProfit }}</span>
 						</p>
@@ -93,7 +93,7 @@ import AImage from "@/components/atoms/AImage.vue";
 import MTable from "@/components/molecules/common/MTable.vue";
 import { useTradeStore } from "@/store/useTradeStore";
 
-withDefaults(
+const props = withDefaults(
 	defineProps<{
 		disabled?: boolean;
 		trades: Trade[];
@@ -107,5 +107,6 @@ const tradeStore = useTradeStore();
 
 const emits = defineEmits(["removeOne", "removeAll", "selectSymbol"]);
 
-const prettyTotalProfit = computed(() => formatNum(tradeStore.totalSum, { currency: "USD", style: "currency" }));
+const totalSum = computed(() => props.trades.reduce<number>((sum, trade) => sum += trade.pnl, 0));
+const prettyTotalProfit = computed(() => formatNum(totalSum.value, { currency: "USD", style: "currency" }));
 </script>

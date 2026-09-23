@@ -13,7 +13,7 @@
 				@click="openAllControls"
 			>Закрыть все</AButton>
 		</div>
-		<div class="flex flex-col lg:flex-row-reverse lg:justify-between gap-8">
+		<div class="flex flex-col lg:flex-row lg:justify-between gap-8">
 			<AInput
 				v-model.trim="search"
 				placeholder="Поиск по позициям..."
@@ -47,7 +47,7 @@
 			data-allow-mismatch=""
 			:trades="displayTrades"
 			@remove-one="removePosition"
-			@remove-all="() => console.log('remove all')"
+			@remove-all="removePositions"
 			@select-symbol="selectSymbol"
 		/>
 	</section>
@@ -58,7 +58,7 @@
 					:preset-menu="presetControlsList"
 					:trade="selectedTrade"
 					@remove-one="removePosition"
-					@remove-all="() => console.log('remove all')"
+					@remove-all="removePositions"
 				/>
 				<CoinChart v-if="selectedSymbol" :symbol="selectedSymbol" />
 			</div>
@@ -101,7 +101,7 @@ const tradeStore = useTradeStore();
 
 const {
 	isPending: isPendingRemovePosition,
-	mutate,
+	mutateAsync,
 } = useRemoveOne(
 	exchangeStore.activeExchange ?? "",
 	(id: string) => tradeStore.tradesMap.delete(id)
@@ -184,13 +184,24 @@ const closeControlsModal = () => {
 
 /**
  * Удаляет позицию по сделке. На мобилке предварительно закрывает
- * модалку управления, на десктопе оставляет её открытой.
+ * модалку управления
  *
  * @param trade - Сделка, которую нужно удалить.
  */
-const removePosition = (trade: Trade) => {
+const removePosition = async (trade: Trade) => {
 	if (!isDesktop) closeControlsModal();
-	mutate(trade.id);
+	await mutateAsync(trade.id);
+};
+
+/**
+ * Удаляет все отображаемые сделки. На мобилке предварительно закрывает
+ * модалку управления
+ */
+const removePositions = async () => {
+	if (!isDesktop) closeControlsModal();
+
+	const prms = displayTrades.value.map((t) => mutateAsync(t.id));
+	await Promise.all(prms);
 };
 
 /**

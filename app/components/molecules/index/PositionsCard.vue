@@ -60,7 +60,12 @@
 				</ul>
 			</div>
 		</div>
-		<AButton class="hidden lg:flex justify-center items-center w-22 rounded-tr-8 rounded-br-8 h-full" :mode="ButtonMode.NEUTRAL_FILL" :disabled="!tradeStore.tradesMap.size" @click="showCharts = !showCharts">
+		<AButton
+			class="hidden lg:flex justify-center items-center w-22 rounded-tr-8 rounded-br-8 h-full"
+			:mode="ButtonMode.NEUTRAL_FILL"
+			:disabled="!tradeStore.tradesMap.size"
+			@click="showCharts = !showCharts"
+		>
 			<IconArrowDown class="-rotate-z-90 w-22 h-22 text-white/80" :class="[showCharts && 'rotate-z-90']" />
 		</AButton>
 	</div>
