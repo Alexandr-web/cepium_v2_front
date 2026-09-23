@@ -1,5 +1,3 @@
-import { formatTimeAgo } from "@vueuse/core";
-
 export default class Trade {
 	leverage?: number;
 	amount: number;
@@ -47,7 +45,7 @@ export default class Trade {
 	}
 
 	get prettyCreatedAt() {
-		return formatTimeAgo(new Date(String(this.createdAt)), { messages: RU_TIME_MESSAGES });
+		return formatDateTime(this.createdAt);
 	}
 
 	get shortSymbol() {

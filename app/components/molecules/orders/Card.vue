@@ -36,13 +36,11 @@
 	</div>
 </template>
 <script setup lang="ts">
-import { formatTimeAgo } from "@vueuse/core";
-
 const { card } = defineProps<{
 	card: Order;
 }>();
 
-const time = computed(() => formatTimeAgo(new Date(card.createdAt), { messages: RU_TIME_MESSAGES }));
+const time = computed(() => formatDateTime(card.closedAt));
 const enterPrice = computed(() => formatNum(Number(card.entryPrice), { currency: "USD", style: "currency", defaultValue: "-" }));
 const amount = computed(() => formatNum(Number(card.size), { padZero: true }));
 const pnl = computed(() => formatNum(Number(card.realizedPnl), { currency: "USD", style: "currency", defaultValue: "0" }));

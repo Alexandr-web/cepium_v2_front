@@ -1,5 +1,4 @@
 import type Trade from "@/models/Trade";
-import { formatTimeAgo } from "@vueuse/core";
 
 export const tradeColumns: TableColumn<Trade>[] = [
 	{
@@ -61,8 +60,9 @@ export const tradeColumns: TableColumn<Trade>[] = [
 		normalizer: (_, row) => row.prettyPnl,
 	},
 	{
-		key: "prettyCreatedAt",
+		key: "createdAt",
 		label: "Время открытия",
+		normalizer: (v) => formatDateTime(String(v)),
 	},
 	{
 		key: "controls",
@@ -113,7 +113,7 @@ export const ordersColumns: TableColumn<Order>[] = [
 	{
 		key: "createdAt",
 		label: "Время создания",
-		normalizer: (v) => formatTimeAgo(new Date(String(v)), { messages: RU_TIME_MESSAGES }),
+		normalizer: (v) => formatDateTime(String(v)),
 		classes: "opacity-80",
 	},
 ];
