@@ -43,8 +43,8 @@
 				v-if="showCharts"
 				class="flex flex-col lg:flex-row h-350 lg:h-250 lg:grow"
 			>
-				<VChart class="min-w-0 w-full min-h-0 h-full" :option="marginView.options" />
-				<ul class="grid w-full grid-cols-2 gap-x-16 gap-y-12 lg:gap-x-32 lg:w-auto lg:pr-12">
+				<VChart class="min-w-0 w-full min-h-0 h-full lg:w-1/2" :option="marginView.options" />
+				<ul class="grid w-full grid-cols-2 gap-x-16 gap-y-12 lg:gap-x-32 lg:w-1/2">
 					<li
 						v-for="item in marginView.legend"
 						:key="item.name"
