@@ -37,8 +37,8 @@ export default defineNuxtPlugin(() => {
 	const connectSocket = () => {
 		if (socket.value) return;
 
-		socket.value = io(config.public.wsUrl, {
-			path: "/exchanges/socket.io",
+		socket.value = io(undefined, {
+			path: config.public.wsUrl,
 			autoConnect: true,
 			withCredentials: true,
 			transports: ["websocket"],
