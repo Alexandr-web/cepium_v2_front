@@ -18,8 +18,8 @@ export const tradeColumns: TableColumn<Trade>[] = [
 	{
 		key: "liquidationPrice",
 		label: "Цена ликвидации",
-		classes: "text-primary-500",
 		sort: true,
+		classes: (row) => [row.prettyLiquidationPrice !== "-" ? "text-primary-500" : ""],
 		normalizer: (_, row) => row.prettyLiquidationPrice,
 	},
 	{
