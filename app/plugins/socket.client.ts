@@ -19,12 +19,14 @@ export default defineNuxtPlugin(() => {
 
 	const socket = ref<Socket|null>(null);
 
+	const isLoadedTrades = ref(false); // получен первый пакет от "deals"
+
 	// общий payload для работы со всеми событиями
 	const payload = computed(() => ({ exchangeName: exchangeStore.activeExchange }));
 
 	// основные события
 	const subscribeDeals = () => {
-		tradeStore.isLoaded = false;
+		isLoadedTrades.value = false;
 		socket.value?.emit("subscribeDeals", payload.value);
 	};
 
@@ -51,19 +53,19 @@ export default defineNuxtPlugin(() => {
 		
 		socket.value.on("disconnect", () => {
 			connectionStore.errorMessage = "";
-			tradeStore.isLoaded = true;
+			isLoadedTrades.value = true;
 			connectionStore.status = ConnectionStatuses.CLOSED;
 		});
 
 		socket.value.on("connect_error", () => {
-			tradeStore.isLoaded = true;
+			isLoadedTrades.value = true;
 			connectionStore.status = ConnectionStatuses.CONNECTING;
 		});
 
 		// активные сделки
 		socket.value.on("deals", (data: Position[]) => {
 			connectionStore.errorMessage = "";
-			tradeStore.isLoaded = true;
+			isLoadedTrades.value = true;
 
 			// удаляем позиции, если их нет в приходящих сделках
 			tradeStore.getAllTrades().forEach((trade) => {
@@ -97,7 +99,7 @@ export default defineNuxtPlugin(() => {
 		socket.value.on("accountInfoError", (data) => {
 			const message = parseExchangeErrorMessage(data.message, exchangeStore.activeExchange ?? "");
 
-			tradeStore.isLoaded = true;
+			isLoadedTrades.value = true;
 			
 			if (message && connectionStore.errorMessage !== message) {
 				connectionStore.errorMessage = message;
@@ -121,6 +123,7 @@ export default defineNuxtPlugin(() => {
 	return {
 		provide: {
 			socket,
+			isLoadedTrades,
 			events: {
 				subscribeAccountInfo,
 				unsubscribeAccountInfo,

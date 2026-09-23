@@ -6,7 +6,7 @@
 		title="Активные позиции"
 		:data="trades"
 		:columns="tradeColumns"
-		:is-pending="!tradeStore.isLoaded"
+		:is-pending="isPending"
 	>
 		<template v-if="tradeStore.tradesMap.size" #head-controls>
 			<div class="flex items-center gap-10">
@@ -96,9 +96,11 @@ import { useTradeStore } from "@/store/useTradeStore";
 const props = withDefaults(
 	defineProps<{
 		disabled?: boolean;
+		isPending?: boolean;
 		trades: Trade[];
 	}>(),
 	{
+		isPending: false,
 		disabled: false,
 	}
 );
