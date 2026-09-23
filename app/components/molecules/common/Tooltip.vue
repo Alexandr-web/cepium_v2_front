@@ -25,11 +25,11 @@
 			>
 				<div
 					ref="arrowEl"
-					class="absolute z-0 w-12 h-12 rotate-45 rounded-2 bg-neutral-200 border border-neutral-400 shadow-sm shadow-black/40"
+					class="absolute z-0 w-12 h-12 rotate-45 rounded-2 bg-black"
 					:style="arrowStyles"
 				/>
 				<div
-					class="relative z-10 p-12 rounded-8 max-w-xs leading-normal font-light tracking-tight text-center text-neutral-950 bg-primary-200 border border-neutral-300"
+					class="relative z-10 p-12 rounded-8 max-w-xs leading-normal font-light tracking-tight text-center text-neutral-950 bg-black"
 				>
 					<slot name="content" />
 				</div>

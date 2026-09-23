@@ -10,7 +10,7 @@
 	>
 		<template v-if="tradeStore.tradesMap.size" #head-controls>
 			<div class="flex items-center gap-10">
-				<Tooltip placement="left">
+				<Tooltip placement="left" :disabled="disabled">
 					<template #trigger>
 						<AButton
 							class="py-4 px-12 rounded-4 text-14"
@@ -60,7 +60,7 @@
 			</div>
 		</template>
 		<template #cell-controls="{ row }">
-			<Tooltip placement="left">
+			<Tooltip placement="left" :disabled="disabled">
 				<template #trigger>
 					<AButton
 						class="rounded-4 px-12 py-6 text-14 w-full"

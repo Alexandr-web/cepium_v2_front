@@ -34,7 +34,7 @@
 				<MobTradeCard
 					v-for="trade in displayTrades"
 					:key="trade.id"
-					:disabled="isPendingRemovePosition"
+					:disabled="isPendingRemovePosition || !tradeStore.isLoaded"
 					:trade="trade"
 					@controls="openTradeControls(trade)"
 				/>
@@ -43,7 +43,7 @@
 		</template>
 		<TradesTable
 			v-else
-			:disabled="isPendingRemovePosition"
+			:disabled="isPendingRemovePosition || !tradeStore.isLoaded"
 			data-allow-mismatch=""
 			:trades="displayTrades"
 			@remove-one="removePosition"
