@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col justify-between gap-32 rounded-8 bg-neutral-100/80 border-solid border border-white/5 p-16">
+	<div class="flex flex-col justify-between gap-32 rounded-8 bg-black border-solid border border-white/5 p-16">
 		<div class="flex items-center justify-between">
 			<h3 class="text-12 lg:text-16 uppercase">Баланс</h3>
 			<IconArrowsMoreUpRounded class="w-22 lg:w-26 h-18 lg:h-22 text-primary-800" />

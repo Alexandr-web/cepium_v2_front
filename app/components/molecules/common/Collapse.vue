@@ -1,7 +1,7 @@
 <template>
-	<div class="flex flex-col rounded-8 border border-solid bg-neutral-100/80 border-white/10">
+	<div class="flex flex-col rounded-8 border border-solid bg-black border-white/10">
 		<div
-			class="flex items-center justify-between gap-10 cursor-pointer p-16 transition-colors duration-200 hover:bg-neutral-300/50 rounded-8"
+			class="flex items-center justify-between gap-10 cursor-pointer p-16 transition-colors duration-200 hover:bg-neutral-100/70 rounded-8"
 			:class="[isActive && 'bg-neutral-300/30']"
 			@click="toggleAccordion"
 		>

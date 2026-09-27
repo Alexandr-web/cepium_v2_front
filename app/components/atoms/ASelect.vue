@@ -3,7 +3,7 @@
 		<LabelField v-model:error="error" :label="label" :tooltip-text="tooltipText" />
 		<div
 			ref="selectRef"
-			class="relative h-50 bg-primary-200 flex flex-col"
+			class="relative h-50 bg-primary-100 flex flex-col"
 			:class="[
 				isOpen && 'rounded-t-4 lg:rounded-t-8',
 				!isOpen && 'rounded-4 lg:rounded-8',
@@ -29,14 +29,14 @@
 				<div
 					v-if="isOpen"
 					ref="floating"
-					class="scroll-block w-full rounded-b-8 bg-neutral-200 z-99 overflow-auto max-h-180 lg:max-h-280 border-x border-b border-x-white/10 border-b-white/10"
+					class="scroll-block w-full rounded-b-8 bg-neutral-100 z-99 overflow-auto max-h-180 lg:max-h-280 border-x border-b border-x-white/10 border-b-white/10"
 					:style="floatingStyles"
 				>
 					<ul v-if="items.length" class="flex flex-col">
 						<li
 							v-for="(item, idx) in items"
 							:key="idx"
-							class="flex items-center cursor-pointer p-10 text-neutral-800 text-14 lg:text-15 odd:bg-neutral-300/40 transition-colors duration-150 last:rounded-b-8"
+							class="flex items-center cursor-pointer p-10 text-neutral-800 text-14 lg:text-15 odd:bg-neutral-200 transition-colors duration-150 last:rounded-b-8"
 							:class="[item.value === value && 'text-neutral-950']"
 							@click="select(item)"
 						>

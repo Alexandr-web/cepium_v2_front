@@ -3,9 +3,7 @@
 		<LazyMoleculesWidgetsCoinsMarquee class="-mx-16" />
 		<LazyOrganismsIndexSummary />
 		<LazyOrganismsIndexErrors />
-		<div class="flex flex-col -mx-16 bg-neutral-300/50 p-16">
-			<LazyOrganismsIndexActiveTrades />
-		</div>
+		<LazyOrganismsIndexActiveTrades />
 	</div>
 </template>
 <script setup lang="ts">

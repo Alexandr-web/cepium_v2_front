@@ -29,13 +29,13 @@ const classesByMode = computed(() => {
 		case ButtonMode.REMOVE_FILL:
 			return "text-white/80 bg-secondary-300";
 		case ButtonMode.REMOVE_BORDER:
-			return "border border-solid border-secondary-400 text-secondary-500 bg-primary-100 transition hover:border-secondary-500 hover:text-secondary-600";
+			return "border border-solid border-secondary-400 text-secondary-500 bg-black transition hover:border-secondary-500 hover:text-secondary-600";
 		case ButtonMode.NEUTRAL_FILL:
-			return "transition text-white/80 hover:text-white/90 hover:bg-neutral-400 bg-neutral-300";
+			return "transition text-white/80 hover:text-white/90 hover:bg-neutral-200 bg-neutral-100";
 		case ButtonMode.BLACK_FILL:
 			return "transition text-white/80 hover:text-white/90 hover:bg-black/90 bg-black";
 		case ButtonMode.PRIMARY_FILL:
-			return "transition-all duration-200 ease-in-out font-medium bg-primary-500 text-white/90 hover:bg-primary-600 text-14";
+			return "transition-all duration-200 ease-in-out bg-primary-400 text-white/90 hover:bg-primary-500 text-14";
 		case ButtonMode.PRIMARY_BORDER:
 			return "transition hover:border-primary-500 border-solid bg-primary-300 border border-primary-400 text-white/80 text-14";
 		default:

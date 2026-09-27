@@ -3,16 +3,34 @@
 		<Header />
 		<div class="flex grow min-h-0">
 			<Menu class="hidden lg:flex" :preset="MenuPreset.DESKTOP" />
-			<main ref="content" class="flex flex-col scroll-block grow text-white p-16 overflow-auto">
-				<AButton
-					v-if="route.meta.hasBack"
-					class="flex lg:hidden items-center py-6 px-12 rounded-4 mr-auto mb-10"
-					:mode="ButtonMode.NEUTRAL_FILL"
-					@click="router.back()"
+			<main class="flex flex-col grow relative isolate overflow-hidden">
+				<div class="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
+					<video
+						class="w-full h-full object-cover"
+						autoplay
+						muted
+						loop
+						playsinline
+					>
+						<source src="/videos/bg-mob.mp4" type="video/mp4" media="(max-width: 768px)">
+						<source src="/videos/bg-desk.mp4" type="video/mp4" media="(min-width: 769px)">
+					</video>
+					<div class="absolute inset-0 bg-black/90 backdrop-blur-sm"/>
+				</div>
+				<div
+					ref="content"
+					class="grow flex flex-col max-w-full max-h-full scroll-block text-white p-16 overflow-auto"
 				>
-					<IconArrowBack class="text-neutral-700 w-16 h-16" />
-				</AButton>
-				<NuxtPage />
+					<AButton
+						v-if="route.meta.hasBack"
+						class="flex lg:hidden items-center py-6 px-12 rounded-4 mr-auto mb-10"
+						:mode="ButtonMode.NEUTRAL_FILL"
+						@click="router.back()"
+					>
+						<IconArrowBack class="text-neutral-700 w-16 h-16" />
+					</AButton>
+					<NuxtPage />
+				</div>
 			</main>
 		</div>
 		<Notivue v-slot="item">

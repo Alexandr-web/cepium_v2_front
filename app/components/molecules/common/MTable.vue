@@ -6,7 +6,7 @@
 		<div class="w-full overflow-x-auto relative">
 			<table class="w-max min-w-full">
 				<thead>
-					<tr class="border-b-1 border-solid border-white/5 bg-neutral-100/80">
+					<tr class="border-b-1 border-solid border-white/5 bg-black/90">
 						<th 
 							v-for="col in columns" 
 							:key="String(col.key)"
@@ -49,7 +49,7 @@
 					<tr 
 						v-for="(row, rowIndex) in sortedData" 
 						:key="rowIndex"
-						class="not-last:border-b-1 border-solid border-white/5 bg-neutral-100/80"
+						class="not-last:border-b-1 border-solid border-white/5 bg-black/70"
 					>
 						<!-- @vue-generic {T} -->
 						<ColTable v-for="col in columns" :key="String(col.key)" :col="col" :row="row" :row-index="rowIndex">
@@ -62,7 +62,7 @@
 			</table>
 			<div v-if="isPending" class="absolute top-0 left-0 w-full h-full">
 				<slot name="pending">
-					<div class="bg-primary-200/60 flex justify-center items-center w-full h-full">
+					<div class="bg-black/60 flex justify-center items-center w-full h-full">
 						<IconLoader class="w-30 h-30" />
 					</div>
 				</slot>

@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col lg:flex-row-reverse gap-6 w-full">
+	<div class="flex flex-col lg:flex-row-reverse gap-8 w-full">
 		<div class="flex items-center lg:self-end gap-6">
 			<p class="text-neutral-700 text-12 lg:text-14">Меньше</p>
 			<div class="flex items-center gap-3">
@@ -21,7 +21,7 @@
 			</div>
 			<p class="text-neutral-700 text-12 lg:text-14">Больше</p>
 		</div>
-		<div class="w-full overflow-x-auto lg:max-w-1200 lg:mx-auto">
+		<div class="w-full overflow-x-auto lg:max-w-1200 lg:mx-auto bg-black/80 p-12 rounded-8 border border-solid border-neutral-200">
 			<table class="w-max border-separate border-spacing-2">
 				<thead>
 					<tr>
@@ -93,7 +93,7 @@ const { isDesktop } = useDevice();
 const LEVEL_THRESHOLDS = [5, 10, 15, 20] as const;
 
 const colorClasses = [
-	"bg-primary-100",
+	"bg-neutral-100/65",
 	"bg-primary-300",
 	"bg-primary-500",
 	"bg-primary-700",

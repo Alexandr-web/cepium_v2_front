@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="flex flex-col justify-between gap-32 rounded-8 bg-neutral-100/80 border-solid border border-white/5 p-16"
+		class="flex flex-col justify-between gap-32 rounded-8 bg-black border-solid border border-white/5 p-16"
 		:class="[showMarginChart && 'lg:col-start-1 lg:col-end-4']"
 	>
 		<div class="flex items-center justify-between">

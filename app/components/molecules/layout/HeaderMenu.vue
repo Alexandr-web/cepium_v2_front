@@ -3,7 +3,7 @@
 		<ul class="flex items-center gap-16 lg:gap-0">
 			<li class="lg:hidden">
 				<NuxtLink 
-					class="group flex justify-center items-center p-8 bg-neutral-200 rounded-8 hover:bg-neutral-300/50 transition-colors" 
+					class="group flex justify-center items-center p-8 bg-neutral-100 rounded-8 hover:bg-neutral-300/50 transition-colors" 
 					:to="{ name: 'configs' }"
 				>
 					<IconSettingsOutline class="text-neutral-500 transition-colors group-hover:text-neutral-900 w-20 h-20" />

@@ -68,7 +68,7 @@ const menu = [
 const menuClasses = computed(() => {
 	switch (props.preset) {
 		case MenuPreset.DESKTOP:
-			return "flex flex-col justify-between gap-24 py-16 px-12 bg-neutral-100/60 border-r border-solid border-r-white/5 max-w-256 w-full transition-all";
+			return "flex flex-col justify-between gap-24 py-16 px-12 bg-black border-r border-solid border-r-white/5 max-w-256 w-full transition-all";
 		case MenuPreset.MOBILE:
 			return "flex flex-col gap-24 w-full";
 		default:
@@ -101,7 +101,7 @@ const listClasses = computed(() => {
 const linkClasses = computed(() => {
 	switch (props.preset) {
 		case MenuPreset.DESKTOP:
-			return "gap-12 p-10 hover:text-neutral-950 hover:bg-neutral-300/40";
+			return "gap-12 p-10 hover:text-neutral-950 hover:bg-neutral-300/60";
 		case MenuPreset.MOBILE:
 			return "gap-14 p-12";
 		default:
@@ -112,7 +112,7 @@ const linkClasses = computed(() => {
 const activeClass = computed(() => {
 	switch (props.preset) {
 		case MenuPreset.DESKTOP:
-			return "text-primary-600 bg-primary-500/5 font-medium transition-colors duration-200";
+			return "text-primary-600 bg-primary-500/15 font-medium transition-colors duration-200";
 		case MenuPreset.MOBILE:
 			return "text-primary-700 bg-primary-500/5 font-medium transition-all duration-200";
 		default:

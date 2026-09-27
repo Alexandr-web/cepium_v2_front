@@ -11,8 +11,8 @@
 				v-maska:code.unmasked="{ mask: maskPattern, eager: true }"
 				class="text-22 lg:text-24 font-bold border border-solid text-neutral-500 text-center rounded-12 transition p-16"
 				:class="[
-					code.length >= codeLen && 'bg-neutral-950',
-					code.length < codeLen && 'bg-neutral-800 hover:bg-neutral-950',
+					code.length >= codeLen && 'bg-neutral-800',
+					code.length < codeLen && 'bg-neutral-700',
 					!codeIsValid && 'text-secondary-400 border-secondary-400'
 				]"
 				type="text"

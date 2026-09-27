@@ -1,5 +1,5 @@
 <template>
-	<div class="group flex items-center justify-between gap-10 rounded-8 lg:rounded-12 border border-solid border-neutral-300 bg-primary-100 p-10 lg:p-16 cursor-pointer">
+	<div class="group flex items-center justify-between gap-10 rounded-8 lg:rounded-12 border border-solid border-neutral-200 bg-black p-10 lg:p-16 cursor-pointer">
 		<div class="flex items-center gap-10">
 			<div v-if="logo" class="border-r-1 border-r-solid border-r-neutral-400 pr-12">
 				<AImage
@@ -17,8 +17,8 @@
 				>{{ connectedMessage }}</span>
 			</div>
 		</div>
-		<IconAddRounded v-if="!item.filled" class="w-24 h-24 group-hover:text-white text-white/80 transition" />
-		<IconEditOutlineRounded v-else class="w-24 h-24 group-hover:text-white text-white/80 transition" />
+		<IconAddRounded v-if="!item.filled" class="w-20 h-20 group-hover:text-white text-white/80 transition" />
+		<IconEditOutlineRounded v-else class="w-20 h-20 group-hover:text-white text-white/80 transition" />
 	</div>
 </template>
 <script setup lang="ts">

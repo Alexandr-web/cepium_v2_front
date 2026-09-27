@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="flex flex-col lg:flex-row justify-between lg:gap-6 rounded-8 bg-neutral-100/80 border-solid border border-white/5"
+		class="flex flex-col lg:flex-row justify-between lg:gap-6 rounded-8 bg-black border-solid border border-white/5"
 		:class="[showCharts && 'lg:col-start-2 lg:col-end-4']"
 	>
 		<div class="flex flex-col lg:flex-row justify-between gap-32 p-16 lg:grow">
