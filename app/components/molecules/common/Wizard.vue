@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col lg:flex-row gap-12 lg:gap-36">
-		<div class="flex lg:flex-col flex-wrap justify-center lg:justify-start gap-2 lg:gap-6">
+		<div class="flex lg:flex-col flex-wrap justify-center lg:justify-start gap-2 lg:gap-6 lg:basis-[10%]">
 			<div
 				v-for="(step, idx) in steps"
 				:key="step.name"
@@ -35,25 +35,26 @@
 				</div>
 			</div>
 		</div>
-		<div class="flex flex-col gap-24 lg:grow">
-			<div class="bg-black/80 rounded-8 lg:rounded-12 p-12 lg:p-24 border border-neutral-200">
-				<IconLoader v-if="isPending" class="w-16 lg:w-24 h-16 lg:h-24 mx-auto" />
-				<slot v-else v-bind="activeStep" />
+		<div class="flex flex-col gap-24 relative lg:basis-[90%] bg-black/80 rounded-8 lg:rounded-12 p-12 lg:p-24 border border-neutral-200 min-h-100">
+			<div v-if="isPending" class="absolute top-0 left-0 w-full h-full flex justify-center items-center z-1">
+				<IconLoader class="w-16 lg:w-24 h-16 lg:h-24" />
 			</div>
-			<div class="flex justify-end items-center gap-8">
-				<AButton
-					:mode="ButtonMode.BLACK_FILL"
-					:disabled="activeStepIndex === 0 || isPending"
-					class="px-22 py-8 rounded-8 text-12 lg:text-14"
-					@click="goPrev"
-				>Назад</AButton>
-				<AButton
-					:mode="activeStepIndex === steps.length - 1 ? ButtonMode.TERTIARY_BORDER : ButtonMode.PRIMARY_BORDER"
-					:disabled="isPending"
-					class="px-22 py-8 rounded-8 text-12! lg:text-14!"
-					@click="goNext"
-				>{{ nextBtnText }}</AButton>
-			</div>
+			<template v-else>
+				<slot v-bind="activeStep" />
+				<div class="flex justify-end items-center gap-8 mt-auto">
+					<AButton
+						:mode="ButtonMode.BLACK_FILL"
+						:disabled="activeStepIndex === 0"
+						class="px-22 py-8 rounded-8 text-12 lg:text-14"
+						@click="goPrev"
+					>Назад</AButton>
+					<AButton
+						:mode="activeStepIndex === steps.length - 1 ? ButtonMode.TERTIARY_BORDER : ButtonMode.PRIMARY_BORDER"
+						class="px-22 py-8 rounded-8 text-12! lg:text-14!"
+						@click="goNext"
+					>{{ nextBtnText }}</AButton>
+				</div>
+			</template>
 		</div>
 	</div>
 </template>

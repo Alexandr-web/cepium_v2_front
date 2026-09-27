@@ -1,5 +1,5 @@
 <template>
-	<section class="flex flex-col gap-12 lg:gap-24 w-full lg:max-w-1200 lg:mx-auto">
+	<section class="flex flex-col gap-12 lg:gap-24">
 		<h2 class="text-20 lg:text-24 font-semibold">{{ title }}</h2>
 		<Wizard
 			ref="wizardRef"
