@@ -38,6 +38,8 @@ const classesByMode = computed(() => {
 			return "transition-all duration-200 ease-in-out bg-primary-400 text-white/90 hover:bg-primary-500 text-14";
 		case ButtonMode.PRIMARY_BORDER:
 			return "transition hover:border-primary-500 border-solid bg-primary-300 border border-primary-400 text-white/80 text-14";
+		case ButtonMode.TERTIARY_BORDER:
+			return "transition hover:border-tertiary-500 border-solid bg-tertiary-300 border border-tertiary-400 text-white/80 text-14";
 		default:
 			return "";
 	}

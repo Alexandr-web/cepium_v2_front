@@ -69,6 +69,7 @@ export enum ButtonMode {
 	BLACK_FILL = "black-fill",
 	PRIMARY_FILL = "primary-fill",
 	PRIMARY_BORDER = "primary-border",
+	TERTIARY_BORDER = "tertiary-border"
 };
 
 export enum FormMode {
@@ -113,4 +114,11 @@ export type ActivityItemCell = {
 	month: number;
 	isToday: boolean;
 	formatDate: string;
+};
+
+export type WizardItem = {
+	label?: string;
+	completed: boolean;
+	name: string;
+	active: boolean;
 };
