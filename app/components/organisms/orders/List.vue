@@ -41,6 +41,9 @@ const PER_PAGE = 10;
 
 const filters = ref<Record<string, string>>({});
 
+const router = useRouter();
+const route = useRoute();
+
 const page = ref(1);
 const orders = ref<Order[]>([]);
 const totalItems = ref(0);
@@ -58,6 +61,8 @@ const fetchOrders = async () => {
 
 		orders.value = res.data.orders;
 		totalItems.value = res.data.total;
+
+		await router.push({ path: route.path, query: filters.value });
 	} catch (err) {
 		console.error(err);
 

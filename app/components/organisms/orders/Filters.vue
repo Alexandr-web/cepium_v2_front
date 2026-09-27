@@ -43,6 +43,8 @@ withDefaults(
 	}
 );
 
+const route = useRoute();
+
 const filtersQuery = defineModel<Record<string, string>>({ default: () => ({}) });
 
 const STATUSES_LIST: SelectItem[] = [
@@ -62,7 +64,7 @@ const createFilters = (): FilterItem[] => [
 		name: "type",
 		component: markRaw(ASelect),
 		label: "Статус",
-		value: String(STATUSES_LIST[0]?.value ?? ""),
+		value: String(route.query.type ?? STATUSES_LIST[0]?.value ?? ""),
 		items: STATUSES_LIST,
 		classes: "lg:min-w-250",
 	},
@@ -70,7 +72,7 @@ const createFilters = (): FilterItem[] => [
 		name: "result",
 		component: markRaw(ASelect),
 		label: "Результат",
-		value: String(RESULTS_LIST[0]?.value ?? ""),
+		value: String(route.query.result ?? RESULTS_LIST[0]?.value ?? ""),
 		items: RESULTS_LIST,
 		classes: "lg:min-w-250",
 	},
@@ -78,7 +80,7 @@ const createFilters = (): FilterItem[] => [
 		name: "activeConfig",
 		component: markRaw(ACheckbox),
 		label: "Только активный конфиг",
-		value: false,
+		value: Boolean(!route.query.activeConfig ? false : route.query.activeConfig === "true"),
 		classes: "text-white",
 	},
 ];
