@@ -1,5 +1,5 @@
 <template>
-	<div class="flex items-center gap-6 max-w-full w-full lg:w-auto lg:mx-auto select-none">
+	<div class="flex items-center gap-6 max-w-full w-full lg:w-auto lg:mx-auto select-none bg-black p-12 rounded-8">
 		<AButton
 			:disabled="isFirstPage || isPending"
 			class="flex items-center justify-center w-36 h-36"

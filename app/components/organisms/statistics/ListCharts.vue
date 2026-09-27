@@ -1,9 +1,9 @@
 <template>
-	<section class="grid grid-cols-1 lg:grid-cols-4 gap-24 p-12 lg:p-24 bg-neutral-100 min-h-screen rounded-12">
+	<section class="grid grid-cols-1 lg:grid-cols-4 gap-24 p-12 lg:p-24 bg-black min-h-screen rounded-12">
 		<div
 			v-for="(item, idx) in charts"
 			:key="idx"
-			class="flex flex-col bg-neutral-200 border border border-neutral-300 rounded-12 p-12 lg:p-20 gap-16"
+			class="flex flex-col bg-neutral-100/50 border border border-neutral-200 rounded-12 p-12 lg:p-20 gap-16"
 			:class="item.classes"
 		>
 			<h3 class="font-medium text-neutral-700">{{ item.label }}</h3>

@@ -10,7 +10,7 @@
 	>
 		<div
 			v-show="show"
-			class="fixed top-0 left-0 w-screen h-dvh overflow-hidden z-999 bg-neutral-100/80 flex flex-col justify-end lg:justify-start"
+			class="fixed top-0 left-0 w-screen h-dvh overflow-hidden z-999 bg-black/50 flex flex-col justify-end lg:justify-start"
 		>
 			<Transition
 				enter-active-class="duration-300 ease-out transform transition-all"
@@ -23,7 +23,7 @@
 				<div
 					v-show="show"
 					ref="target"
-					class="bg-neutral-100 rounded-t-8 lg:rounded-8 border-t-1 w-full lg:border border-solid border-t-white/10 lg:border-white/10 pb-32 pt-50 lg:pt-32 px-16 relative lg:m-auto"
+					class="bg-black rounded-t-8 lg:rounded-8 border-t-1 w-full lg:border border-solid border-t-white/10 lg:border-white/10 pb-32 pt-50 lg:pt-32 px-16 relative lg:m-auto"
 					:class="[
 						size === 'small' && 'lg:max-w-500',
 						size === 'default' && 'lg:max-w-900'

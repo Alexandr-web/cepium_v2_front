@@ -1,6 +1,6 @@
 <template>
-	<div class="flex items-center gap-5 py-6 px-12 rounded-12 bg-primary-300 border border-solid border-primary-400 cursor-pointer">
-		<span class="text-neutral-900 text-14 min-w-0 max-w-full truncate">{{ label }}</span>
+	<div class="flex items-center gap-5 py-6 px-12 rounded-12 bg-neutral-300 border border-solid border-neutral-400 cursor-pointer">
+		<span class="text-neutral-900 text-12 min-w-0 max-w-full truncate">{{ label }}</span>
 		<AButton class="min-w-24 max-w-24 min-h-24 max-h-24" @click.stop="emits('remove')">
 			<IconCloseSmallOutlineRounded class="w-full h-full text-neutral-800" />
 		</AButton>

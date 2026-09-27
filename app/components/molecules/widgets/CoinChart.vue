@@ -5,6 +5,7 @@
 			dark-mode="true"
 			:coin-id="symbol"
 			initial-currency="usd"
+			transparent-background="true"
 		/>
 	</div>
 </template>

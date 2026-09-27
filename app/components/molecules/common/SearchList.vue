@@ -16,7 +16,7 @@
 				</div>
 			</div>
 			<div
-				class="flex flex-col rounded-6 p-12 bg-primary-100 h-150 overflow-auto scroll-block relative"
+				class="flex flex-col rounded-6 p-12 bg-black border border-neutral-100 h-150 overflow-auto scroll-block relative"
 				:class="[(!foundItemsMap.size || isPending) && 'items-center justify-center']"
 			>
 				<IconLoader v-if="isPending" class="text-white absolute w-26 lg:w-36 h-26 lg:h-36" />

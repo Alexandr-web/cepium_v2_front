@@ -1,5 +1,5 @@
 <template>
-	<div class="border border-white/5 bg-neutral-100 rounded-4 scroll-block overflow-auto max-w-full">
+	<div class="border border-white/5 bg-black rounded-4 scroll-block overflow-auto max-w-full">
 		<ul class="flex items-center w-max overflow-hidden h-full min-h-0">
 			<li
 				v-for="item in items"

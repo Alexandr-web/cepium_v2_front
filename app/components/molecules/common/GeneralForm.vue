@@ -1,6 +1,6 @@
 <template>
 	<form
-		class="flex flex-col rounded-12 border border-solid border-neutral-200/60 bg-neutral-100/50"
+		class="flex flex-col rounded-12 border border-solid border-neutral-100 bg-black/80"
 		:class="formClassesByMode"
 		@submit.prevent="emits('send', formattedData)"
 	>

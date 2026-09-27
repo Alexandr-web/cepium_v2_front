@@ -3,15 +3,15 @@
 		<div class="flex items-center justify-between gap-10">
 			<h2 class="text-20 lg:text-24 font-semibold">Ордера</h2>
 			<AButton
-				class="flex lg:hidden items-center justify-center p-8 rounded-8 border border-solid border-neutral-400"
-				:mode="ButtonMode.NEUTRAL_FILL"
+				class="flex lg:hidden items-center justify-center p-8 rounded-8 border border-solid border-neutral-100"
+				:mode="ButtonMode.NEUTRAL_BLACK"
 				:disabled="disabled"
 				@click="showMobFilters = true"
 			>
 				<IconFilter class="w-22 h-22 text-white/50" />
 			</AButton>
 		</div>
-		<div class="hidden lg:flex justify-between gap-16 bg-neutral-100 rounded-8 p-16 border border-solid border-white/10">
+		<div class="hidden lg:flex justify-between gap-16 bg-black rounded-8 p-16 border border-solid border-white/10">
 			<Filters :filters="filters" :disabled="disabled" />
 		</div>
 	</div>

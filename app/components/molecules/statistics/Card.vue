@@ -1,5 +1,5 @@
 <template>
-	<div class="group flex flex-col bg-neutral-100 border border-solid border-neutral-200 rounded-12 p-20 gap-16 w-full shadow-sm hover:shadow-md hover:border-neutral-300/80 transition relative">
+	<div class="group flex flex-col bg-black border border-solid border-neutral-100 rounded-12 p-20 gap-16 w-full hover:border-neutral-300/80 transition relative">
 		<div class="flex items-center justify-between gap-12 min-w-0">
 			<span class="text-13 font-medium text-neutral-500 truncate" :title="card.title">
 				{{ card.title }}

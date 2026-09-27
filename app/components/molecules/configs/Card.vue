@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col p-16 lg:p-24 rounded-12 border border-solid border-neutral-300 bg-primary-100/70 gap-16">
+	<div class="flex flex-col p-16 lg:p-24 rounded-12 border border-solid border-neutral-300 bg-black/70 gap-16">
 		<div class="flex justify-between gap-10">
 			<div class="flex flex-col gap-3 min-w-0">
 				<span
@@ -15,7 +15,7 @@
 				]"
 			>{{ activeLabel }}</div>
 		</div>
-		<div class="grid grid-cols-2 gap-12 rounded-8 bg-primary-200/80 p-12">
+		<div class="grid grid-cols-2 gap-12 rounded-8 bg-neutral-100/75 p-12">
 			<div v-for="(item, idx) in info" :key="idx" class="flex flex-col">
 				<span class="text-10 lg:text-12 uppercase text-neutral-800">{{ item.label }}</span>
 				<span class="text-14 lg:text-16 text-neutral-900 font-medium" :class="item.valueClasses">{{ item.value }}</span>
@@ -26,7 +26,7 @@
 				<span
 					v-for="(s, idx) in card.allowedSymbols"
 					:key="idx"
-					class="inline-block py-4 px-8 text-neutral-800 text-10 lg:text-12 uppercase font-bold truncate bg-neutral-300/80 rounded-4 max-w-150"
+					class="inline-block py-4 px-8 text-neutral-800 text-10 lg:text-12 uppercase font-bold truncate bg-neutral-200/80 rounded-4 max-w-150"
 					:title="s"
 				>{{ s }}</span>
 			</div>
