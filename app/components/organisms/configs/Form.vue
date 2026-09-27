@@ -172,7 +172,7 @@ const fields = ref<GeneralFormField[]>([
 	},
 	{
 		name: "allowedSymbols",
-		value: props.data?.allowedSymbols ?? [],
+		value: [...props.data?.allowedSymbols ?? []],
 		check: z.array(z.string()).min(1),
 		error: "",
 		disabled: !choosedExchange.value,
@@ -192,7 +192,7 @@ const fields = ref<GeneralFormField[]>([
 	},
 	{
 		name: "activate",
-		value: props.data?.activate ?? true,
+		value: Boolean(props.data?.activate ?? true),
 		label: "Активировать",
 		component: markRaw(ACheckbox),
 		tooltipText: "Запускает конфигурацию в работу. Сервис сразу начнет отслеживать выбранные монеты и открывать сделки по заданной стратегии.",

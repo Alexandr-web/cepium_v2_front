@@ -134,7 +134,7 @@ const createFields = () => ([
 	},
 	{
 		component: markRaw(ACheckbox),
-		value: props.credentials?.data.demoTrading ?? false,
+		value: Boolean(props.credentials?.data.demoTrading ?? false),
 		name: "demoTrading",
 		label: "Демо аккаунт",
 		classes: "text-white/80",
