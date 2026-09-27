@@ -14,6 +14,14 @@
 				]"
 			>{{ value }}</span>
 		</template>
+		<template #cell-createdAt="{ value }">
+			<NuxtTime
+				:datetime="String(value)"
+				locale="ru"
+				date-style="medium"
+				time-style="medium"
+			/>
+		</template>
 	</MTable>
 </template>
 <script setup lang="ts">

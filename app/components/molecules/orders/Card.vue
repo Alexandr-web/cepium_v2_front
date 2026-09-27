@@ -12,7 +12,13 @@
 					>{{ card.side }}</span>
 					<span class="font-bold text-neutral-800 uppercase text-18">{{ card.symbol }}</span>
 				</div>
-				<span class="font-medium text-neutral-600 text-12">{{ time }}</span>
+				<NuxtTime
+					class="font-medium text-neutral-600 text-12"
+					:datetime="String(card.closedAt)"
+					locale="ru"
+					date-style="medium"
+					time-style="medium"
+				/>
 			</div>
 		</div>
 		<div
@@ -40,7 +46,6 @@ const { card } = defineProps<{
 	card: Order;
 }>();
 
-const time = computed(() => formatDateTime(card.closedAt));
 const enterPrice = computed(() => formatNum(Number(card.entryPrice), { currency: "USD", style: "currency", defaultValue: "-" }));
 const amount = computed(() => formatNum(Number(card.size), { padZero: true }));
 const pnl = computed(() => formatNum(Number(card.realizedPnl), { currency: "USD", style: "currency", defaultValue: "0" }));

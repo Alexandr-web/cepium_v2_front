@@ -62,7 +62,6 @@ export const tradeColumns: TableColumn<Trade>[] = [
 	{
 		key: "createdAt",
 		label: "Время открытия",
-		normalizer: (v) => formatDateTime(String(v)),
 	},
 	{
 		key: "controls",
@@ -113,7 +112,6 @@ export const ordersColumns: TableColumn<Order>[] = [
 	{
 		key: "createdAt",
 		label: "Время создания",
-		normalizer: (v) => formatDateTime(String(v)),
 		classes: "opacity-80",
 	},
 ];

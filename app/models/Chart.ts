@@ -12,7 +12,20 @@ export type ChartDataPoint = {
 const WEEK_ORDER_RU = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 
 // максимум секторов в диаграмме, остальные схлопываются в "другие"
-const MAX_MARGIN_SLICES = 5;
+const MAX_TOP_SLICES = 5;
+
+const getAssignOptions = (defaults: Partial<EChartsOption>, customOptions: Partial<EChartsOption>) => {
+	// кастомные опции накладываются поверх дефолтных (series[0] - слиянием, как в getComputedOptions)
+	const options = { ...defaults, ...customOptions };
+
+	if (Array.isArray(customOptions.series) && Array.isArray(defaults.series)) {
+		Object.assign(options, {
+			series: [{ ...defaults.series[0], ...customOptions.series[0] }],
+		});
+	}
+
+	return options;
+};
 
 export default class Chart {
 	type: ChartType;
@@ -109,22 +122,7 @@ export default class Chart {
 			});
 		}
 
-		// берем базовые опции и аккуратно накладываем кастомные.
-		// Если в customOptions есть свойства для series, объединяем их, а не затираем.
-		const finalOptions = { ...baseOptions, ...this.customOptions };
-		
-		if (this.customOptions.series && Array.isArray(this.customOptions.series) && Array.isArray(baseOptions.series)) {
-			Object.assign(finalOptions, {
-				series: [
-					{
-						...baseOptions.series?.[0],
-						...this.customOptions.series[0],
-					},
-				],
-			});
-		}
-
-		return finalOptions;
+		return getAssignOptions(baseOptions, this.customOptions);
 	}
 
 	// "Динамика профита" - сумма realizedPnl по дням недели (Пн→Вс), только закрытые сделки.
@@ -223,16 +221,7 @@ export default class Chart {
 			}],
 		};
 
-		// кастомные опции накладываются поверх дефолтных (series[0] - слиянием, как в getComputedOptions)
-		const options = { ...defaults, ...customOptions };
-
-		if (Array.isArray(customOptions.series) && Array.isArray(defaults.series)) {
-			Object.assign(options, {
-				series: [{ ...defaults.series[0], ...customOptions.series[0] }],
-			});
-		}
-
-		return new Chart("line", data, options);
+		return new Chart("line", data, getAssignOptions(defaults, customOptions));
 	}
 
 	// "Количество сделок" - сколько сделок по каждому символу (открытые + закрытые).
@@ -267,16 +256,7 @@ export default class Chart {
 			}],
 		};
 
-		// кастомные опции накладываются поверх дефолтных (series[0] - слиянием, как в getComputedOptions)
-		const options = { ...defaults, ...customOptions };
-
-		if (Array.isArray(customOptions.series) && Array.isArray(defaults.series)) {
-			Object.assign(options, {
-				series: [{ ...defaults.series[0], ...customOptions.series[0] }],
-			});
-		}
-
-		return new Chart("bar", data, options);
+		return new Chart("bar", data, getAssignOptions(defaults, customOptions));
 	}
 
 	// "Соотношение Win/Loss" - сколько закрытых сделок ушло в плюс/минус.
@@ -296,16 +276,16 @@ export default class Chart {
 					type: "linear",
 					x: 0, y: 0, x2: 0, y2: 1,
 					colorStops: [
-						{ offset: 0, color: CHART_COLORS.color.pie[0]?.colorStops[0] ?? "" },
-						{ offset: 1, color: CHART_COLORS.color.pie[0]?.colorStops[1] ?? "" },
+						{ offset: 0, color: CHART_COLORS.color.pie[0]?.colorStops[0] ?? "transparent" },
+						{ offset: 1, color: CHART_COLORS.color.pie[0]?.colorStops[1] ?? "transparent" },
 					],
 				},
 				{
 					type: "linear",
 					x: 0, y: 0, x2: 0, y2: 1,
 					colorStops: [
-						{ offset: 0, color: CHART_COLORS.color.pie[1]?.colorStops[0] ?? "" },
-						{ offset: 1, color: CHART_COLORS.color.pie[1]?.colorStops[1] ?? "" },
+						{ offset: 0, color: CHART_COLORS.color.pie[1]?.colorStops[0] ?? "transparent" },
+						{ offset: 1, color: CHART_COLORS.color.pie[1]?.colorStops[1] ?? "transparent" },
 					],
 				},
 			],
@@ -317,7 +297,9 @@ export default class Chart {
 				textStyle: { color: CHART_COLORS.tooltip.textStyle.color },
 				formatter: (params) => {
 					const item = Array.isArray(params) ? params[0] : params;
-					return `${item?.name}: <span class="font-semibold">${item?.value} шт. (${item?.percent}%)</span>`;
+					const value = formatNum(Number(item?.value), { padZero: true });
+					const percent = formatNum(Number(item?.percent) / 100, { style: "percent" });
+					return `${item?.name}: <span class="font-semibold">${value} шт. (${percent})</span>`;
 				},
 			},
 			legend: {
@@ -354,16 +336,7 @@ export default class Chart {
 			}],
 		};
 
-		// кастомные опции накладываются поверх дефолтных (series[0] - слиянием, как в getComputedOptions)
-		const options = { ...defaults, ...customOptions };
-
-		if (Array.isArray(customOptions.series) && Array.isArray(defaults.series)) {
-			Object.assign(options, {
-				series: [{ ...defaults.series[0], ...customOptions.series[0] }],
-			});
-		}
-
-		return new Chart("pie", data, options);
+		return new Chart("pie", data, getAssignOptions(defaults, customOptions));
 	}
 
 	// "Доля маржи" - какую часть используемой маржи занимает каждая активная позиция.
@@ -378,8 +351,8 @@ export default class Chart {
 		});
 
 		const sorted = Array.from(marginsMap.entries()).sort((a, b) => b[1] - a[1]);
-		const top = sorted.slice(0, MAX_MARGIN_SLICES);
-		const restSum = sorted.slice(MAX_MARGIN_SLICES).reduce((sum, [_, v]) => sum + v, 0);
+		const top = sorted.slice(0, MAX_TOP_SLICES);
+		const restSum = sorted.slice(MAX_TOP_SLICES).reduce((sum, [_, v]) => sum + v, 0);
 
 		if (restSum > 0) top.push(["Другие", restSum]);
 
@@ -409,7 +382,8 @@ export default class Chart {
 				formatter: (params) => {
 					const item = Array.isArray(params) ? params[0] : params;
 					const value = formatNum(Number(item?.value), { currency: "USD", style: "currency" });
-					return `${item?.name}: <span class="font-semibold">${value} (${item?.percent}%)</span>`;
+					const percent = formatNum(Number(item?.percent) / 100, { style: "percent" });
+					return `${item?.name}: <span class="font-semibold">${value} (${percent})</span>`;
 				},
 			},
 			series: [{
@@ -435,15 +409,6 @@ export default class Chart {
 			}],
 		};
 
-		// кастомные опции накладываются поверх дефолтных (series[0] - слиянием, как в getComputedOptions)
-		const options = { ...defaults, ...customOptions };
-
-		if (Array.isArray(customOptions.series) && Array.isArray(defaults.series)) {
-			Object.assign(options, {
-				series: [{ ...defaults.series[0], ...customOptions.series[0] }],
-			});
-		}
-
-		return new Chart("pie", data, options);
+		return new Chart("pie", data, getAssignOptions(defaults, customOptions));
 	}
 };

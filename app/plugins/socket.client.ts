@@ -68,7 +68,7 @@ export default defineNuxtPlugin(() => {
 			isLoadedTrades.value = true;
 
 			// удаляем позиции, если их нет в приходящих сделках
-			tradeStore.getAllTrades().forEach((trade) => {
+			tradeStore.tradesMap.forEach((trade) => {
 				if (data.some(({ id }) => id !== trade.id)) tradeStore.tradesMap.delete(trade.id);
 			});
 

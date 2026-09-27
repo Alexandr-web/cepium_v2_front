@@ -245,5 +245,3 @@ export const isCurrentDate = (_date: string) => {
 			date.getMonth() === now.getMonth() &&
 			date.getDate() === now.getDate();
 };
-
-export const formatDateTime = (date?: string) => !date ? "" : new Date(String(date)).toLocaleString();

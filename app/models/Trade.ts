@@ -44,10 +44,6 @@ export default class Trade {
 		this.stopLossPrice = data.stopLossPrice;
 	}
 
-	get prettyCreatedAt() {
-		return formatDateTime(this.createdAt);
-	}
-
 	get shortSymbol() {
 		return extractBaseSymbol(this.symbol);
 	}

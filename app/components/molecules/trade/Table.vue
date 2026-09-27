@@ -59,6 +59,14 @@
 				<p>{{ row.direction }} {{ row.prettyLeverage }}</p>
 			</div>
 		</template>
+		<template #cell-createdAt="{ value }">
+			<NuxtTime
+				:datetime="String(value)"
+				locale="ru"
+				date-style="medium"
+				time-style="medium"
+			/>
+		</template>
 		<template #cell-controls="{ row }">
 			<Tooltip placement="left" :disabled="disabled">
 				<template #trigger>

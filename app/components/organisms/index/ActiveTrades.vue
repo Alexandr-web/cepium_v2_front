@@ -8,7 +8,7 @@
 				v-if="tradeStore.tradesMap.size"
 				class="py-4 px-12 rounded-12 text-12"
 				:mode="ButtonMode.REMOVE_BORDER"
-				:disabled="isPendingRemovePosition"
+				:disabled="isPendingRemovePosition || !displayTrades.length"
 				data-allow-mismatch=""
 				@click="openAllControls"
 			>Закрыть все</AButton>
@@ -43,7 +43,7 @@
 		</template>
 		<TradesTable
 			v-else
-			:disabled="isPendingRemovePosition || !$isLoadedTrades"
+			:disabled="isPendingRemovePosition || !$isLoadedTrades || !displayTrades.length"
 			data-allow-mismatch=""
 			:trades="displayTrades"
 			@remove-one="removePosition"
