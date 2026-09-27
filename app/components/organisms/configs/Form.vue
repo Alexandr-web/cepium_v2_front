@@ -1,38 +1,52 @@
 <template>
-	<section class="flex flex-col gap-12 lg:max-w-1200 w-full lg:mx-auto">
+	<section class="flex flex-col gap-12 lg:gap-24">
 		<h2 class="text-20 lg:text-24 font-semibold">{{ title }}</h2>
-		<!-- @vue-generic {ConfigData}-->
-		<GeneralForm
-			:fields="fields"
-			:normalized-data="normalizedData"
-			:mode="FormMode.GRID"
-			fields-list-classes="lg:grid-cols-6"
-			@send="execute"
+		<Wizard
+			ref="wizardRef"
+			:items="steps"
+			:is-pending="!fieldsByStep.length"
+			:check="validateStepFields"
+			@execute="execute"
 		>
-			<template #content>
-				<div class="flex flex-col-reverse lg:flex-row">
-					<AButton
-						class="w-full lg:w-auto rounded-4 py-10 px-24 lg:ml-auto"
-						:mode="ButtonMode.PRIMARY_FILL"
-						type="submit"
-						:disabled="isPendingConfig"
-					>
-						{{ btnText }}
-					</AButton>
+			<template #default="activeStep">
+				<div class="flex flex-col gap-16 lg:gap-24">
+					<h3 class="text-12 lg:text-16 text-center lg:text-start text-neutral-700 lg:text-neutral-800 font-medium lg:font-semibold uppercase border-b border-b-white/8 pb-10">{{ activeStep.label }}</h3>
+					<div class="grow grid grid-cols-1 lg:grid-cols-2 gap-16">
+						<component
+							:is="field.component"
+							v-for="field in fieldsByStep"
+							:key="field.name"
+							v-model="field.value"
+							v-model:error="field.error"
+							:check="field.check"
+							:placeholder="field.placeholder"
+							:label="field.label"
+							:type="field.type"
+							:items="field.items"
+							:disabled="field.disabled"
+							:search="field.search"
+							:item-click-handler="field.itemClickHandler"
+							:max="field.max"
+							:min="field.min"
+							:show-tooltip="field.showTooltip"
+							:format="field.format"
+							:size="field.size"
+							:tooltip-text="field.tooltipText"
+							:class="field.classes"
+						/>
+					</div>
 				</div>
 			</template>
-		</GeneralForm>
+		</Wizard>
 	</section>
 	<Teleport to="body">
-		<Modal :model-value="!!choosedSymbol" @close="choosedSymbol = null">
-			<CoinTicker v-if="choosedSymbol" :symbol="choosedSymbol" />
+		<Modal :model-value="!!selectedSymbol" @close="selectedSymbol = null">
+			<CoinTicker v-if="selectedSymbol" :symbol="selectedSymbol" />
 		</Modal>
 	</Teleport>
 </template>
 <script setup lang="ts">
 import * as z from "zod";
-import AButton from "@/components/atoms/AButton.vue";
-import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import ASelect from "@/components/atoms/ASelect.vue";
 import AInput from "@/components/atoms/AInput.vue";
 import SearchList from "@/components/molecules/common/SearchList.vue";
@@ -40,6 +54,7 @@ import ASlider from "@/components/atoms/ASlider.vue";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
 import Modal from "@/components/molecules/common/Modal.vue";
 import CoinTicker from "@/components/molecules/widgets/CoinTicker.vue";
+import Wizard from "@/components/molecules/common/Wizard.vue";
 import { useMarketsSearch } from "@/composables/api/useExchanges";
 import { useCoinGeckoSearch } from "@/composables/api/useCoinGecko";
 
@@ -59,10 +74,24 @@ const props = withDefaults(
 	}
 );
 
+/**
+ * Соответствие "имя шага -> имена полей, которые к нему относятся".
+ * Используется и в `fieldsByStep` (что рендерить на активном шаге), и в
+ * `isStepValid` (уже ли валидны поля шага) - так они не могут разойтись.
+ */
+const STEP_FIELDS: Record<string, string[]> = {
+	"exchange-strategy": ["exchange", "margin", "strategyId"],
+	"risk-management": ["maxLossPercent", "dailyGoalPercent", "maxPositionSize", "maxLeverage"],
+	"assets-launch": ["allowedSymbols", "activate"],
+};
+
 const { findCoinId } = useCoinGeckoSearch();
 const { searchMarkets } = useMarketsSearch();
 
 const emits = defineEmits(["execute"]);
+
+const wizardRef = ref<typeof Wizard | null>(null);
+const selectedSymbol = ref<string | null>(null);
 
 const strategiesList = computed<SelectItem[]>(() => props.strategies.map((s) => ({ label: s.name, value: s.id })) ?? []);
 const exchangesList = computed<SelectItem[]>(() =>
@@ -76,10 +105,7 @@ const MARGIN_MODE_LIST: SelectItem[] = [
 	{ label: "Кросс", value: "cross" },
 ];
 
-const choosedSymbol = ref<string|null>(null);
-const choosedExchange = ref(props.data?.exchangeName || "");
-
-const fields = ref<GeneralFormField[]>([
+const fields: Ref<GeneralFormField[]> = ref([
 	{
 		name: "exchange",
 		value: String(props.data?.exchangeName ?? ""),
@@ -88,10 +114,13 @@ const fields = ref<GeneralFormField[]>([
 		label: "Биржа",
 		placeholder: "Выберите биржу",
 		component: markRaw(ASelect),
-		items: exchangesList.value,
-		disabled: props.isPendingExchanges || !exchangesList.value.length,
+		get items() {
+			return exchangesList.value;
+		},
+		get disabled() {
+			return props.isPendingExchanges || !exchangesList.value.length;
+		},
 		tooltipText: "Укажите биржу, где будут исполняться торговые ордера. Убедитесь, что для неё подключены активные API-ключи.",
-		classes: "lg:col-span-2",
 	},
 	{
 		name: "margin",
@@ -103,20 +132,22 @@ const fields = ref<GeneralFormField[]>([
 		component: markRaw(ASelect),
 		items: MARGIN_MODE_LIST,
 		tooltipText: "Определяет, какими средствами вы рискуете. Кросс-маржа использует весь доступный баланс для удержания позиций. Изолированная маржа жестко ограничивает убыток размером самой сделки.",
-		classes: "lg:col-span-2",
 	},
 	{
 		name: "strategyId",
-		value: String(props.data?.strategy.id ?? ""),
+		value: String(props.data?.strategy?.id ?? ""),
 		check: z.string().min(1),
 		error: "",
 		label: "Стратегия",
 		placeholder: "Выберите стратегию",
 		component: markRaw(ASelect),
-		items: strategiesList.value,
-		disabled: props.isPendingStrategy,
+		get items() {
+			return strategiesList.value;
+		},
+		get disabled() {
+			return props.isPendingStrategy;
+		},
 		tooltipText: "Определяет алгоритм и правила, по которым сервис будет искать точки входа в рынок.",
-		classes: "lg:col-span-2",
 	},
 	{
 		name: "maxLossPercent",
@@ -129,7 +160,6 @@ const fields = ref<GeneralFormField[]>([
 		showTooltip: "focus",
 		format: (v: number) => formatNum(v / 100, { style: "percent" }),
 		tooltipText: "Ограничение максимальных потерь. При падении цены на указанный процент сервис автоматически закроет позицию в убыток, чтобы защитить оставшийся баланс от дальнейшего падения.",
-		classes: "lg:col-span-3",
 	},
 	{
 		name: "dailyGoalPercent",
@@ -142,7 +172,6 @@ const fields = ref<GeneralFormField[]>([
 		showTooltip: "focus",
 		format: (v: number) => formatNum(v / 100, { style: "percent" }),
 		tooltipText: "Желаемая прибыль за сутки в процентах от баланса.",
-		classes: "lg:col-span-3",
 	},
 	{
 		name: "maxPositionSize",
@@ -156,7 +185,6 @@ const fields = ref<GeneralFormField[]>([
 		format: (v: number) => formatNum(v / 100, { style: "percent" }),
 		type: "number",
 		tooltipText: "Ограничивает максимальный размер одной сделки. Задает долю от вашего общего баланса, которую сервис может использовать в качестве стартовой маржи для входа в одну позицию.",
-		classes: "lg:col-span-3",
 	},
 	{
 		name: "maxLeverage",
@@ -168,25 +196,26 @@ const fields = ref<GeneralFormField[]>([
 		component: markRaw(AInput),
 		type: "number",
 		tooltipText: "Верхний лимит кредитного плеча для сделок. Множитель заемных средств от биржи, который увеличивает объем позиции.",
-		classes: "lg:col-span-3",
 	},
 	{
 		name: "allowedSymbols",
-		value: [...props.data?.allowedSymbols ?? []],
+		value: [...(props.data?.allowedSymbols ?? [])],
 		check: z.array(z.string()).min(1),
 		error: "",
-		disabled: !choosedExchange.value,
+		get disabled() {
+			return !selectedExchangeValue.value;
+		},
 		label: "Список отслеживаемых монет",
 		placeholder: "Поиск отслеживаемых монет",
 		component: markRaw(SearchList),
-		classes: "lg:col-span-6",
 		tooltipText: "Список активов, на которых сервис будет искать точки входа. Стратегия будет анализировать графики только выбранных вами монет.",
+		classes: "lg:col-span-2",
 		itemClickHandler: async (item: SelectItem) => {
 			const id = await findCoinId(item.value);
-			if (id) choosedSymbol.value = id;
+			if (id) selectedSymbol.value = id;
 		},
 		search: async (search: string): Promise<SelectItem[]> => {
-			const res = await searchMarkets(choosedExchange.value, search);
+			const res = await searchMarkets(selectedExchangeValue.value, search);
 			return res.data.map((s) => ({ label: s.symbol, value: s.symbol })) ?? [];
 		},
 	},
@@ -200,9 +229,40 @@ const fields = ref<GeneralFormField[]>([
 	},
 ]);
 
-const { validateFields } = useForm(fields);
+const selectedExchangeValue = computed(() => String(fields.value.find((i) => i.name === "exchange")?.value ?? ""));
 
-const normalizedData = (): ConfigData => {
+// Валидны ли прямо сейчас все поля, относящиеся к шагу `stepName`.
+const isStepValid = (stepName: string) =>
+	(STEP_FIELDS[stepName] ?? []).every((name) => {
+		const field = fields.value.find((i) => i.name === name);
+		return !field ? true : (!field.check || field.check.safeParse(field.value).success);
+	});
+
+/**
+ * Шаги визарда. `fields` объявлен выше специально для того, чтобы здесь
+ * можно было сразу, при инициализации, посчитать `completed` через
+ * `isStepValid` - без отдельного прохода после создания массива.
+ *
+ * В режиме редактирования (`props.data` задан) поля уже заполнены
+ * значениями из конфига, поэтому уже валидные шаги сразу помечаются
+ * завершёнными.
+ */
+const steps = ref([
+	{ completed: !!props.data && isStepValid("exchange-strategy"), active: true, name: "exchange-strategy", label: "Биржа и стратегия" },
+	{ completed: !!props.data && isStepValid("risk-management"), active: false, name: "risk-management", label: "Управление рисками" },
+	{ completed: !!props.data && isStepValid("assets-launch"), active: false, name: "assets-launch", label: "Активы и запуск" },
+]);
+
+// Поля, относящиеся к текущему активному шагу визарда.
+const fieldsByStep = computed(() =>
+	fields.value.filter((i) => STEP_FIELDS[wizardRef.value?.activeName ?? ""]?.includes(i.name))
+);
+
+const { validateFields } = useForm(fields);
+const { validateFields: validateStepFields } = useForm(fieldsByStep);
+
+// Собирает плоский список полей обратно в форму, ожидаемую API.
+const normalizedData = computed((): ConfigData => {
 	const allowedSymbols = fields.value.find(({ name }) => name === "allowedSymbols")?.value;
 
 	return {
@@ -215,19 +275,10 @@ const normalizedData = (): ConfigData => {
 		maxPositionSize: Number(fields.value.find(({ name }) => name === "maxPositionSize")?.value),
 		activate: Boolean(fields.value.find(({ name }) => name === "activate")?.value),
 	};
-};
-
-const execute = async (configData: ConfigData) => {
-	if (!validateFields()) return;
-	emits("execute", { data: configData, exchangeName: String(choosedExchange.value || "") });
-};
-
-// обновляем disabled у "allowedSymbols" при выборе биржи
-const exchangeFieldsValue = computed(() => String(fields.value.find(({ name }) => name === "exchange")?.value));
-const allowedSymbolsField = computed(() => fields.value.find(({ name }) => name === "allowedSymbols"));
-
-watch(exchangeFieldsValue, (v) => {
-	choosedExchange.value = v;
-	if (allowedSymbolsField.value) allowedSymbolsField.value.disabled = !v;
 });
+
+const execute = async () => {
+	if (!validateFields()) return;
+	emits("execute", { data: normalizedData.value, exchangeName: selectedExchangeValue.value });
+};
 </script>
