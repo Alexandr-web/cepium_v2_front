@@ -15,7 +15,7 @@
 						<source src="/videos/bg-mob.mp4" type="video/mp4" media="(max-width: 768px)">
 						<source src="/videos/bg-desk.mp4" type="video/mp4" media="(min-width: 769px)">
 					</video>
-					<div class="absolute inset-0 bg-black/90 backdrop-blur-sm"/>
+					<div class="absolute inset-0 bg-black/90 backdrop-blur-md"/>
 				</div>
 				<div
 					ref="content"
