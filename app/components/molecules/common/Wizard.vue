@@ -43,7 +43,7 @@
 				<slot v-bind="activeStep" />
 				<div class="flex justify-end items-center gap-8 mt-auto">
 					<AButton
-						:mode="ButtonMode.BLACK_FILL"
+						:mode="ButtonMode.NEUTRAL_FILL"
 						:disabled="activeStepIndex === 0"
 						class="px-22 py-8 rounded-8 text-12 lg:text-14"
 						@click="goPrev"

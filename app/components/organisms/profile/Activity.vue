@@ -83,7 +83,7 @@ const props = withDefaults(
 	}>(),
 	{
 		activities: () => [],
-		year: () => new Date().getFullYear(),
+		year: undefined,
 	}
 );
 
@@ -108,7 +108,12 @@ const legendRanges = [
 	`${LEVEL_THRESHOLDS[2] + 1}+`,
 ];
 
-const activitiesMap = computed(() => new Map<string, number>(props.activities.map((i) => ([new Date(i.date).toDateString(), i.value]))));
+const today = useState<string>("activity-today", () => new Date().toISOString().slice(0, 10));
+const year = computed(() => props.year ?? Number(today.value.slice(0, 4)));
+
+const activitiesMap = computed(
+	() => new Map<string, number>(props.activities.map((i) => [i.date.slice(0, 10), i.value]))
+);
 
 // Переводит числовое значение активности в уровень 0-4 (для выбора цвета).
 const getLevel = (value: number): number => {
@@ -130,39 +135,27 @@ const getLevel = (value: number): number => {
  * где-то дальше, который снова словил бы сдвиг из-за парсинга строки как UTC.
  */
 const allDaysWithPadding = computed<(ActivityItemCell | null)[]>(() => {
-	const start = new Date(props.year, 0, 1); // 1 января выбранного года
-	const end = new Date(props.year, 11, 31); // 31 декабря выбранного года
+	const start = new Date(Date.UTC(year.value, 0, 1));
+	const end = new Date(Date.UTC(year.value, 11, 31));
+	const mondayIndex = (start.getUTCDay() + 6) % 7;
 
-	const mondayIndex = (start.getDay() + 6) % 7;
-
-	const days: (ActivityItemCell | null)[] = [];
-
-	// Паддинг в начале сетки: если год начинается не с понедельника,
-	// заполняем пустыми ячейками (null) все дни ДО 1 января в первой неделе.
-	// Это сдвигает 1 января в нужную строку (ПН/ВТ/СР/...) визуально в таблице.
-	for (let i = 0; i < mondayIndex; i++) {
-		days.push(null);
-	}
-
-	// стартует с 1 января и шагает по одному дню
-	// до конца года включительно.
+	const days: (ActivityItemCell | null)[] = Array.from({ length: mondayIndex }, () => null);
 	const currentDate = new Date(start);
 
 	while (currentDate <= end) {
-		const dateStr = currentDate.toDateString();
+		const dateStr = currentDate.toISOString().slice(0, 10);
 		const value = activitiesMap.value.get(dateStr) ?? 0;
 
 		days.push({
 			date: dateStr,
-			formatDate: new Date(dateStr).toLocaleDateString(),
+			formatDate: currentDate.toLocaleDateString("ru-RU", { timeZone: "UTC" }),
 			value,
 			level: getLevel(value),
-			month: currentDate.getMonth(),
-			isToday: isCurrentDate(dateStr),
+			month: currentDate.getUTCMonth(),
+			isToday: dateStr === today.value,
 		});
 
-		// двигаем дату на следующий день
-		currentDate.setDate(currentDate.getDate() + 1);
+		currentDate.setUTCDate(currentDate.getUTCDate() + 1);
 	}
 
 	return days;
@@ -217,5 +210,10 @@ const monthLabels = computed(() => {
 	});
 
 	return labels;
+});
+
+// После гидрации уточняем до локального дня пользователя (sv-SE даёт формат YYYY-MM-DD)
+onMounted(() => {
+	today.value = new Date().toLocaleDateString("sv-SE");
 });
 </script>
