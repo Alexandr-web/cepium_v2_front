@@ -44,13 +44,14 @@
 - **Node.js** (версия 22+)
 - **TypeScript**
 - **Docker**
-- **WebSocket**
+- **socket.io**
 - **Vue**
 - **Nuxt**
 - **Tailwind**
 - **Pinia**
 - **Vitest**
 - **Tanstack**
+- **Echarts**
 
 ## Установка и запуск
 
