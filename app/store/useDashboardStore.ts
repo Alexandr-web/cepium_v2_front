@@ -1,5 +1,5 @@
 export const useDashboardStore = defineStore("dashboard-store", () => {
-	const data = useLocalStorage<Dashboard>("dashboard-store/data", {
+	const data = ref<Dashboard>({
 		balance: 0,
 		balanceDailyChangePercent: 0,
 		activePositionsCount: 0,

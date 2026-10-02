@@ -1,5 +1,5 @@
 export const useUserStore = defineStore("user-store", () => {
-	const user = useLocalStorage<User>("user-store/user", {
+	const user = ref<User>({
 		avatar: null,
 		email: null,
 		name: null,

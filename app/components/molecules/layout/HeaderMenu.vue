@@ -15,15 +15,13 @@
 					:to="{ name: 'profile' }"
 				>
 					<div class="w-full h-full rounded-full overflow-hidden">
-						<ClientOnly>
-							<AImage
-								:src="userStore.avatar"
-								:preset="ImagePreset.AVATAR"
-								:is-nuxt-img="false"
-								fetchpriority="high"
-								:alt="userStore.user.name ?? ''"
-							/>
-						</ClientOnly>
+						<AImage
+							:src="userStore.avatar"
+							:preset="ImagePreset.AVATAR"
+							:is-nuxt-img="false"
+							fetchpriority="high"
+							:alt="userStore.user.name ?? ''"
+						/>
 					</div>
 				</NuxtLink>
 			</li>

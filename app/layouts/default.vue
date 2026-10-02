@@ -46,6 +46,11 @@ import Menu from "@/components/molecules/layout/Menu.vue";
 import AButton from "@/components/atoms/AButton.vue";
 import IconArrowBack from "@/assets/icons/material-symbols-arrow-back.svg";
 import { slateTheme, type NotivueTheme } from "notivue";
+import { useUser } from "@/composables/api/useUser";
+
+const { suspense } = useUser();
+
+await suspense();
 
 const route = useRoute();
 const router = useRouter();

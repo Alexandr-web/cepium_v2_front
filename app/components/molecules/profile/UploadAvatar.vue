@@ -5,15 +5,13 @@
 			@click="open()"
 		>
 			<div class="w-full h-full rounded-full overflow-hidden">
-				<ClientOnly>
-					<AImage
-						:src="getURLFile(fileModel)"
-						fetchpriority="high"
-						:preset="ImagePreset.AVATAR"
-						:is-nuxt-img="false"
-						alt=""
-					/>
-				</ClientOnly>
+				<AImage
+					:src="getURLFile(fileModel)"
+					fetchpriority="high"
+					:preset="ImagePreset.AVATAR"
+					:is-nuxt-img="false"
+					alt=""
+				/>
 			</div>
 			<div class="absolute -bottom-4 -right-4 rounded-8 p-6 flex justify-center items-center bg-primary-600 hover:bg-primary-700 active:scale-95 text-white w-24 h-24 shadow-sm shadow-primary-500/30 transition">
 				<IconEditOutlineRounded class="w-14 h-14" />
