@@ -13,6 +13,7 @@
 				]"
 			>{{ formattedValue }}</span>
 			<p
+				data-allow-mismatch=""
 				class="text-12"
 				:class="[
 					dashboardStore.data.balanceDailyChangePercent > 0 && 'text-tertiary-800',
