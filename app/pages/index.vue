@@ -7,12 +7,7 @@
 	</div>
 </template>
 <script setup lang="ts">
-import { useUser } from "@/composables/api/useUser";
-
 const { $events } = useNuxtApp();
-const { suspense } = useUser();
-
-await suspense();
 
 useHead({
 	script: [

@@ -103,7 +103,7 @@ const {
 	isPending: isPendingRemovePosition,
 	mutateAsync,
 } = useRemoveOne(
-	exchangeStore.activeExchange ?? "",
+	() => exchangeStore.activeExchange ?? "",
 	(id: string) => tradeStore.tradesMap.delete(id)
 );
 

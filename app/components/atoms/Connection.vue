@@ -1,6 +1,6 @@
 <template>
 	<ClientOnly>
-		<div class="flex items-center gap-8 rounded-8 border border-solid border-neutral-200/60 bg-neutral-300/30 px-10 py-6">
+		<div v-if="connectionStore.statusText" class="flex items-center gap-8 rounded-8 border border-solid border-neutral-200/60 bg-neutral-300/30 px-10 py-6">
 			<span
 				class="w-6 h-6 rounded-full transition-colors"
 				:class="statusBgClasses"

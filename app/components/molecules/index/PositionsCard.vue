@@ -16,6 +16,7 @@
 				</div>
 				<div class="flex flex-col gap-8">
 					<span
+						data-allow-mismatch=""
 						class="text-18 font-semibold"
 						:class="[
 							showCharts && 'lg:text-46',

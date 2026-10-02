@@ -68,8 +68,12 @@ export default defineNuxtPlugin(() => {
 			isLoadedTrades.value = true;
 
 			// удаляем позиции, если их нет в приходящих сделках
+			const incomingIds = new Set(data.map(({ id }) => id));
+
 			tradeStore.tradesMap.forEach((trade) => {
-				if (data.some(({ id }) => id !== trade.id)) tradeStore.tradesMap.delete(trade.id);
+				if (!incomingIds.has(trade.id)) {
+					tradeStore.tradesMap.delete(trade.id);
+				}
 			});
 
 			data.forEach((pos) => {
@@ -84,7 +88,7 @@ export default defineNuxtPlugin(() => {
 		socket.value.on("accountInfo", (data: Dashboard) => {
 			connectionStore.errorMessage = "";
 
-			dashboardStore.data = {
+			Object.assign(dashboardStore.data, {
 				activePositionsCount: data?.activePositionsCount ?? 0,
 				availableMargin: data?.availableMargin ?? 0,
 				balance: data?.balance ?? 0,
@@ -92,7 +96,7 @@ export default defineNuxtPlugin(() => {
 				dailyGoalPNL: data?.dailyGoalPNL ?? 0,
 				pnl24h: data?.pnl24h ?? 0,
 				usedMargin: data?.usedMargin ?? 0,
-			};
+			});
 		});
 
 		// обработка ошибок
@@ -111,6 +115,7 @@ export default defineNuxtPlugin(() => {
 	const disconnectSocket = () => {
 		connectionStore.errorMessage = "";
 
+		socket.value?.removeAllListeners();
 		socket.value?.disconnect();
 		socket.value = null;
 	};

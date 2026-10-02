@@ -25,7 +25,6 @@ export default defineNuxtConfig({
 		"@vueuse/nuxt",
 		"@nuxt/test-utils/module",
 		"nuxt-svgo",
-		"@pinia-plugin-persistedstate/nuxt",
 		"notivue/nuxt",
 		"nuxt-echarts",
 		"@nuxt/fonts",

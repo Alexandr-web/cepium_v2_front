@@ -1,13 +1,5 @@
-export const useExchangeStore = defineStore("exchange-store",
-	() => {
-		const activeExchange = ref<ExchangeDto["name"]>("");
+export const useExchangeStore = defineStore("exchange-store", () => {
+	const activeExchange = useCookie<ExchangeDto["name"]>("activeExchange", { default: () => "" });
 
-		return { activeExchange };
-	},
-	{
-		persist: {
-			pick: ["activeExchange"],
-			storage: persistedState.cookiesWithOptions({ sameSite: "strict" }),
-		},
-	}
-);
+	return { activeExchange };
+});
