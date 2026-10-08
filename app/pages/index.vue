@@ -7,7 +7,7 @@
 	</div>
 </template>
 <script setup lang="ts">
-const { $events } = useNuxtApp();
+const { subscribeAccountInfo, unsubscribeAccountInfo, subscribeDeals, unsubscribeDeals } = useExchangeSocket();
 
 useHead({
 	script: [
@@ -23,12 +23,12 @@ useHead({
 });
 
 onMounted(() => {
-	$events.subscribeAccountInfo();
-	$events.subscribeDeals();
+	subscribeAccountInfo();
+	subscribeDeals();
 });
 
 onUnmounted(() => {
-	$events.unsubscribeAccountInfo();
-	$events.unsubscribeDeals();
+	unsubscribeAccountInfo();
+	unsubscribeDeals();
 });
 </script>

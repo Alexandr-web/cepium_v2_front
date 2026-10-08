@@ -6,36 +6,25 @@ import { useDashboardStore } from "@/store/useDashboardStore";
 import { useExchangeStore } from "@/store/useExchangeStore";
 import { useTradeStore } from "@/store/useTradeStore";
 
-export default defineNuxtPlugin(() => {
-	const router = useRouter();
-
+/**
+ * Composable для управления WebSocket-соединением.
+ * Вызывается в layout default.vue для автоматического подключения
+ * при навигации по страницам.
+ */
+export const useExchangeSocket = () => {
 	const connectionStore = useConnectionStore();
 	const authStore = useAuthStore();
 	const dashboardStore = useDashboardStore();
 	const exchangeStore = useExchangeStore();
 	const tradeStore = useTradeStore();
 
-	const config = useRuntimeConfig();
-
-	const socket = ref<Socket|null>(null);
-
-	const isLoadedTrades = ref(false); // получен первый пакет от "deals"
-
-	// общий payload для работы со всеми событиями
-	const payload = computed(() => ({ exchangeName: exchangeStore.activeExchange }));
-
-	// основные события
-	const subscribeDeals = () => {
-		isLoadedTrades.value = false;
-		socket.value?.emit("subscribeDeals", payload.value);
-	};
-
-	const unsubscribeDeals = () => socket.value?.emit("unsubscribeDeals", payload.value);
-	const subscribeAccountInfo = () => socket.value?.emit("subscribeAccountInfo", payload.value);
-	const unsubscribeAccountInfo = () => socket.value?.emit("unsubscribeAccountInfo", payload.value);
+	const socket = useState<Socket | null>("socket", () => null);
+	const isLoadedTrades = useState<boolean>("isLoadedTrades", () => false); // получен первый пакет от "deals"
 
 	const connectSocket = () => {
 		if (socket.value) return;
+	
+		const config = useRuntimeConfig();
 
 		socket.value = io(undefined, {
 			path: config.public.wsUrl,
@@ -115,26 +104,33 @@ export default defineNuxtPlugin(() => {
 	const disconnectSocket = () => {
 		connectionStore.errorMessage = "";
 
-		socket.value?.removeAllListeners();
+		socket.value?.off("deals");
+		socket.value?.off("accountInfo");
+		socket.value?.off("accountInfoError");
+
 		socket.value?.disconnect();
 		socket.value = null;
 	};
 
-	router.afterEach((to) => {
-		if (!to.meta.noSocket) connectSocket();
-		else disconnectSocket();
-	});
+	// общий payload для работы со всеми событиями
+	const payload = computed(() => ({ exchangeName: exchangeStore.activeExchange }));
+
+	const subscribeDeals = () => {
+		isLoadedTrades.value = false;
+		socket.value?.emit("subscribeDeals", payload.value);
+	};
+
+	const unsubscribeDeals = () => socket.value?.emit("unsubscribeDeals", payload.value);
+	const subscribeAccountInfo = () => socket.value?.emit("subscribeAccountInfo", payload.value);
+	const unsubscribeAccountInfo = () => socket.value?.emit("unsubscribeAccountInfo", payload.value);
 
 	return {
-		provide: {
-			socket,
-			isLoadedTrades,
-			events: {
-				subscribeAccountInfo,
-				unsubscribeAccountInfo,
-				subscribeDeals,
-				unsubscribeDeals,
-			},
-		},
+		isLoadedTrades,
+		subscribeDeals,
+		unsubscribeDeals,
+		subscribeAccountInfo,
+		unsubscribeAccountInfo,
+		connectSocket,
+		disconnectSocket,
 	};
-});
+};

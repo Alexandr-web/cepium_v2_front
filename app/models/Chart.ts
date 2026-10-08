@@ -9,8 +9,6 @@ export type ChartDataPoint = {
 	[key: string]: unknown;
 };
 
-const WEEK_ORDER_RU = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-
 // максимум секторов в диаграмме, остальные схлопываются в "другие"
 const MAX_TOP_SLICES = 5;
 
@@ -129,19 +127,19 @@ export default class Chart {
 	static fromOrdersProfitByDay(orders: Order[], customOptions: Partial<EChartsOption> = {}): Chart {
 		const sums = new Map<string, number>();
 
-		WEEK_ORDER_RU.forEach((day) => sums.set(day, 0));
+		WEEKDAY_LABELS.forEach((day) => sums.set(day, 0));
 
 		orders.forEach((o) => {
 			if (!o.closedAt || typeof o.realizedPnl !== "number") return;
 
 			const day = new Date(String(o.closedAt)).getDay();
-			const orderDay = String(WEEK_ORDER_RU[(day + 6) % 7]);
+			const orderDay = String(WEEKDAY_LABELS[(day + 6) % 7]);
 			const sum = (sums.get(orderDay) ?? 0) + Number(o.realizedPnl);
 
 			sums.set(orderDay, sum);
 		});
 
-		const data: ChartDataPoint[] = WEEK_ORDER_RU.map((day) => ({
+		const data: ChartDataPoint[] = WEEKDAY_LABELS.map((day) => ({
 			name: day,
 			value: Number((sums.get(day) ?? 0).toFixed(2)),
 		}));
@@ -169,7 +167,7 @@ export default class Chart {
 			},
 			xAxis: {
 				type: "category",
-				data: WEEK_ORDER_RU,
+				data: WEEKDAY_LABELS,
 				axisLine: { show: false },
 				axisTick: { show: false },
 				axisLabel: { color: CHART_COLORS.xAxis.axisLabel.color, margin: 12 },

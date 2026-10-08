@@ -1,12 +1,12 @@
 <template>
 	<ClientOnly>
-		<div v-if="connectionStore.statusText" class="flex items-center gap-8 rounded-8 border border-solid border-neutral-200/60 bg-neutral-300/30 px-10 py-6">
+		<div class="flex items-center gap-8 rounded-8 border border-solid border-neutral-200/60 bg-neutral-300/30 px-10 py-6">
 			<span
 				class="w-6 h-6 rounded-full transition-colors"
 				:class="statusBgClasses"
 			/>
 			<p class="text-10 font-semibold tracking-wider text-neutral-500 uppercase">
-				ws: <span v-if="connectionStore.status !== ConnectionStatuses.NONE" class="text-neutral-700">{{ connectionStore.statusText }}</span>
+				ws: <span class="text-neutral-700">{{ connectionStore.statusText }}</span>
 			</p>
 		</div>
 	</ClientOnly>

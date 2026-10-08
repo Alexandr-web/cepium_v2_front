@@ -6,7 +6,7 @@
 		title="Активные позиции"
 		:data="trades"
 		:columns="tradeColumns"
-		:is-pending="!$isLoadedTrades"
+		:is-pending="!isLoadedTrades"
 	>
 		<template v-if="tradeStore.tradesMap.size" #head-controls>
 			<div class="flex items-center gap-10">
@@ -111,7 +111,7 @@ const props = withDefaults(
 	}
 );
 
-const { $isLoadedTrades } = useNuxtApp();
+const { isLoadedTrades } = useExchangeSocket();
 
 const tradeStore = useTradeStore();
 
