@@ -53,6 +53,7 @@ const { suspense } = useUser();
 await suspense();
 
 const { connectSocket, disconnectSocket } = useExchangeSocket();
+const { isDesktop } = useDevice();
 
 const route = useRoute();
 const router = useRouter();
@@ -77,12 +78,10 @@ const scrollToTop = async () => {
 	content.value?.scrollTo({ behavior: "smooth", top: 0 });
 };
 
-router.afterEach(async (to) => {
-	await scrollToTop();
-	connectToSocket(!to.meta.noSocket);
-
-	showMobMenu.value = false;
+router.afterEach(async () => {
+	if (!isDesktop) showMobMenu.value = false;
 	push.destroyAll();
+	await scrollToTop();
 });
 
 onMounted(() => {

@@ -6,6 +6,11 @@ import { useDashboardStore } from "@/store/useDashboardStore";
 import { useExchangeStore } from "@/store/useExchangeStore";
 import { useTradeStore } from "@/store/useTradeStore";
 
+/**
+ * Composable для управления WebSocket-соединением.
+ * Вызывается в layout default.vue для автоматического подключения
+ * при навигации по страницам.
+ */
 export const useExchangeSocket = () => {
 	const connectionStore = useConnectionStore();
 	const authStore = useAuthStore();
@@ -13,13 +18,13 @@ export const useExchangeSocket = () => {
 	const exchangeStore = useExchangeStore();
 	const tradeStore = useTradeStore();
 
-	const config = useRuntimeConfig();
-
 	const socket = useState<Socket | null>("socket", () => null);
 	const isLoadedTrades = useState<boolean>("isLoadedTrades", () => false); // получен первый пакет от "deals"
 
 	const connectSocket = () => {
 		if (socket.value) return;
+	
+		const config = useRuntimeConfig();
 
 		socket.value = io(undefined, {
 			path: config.public.wsUrl,
