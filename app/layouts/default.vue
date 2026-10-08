@@ -52,7 +52,6 @@ const { suspense } = useUser();
 
 await suspense();
 
-const { connectSocket, disconnectSocket } = useExchangeSocket();
 const { isDesktop } = useDevice();
 
 const route = useRoute();
@@ -68,11 +67,6 @@ const theme: NotivueTheme = {
 
 const content = useTemplateRef("content");
 
-const connectToSocket = (hasSocket: boolean) => {
-	if (hasSocket) connectSocket();
-	else disconnectSocket();
-};
-
 const scrollToTop = async () => {
 	await nextTick();
 	content.value?.scrollTo({ behavior: "smooth", top: 0 });
@@ -82,9 +76,5 @@ router.afterEach(async () => {
 	if (!isDesktop) showMobMenu.value = false;
 	push.destroyAll();
 	await scrollToTop();
-});
-
-onMounted(() => {
-	connectToSocket(!route.meta.noSocket);
 });
 </script>

@@ -104,7 +104,10 @@ export const useExchangeSocket = () => {
 	const disconnectSocket = () => {
 		connectionStore.errorMessage = "";
 
-		socket.value?.removeAllListeners();
+		socket.value?.off("deals");
+		socket.value?.off("accountInfo");
+		socket.value?.off("accountInfoError");
+
 		socket.value?.disconnect();
 		socket.value = null;
 	};
