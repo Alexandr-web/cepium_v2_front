@@ -8,6 +8,7 @@ export default {
 			path: "/",
 			component: () => import("@/pages/index.vue"),
 			meta: {
+				noBack: true,
 				middleware: "auth",
 				seo: {
 					title: "Главная",
@@ -23,7 +24,6 @@ export default {
 					path: "",
 					component: () => import("@/pages/configs.vue"),
 					meta: {
-						hasBack: true,
 						middleware: "auth",
 						seo: {
 							title: "Доступные конфиги",
@@ -35,7 +35,6 @@ export default {
 					path: "add",
 					component: () => import("@/pages/add-config.vue"),
 					meta: {
-						hasBack: true,
 						middleware: "auth",
 						seo: {
 							title: "Добавление конфига",
@@ -47,7 +46,6 @@ export default {
 					path: ":id/edit",
 					component: () => import("@/pages/edit-config.vue"),
 					meta: {
-						hasBack: true,
 						middleware: "auth",
 						seo: {
 							title: "Изменение конфига",
@@ -61,6 +59,7 @@ export default {
 			path: "/profile",
 			component: () => import("@/pages/profile.vue"),
 			meta: {
+				noBack: true,
 				middleware: "auth",
 				seo: {
 					title: "Профиль",
@@ -72,7 +71,6 @@ export default {
 			path: "/statistics",
 			component: StatisticsPage,
 			meta: {
-				hasBack: true,
 				middleware: "auth",
 				seo: {
 					title: "Статистика",
@@ -84,7 +82,6 @@ export default {
 			path: "/orders",
 			component: () => import("@/pages/orders.vue"),
 			meta: {
-				hasBack: true,
 				middleware: "auth",
 				seo: {
 					title: "История ордеров",
@@ -99,6 +96,7 @@ export default {
 				middleware: "login",
 				layout: false,
 				noSocket: true,
+				noBack: true,
 				seo: {
 					title: "Вход",
 				},

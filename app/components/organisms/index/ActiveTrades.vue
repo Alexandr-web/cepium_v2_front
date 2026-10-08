@@ -19,11 +19,11 @@
 				placeholder="Поиск по позициям..."
 				prepend-icon="search-rounded"
 				class="lg:grow lg:h-full lg:min-h-0"
-				:disabled="!tradeStore.tradesMap.size || !$isLoadedTrades"
+				:disabled="!tradeStore.tradesMap.size || !isLoadedTrades"
 			/>
 			<ATabs
 				class="lg:h-full lg:min-h-0"
-				:disabled="!tradeStore.tradesMap.size || !$isLoadedTrades"
+				:disabled="!tradeStore.tradesMap.size || !isLoadedTrades"
 				:items="tabs"
 				:active-value="activeTab"
 				@select="(v: TabsValues) => activeTab = v"
@@ -34,16 +34,16 @@
 				<MobTradeCard
 					v-for="trade in displayTrades"
 					:key="trade.id"
-					:disabled="isPendingRemovePosition || !$isLoadedTrades"
+					:disabled="isPendingRemovePosition || !isLoadedTrades"
 					:trade="trade"
 					@controls="openTradeControls(trade)"
 				/>
 			</div>
-			<Empty v-else :is-pending="!$isLoadedTrades" />
+			<Empty v-else :is-pending="!isLoadedTrades" />
 		</template>
 		<TradesTable
 			v-else
-			:disabled="isPendingRemovePosition || !$isLoadedTrades || !displayTrades.length"
+			:disabled="isPendingRemovePosition || !isLoadedTrades || !displayTrades.length"
 			data-allow-mismatch=""
 			:trades="displayTrades"
 			@remove-one="removePosition"
@@ -107,7 +107,7 @@ const {
 	(id: string) => tradeStore.tradesMap.delete(id)
 );
 
-const { $isLoadedTrades } = useNuxtApp();
+const { isLoadedTrades } = useSocket();
 
 const search = ref("");
 

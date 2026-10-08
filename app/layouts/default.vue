@@ -22,7 +22,7 @@
 					class="grow flex flex-col max-w-full max-h-full scroll-block text-white p-16 overflow-auto"
 				>
 					<AButton
-						v-if="route.meta.hasBack"
+						v-if="!route.meta.noBack"
 						class="flex lg:hidden items-center py-6 px-12 rounded-4 mr-auto mb-10"
 						:mode="ButtonMode.NEUTRAL_FILL"
 						@click="router.back()"
