@@ -107,7 +107,7 @@ const {
 	(id: string) => tradeStore.tradesMap.delete(id)
 );
 
-const { isLoadedTrades } = useSocket();
+const { isLoadedTrades } = useExchangeSocket();
 
 const search = ref("");
 

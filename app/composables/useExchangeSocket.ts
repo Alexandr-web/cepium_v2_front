@@ -6,19 +6,17 @@ import { useDashboardStore } from "@/store/useDashboardStore";
 import { useExchangeStore } from "@/store/useExchangeStore";
 import { useTradeStore } from "@/store/useTradeStore";
 
-export default defineNuxtPlugin(() => {
+export const useExchangeSocket = () => {
 	const connectionStore = useConnectionStore();
 	const authStore = useAuthStore();
 	const dashboardStore = useDashboardStore();
 	const exchangeStore = useExchangeStore();
 	const tradeStore = useTradeStore();
 
-	const router = useRouter();
-
 	const config = useRuntimeConfig();
 
 	const socket = useState<Socket | null>("socket", () => null);
-	const isLoadedTrades = useState("isLoadedTrades", () => false); // получен первый пакет от "deals"
+	const isLoadedTrades = useState<boolean>("isLoadedTrades", () => false); // получен первый пакет от "deals"
 
 	const connectSocket = () => {
 		if (socket.value) return;
@@ -106,8 +104,25 @@ export default defineNuxtPlugin(() => {
 		socket.value = null;
 	};
 
-	router.afterEach((to) => {
-		if (!to.meta.noSocket) connectSocket();
-		else disconnectSocket();
-	});
-});
+	// общий payload для работы со всеми событиями
+	const payload = computed(() => ({ exchangeName: exchangeStore.activeExchange }));
+
+	const subscribeDeals = () => {
+		isLoadedTrades.value = false;
+		socket.value?.emit("subscribeDeals", payload.value);
+	};
+
+	const unsubscribeDeals = () => socket.value?.emit("unsubscribeDeals", payload.value);
+	const subscribeAccountInfo = () => socket.value?.emit("subscribeAccountInfo", payload.value);
+	const unsubscribeAccountInfo = () => socket.value?.emit("unsubscribeAccountInfo", payload.value);
+
+	return {
+		isLoadedTrades,
+		subscribeDeals,
+		unsubscribeDeals,
+		subscribeAccountInfo,
+		unsubscribeAccountInfo,
+		connectSocket,
+		disconnectSocket,
+	};
+};

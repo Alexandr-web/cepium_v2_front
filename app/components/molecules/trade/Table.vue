@@ -111,7 +111,7 @@ const props = withDefaults(
 	}
 );
 
-const { isLoadedTrades } = useSocket();
+const { isLoadedTrades } = useExchangeSocket();
 
 const tradeStore = useTradeStore();
 

@@ -7,7 +7,7 @@
 	</div>
 </template>
 <script setup lang="ts">
-const { subscribeAccountInfo, unsubscribeAccountInfo, subscribeDeals, unsubscribeDeals } = useSocket();
+const { subscribeAccountInfo, unsubscribeAccountInfo, subscribeDeals, unsubscribeDeals } = useExchangeSocket();
 
 useHead({
 	script: [
