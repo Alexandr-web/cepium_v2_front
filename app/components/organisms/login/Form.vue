@@ -3,81 +3,68 @@
 		<div class="mx-auto inline-flex items-center flex-col gap-8">
 			<IconLogo class="w-auto h-40 lg:h-50 object-contain" />
 		</div>
-		<!-- @vue-generic {AuthLoginData} -->
-		<GeneralForm
-			class="lg:max-w-420 lg:mx-auto lg:w-full"
-			:fields="fields"
-			:normalized-data="normalizedData"
-			@send="execute"
+		<form
+			class="flex flex-col rounded-12 border border-solid border-neutral-100 bg-black/80 p-24 gap-20 lg:max-w-420 lg:mx-auto lg:w-full"
+			@submit.prevent="execute"
 		>
-			<template #content>
-				<AButton
-					class="group flex items-center justify-center gap-8 rounded-4 lg:mt-16 py-10 px-24"
-					type="submit"
-					:mode="ButtonMode.PRIMARY_FILL"
-					:disabled="disabledBtn"
-				>
-					<span class="uppercase text-primary-100 text-14 lg:text-16 font-medium">Войти</span>
-					<IconKeyboardDoubleArrowRight class="group-hover:translate-x-[50%] transition min-w-16 lg:min-w-18 max-w-16 lg:max-w-18 min-h-16 lg:min-h-18 max-h-16 lg:max-h-18 text-black" />
-				</AButton>
-			</template>
-			<template #footer>
-				<div class="flex items-center">
-					<AError :message="errMessage" />
-					<p class="text-neutral-300 text-12 lg:text-14 ml-auto">{{ VERSION }}</p>
-				</div>
-			</template>
-		</GeneralForm>
+			<div class="flex flex-col gap-16">
+				<AInput
+					v-model="fields.email.value"
+					v-model:error="fields.email.error"
+					placeholder="Эл. почта"
+					label="Эл. почта"
+					prepend-icon="account-circle"
+				/>
+				<AInput
+					v-model="fields.password.value"
+					v-model:error="fields.password.error"
+					placeholder="Пароль"
+					type="password"
+					label="Пароль"
+					prepend-icon="lock-outline"
+				/>
+			</div>
+			<AButton
+				class="group flex items-center justify-center gap-8 rounded-4 lg:mt-16 py-10 px-24"
+				type="submit"
+				:mode="ButtonMode.PRIMARY_FILL"
+				:disabled="isPending"
+			>
+				<span class="uppercase text-primary-100 text-14 lg:text-16 font-medium">Войти</span>
+				<IconKeyboardDoubleArrowRight class="group-hover:translate-x-[50%] transition min-w-16 lg:min-w-18 max-w-16 lg:max-w-18 min-h-16 lg:min-h-18 max-h-16 lg:max-h-18 text-black" />
+			</AButton>
+			<div class="flex items-center">
+				<AError :message="errMessage" />
+				<p class="text-neutral-300 text-12 lg:text-14 ml-auto">{{ VERSION }}</p>
+			</div>
+		</form>
 	</section>
 </template>
 <script setup lang="ts">
 import * as z from "zod";
 import IconKeyboardDoubleArrowRight from "@/assets/icons/keyboard-double-arrow-right.svg";
 import IconLogo from "@/assets/icons/logo.svg";
-import GeneralForm from "@/components/molecules/common/GeneralForm.vue";
 import AInput from "@/components/atoms/AInput.vue";
 import AError from "@/components/atoms/AError.vue";
 import AButton from "@/components/atoms/AButton.vue";
 
 import { useLogin } from "@/composables/api/useAuth";
 
-const fields = ref<GeneralFormField[]>([
-	{
-		component: markRaw(AInput),
-		value: "",
-		placeholder: "Эл. почта",
-		name: "email",
-		label: "Эл. почта",
-		prependIcon: "account-circle",
-		check: z.email(),
-		error: "",
-	},
-	{
-		component: markRaw(AInput),
-		value: "",
-		placeholder: "Пароль",
-		name: "password",
-		type: "password",
-		label: "Пароль",
-		prependIcon: "lock-outline",
-		check: z.string().min(6),
-		error: "",
-	},
-]);
+const { errMessage, mutateAsync: sendLogin, isPending } = useLogin();
 
-const { errMessage, mutate: sendLogin, isPending } = useLogin();
-const { validateFields, hasInvalidFields } = useForm(fields);
-
-const disabledBtn = computed(() => !!(isPending.value || hasInvalidFields.value));
-
-// нормализация данных для отправки на бек
-const normalizedData = (): AuthLoginData => ({
-	email: String(fields.value.find((f) => f.name === "email")?.value ?? ""),
-	password: String(fields.value.find((f) => f.name === "password")?.value ?? ""),
+const { fields, validate } = useFormState({
+	email: { value: "", error: "", check: z.email() },
+	password: { value: "", error: "", check: z.string().min(6) },
 });
 
-const execute = async (data: AuthLoginData) => {
+// нормализация данных для отправки на бек
+const values = computed<AuthLoginData>(() => ({
+	email: fields.email.value,
+	password: fields.password.value,
+}));
+
+const execute = async () => {
 	errMessage.value = "";
-	if (validateFields()) sendLogin(data);
+	if (validate()) await sendLogin(values.value);
 };
 </script>

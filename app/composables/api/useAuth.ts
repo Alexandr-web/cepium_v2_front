@@ -9,7 +9,7 @@ export const useLogin = () => {
 
 	const errMessage = ref("");
 
-	const { mutate, isPending } = useMutation({
+	const { mutateAsync, isPending } = useMutation({
 		mutationFn: login,
 		onSuccess: (data: AuthLoginResponse) => {
 			const token = data.data?.token;
@@ -24,5 +24,5 @@ export const useLogin = () => {
 		},
 	});
 
-	return { errMessage, mutate, isPending };
+	return { errMessage, mutateAsync, isPending };
 };

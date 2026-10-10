@@ -19,14 +19,14 @@
 			/>
 			<input
 				class="grow min-w-0 h-full text-neutral-500 focus:text-neutral-600 transition text-14 lg:text-16"
-				:placeholder="String($attrs.placeholder)"
+				:placeholder="placeholder"
 				:type="inputType"
-				:disabled="Boolean($attrs.disabled)"
+				:disabled="disabled"
 				:value="value"
 				@input="onInput($event)"
 			>
 			<AButton
-				v-if="$attrs.type === 'password'"
+				v-if="type === 'password'"
 				class="max-w-18 lg:max-w-22 min-w-18 lg:min-w-22 min-h-16 lg:min-h-20 max-h-16 lg:max-h-20 flex justify-center items-center ml-8"
 				@click="showPassword = !showPassword"
 			>
@@ -45,20 +45,23 @@ import IconAccountCircle from "@/assets/icons/account-circle.svg";
 import IconLockOutline from "@/assets/icons/lock-outline.svg";
 import IconSearchRounded from "@/assets/icons/search-rounded.svg";
 import type { InputTypeHTMLAttribute } from "vue";
-import type z from "zod";
 
 const props = withDefaults(
 	defineProps<{
 		label?: string;
 		prependIcon?: string;
-		check?: z.ZodType;
 		tooltipText?: string;
+		type?: InputTypeHTMLAttribute;
+		placeholder?: string;
+		disabled?: boolean;
 	}>(),
 	{
 		label: "",
 		prependIcon: "",
 		tooltipText: "",
-		check: undefined,
+		type: "text",
+		placeholder: "",
+		disabled: false,
 	}
 );
 
@@ -75,25 +78,26 @@ const icon = computed(() => {
 	}
 });
 
-const attrs = useAttrs();
-
-const value = defineModel<string|number>({ default: "" });
+const value = defineModel<string | number>({ default: "" });
 const error = defineModel<string>("error", { default: "" });
 
 const showPassword = ref(false);
 
-const checkValidMessage = computed(() => props.check?.safeParse(value.value)?.error?.message ?? "");
 const inputType = computed<InputTypeHTMLAttribute>(() => {
-	if (!attrs.type) return "text";
-	if (attrs.type !== "password") return String(attrs.type);
+	if (props.type !== "password") return props.type;
 	return !showPassword.value ? "password" : "text";
 });
 
-watch(value, (v) => (error.value = !v ? "" : checkValidMessage.value));
-
+// Пробелы обрезаем только у не-парольных значений (email/name), чтобы не ломать
+// пароли и API-ключи, где пробел — валидный символ.
 const onInput = (event: InputEvent) => {
-	const val = (event.target as HTMLInputElement).value.trim();
-	if (inputType.value === "number") value.value = parseInt(val) || 0;
+	const target = event.target;
+	if (!(target instanceof HTMLInputElement)) return;
+
+	const raw = target.value;
+	const val = props.type === "password" ? raw : raw.trim();
+
+	if (props.type === "number") value.value = parseInt(val, 10) || 0;
 	else value.value = val;
 };
 </script>

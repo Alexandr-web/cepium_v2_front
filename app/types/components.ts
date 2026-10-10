@@ -1,28 +1,4 @@
-import type { Component, InputTypeHTMLAttribute } from "vue";
-import type z from "zod";
-
-export type GeneralFormField = {
-	value: string | number | boolean | string[] | null | File;
-	name: string;
-	placeholder?: string;
-	prependIcon?: string;
-	component?: Component;
-	label?: string;
-	check?: z.ZodType;
-	error?: string;
-	type?: InputTypeHTMLAttribute;
-	items?: SelectItem[];
-	disabled?: boolean;
-	search?: (value: string) => Promise<SelectItem[]>;
-	itemClickHandler?: (item: SelectItem) => Promise<void>;
-	showTooltip?: string;
-	min?: number;
-	max?: number;
-	size?: string;
-	format?: object | ((v: number) => unknown);
-	classes?: string;
-	tooltipText?: string;
-};
+import type { Component } from "vue";
 
 export type TableColumn<T> = {
 	key: keyof T | "controls" | "index";
@@ -70,11 +46,6 @@ export enum ButtonMode {
 	PRIMARY_FILL = "primary-fill",
 	PRIMARY_BORDER = "primary-border",
 	TERTIARY_BORDER = "tertiary-border"
-};
-
-export enum FormMode {
-	DEFAULT = "default",
-	GRID = "grid",
 };
 
 export enum MenuPreset {
