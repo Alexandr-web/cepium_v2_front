@@ -1,6 +1,5 @@
 import { mount } from "@vue/test-utils";
 import { describe, it, expect, vi } from "vitest";
-import type { ZodType } from "zod";
 import AInput from "../../app/components/atoms/AInput.vue";
 
 // Мокаем дочерние компоненты (Icon и AButton), чтобы упростить тестирование
@@ -159,47 +158,16 @@ describe("AInput", () => {
 			expect(wrapper.emitted("update:modelValue")?.at(0)).toEqual(["test@example.com"]);
 		});
 
-		it("при изменении value вызывает валидацию и обновляет error (при наличии check)", async () => {
-			// Создаём валидатор Zod
-			const check = { safeParse: vi.fn() } as unknown as ZodType;
-			// Настраиваем safeParse для возврата ошибки
-			check.safeParse = vi.fn().mockReturnValue({
-				error: { message: "Некорректный email" },
-				success: false,
-			});
-
+		it("не обрезает пробелы в пароле", async () => {
 			const wrapper = mount(AInput, {
-				props: { check },
+				props: { type: "password" },
 				global: { stubs: { Icon: true, AButton: true } },
 			});
 
 			const input = wrapper.find("input");
-			await input.setValue("invalid");
+			await input.setValue("  secret  ");
 
-			// Должен быть отправлен эмит update:error с сообщением об ошибке
-			expect(wrapper.emitted("update:error")).toBeTruthy();
-			expect(wrapper.emitted("update:error")?.at(0)).toEqual(["Некорректный email"]);
-			expect(check.safeParse).toHaveBeenCalledWith("invalid");
-		});
-
-		it("не вызывает валидацию и не обновляет error, если value пустой (по условию watch)", async () => {
-			const check = { safeParse: vi.fn() } as unknown as ZodType;
-
-			check.safeParse = vi.fn().mockReturnValue({
-				error: { message: "Ошибка" },
-				success: false,
-			});
-
-			const wrapper = mount(AInput, {
-				props: { check },
-				global: { stubs: { Icon: true, AButton: true } },
-			});
-
-			const input = wrapper.find("input");
-			await input.setValue("");
-
-			expect(wrapper.emitted("update:error")).toBeFalsy();
-			expect(check.safeParse).not.toHaveBeenCalled();
+			expect(wrapper.emitted("update:modelValue")?.at(0)).toEqual(["  secret  "]);
 		});
 
 		it("при клике на кнопку переключает видимость пароля", async () => {
@@ -221,19 +189,6 @@ describe("AInput", () => {
 			// Второй клик возвращает password
 			await button.trigger("click");
 			expect(input.attributes("type")).toBe("password");
-		});
-
-		it("при отсутствии check ошибка не обновляется при вводе", async () => {
-			const wrapper = mount(AInput, {
-				props: { error: "Предыдущая ошибка" },
-				global: { stubs: { Icon: true, AButton: true } },
-			});
-
-			const input = wrapper.find("input");
-			await input.setValue("something");
-
-			expect(wrapper.emitted("update:error")).toBeTruthy();
-			expect(wrapper.emitted("update:error")?.at(0)).toEqual([""]);
 		});
 	});
 });

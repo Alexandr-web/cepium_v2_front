@@ -51,7 +51,6 @@ import ACheckbox from "@/components/atoms/ACheckbox.vue";
 import ATag from "@/components/atoms/ATag.vue";
 import LabelField from "@/components/atoms/LabelField.vue";
 import IconLoader from "@/assets/icons/loader.svg";
-import type z from "zod";
 
 const props = withDefaults(
 	defineProps<{
@@ -59,7 +58,6 @@ const props = withDefaults(
 		placeholder?: string;
 		disabled?: boolean;
 		tooltipText?: string;
-		check?: z.ZodType;
 		search: (value: string) => Promise<SelectItem[]>;
 		itemClickHandler?: (item: SelectItem) => Promise<void>;
 	}>(),
@@ -69,7 +67,6 @@ const props = withDefaults(
 		tooltipText: "",
 		disabled: false,
 		itemClickHandler: undefined,
-		check: undefined,
 	}
 );
 
@@ -91,8 +88,6 @@ const message = computed(() => {
 	if (!foundItemsMap.value.size) return "Ничего не найдено";
 	return "";
 });
-
-watch(() => value.value.length, () => error.value = props.check?.safeParse(value.value)?.error?.message ?? "");
 
 watch(inputSearch, async (v) => {
 	if (props.disabled) return;
