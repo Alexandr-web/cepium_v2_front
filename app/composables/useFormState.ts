@@ -18,6 +18,13 @@ export type FormField<T = unknown> = {
 export const useFormState = <T extends Record<string, FormField>>(initFields: T) => {
 	const fields = reactive(initFields);
 
+	// `fields` оборачивает тот же объект, что и `initFields`, поэтому начальные
+	// значения после мутаций через `initFields` уже не получить — фиксируем их сразу.
+	const initialValues: Record<string, unknown> = {};
+	Object.keys(initFields).forEach((key) => {
+		initialValues[key] = initFields[key]?.value;
+	});
+
 	const getMessage = (key: string): string => {
 		const check = initFields[key]?.check;
 		if (!check) return "";
@@ -47,7 +54,7 @@ export const useFormState = <T extends Record<string, FormField>>(initFields: T)
 		Object.keys(fields).forEach((key) => {
 			const field = fields[key];
 			if (!field) return;
-			field.value = initFields[key]?.value;
+			field.value = initialValues[key];
 			field.error = "";
 		});
 	};

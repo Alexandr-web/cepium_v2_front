@@ -127,8 +127,8 @@ describe("AInput", () => {
 
 			const container = wrapper.find(".group");
 
-			expect(container.classes()).toContain("border-white/5");
-			expect(container.classes()).toContain("hover:border-white/10");
+			expect(container.classes()).toContain("border-neutral-100");
+			expect(container.classes()).toContain("hover:border-neutral-200");
 
 			const label = wrapper.find("h3");
 

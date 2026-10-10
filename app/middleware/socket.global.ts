@@ -1,5 +1,5 @@
 export default defineNuxtRouteMiddleware((to) => {
-	if (!import.meta.client) return;
+	if (!import.meta.client || import.meta.test) return;
 
 	const { connectSocket, disconnectSocket } = useExchangeSocket();
 

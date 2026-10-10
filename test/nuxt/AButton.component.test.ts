@@ -49,8 +49,8 @@ describe("AButton", () => {
 		const modes = [
 			{ mode: ButtonMode.DEFAULT, expectedClasses: [] },
 			{ mode: ButtonMode.REMOVE_FILL, expectedClasses: ["text-white/80", "bg-secondary-300"] },
-			{ mode: ButtonMode.REMOVE_BORDER, expectedClasses: ["border", "border-solid", "border-secondary-400", "text-secondary-500", "bg-primary-100", "transition", "hover:border-secondary-500", "hover:text-secondary-600"] },
-			{ mode: ButtonMode.NEUTRAL_FILL, expectedClasses: ["transition", "text-white/80", "hover:text-white/90", "hover:bg-neutral-400", "bg-neutral-300"] },
+			{ mode: ButtonMode.REMOVE_BORDER, expectedClasses: ["border", "border-solid", "border-secondary-400", "text-secondary-500", "bg-black", "transition", "hover:border-secondary-500", "hover:text-secondary-600"] },
+			{ mode: ButtonMode.NEUTRAL_FILL, expectedClasses: ["transition", "text-white/80", "hover:text-white/90", "hover:bg-neutral-200", "bg-neutral-100"] },
 		];
 
 		modes.forEach(({ mode, expectedClasses }) => {
