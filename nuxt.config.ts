@@ -111,7 +111,11 @@ export default defineNuxtConfig({
 		},
 		providers: {
 			google: false,
+			googleicons: false,
 			bunny: false,
+			fontshare: false,
+			fontsource: false,
+			adobe: false,
 		},
 		families: [
 			{
