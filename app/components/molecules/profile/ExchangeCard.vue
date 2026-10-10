@@ -2,7 +2,7 @@
 	<div class="group flex items-center justify-between gap-10 rounded-8 lg:rounded-12 border border-solid border-neutral-200 bg-black p-10 lg:p-16 cursor-pointer">
 		<div class="flex items-center gap-10">
 			<div v-if="logo" class="border-r-1 border-r-solid border-r-neutral-400 pr-12">
-				<AImage
+				<NuxtImg
 					class="object-contain w-100 h-50"
 					:src="logo"
 					loading="lazy"
@@ -24,7 +24,6 @@
 <script setup lang="ts">
 import IconAddRounded from "@/assets/icons/add-rounded.svg";
 import IconEditOutlineRounded from "@/assets/icons/edit-outline-rounded.svg";
-import AImage from "@/components/atoms/AImage.vue";
 
 const props = defineProps<{ item: ExchangeDto; }>();
 

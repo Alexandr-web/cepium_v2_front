@@ -18,7 +18,6 @@
 						<AImage
 							:src="userStore.avatar"
 							:preset="ImagePreset.AVATAR"
-							:is-nuxt-img="false"
 							fetchpriority="high"
 							:alt="userStore.user.name ?? ''"
 						/>

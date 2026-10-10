@@ -38,7 +38,6 @@
 				<AImage
 					:src="getUrlCoinIcon(row.symbol)"
 					:preset="ImagePreset.COIN"
-					:is-nuxt-img="false"
 					loading="lazy"
 					:alt="row.symbol"
 				/>

@@ -62,11 +62,12 @@ export const useFormState = <T extends Record<string, FormField>>(initFields: T)
 	// Живая валидация сразу при изменении модели: пустое поле ошибку не показывает.
 	const values = computed(() => Object.keys(fields).map((key) => fields[key]?.value));
 
-	watch(values, () => {
-		Object.keys(fields).forEach((key) => {
+	watch(values, (newValues, oldValues) => {
+		Object.keys(fields).forEach((key, index) => {
 			const field = fields[key];
 			if (!field) return;
-			field.error = isEmpty(field.value) ? "" : getMessage(key);
+			if (newValues[index] === oldValues?.[index]) return;
+			field.error = isEmpty(newValues[index]) ? "" : getMessage(key);
 		});
 	});
 

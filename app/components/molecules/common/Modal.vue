@@ -43,7 +43,6 @@
 import IconClose from "@/assets/icons/close-small-outline-rounded.svg";
 import AButton from "@/components/atoms/AButton.vue";
 import { onClickOutside } from "@vueuse/core";
-import { useTemplateRef } from "vue";
 
 const props = withDefaults(
 	defineProps<{
