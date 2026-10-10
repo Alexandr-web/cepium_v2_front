@@ -133,5 +133,5 @@ const margin = computed(() => [
 const prettyCount = computed(() => formatNum(dashboardStore.data.activePositionsCount, { padZero: true }));
 
 // кеш живёт только пока жив компонент
-onScopeDispose(() => getMarginView.clear());
+onUnmounted(() => getMarginView.clear());
 </script>

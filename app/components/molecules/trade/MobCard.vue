@@ -6,7 +6,6 @@
 					<AImage
 						:src="getUrlCoinIcon(trade.symbol)"
 						:preset="ImagePreset.COIN"
-						:is-nuxt-img="false"
 						loading="lazy"
 						:alt="trade.symbol"
 					/>
