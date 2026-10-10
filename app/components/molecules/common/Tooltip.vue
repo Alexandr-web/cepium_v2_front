@@ -29,7 +29,7 @@
 					:style="arrowStyles"
 				/>
 				<div
-					class="relative z-10 p-12 rounded-8 max-w-xs leading-normal font-light tracking-tight text-center text-neutral-950 bg-neutral-100"
+					class="relative z-10 p-12 rounded-8 max-w-xs w-max leading-normal font-light tracking-tight text-center text-neutral-950 bg-neutral-100"
 				>
 					<slot name="content" />
 				</div>
