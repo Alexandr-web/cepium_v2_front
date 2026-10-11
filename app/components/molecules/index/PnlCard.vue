@@ -26,7 +26,7 @@
 		</div>
 	</div>
 </template>
-<script setup lang="ts" vapor>
+<script setup lang="ts">
 import ProgressLine from "@/components/atoms/ProgressLine.vue";
 import IconMoneyBagOutlineRounded from "@/assets/icons/money-bag-outline-rounded.svg";
 import { useDashboardStore } from "@/store/useDashboardStore";

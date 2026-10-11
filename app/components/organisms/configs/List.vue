@@ -23,7 +23,7 @@
 		</div>
 	</section>
 </template>
-<script setup lang="ts" vapor>
+<script setup lang="ts">
 import IconAdd from "@/assets/icons/add-rounded.svg";
 import Empty from "@/components/molecules/common/Empty.vue";
 import ConfigCard from "@/components/molecules/configs/Card.vue";

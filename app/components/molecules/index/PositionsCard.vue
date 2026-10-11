@@ -71,7 +71,7 @@
 		</AButton>
 	</div>
 </template>
-<script setup lang="ts" vapor>
+<script setup lang="ts">
 import IconShelfPositionSharp from "@/assets/icons/shelf-position-sharp.svg";
 import IconArrowDown from "@/assets/icons/keyboard-arrow-down-rounded.svg";
 import AButton from "@/components/atoms/AButton.vue";

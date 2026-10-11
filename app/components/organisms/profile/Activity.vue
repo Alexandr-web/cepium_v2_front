@@ -73,7 +73,7 @@
 		</div>
 	</div>
 </template>
-<script setup lang="ts" vapor>
+<script setup lang="ts">
 import Tooltip from "@/components/molecules/common/Tooltip.vue";
 
 const props = withDefaults(

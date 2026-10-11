@@ -23,7 +23,7 @@
 		</div>
 	</section>
 </template>
-<script setup lang="ts" vapor>
+<script setup lang="ts">
 import Card from "@/components/molecules/orders/Card.vue";
 import Table from "@/components/molecules/orders/Table.vue";
 import APagination from "@/components/atoms/APagination.vue";

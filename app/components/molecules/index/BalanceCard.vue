@@ -26,7 +26,7 @@
 		</div>
 	</div>
 </template>
-<script setup lang="ts" vapor>
+<script setup lang="ts">
 import IconArrowsMoreUpRounded from "@/assets/icons/arrows-more-up-rounded.svg";
 import { useDashboardStore } from "@/store/useDashboardStore";
 

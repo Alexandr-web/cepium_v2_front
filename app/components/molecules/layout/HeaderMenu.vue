@@ -39,7 +39,7 @@
 	</Teleport>
 </template>
 
-<script setup lang="ts" vapor>
+<script setup lang="ts">
 import { useUserStore } from "@/store/useUserStore";
 import Modal from "@/components/molecules/common/Modal.vue";
 import Menu from "@/components/molecules/layout/Menu.vue";

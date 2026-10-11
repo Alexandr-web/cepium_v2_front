@@ -49,7 +49,6 @@ export default defineNuxtConfig({
 					"gecko-coin-price-chart-widget",
 				].includes(tag),
 		},
-		vapor: true,
 	},
 	svgo: {
 		defaultImport: "component",

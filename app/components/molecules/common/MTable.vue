@@ -47,7 +47,7 @@
 		</div>
 	</div>
 </template>
-<script setup lang="ts" generic="T extends object" vapor>
+<script setup lang="ts" generic="T extends object">
 import Empty from "@/components/molecules/common/Empty.vue";
 import HeadTable from "@/components/molecules/table/Head.vue";
 import HeadTableItem from "@/components/molecules/table/HeadItem.vue";
