@@ -222,8 +222,28 @@ export const parseExchangeErrorMessage = (rawData: unknown, exchangeName: string
 	}
 };
 
+/**
+ * Извлекает базовый символ из торговой пары вида "BTC/USDT".
+ *
+ * @param {string} pair - Строка пары (например, "BTC/USDT").
+ * @returns {string} Базовый символ в верхнем регистре или пустая строка.
+ *
+ * @example
+ * extractBaseSymbol("BTC/USDT"); // "BTC"
+ * extractBaseSymbol("btc/usdt"); // "BTC"
+ */
 export const extractBaseSymbol = (pair: string): string => pair.split("/")[0]?.trim().toUpperCase() ?? "";
 
+/**
+ * Генерирует URL иконки монеты из CDN Binance Icons.
+ *
+ * @param {string} symbol - Торговая пара (например, "BTC/USDT").
+ * @returns {string} URL SVG-иконки.
+ *
+ * @example
+ * getUrlCoinIcon("BTC/USDT");
+ * // "https://cdn.jsdelivr.net/gh/vadimmalykhin/binance-icons/crypto/btc.svg"
+ */
 export const getUrlCoinIcon = (symbol: string) => `https://cdn.jsdelivr.net/gh/vadimmalykhin/binance-icons/crypto/${extractBaseSymbol(symbol).toLowerCase()}.svg`;
 
 /**
@@ -237,13 +257,22 @@ export const getUrlCoinIcon = (symbol: string) => `https://cdn.jsdelivr.net/gh/v
  */
 export const hasKey = <T extends object>(obj: T, key: PropertyKey): key is keyof T => key in obj;
 
+/**
+ * Проверяет, совпадает ли дата из ISO-строки с текущей (UTC).
+ *
+ * @param {string} _date - ISO-строка даты (например, "2026-07-28T16:15:22Z").
+ * @returns {boolean} `true`, если год, месяц и день совпадают с текущим UTC-днем.
+ *
+ * @example
+ * isCurrentDate(new Date().toISOString()); // true
+ */
 export const isCurrentDate = (_date: string) => {
 	const date = new Date(_date);
 	const now = new Date();
 
-	return date.getFullYear() === now.getFullYear() &&
-			date.getMonth() === now.getMonth() &&
-			date.getDate() === now.getDate();
+	return date.getUTCFullYear() === now.getUTCFullYear() &&
+			date.getUTCMonth() === now.getUTCMonth() &&
+			date.getUTCDate() === now.getUTCDate();
 };
 
 /**
