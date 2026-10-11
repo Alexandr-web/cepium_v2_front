@@ -245,3 +245,29 @@ export const isCurrentDate = (_date: string) => {
 			date.getMonth() === now.getMonth() &&
 			date.getDate() === now.getDate();
 };
+
+/**
+ * Форматирует значение, добавляя знак плюс "+" для положительных чисел.
+ * 
+ * Если числовое представление `val` строго больше нуля, функция возвращает строку с префиксом "+".
+ * В противном случае возвращает строковое представление значения.
+ * Можно передать альтернативное значение `output` для вывода вместо оригинального `val`.
+ *
+ * @param {number | string} val - Исходное значение или число, знак которого проверяется.
+ * @param {string | number} [output] - Альтернативное значение для вывода (если не передано, используется `val`).
+ * @returns {string} Строка с добавленным знаком плюс (если число > 0) или исходное/альтернативное значение в виде строки.
+ *
+ * @example
+ * formatNumberSign(5);         // Возвращает "+5"
+ * formatNumberSign(-3);        // Возвращает "-3"
+ * formatNumberSign(0);         // Возвращает "0"
+ * formatNumberSign("10");      // Возвращает "+10"
+ * 
+ * @example
+ * // Использование кастомного output:
+ * formatNumberSign(15, "15%"); // Возвращает "+15%"
+ * formatNumberSign(-5, "5"); // Возвращает "5"
+ */
+export const formatNumberSign = (val: number | string, output?: string | number) => {
+	return Number(val) > 0 ? "+" + (output ?? val) : String(output ?? val);
+};
