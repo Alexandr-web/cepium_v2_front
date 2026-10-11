@@ -4,7 +4,7 @@ const isEmpty = (value: unknown): boolean =>
 	value === "" || value === null || value === undefined ||
 	(Array.isArray(value) && value.length === 0);
 
-export type FormField<T = unknown> = {
+type FormField<T = unknown> = {
 	value: T;
 	error: string;
 	check?: z.ZodType;

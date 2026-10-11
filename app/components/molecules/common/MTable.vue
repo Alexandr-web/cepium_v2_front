@@ -6,37 +6,14 @@
 		<div class="w-full overflow-x-auto relative">
 			<table class="w-max min-w-full">
 				<thead>
-					<tr class="border-b-1 border-solid border-white/5 bg-black/90">
-						<th 
-							v-for="col in columns" 
-							:key="String(col.key)"
-							class="p-24 text-12 text-neutral-700 uppercase truncate"
-							:class="[
-								!col.align && 'text-left',
-								col.align === 'center' && 'text-center',
-								col.align === 'right' && 'text-right',
-							]"
-						>
-							<div
-								class="flex items-center gap-5"
-								:class="[
-									(col.sort && sortedData.length) && 'cursor-pointer',
-									col.key === sortKey && 'text-white',
-								]"
-								@click="setSort(col)"
-							>
-								{{ col.label }}
-								<IconSort
-									v-if="col.sort"
-									class="w-14 h-14"
-									:class="[
-										(col.key === sortKey && sortOrder === 'asc') && 'rotate-x-180',
-										(col.key === sortKey && sortOrder === 'desc') && 'rotate-x-0',
-									]"
-								/>
-							</div>
-						</th>
-					</tr>
+					<!-- @vue-generic {T} -->
+					<HeadTableItem
+						:columns="columns"
+						:disabled="!sortedData.length"
+						:sort-key="String(sortKey)"
+						:sort-order="sortOrder"
+						@select-sort="setSort"
+					/>
 				</thead>
 				<tbody>
 					<tr v-if="!sortedData.length">
@@ -73,8 +50,8 @@
 <script setup lang="ts" generic="T extends object">
 import Empty from "@/components/molecules/common/Empty.vue";
 import HeadTable from "@/components/molecules/table/Head.vue";
+import HeadTableItem from "@/components/molecules/table/HeadItem.vue";
 import ColTable from "@/components/molecules/table/Col.vue";
-import IconSort from "@/assets/icons/sort-down-fill.svg";
 import IconLoader from "@/assets/icons/loader.svg";
 
 const props = withDefaults(
