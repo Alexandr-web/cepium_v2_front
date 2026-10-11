@@ -10,7 +10,7 @@
 	</header>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" vapor>
 import Menu from "@/components/molecules/layout/HeaderMenu.vue";
 import IconLogo from "@/assets/icons/logo.svg";
 import Connection from "@/components/atoms/Connection.vue";

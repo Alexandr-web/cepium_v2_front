@@ -13,7 +13,7 @@
 		</div>
 	</section>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" vapor>
 import Chart from "@/models/Chart";
 
 // тестовые данные

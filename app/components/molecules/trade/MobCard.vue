@@ -51,7 +51,7 @@
 		</div>
 	</div>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" vapor>
 import type Trade from "@/models/Trade";
 import AButton from "@/components/atoms/AButton.vue";
 import AImage from "@/components/atoms/AImage.vue";
