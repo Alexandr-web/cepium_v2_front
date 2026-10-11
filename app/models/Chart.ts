@@ -97,6 +97,25 @@ export default class Chart {
 						data: seriesData,
 					},
 				],
+				media: [
+					{
+						query: {
+							maxWidth: 768,
+						},
+						option: {
+							yAxis: {
+								show: false,
+							},
+							grid: {
+								top: 30,
+								bottom: 20,
+								left: 0,
+								right: 0,
+								containLabel: false,
+							},
+						},
+					},
+				],
 			});
 		} else {
 			Object.assign(baseOptions, {
