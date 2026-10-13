@@ -6,14 +6,18 @@
 		<div class="w-full overflow-x-auto relative">
 			<table class="w-max min-w-full">
 				<thead>
-					<!-- @vue-generic {T} -->
-					<HeadTableItem
-						:columns="columns"
-						:disabled="!sortedData.length"
-						:sort-key="String(sortKey)"
-						:sort-order="sortOrder"
-						@select-sort="setSort"
-					/>
+					<tr class="border-b-1 border-solid border-white/5 bg-black/90">
+						<!-- @vue-generic {T} -->
+						<HeadTableItem
+							v-for="col in columns"
+							:key="String(col.key)"
+							:col="col"
+							:disabled="!sortedData.length"
+							:sort-key="String(sortKey)"
+							:sort-order="sortOrder"
+							@select-sort="setSort"
+						/>
+					</tr>
 				</thead>
 				<tbody>
 					<tr v-if="!sortedData.length">
