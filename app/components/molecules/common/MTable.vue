@@ -74,13 +74,13 @@ const sortOrder = ref<"asc" | "desc">("asc");
 
 const order = computed(() => sortOrder.value === "asc" ? 1 : -1);
 
-const sortedData = computed(() => {
-	if (!sortKey.value) return props.data;
+const sortedDataMemoize = useMemoize((_sortKey: keyof T | string, _sortOrder: "asc" | "desc", data: T[]) => {
+	if (!_sortKey) return data;
 
-	return [...props.data].sort((a, b) => {
-		if (hasKey(a, sortKey.value) && hasKey(b, sortKey.value)) {
-			const aValue = a[sortKey.value];
-			const bValue = b[sortKey.value];
+	return [...data].sort((a, b) => {
+		if (hasKey(a, _sortKey) && hasKey(b, _sortKey)) {
+			const aValue = a[_sortKey];
+			const bValue = b[_sortKey];
 
 			// сравнение строк
 			if (typeof aValue === "string" && typeof bValue === "string") {
@@ -96,12 +96,14 @@ const sortedData = computed(() => {
 
 		// если ключа нет в одном из объектов
 		// объекты без ключа отправляем в самый конец таблицы
-		if (hasKey(a, sortKey.value)) return -1;
-		if (hasKey(b, sortKey.value)) return 1;
+		if (hasKey(a, _sortKey)) return -1;
+		if (hasKey(b, _sortKey)) return 1;
 		
 		return 0;
 	});
 });
+
+const sortedData = computed(() => sortedDataMemoize(sortKey.value, sortOrder.value, props.data));
 
 const setSort = (col: TableColumn<T>) => {
 	if (!col.sort || typeof col.key !== "string" || !props.data.length) return;
