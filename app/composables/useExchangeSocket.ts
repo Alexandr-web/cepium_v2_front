@@ -53,7 +53,8 @@ export const useExchangeSocket = () => {
 
 		// активные сделки
 		socket.value.on("deals", (data: Position[]) => {
-			connectionStore.errorMessage = "";
+			if (data.length) connectionStore.errorMessage = "";
+
 			isLoadedTrades.value = true;
 
 			// удаляем позиции, если их нет в приходящих сделках
