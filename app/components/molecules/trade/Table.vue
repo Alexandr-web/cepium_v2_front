@@ -62,6 +62,7 @@
 			<NuxtTime
 				:datetime="String(value)"
 				locale="ru"
+				timezone="local"
 				date-style="medium"
 				time-style="medium"
 			/>
