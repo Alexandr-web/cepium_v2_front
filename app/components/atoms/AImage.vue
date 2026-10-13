@@ -1,16 +1,15 @@
 <template>
-	<component
-		:is="component"
+	<img
 		v-if="!isFallback"
 		:class="classes"
 		v-bind="$attrs"
 		@error="isFallback = true"
-	/>
+	>
 	<slot v-else name="fallback">
 		<div v-if="preset === ImagePreset.COIN" class="bg-primary-300 min-w-20 max-w-20 min-h-20 max-h-20 p-4 rounded-full">
 			<IconCoinsDollar class="text-white/80 w-full h-full" />
 		</div>
-		<div v-if="preset === ImagePreset.AVATAR" class="flex justify-center items-center w-full h-full">
+		<div v-else-if="preset === ImagePreset.AVATAR" class="flex justify-center items-center w-full h-full">
 			<IconPerson class="text-white/70 w-[60%] h-[60%]" />
 		</div>
 	</slot>
@@ -18,15 +17,12 @@
 <script setup lang="ts">
 import IconCoinsDollar from "@/assets/icons/coins-dollar.svg";
 import IconPerson from "@/assets/icons/person.svg";
-import { NuxtImg } from "#components";
 
 const props = withDefaults(
 	defineProps<{
-		isNuxtImg?: boolean;
 		preset?: ImagePreset;
 	}>(),
 	{
-		isNuxtImg: true,
 		preset: undefined,
 	}
 );
@@ -41,8 +37,6 @@ watch(
 	() => attrs.src,
 	(newSrc) => isFallback.value = !newSrc
 );
-
-const component = computed(() => props.isNuxtImg ? markRaw(NuxtImg) : "img");
 
 const classes = computed(() => {
 	switch (props.preset) {

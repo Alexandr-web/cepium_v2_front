@@ -36,5 +36,8 @@ const dashboardStore = useDashboardStore();
 const showMarginChart = useState("show-margin-chart", () => false);
 
 const dailyGoalPNL = computed(() => formatNum(dashboardStore.data.dailyGoalPNL, { currency: "USD", style: "currency" }));
-const formattedValue = computed(() => formatNum(dashboardStore.data.pnl24h, { currency: "USD", style: "currency" }));
+const formattedValue = computed(() => {
+	const n = formatNum(dashboardStore.data.pnl24h, { currency: "USD", style: "currency" });
+	return formatNumberSign(dashboardStore.data.pnl24h, n);
+});
 </script>

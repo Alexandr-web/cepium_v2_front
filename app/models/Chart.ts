@@ -97,6 +97,25 @@ export default class Chart {
 						data: seriesData,
 					},
 				],
+				media: [
+					{
+						query: {
+							maxWidth: 768,
+						},
+						option: {
+							yAxis: {
+								show: false,
+							},
+							grid: {
+								top: 30,
+								bottom: 20,
+								left: 0,
+								right: 0,
+								containLabel: false,
+							},
+						},
+					},
+				],
 			});
 		} else {
 			Object.assign(baseOptions, {
@@ -155,7 +174,9 @@ export default class Chart {
 					const item = Array.isArray(params) ? params[0] : params;
 					const n = Number(item?.value);
 					const currency = formatNum(n, { currency: "USD", style: "currency" });
-					return `${item?.name}: <span class="font-medium ${n > 0 ? "text-tertiary-700" : "text-secondary-500"}">${currency}</span>`;
+					const formatCurrency = formatNumberSign(n, currency);
+					const className = n > 0 ? "text-tertiary-700" : (n < 0 ? "text-secondary-500" : "");
+					return `${item?.name}: <span class="font-medium ${className}">${formatCurrency}</span>`;
 				},
 			},
 			grid: {
@@ -197,7 +218,10 @@ export default class Chart {
 					distance: 8,
 					color: CHART_COLORS.series.line.label.color,
 					fontSize: 11,
-					formatter: (params) => formatNum(Number(params.value), { currency: "USD", style: "currency" }),
+					formatter: (params) => {
+						const n = formatNum(Number(params.value), { currency: "USD", style: "currency" });
+						return formatNumberSign(Number(params.value), n);
+					},
 				},
 				itemStyle: { color: CHART_COLORS.series.line.itemStyle.color },
 				lineStyle: {

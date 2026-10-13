@@ -2,21 +2,23 @@
 	<section class="flex flex-col gap-16 w-full lg:max-w-1200 lg:mx-auto">
 		<UploadAvatar v-model="avatar" />
 		<Activity :activities="testActivities" />
-		<Collapse label="Общая информация" prepend-icon="person-edit-outline-rounded" is-open>
-			<GeneralFieldsForm :avatar="avatar" />
-		</Collapse>
-		<Collapse label="Безопасность" prepend-icon="lock-outline" is-open>
-			<SecurityFieldsForm />
-		</Collapse>
-		<Collapse label="Работа с биржами" prepend-icon="partner-exchange-rounded">
-			<ASelect
-				v-model="exchangeStore.activeExchange"
-				placeholder="Выберите активную биржу"
-				label="Активная биржа"
-				:items="exchanges"
-				:disabled="!exchanges.length"
-			/>
-		</Collapse>
+		<div class="flex flex-col gap-6 lg:gap-16">
+			<Collapse label="Общая информация" prepend-icon="person-edit-outline-rounded" is-open>
+				<GeneralFieldsForm :avatar="avatar" />
+			</Collapse>
+			<Collapse label="Безопасность" prepend-icon="lock-outline" is-open>
+				<SecurityFieldsForm />
+			</Collapse>
+			<Collapse label="Работа с биржами" prepend-icon="partner-exchange-rounded">
+				<ASelect
+					v-model="exchangeStore.activeExchange"
+					placeholder="Выберите активную биржу"
+					label="Активная биржа"
+					:items="exchanges"
+					:disabled="!exchanges.length"
+				/>
+			</Collapse>
+		</div>
 	</section>
 </template>
 <script setup lang="ts">

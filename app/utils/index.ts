@@ -222,8 +222,28 @@ export const parseExchangeErrorMessage = (rawData: unknown, exchangeName: string
 	}
 };
 
+/**
+ * Извлекает базовый символ из торговой пары вида "BTC/USDT".
+ *
+ * @param {string} pair - Строка пары (например, "BTC/USDT").
+ * @returns {string} Базовый символ в верхнем регистре или пустая строка.
+ *
+ * @example
+ * extractBaseSymbol("BTC/USDT"); // "BTC"
+ * extractBaseSymbol("btc/usdt"); // "BTC"
+ */
 export const extractBaseSymbol = (pair: string): string => pair.split("/")[0]?.trim().toUpperCase() ?? "";
 
+/**
+ * Генерирует URL иконки монеты из CDN Binance Icons.
+ *
+ * @param {string} symbol - Торговая пара (например, "BTC/USDT").
+ * @returns {string} URL SVG-иконки.
+ *
+ * @example
+ * getUrlCoinIcon("BTC/USDT");
+ * // "https://cdn.jsdelivr.net/gh/vadimmalykhin/binance-icons/crypto/btc.svg"
+ */
 export const getUrlCoinIcon = (symbol: string) => `https://cdn.jsdelivr.net/gh/vadimmalykhin/binance-icons/crypto/${extractBaseSymbol(symbol).toLowerCase()}.svg`;
 
 /**
@@ -237,11 +257,46 @@ export const getUrlCoinIcon = (symbol: string) => `https://cdn.jsdelivr.net/gh/v
  */
 export const hasKey = <T extends object>(obj: T, key: PropertyKey): key is keyof T => key in obj;
 
+/**
+ * Проверяет, совпадает ли дата из ISO-строки с текущей (UTC).
+ *
+ * @param {string} _date - ISO-строка даты (например, "2026-07-28T16:15:22Z").
+ * @returns {boolean} `true`, если год, месяц и день совпадают с текущим UTC-днем.
+ *
+ * @example
+ * isCurrentDate(new Date().toISOString()); // true
+ */
 export const isCurrentDate = (_date: string) => {
 	const date = new Date(_date);
 	const now = new Date();
 
-	return date.getFullYear() === now.getFullYear() &&
-			date.getMonth() === now.getMonth() &&
-			date.getDate() === now.getDate();
+	return date.getUTCFullYear() === now.getUTCFullYear() &&
+			date.getUTCMonth() === now.getUTCMonth() &&
+			date.getUTCDate() === now.getUTCDate();
+};
+
+/**
+ * Форматирует значение, добавляя знак плюс "+" для положительных чисел.
+ * 
+ * Если числовое представление `val` строго больше нуля, функция возвращает строку с префиксом "+".
+ * В противном случае возвращает строковое представление значения.
+ * Можно передать альтернативное значение `output` для вывода вместо оригинального `val`.
+ *
+ * @param {number | string} val - Исходное значение или число, знак которого проверяется.
+ * @param {string | number} [output] - Альтернативное значение для вывода (если не передано, используется `val`).
+ * @returns {string} Строка с добавленным знаком плюс (если число > 0) или исходное/альтернативное значение в виде строки.
+ *
+ * @example
+ * formatNumberSign(5);         // Возвращает "+5"
+ * formatNumberSign(-3);        // Возвращает "-3"
+ * formatNumberSign(0);         // Возвращает "0"
+ * formatNumberSign("10");      // Возвращает "+10"
+ * 
+ * @example
+ * // Использование кастомного output:
+ * formatNumberSign(15, "15%"); // Возвращает "+15%"
+ * formatNumberSign(-5, "5"); // Возвращает "5"
+ */
+export const formatNumberSign = (val: number | string, output?: string | number) => {
+	return Number(val) > 0 ? "+" + (output ?? val) : String(output ?? val);
 };

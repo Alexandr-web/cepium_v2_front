@@ -7,35 +7,16 @@
 			<table class="w-max min-w-full">
 				<thead>
 					<tr class="border-b-1 border-solid border-white/5 bg-black/90">
-						<th 
-							v-for="col in columns" 
+						<!-- @vue-generic {T} -->
+						<HeadTableItem
+							v-for="col in columns"
 							:key="String(col.key)"
-							class="p-24 text-12 text-neutral-700 uppercase truncate"
-							:class="[
-								!col.align && 'text-left',
-								col.align === 'center' && 'text-center',
-								col.align === 'right' && 'text-right',
-							]"
-						>
-							<div
-								class="flex items-center gap-5"
-								:class="[
-									(col.sort && sortedData.length) && 'cursor-pointer',
-									col.key === sortKey && 'text-white',
-								]"
-								@click="setSort(col)"
-							>
-								{{ col.label }}
-								<IconSort
-									v-if="col.sort"
-									class="w-14 h-14"
-									:class="[
-										(col.key === sortKey && sortOrder === 'asc') && 'rotate-x-180',
-										(col.key === sortKey && sortOrder === 'desc') && 'rotate-x-0',
-									]"
-								/>
-							</div>
-						</th>
+							:col="col"
+							:disabled="!sortedData.length"
+							:sort-key="String(sortKey)"
+							:sort-order="sortOrder"
+							@select-sort="setSort"
+						/>
 					</tr>
 				</thead>
 				<tbody>
@@ -73,8 +54,8 @@
 <script setup lang="ts" generic="T extends object">
 import Empty from "@/components/molecules/common/Empty.vue";
 import HeadTable from "@/components/molecules/table/Head.vue";
+import HeadTableItem from "@/components/molecules/table/HeadItem.vue";
 import ColTable from "@/components/molecules/table/Col.vue";
-import IconSort from "@/assets/icons/sort-down-fill.svg";
 import IconLoader from "@/assets/icons/loader.svg";
 
 const props = withDefaults(
@@ -97,13 +78,13 @@ const sortOrder = ref<"asc" | "desc">("asc");
 
 const order = computed(() => sortOrder.value === "asc" ? 1 : -1);
 
-const sortedData = computed(() => {
-	if (!sortKey.value) return props.data;
+const sortedDataMemoize = useMemoize((_sortKey: keyof T | string, _sortOrder: "asc" | "desc", data: T[]) => {
+	if (!_sortKey) return data;
 
-	return [...props.data].sort((a, b) => {
-		if (hasKey(a, sortKey.value) && hasKey(b, sortKey.value)) {
-			const aValue = a[sortKey.value];
-			const bValue = b[sortKey.value];
+	return [...data].sort((a, b) => {
+		if (hasKey(a, _sortKey) && hasKey(b, _sortKey)) {
+			const aValue = a[_sortKey];
+			const bValue = b[_sortKey];
 
 			// сравнение строк
 			if (typeof aValue === "string" && typeof bValue === "string") {
@@ -119,12 +100,14 @@ const sortedData = computed(() => {
 
 		// если ключа нет в одном из объектов
 		// объекты без ключа отправляем в самый конец таблицы
-		if (hasKey(a, sortKey.value)) return -1;
-		if (hasKey(b, sortKey.value)) return 1;
+		if (hasKey(a, _sortKey)) return -1;
+		if (hasKey(b, _sortKey)) return 1;
 		
 		return 0;
 	});
 });
+
+const sortedData = computed(() => sortedDataMemoize(sortKey.value, sortOrder.value, props.data));
 
 const setSort = (col: TableColumn<T>) => {
 	if (!col.sort || typeof col.key !== "string" || !props.data.length) return;

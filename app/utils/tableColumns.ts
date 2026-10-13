@@ -89,7 +89,10 @@ export const ordersColumns: TableColumn<Order>[] = [
 		key: "realizedPnl",
 		label: "Профит",
 		sort: true,
-		normalizer: (v) => formatNum(Number(v), { currency: "USD", style: "currency", defaultValue: "-" }),
+		normalizer: (v) => {
+			const n = formatNum(Number(v), { currency: "USD", style: "currency", defaultValue: "-" });
+			return formatNumberSign(Number(v), n);
+		},
 		classes: (row) => [
 			"font-bold",
 			(row.realizedPnl ?? 0) > 0 ? "text-tertiary-600" : "",

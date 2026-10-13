@@ -2,7 +2,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	compatibilityDate: "2026-09-10",
+	compatibilityDate: "2026-10-10",
 	app: {
 		head: {
 			title: "Cepium",
@@ -111,14 +111,18 @@ export default defineNuxtConfig({
 		},
 		providers: {
 			google: false,
+			googleicons: false,
 			bunny: false,
+			fontshare: false,
+			fontsource: false,
+			adobe: false,
 		},
 		families: [
 			{
 				name: "Inter",
 				provider: "local",
-				weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-				styles: ["normal", "italic"],
+				weights: [300, 400, 500, 600],
+				styles: ["normal"],
 				subsets: ["latin"],
 				global: true,
 			},

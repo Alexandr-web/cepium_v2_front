@@ -11,12 +11,12 @@ export const useLogin = () => {
 
 	const { mutateAsync, isPending } = useMutation({
 		mutationFn: login,
-		onSuccess: (data: AuthLoginResponse) => {
+		onSuccess: async (data: AuthLoginResponse) => {
 			const token = data.data?.token;
 
 			if (token) {
 				authStore.token = token;
-				router.push({ name: "home" });
+				await router.push({ name: "home" });
 			}
 		},
 		onError: (err: FetchError) => {

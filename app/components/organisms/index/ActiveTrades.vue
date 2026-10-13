@@ -120,27 +120,28 @@ const tabs = ref<SelectItem[]>([
 	{ label: "Отрицательный профит", value: TabsValues.NEGATIVE_PNL },
 ]);
 
-const displayTrades = computed(() =>
-	tradeStore.getAllTrades()
-		.filter((t) => {
-			const isSearchMatch = search.value.length >= 2
-				? t.shortSymbol.toLowerCase().includes(search.value.toLowerCase())
-				: true;
+const displayTradesMemoize = useMemoize((trades: Trade[], _search: string, _activeTab: TabsValues) =>
+	trades.filter((t) => {
+		const isSearchMatch = _search.length >= 2
+			? t.shortSymbol.toLowerCase().includes(_search.toLowerCase())
+			: true;
 
-			switch (activeTab.value) {
-				case TabsValues.SHORT:
-					return isSearchMatch && t.direction === TradeDirection.SHORT;
-				case TabsValues.LONG:
-					return isSearchMatch && t.direction === TradeDirection.LONG;
-				case TabsValues.POSITIVE_PNL:
-					return isSearchMatch && t.pnl > 0;
-				case TabsValues.NEGATIVE_PNL:
-					return isSearchMatch && t.pnl <= 0;
-				default:
-					return isSearchMatch;
-			}
-		})
+		switch (_activeTab) {
+			case TabsValues.SHORT:
+				return isSearchMatch && t.direction === TradeDirection.SHORT;
+			case TabsValues.LONG:
+				return isSearchMatch && t.direction === TradeDirection.LONG;
+			case TabsValues.POSITIVE_PNL:
+				return isSearchMatch && t.pnl > 0;
+			case TabsValues.NEGATIVE_PNL:
+				return isSearchMatch && t.pnl <= 0;
+			default:
+				return isSearchMatch;
+		}
+	})
 );
+
+const displayTrades = computed(() => displayTradesMemoize(tradeStore.getAllTrades(), search.value, activeTab.value));
 
 const selectedSymbol = ref<string | null>(null);
 const selectedTrade = ref<Trade | null>(null);

@@ -68,7 +68,7 @@ const info = computed(() => [
 	},
 	{
 		label: "Дневная цель",
-		value: "+" + formatNum(card.dailyGoalPercent / 100, { style: "percent" }),
+		value: "+" + formatNumberSign(formatNum(card.dailyGoalPercent / 100, { style: "percent" })),
 		valueClasses: "text-tertiary-800",
 	},
 	{

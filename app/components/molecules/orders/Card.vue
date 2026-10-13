@@ -17,6 +17,7 @@
 					class="font-medium text-neutral-600 text-12"
 					:datetime="String(card.closedAt)"
 					locale="ru"
+					timezone="local"
 					date-style="medium"
 					time-style="medium"
 				/>

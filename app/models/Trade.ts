@@ -70,7 +70,7 @@ export default class Trade {
 
 	get prettyPnl() {
 		const n = formatNum(this.pnl, { currency: "USD", style: "currency" });
-		return this.pnl > 0 ? "+" + n : n;
+		return formatNumberSign(this.pnl, n);
 	}
 
 	get prettyAmount() {
@@ -79,7 +79,7 @@ export default class Trade {
 
 	get prettyPnlPercent() {
 		const n = formatNum(this.pnlPercent / 100, { style: "percent" });
-		return this.pnlPercent > 0 ? "+" + n : n;
+		return formatNumberSign(this.pnlPercent, n);
 	}
 
 	get prettyLeverage() {
