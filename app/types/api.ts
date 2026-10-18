@@ -171,6 +171,9 @@ export type UserOrderEntity = {
 	unrealizedPnl: number;
 	leverage: number;
 	realizedPnl: number;
+	netRealizedPnl: null | number;
+	feeEstimated: null | boolean;
+	fee: null | number;
 	pnlPercent: number;
 	createdAt: string;
 	closedAt: string;
@@ -261,6 +264,9 @@ export type Order = {
 	stopLossPrice?: number;
 	createdAt: string;
 	realizedPnl?: number;
+	netRealizedPnl: null | number;
+	feeEstimated: null | boolean;
+	fee: null | number;
 	closedAt?: string;
 };
 
@@ -302,6 +308,9 @@ export type Position = {
 	markPrice: number;
 	pnlPercent: number;
 	realizedPnl: null | number;
+	netRealizedPnl: null | number;
+	feeEstimated: null | boolean;
+	fee: null | number;
 	side: string;
 	size: number;
 	stopLossPrice: null | number;

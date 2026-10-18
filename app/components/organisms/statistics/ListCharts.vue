@@ -30,6 +30,9 @@ const mockOrders: Order[] = [
 		exitPrice: 62850,
 		realizedPnl: 82.5,
 		pnlPercent: 27.0,
+		netRealizedPnl: 82.5,
+		fee: null,
+		feeEstimated: null,
 	},
 	{
 		id: "order-2",
@@ -43,6 +46,9 @@ const mockOrders: Order[] = [
 		exitPrice: 3520,
 		realizedPnl: -72.0,
 		pnlPercent: -17.6,
+		netRealizedPnl: 82.5,
+		fee: null,
+		feeEstimated: null,
 	},
 	{
 		id: "order-3",
@@ -56,6 +62,9 @@ const mockOrders: Order[] = [
 		exitPrice: 156,
 		realizedPnl: 160.0,
 		pnlPercent: 108.1,
+		netRealizedPnl: -160,
+		fee: null,
+		feeEstimated: null,
 	},
 	{
 		id: "order-4",
@@ -69,6 +78,9 @@ const mockOrders: Order[] = [
 		exitPrice: 5.45,
 		realizedPnl: -45.0,
 		pnlPercent: -5.4,
+		netRealizedPnl: 82.5,
+		fee: null,
+		feeEstimated: null,
 	},
 	{
 		id: "order-5",
@@ -82,6 +94,9 @@ const mockOrders: Order[] = [
 		exitPrice: 61800,
 		realizedPnl: 54.0,
 		pnlPercent: 28.6,
+		netRealizedPnl: 82.5,
+		fee: null,
+		feeEstimated: null,
 	},
 	{
 		id: "order-6",
@@ -95,6 +110,9 @@ const mockOrders: Order[] = [
 		exitPrice: 3410,
 		realizedPnl: 48.0,
 		pnlPercent: 17.9,
+		netRealizedPnl: 82.5,
+		fee: null,
+		feeEstimated: null,
 	},
 	{
 		id: "order-7",
@@ -108,6 +126,9 @@ const mockOrders: Order[] = [
 		exitPrice: 155,
 		realizedPnl: -45.0,
 		pnlPercent: -19.7,
+		netRealizedPnl: 82.5,
+		fee: null,
+		feeEstimated: null,
 	},
 	{
 		id: "order-8",
@@ -121,6 +142,9 @@ const mockOrders: Order[] = [
 		exitPrice: 5.62,
 		realizedPnl: 180.0,
 		pnlPercent: 6.5,
+		netRealizedPnl: 82.5,
+		fee: null,
+		feeEstimated: null,
 	},
 	{
 		id: "order-10",
@@ -136,6 +160,9 @@ const mockOrders: Order[] = [
 		liquidationPrice: 3915,
 		takeProfitPrice: 3200,
 		stopLossPrice: 3650,
+		netRealizedPnl: 82.5,
+		fee: null,
+		feeEstimated: null,
 	},
 	{
 		id: "order-11",
@@ -150,6 +177,9 @@ const mockOrders: Order[] = [
 		pnlPercent: 20.0,
 		liquidationPrice: 135,
 		takeProfitPrice: 170,
+		netRealizedPnl: 82.5,
+		fee: null,
+		feeEstimated: null,
 		stopLossPrice: 142,
 	},
 	{
@@ -166,6 +196,9 @@ const mockOrders: Order[] = [
 		liquidationPrice: 6.4,
 		takeProfitPrice: 5.3,
 		stopLossPrice: 5.95,
+		netRealizedPnl: 82.5,
+		fee: null,
+		feeEstimated: null,
 	},
 ];
 
