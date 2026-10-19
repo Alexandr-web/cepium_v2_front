@@ -93,3 +93,25 @@ export type WizardItem = {
 	name: string;
 	active: boolean;
 };
+
+export type ProfitDynamicsItem = {
+	date: string;
+	day_of_week: string;
+	profit_usd: number;
+};
+
+export type TradeByAssetItem = {
+	asset: string;
+	count: number;
+};
+
+export type WinLossRatio = {
+	profitable_count: number;
+	loss_count: number;
+};
+
+export type StatisticsChartsData = {
+	profit_dynamics: ProfitDynamicsItem[];
+	trades_by_asset: TradeByAssetItem[];
+	win_loss_ratio: WinLossRatio;
+};
