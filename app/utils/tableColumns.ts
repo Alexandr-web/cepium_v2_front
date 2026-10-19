@@ -71,9 +71,8 @@ export const tradeColumns: TableColumn<Trade>[] = [
 
 export const ordersColumns: TableColumn<Order>[] = [
 	{
-		key: "index",
+		key: "id",
 		label: "№",
-		normalizer: (v) => formatNum(Number(v) + 1, { padZero: true }),
 	},
 	{
 		key: "symbol",

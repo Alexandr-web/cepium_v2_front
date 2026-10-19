@@ -12,12 +12,12 @@
 				</div>
 				<Empty v-else :is-pending="isPending" />
 			</template>
-			<Table v-else :orders="orders" :is-pending="isPending" />
+			<Table v-else :orders="orders" :is-pending="isPending" :active-page="page" />
 			<APagination
 				v-if="orders.length"
 				v-model:page="page"
 				:total="totalItems"
-				:per-page="PER_PAGE"
+				:per-page="PER_PAGE_ORDERS"
 				:is-pending="isPending"
 			/>
 		</div>
@@ -35,8 +35,6 @@ const { searchOrders } = useOrders();
 
 const { isDesktop } = useDevice();
 
-const PER_PAGE = 10;
-
 const filters = ref<Record<string, string>>({});
 
 const router = useRouter();
@@ -53,8 +51,8 @@ const fetchOrders = async () => {
 	try {
 		const res = await searchOrders({
 			...filters.value,
-			l: PER_PAGE,
-			o: (page.value - 1) * PER_PAGE,
+			l: PER_PAGE_ORDERS,
+			o: (page.value - 1) * PER_PAGE_ORDERS,
 		});
 
 		orders.value = res.data.orders;

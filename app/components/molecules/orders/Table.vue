@@ -5,6 +5,7 @@
 		:columns="ordersColumns"
 		:data="orders"
 	>
+		<template #cell-id="{ index }">{{ index + (activePage - 1) * PER_PAGE_ORDERS + 1 }}</template>
 		<template #cell-side="{ value }">
 			<span
 				class="p-10 rounded-8 font-medium"
@@ -28,5 +29,5 @@
 <script setup lang="ts">
 import MTable from "@/components/molecules/common/MTable.vue";
 
-defineProps<{ orders: Order[] }>();
+defineProps<{ orders: Order[]; activePage: number; }>();
 </script>

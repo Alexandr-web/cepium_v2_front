@@ -1,5 +1,7 @@
 export const VERSION = "v2.0";
 
+export const PER_PAGE_ORDERS = 10;
+
 export const WEEKDAY_LABELS = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
 
 export const MONTHS_LIST = [
