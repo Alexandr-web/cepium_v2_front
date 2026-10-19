@@ -29,10 +29,8 @@ import Table from "@/components/molecules/orders/Table.vue";
 import APagination from "@/components/atoms/APagination.vue";
 import Empty from "@/components/molecules/common/Empty.vue";
 import OrdersFilters from "@/components/organisms/orders/Filters.vue";
-import { useExchangeStore } from "@/store/useExchangeStore";
 import { useOrders } from "@/composables/api/useOrders";
 
-const exchangeStore = useExchangeStore();
 const { searchOrders } = useOrders();
 
 const { isDesktop } = useDevice();
@@ -53,7 +51,7 @@ const fetchOrders = async () => {
 	isPending.value = true;
 
 	try {
-		const res = await searchOrders(exchangeStore?.activeExchange ?? "", {
+		const res = await searchOrders({
 			...filters.value,
 			l: PER_PAGE,
 			o: (page.value - 1) * PER_PAGE,

@@ -203,18 +203,15 @@ export const prettyError = (message: string) => {
  * позволяя игнорировать определенные коды ошибок.
  *
  * @param {unknown} rawData - Сырые данные ошибки (ожидается строка с префиксом или JSON).
- * @param {string} exchangeName - Название биржи для удаления префикса (например, 'bybit').
  * @returns {string} Очищенный текст ошибки, исходная строка или пустая строка, если ошибка в списке исключений.
  */
-export const parseExchangeErrorMessage = (rawData: unknown, exchangeName: string): string => {
+export const parseExchangeErrorMessage = (rawData: unknown): string => {
 	if (typeof rawData !== "string") return "";
 
 	try {
-		const prefixRegex = new RegExp(`^${exchangeName}\\s+`, "i");
-		const jsonString = rawData.replace(prefixRegex, "");
-		const parsed = JSON.parse(jsonString);
+		const parsed = JSON.parse(rawData);
 
-		if (exchangeName === "bybit" && parsed.retCode === 10002) return "";
+		if (Number(parsed.retCode) === 10002) return "";
 		
 		return prettyError(parsed.message || parsed.retMsg || rawData);
 	} catch {

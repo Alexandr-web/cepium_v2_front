@@ -6,18 +6,17 @@ import { getList, removeOne } from "@/api/orders";
 export const useOrders = () => {
 	const queryClient = useQueryClient();
 
-	const searchOrders = async (exchangeName: string, query = {}): Promise<OrderResponse> => {
+	const searchOrders = async (query = {}): Promise<OrderResponse> => {
 		return queryClient.fetchQuery({
-			queryKey: keys.getOrders(exchangeName, query),
-			queryFn: () => getList(exchangeName, { query }),
+			queryKey: keys.getOrders(query),
+			queryFn: () => getList({ query }),
 		});
 	};
 
 	return { searchOrders };
 };
 
-export const useRemoveOne = (_exchangeName: MaybeRefOrGetter<string>, onSuccess?: (id: string) => void) => {
-	const exchangeName = computed(() => toValue(_exchangeName));
+export const useRemoveOne = (onSuccess?: (id: string) => void) => {
 	const errMessage = ref("");
 
 	const { mutateAsync, isPending } = useMutation<
@@ -25,7 +24,7 @@ export const useRemoveOne = (_exchangeName: MaybeRefOrGetter<string>, onSuccess?
 		FetchError,
 		string
 	>({
-		mutationFn: (id) => removeOne(exchangeName.value, id),
+		mutationFn: (id) => removeOne(id),
 		onSuccess: (data) => {
 			const pnl = formatNum(Number(data.data.realizedPnl), { currency: "USD", style: "currency" });
 			push.success(`Позиция ${data.data.side?.toUpperCase()} ${data.data.symbol} закрыта. Профит ${pnl}`);

@@ -81,7 +81,6 @@ import CoinChart from "@/components/molecules/widgets/CoinChart.vue";
 import ATabs from "@/components/atoms/ATabs.vue";
 import AInput from "@/components/atoms/AInput.vue";
 import { useRemoveOne } from "@/composables/api/useOrders";
-import { useExchangeStore } from "@/store/useExchangeStore";
 import { useTradeStore } from "@/store/useTradeStore";
 import { useCoinGeckoSearch } from "@/composables/api/useCoinGecko";
 
@@ -96,14 +95,12 @@ enum TabsValues {
 const { isDesktop } = useDevice();
 const { findCoinId } = useCoinGeckoSearch();
 
-const exchangeStore = useExchangeStore();
 const tradeStore = useTradeStore();
 
 const {
 	isPending: isPendingRemovePosition,
 	mutateAsync,
 } = useRemoveOne(
-	() => exchangeStore.activeExchange ?? "",
 	(id: string) => tradeStore.tradesMap.delete(id)
 );
 
