@@ -8,4 +8,6 @@ export default {
 	getCredentials: (exchangeName: string) => ["credentials", exchangeName],
 	getOrders: (query = {}) => ["orders", ...Object.values(query)],
 	getCoinGeckoId: (symbol: string) => ["gecko-coin-id", symbol],
+	getMetricsSignals: (query = {}) => ["metrics-signals", ...Object.values(query)],
+	getMetrics: ["metrics"],
 };

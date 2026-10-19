@@ -27,7 +27,7 @@ export type StatisticsCard = {
 	id: string;
 	title: string;
 	icon?: string;
-	classesValue?: string;
+	classesValue?: string | string[];
 	normalizer?: (value: string | number) => string;
 	value: string | number;
 };
