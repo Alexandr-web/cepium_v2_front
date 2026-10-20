@@ -1,17 +1,18 @@
 import keys from "@/api/keys";
-import { searchCoin } from "@/api/gecko";
 import { useQueryClient } from "@tanstack/vue-query";
+import { useApi } from "@/composables/useApi";
 
 export const useCoinGeckoSearch = () => {
+	const { api } = useApi();
 	const queryClient = useQueryClient();
 
 	const findCoinId = async (symbolPair: string): Promise<string | null> => {
 		const baseSymbol = extractBaseSymbol(symbolPair);
 		if (!baseSymbol) return null;
 
-		const data = await queryClient.fetchQuery({
+		const data = await queryClient.fetchQuery<GeckoSearchResponse>({
 			queryKey: keys.getCoinGeckoId(baseSymbol),
-			queryFn: () => searchCoin(baseSymbol),
+			queryFn: () => api("/api/gecko/search", { query: { query: baseSymbol } }),
 			staleTime: 1000 * 60 * 60 * 24,
 		});
 

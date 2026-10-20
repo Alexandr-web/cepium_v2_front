@@ -1,15 +1,16 @@
 import keys from "@/api/keys";
 import type { FetchError } from "ofetch";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
-import { getList, removeOne } from "@/api/orders";
+import { useApi } from "@/composables/useApi";
 
 export const useOrders = () => {
+	const { api } = useApi();
 	const queryClient = useQueryClient();
 
 	const searchOrders = async (query = {}): Promise<OrderResponse> => {
-		return queryClient.fetchQuery({
+		return queryClient.fetchQuery<OrderResponse>({
 			queryKey: keys.getOrders(query),
-			queryFn: () => getList({ query }),
+			queryFn: () => api("/api/orders", { query }),
 		});
 	};
 
@@ -17,6 +18,7 @@ export const useOrders = () => {
 };
 
 export const useRemoveOne = (onSuccess?: (id: string) => void) => {
+	const { api } = useApi();
 	const errMessage = ref("");
 
 	const { mutateAsync, isPending } = useMutation<
@@ -24,7 +26,7 @@ export const useRemoveOne = (onSuccess?: (id: string) => void) => {
 		FetchError,
 		string
 	>({
-		mutationFn: (id) => removeOne(id),
+		mutationFn: (id) => api(`/api/orders/${id}`, { method: "DELETE" }),
 		onSuccess: (data) => {
 			const pnl = formatNum(Number(data.data.realizedPnl), { currency: "USD", style: "currency" });
 			push.success(`Позиция ${data.data.side?.toUpperCase()} ${data.data.symbol} закрыта. Профит ${pnl}`);

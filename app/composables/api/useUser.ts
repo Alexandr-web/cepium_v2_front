@@ -1,16 +1,17 @@
 import keys from "@/api/keys";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
-import { getData, changeData, changePassword, confirmChangePassword } from "@/api/profile";
+import { useApi } from "@/composables/useApi";
 import { useUserStore } from "@/store/useUserStore";
 import type { FetchError } from "ofetch";
 
 export const useUser = () => {
+	const { api } = useApi();
 	const userStore = useUserStore();
-	const query = useQuery({
+	const query = useQuery<UserDataResponse>({
 		queryKey: keys.getDataProfile,
-		queryFn: getData,
+		queryFn: () => api("/api/users/me"),
 	});
-	
+
 	const suspense = async () => {
 		await query.suspense();
 		if (query.data.value?.data) {
@@ -22,6 +23,7 @@ export const useUser = () => {
 };
 
 export const useChangeData = () => {
+	const { api } = useApi();
 	const userStore = useUserStore();
 	const queryClient = useQueryClient();
 	const errMessage = ref("");
@@ -32,7 +34,18 @@ export const useChangeData = () => {
 		UserEditGeneralData,
 		{ previousData?: UserEditGeneralDataResponse }
 	>({
-		mutationFn: changeData,
+		mutationFn: (data) => {
+			const formData = new FormData();
+
+			Object.entries(data).forEach(([key, value]) => {
+				if (key && value) formData.append(key, value);
+			});
+
+			return api("/api/users/me", {
+				method: "PATCH",
+				body: formData,
+			});
+		},
 		onMutate: async (data) => {
 			errMessage.value = "";
 
@@ -78,6 +91,7 @@ export const useChangeData = () => {
 };
 
 export const useChangePassword = (onSuccess?: () => void) => {
+	const { api } = useApi();
 	const errMessage = ref("");
 
 	const { mutate, isPending } = useMutation<
@@ -85,7 +99,10 @@ export const useChangePassword = (onSuccess?: () => void) => {
 		FetchError,
 		UserEditSecurityData
 	>({
-		mutationFn: changePassword,
+		mutationFn: (body) => api("/api/users/me/password/request-change", {
+			method: "POST",
+			body,
+		}),
 		onSuccess,
 		onError: (err) => {
 			errMessage.value = getRequestErrorMessage(err);
@@ -97,6 +114,7 @@ export const useChangePassword = (onSuccess?: () => void) => {
 };
 
 export const useConfirmChangePassword = (onSuccess?: () => void) => {
+	const { api } = useApi();
 	const errMessage = ref("");
 
 	const { mutate, isPending } = useMutation<
@@ -104,7 +122,10 @@ export const useConfirmChangePassword = (onSuccess?: () => void) => {
 		FetchError,
 		UserConfirmChangeSecurityData
 	>({
-		mutationFn: confirmChangePassword,
+		mutationFn: (body) => api("/api/users/me/password/confirm-change", {
+			method: "POST",
+			body,
+		}),
 		onSuccess: () => {
 			push.success("Пароль успешно изменен! Войдите заново для дальнейшей работы");
 			onSuccess?.();

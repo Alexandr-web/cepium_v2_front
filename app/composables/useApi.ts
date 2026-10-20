@@ -1,8 +1,7 @@
 import { useAuthStore } from "@/store/useAuthStore";
 
-export default defineNuxtPlugin(() => {
+export const useApi = () => {
 	const authStore = useAuthStore();
-	const router = useRouter();
 
 	const api = $fetch.create({
 		onRequest({ options }) {
@@ -13,10 +12,10 @@ export default defineNuxtPlugin(() => {
 		onResponseError({ response }) {
 			if (response.status === 401) {
 				authStore.clearToken();
-				router.go(0);
+				navigateTo({ name: "login" });
 			}
 		},
 	});
 
-	return { provide: { api } };
-});
+	return { api };
+};

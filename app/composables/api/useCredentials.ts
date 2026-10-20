@@ -1,7 +1,7 @@
 import keys from "@/api/keys";
 import type { FetchError } from "ofetch";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
-import { getData, createData, changeData } from "@/api/credentials";
+import { useApi } from "@/composables/useApi";
 
 type UseCredentialsOptions = {
 	query: { exchangeName: MaybeRefOrGetter<string> };
@@ -9,16 +9,18 @@ type UseCredentialsOptions = {
 };
 
 export const useCredentials = (options: UseCredentialsOptions) => {
+	const { api } = useApi();
 	const exchangeName = computed(() => toValue(options.query.exchangeName));
 
-	return useQuery({
+	return useQuery<ExchangeCredentialsResponse>({
 		queryKey: computed(() => keys.getCredentials(exchangeName.value)),
-		queryFn: () => getData({ query: { exchangeName: exchangeName.value } }),
+		queryFn: () => api("/api/credentials", { query: { exchangeName: exchangeName.value } }),
 		enabled: options.enabled,
 	});
 };
 
 export const useCreateData = (_exchangeName: MaybeRefOrGetter<string>, onSuccess?: () => void) => {
+	const { api } = useApi();
 	const queryClient = useQueryClient();
 	const exchangeName = computed(() => toValue(_exchangeName));
 	const errMessage = ref("");
@@ -28,7 +30,10 @@ export const useCreateData = (_exchangeName: MaybeRefOrGetter<string>, onSuccess
 		FetchError,
 		ExchangeCredentials
 	>({
-		mutationFn: (body) => createData(body, exchangeName.value),
+		mutationFn: (body) => api(`/api/credentials/${exchangeName.value}`, {
+			method: "POST",
+			body,
+		}),
 		onSuccess: () => {
 			onSuccess?.();
 			queryClient.invalidateQueries({ queryKey: keys.getExchanges });
@@ -45,6 +50,7 @@ export const useCreateData = (_exchangeName: MaybeRefOrGetter<string>, onSuccess
 };
 
 export const useChangeData = (_exchangeName: MaybeRefOrGetter<string>, onSuccess?: () => void) => {
+	const { api } = useApi();
 	const queryClient = useQueryClient();
 	const exchangeName = computed(() => toValue(_exchangeName));
 	const errMessage = ref("");
@@ -54,7 +60,10 @@ export const useChangeData = (_exchangeName: MaybeRefOrGetter<string>, onSuccess
 		FetchError,
 		ExchangeCredentials
 	>({
-		mutationFn: (body) => changeData(body, exchangeName.value),
+		mutationFn: (body) => api(`/api/credentials/${exchangeName.value}`, {
+			method: "PATCH",
+			body,
+		}),
 		onSuccess: () => {
 			onSuccess?.();
 			queryClient.invalidateQueries({ queryKey: keys.getExchanges });

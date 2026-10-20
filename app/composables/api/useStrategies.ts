@@ -1,10 +1,12 @@
 import keys from "@/api/keys";
 import { useQuery } from "@tanstack/vue-query";
-import { getData } from "@/api/strategy";
+import { useApi } from "@/composables/useApi";
 
 export const useStrategy = () => {
-	return useQuery({
+	const { api } = useApi();
+
+	return useQuery<StrategyDataResponse>({
 		queryKey: keys.getStrategy,
-		queryFn: getData,
+		queryFn: () => api("/api/strategies"),
 	});
 };

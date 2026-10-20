@@ -45,7 +45,7 @@ const cards = computed<StatisticsCard[]>(() => [
 		id: "winrate",
 		title: "Винрейт",
 		value: winrate.value,
-		normalizer: (value) => formatNum(value, { style: "percent" }),
+		normalizer: (value) => formatNum(Number(value) / 100, { style: "percent" }),
 		icon: "money-bag-outline-rounded",
 		classesValue: [
 			winrate.value > 0 ? "text-tertiary-700" : "",

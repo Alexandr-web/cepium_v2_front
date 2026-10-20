@@ -61,8 +61,8 @@ const filters = ref<FilterItem[]>([
 		name: "strategyName",
 		component: markRaw(ASelect),
 		label: "Стратегия",
-		value: String(props.strategies[0]?.id ?? ""),
-		items: props.strategies.map((s) => ({ label: s.name, value: s.id })),
+		value: String(props.strategies[0]?.name ?? ""),
+		items: props.strategies.map((s) => ({ label: s.name, value: s.name })),
 		classes: "min-w-200",
 	},
 ]);

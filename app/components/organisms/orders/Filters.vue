@@ -32,7 +32,7 @@ import AButton from "@/components/atoms/AButton.vue";
 import Modal from "@/components/molecules/common/Modal.vue";
 import IconFilter from "@/assets/icons/filter-big.svg";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
-import ASelect from "~/components/atoms/ASelect.vue";
+import ASelect from "@/components/atoms/ASelect.vue";
 
 withDefaults(
 	defineProps<{
