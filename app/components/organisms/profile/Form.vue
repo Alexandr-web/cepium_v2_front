@@ -2,45 +2,27 @@
 	<section class="flex flex-col gap-16 w-full lg:max-w-1200 lg:mx-auto">
 		<UploadAvatar v-model="avatar" />
 		<Activity :activities="testActivities" />
-		<Collapse label="Общая информация" prepend-icon="person-edit-outline-rounded" is-open>
-			<GeneralFieldsForm :avatar="avatar" />
-		</Collapse>
-		<Collapse label="Безопасность" prepend-icon="lock-outline" is-open>
-			<SecurityFieldsForm />
-		</Collapse>
-		<Collapse label="Работа с биржами" prepend-icon="partner-exchange-rounded">
-			<ASelect
-				v-model="exchangeStore.activeExchange"
-				placeholder="Выберите активную биржу"
-				label="Активная биржа"
-				:items="exchanges"
-				:disabled="!exchanges.length"
-			/>
-		</Collapse>
+		<div class="flex flex-col gap-6 lg:gap-16">
+			<Collapse label="Общая информация" prepend-icon="person-edit-outline-rounded" is-open>
+				<GeneralFieldsForm :avatar="avatar" />
+			</Collapse>
+			<Collapse label="Безопасность" prepend-icon="lock-outline" is-open>
+				<SecurityFieldsForm />
+			</Collapse>
+		</div>
 	</section>
 </template>
 <script setup lang="ts">
 import { useUserStore } from "@/store/useUserStore";
-import { useExchangeStore } from "@/store/useExchangeStore";
 import UploadAvatar from "@/components/molecules/profile/UploadAvatar.vue";
 import GeneralFieldsForm from "@/components/molecules/profile/GeneralFieldsForm.vue";
 import SecurityFieldsForm from "@/components/molecules/profile/SecurityFieldsForm.vue";
 import Collapse from "@/components/molecules/common/Collapse.vue";
-import ASelect from "@/components/atoms/ASelect.vue";
 import Activity from "@/components/organisms/profile/Activity.vue";
 
-const props = defineProps<{ exchanges: ExchangeDto[]; }>();
-
 const userStore = useUserStore();
-const exchangeStore = useExchangeStore();
 
 const avatar = ref<File | string | null>(userStore.avatar);
-
-const exchanges = computed<SelectItem[]>(() =>
-	props.exchanges
-		.filter((item) => item.filled)
-		.map((item) => ({ label: item.name, value: item.name }))
-);
 
 // моковые данные
 const testActivities = [

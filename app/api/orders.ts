@@ -1,7 +1,7 @@
 // получение ордеров
-export const getList = async (exchangeName: string, options = {}): Promise<OrderResponse> =>
-	useNuxtApp().$api(`/api/orders/${exchangeName}`, options);
+export const getList = async (options = {}): Promise<OrderResponse> =>
+	useNuxtApp().$api("/api/orders", options);
 
 // удаление ордера
-export const removeOne = (exchangeName: string, id: string): Promise<RemoveOrderResponse> => 
-	useNuxtApp().$api(`/api/orders/${exchangeName}/${id}`, { method: "DELETE" });
+export const removeOne = (id: string): Promise<RemoveOrderResponse> => 
+	useNuxtApp().$api(`/api/orders/${id}`, { method: "DELETE" });

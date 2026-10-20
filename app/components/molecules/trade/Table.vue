@@ -38,7 +38,6 @@
 				<AImage
 					:src="getUrlCoinIcon(row.symbol)"
 					:preset="ImagePreset.COIN"
-					:is-nuxt-img="false"
 					loading="lazy"
 					:alt="row.symbol"
 				/>
@@ -63,6 +62,7 @@
 			<NuxtTime
 				:datetime="String(value)"
 				locale="ru"
+				timezone="local"
 				date-style="medium"
 				time-style="medium"
 			/>
@@ -118,5 +118,8 @@ const tradeStore = useTradeStore();
 const emits = defineEmits(["removeOne", "removeAll", "selectSymbol"]);
 
 const totalSum = computed(() => props.trades.reduce<number>((sum, trade) => sum += trade.pnl, 0));
-const prettyTotalProfit = computed(() => formatNum(totalSum.value, { currency: "USD", style: "currency" }));
+const prettyTotalProfit = computed(() => {
+	const n = formatNum(totalSum.value, { currency: "USD", style: "currency" });
+	return formatNumberSign(totalSum.value, n);
+});
 </script>

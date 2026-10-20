@@ -64,7 +64,7 @@
 		<AButton
 			class="hidden lg:flex justify-center items-center w-22 rounded-tr-8 rounded-br-8 h-full"
 			:mode="ButtonMode.NEUTRAL_FILL"
-			:disabled="!tradeStore.tradesMap.size"
+			:disabled="!tradeStore.tradesMap.size && !showCharts"
 			@click="showCharts = !showCharts"
 		>
 			<IconArrowDown class="-rotate-z-90 w-22 h-22 text-white/80" :class="[showCharts && 'rotate-z-90']" />
@@ -133,5 +133,5 @@ const margin = computed(() => [
 const prettyCount = computed(() => formatNum(dashboardStore.data.activePositionsCount, { padZero: true }));
 
 // кеш живёт только пока жив компонент
-onScopeDispose(() => getMarginView.clear());
+onUnmounted(() => getMarginView.clear());
 </script>

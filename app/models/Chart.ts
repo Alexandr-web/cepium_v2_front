@@ -29,11 +29,13 @@ export default class Chart {
 	type: ChartType;
 	data: ChartDataPoint[] = [];
 	customOptions: Partial<EChartsOption> = {};
+	isEmpty: boolean;
 
-	constructor(type: ChartType, data: ChartDataPoint[] = [], customOptions: Partial<EChartsOption> = {}) {
+	constructor(type: ChartType, data: ChartDataPoint[] = [], customOptions: Partial<EChartsOption> = {}, isEmpty = false) {
 		this.type = type;
 		this.data = data;
 		this.customOptions = customOptions;
+		this.isEmpty = isEmpty;
 	}
 
 	getComputedOptions(): EChartsOption {
@@ -97,6 +99,25 @@ export default class Chart {
 						data: seriesData,
 					},
 				],
+				media: [
+					{
+						query: {
+							maxWidth: 768,
+						},
+						option: {
+							yAxis: {
+								show: false,
+							},
+							grid: {
+								top: 30,
+								bottom: 20,
+								left: 0,
+								right: 0,
+								containLabel: false,
+							},
+						},
+					},
+				],
 			});
 		} else {
 			Object.assign(baseOptions, {
@@ -123,25 +144,14 @@ export default class Chart {
 		return getAssignOptions(baseOptions, this.customOptions);
 	}
 
-	// "Динамика профита" - сумма realizedPnl по дням недели (Пн→Вс), только закрытые сделки.
-	static fromOrdersProfitByDay(orders: Order[], customOptions: Partial<EChartsOption> = {}): Chart {
-		const sums = new Map<string, number>();
-
-		WEEKDAY_LABELS.forEach((day) => sums.set(day, 0));
-
-		orders.forEach((o) => {
-			if (!o.closedAt || typeof o.realizedPnl !== "number") return;
-
-			const day = new Date(String(o.closedAt)).getDay();
-			const orderDay = String(WEEKDAY_LABELS[(day + 6) % 7]);
-			const sum = (sums.get(orderDay) ?? 0) + Number(o.realizedPnl);
-
-			sums.set(orderDay, sum);
-		});
-
-		const data: ChartDataPoint[] = WEEKDAY_LABELS.map((day) => ({
-			name: day,
-			value: Number((sums.get(day) ?? 0).toFixed(2)),
+	// "Динамика профита" - профит по дням недели (Пн→Вс), данные с бэкенда.
+	static fromOrdersProfitByDay(
+		data: ProfitDynamicsItem[],
+		customOptions: Partial<EChartsOption> = {}
+	): Chart {
+		const chartData: ChartDataPoint[] = data.map((item) => ({
+			name: item.day_of_week,
+			value: item.profit_usd,
 		}));
 
 		const defaults: Partial<EChartsOption> = {
@@ -155,7 +165,9 @@ export default class Chart {
 					const item = Array.isArray(params) ? params[0] : params;
 					const n = Number(item?.value);
 					const currency = formatNum(n, { currency: "USD", style: "currency" });
-					return `${item?.name}: <span class="font-medium ${n > 0 ? "text-tertiary-700" : "text-secondary-500"}">${currency}</span>`;
+					const formatCurrency = formatNumberSign(n, currency);
+					const className = n > 0 ? "text-tertiary-700" : (n < 0 ? "text-secondary-500" : "");
+					return `${item?.name}: <span class="font-medium ${className}">${formatCurrency}</span>`;
 				},
 			},
 			grid: {
@@ -167,7 +179,7 @@ export default class Chart {
 			},
 			xAxis: {
 				type: "category",
-				data: WEEKDAY_LABELS,
+				data: data.map((item) => item.day_of_week),
 				axisLine: { show: false },
 				axisTick: { show: false },
 				axisLabel: { color: CHART_COLORS.xAxis.axisLabel.color, margin: 12 },
@@ -197,7 +209,10 @@ export default class Chart {
 					distance: 8,
 					color: CHART_COLORS.series.line.label.color,
 					fontSize: 11,
-					formatter: (params) => formatNum(Number(params.value), { currency: "USD", style: "currency" }),
+					formatter: (params) => {
+						const n = formatNum(Number(params.value), { currency: "USD", style: "currency" });
+						return formatNumberSign(Number(params.value), n);
+					},
 				},
 				itemStyle: { color: CHART_COLORS.series.line.itemStyle.color },
 				lineStyle: {
@@ -219,21 +234,18 @@ export default class Chart {
 			}],
 		};
 
-		return new Chart("line", data, getAssignOptions(defaults, customOptions));
+		return new Chart("line", chartData, getAssignOptions(defaults, customOptions), !data.length);
 	}
 
-	// "Количество сделок" - сколько сделок по каждому символу (открытые + закрытые).
-	static fromOrdersBySymbol(orders: Order[], customOptions: Partial<EChartsOption> = {}): Chart {
-		const counts = new Map<string, number>();
-
-		orders.forEach((o) => {
-			const symbol = String(o.symbol);
-			counts.set(symbol, (counts.get(symbol) ?? 0) + 1);
-		});
-
-		const data: ChartDataPoint[] = Array.from(counts.entries())
-			.sort((a, b) => b[1] - a[1])
-			.map(([symbol, count]) => ({ name: symbol, value: count }));
+	// "Количество сделок" - сколько сделок по каждому активу, данные с бэкенда.
+	static fromOrdersBySymbol(
+		data: TradeByAssetItem[],
+		customOptions: Partial<EChartsOption> = {}
+	): Chart {
+		const chartData: ChartDataPoint[] = data.map((item) => ({
+			name: item.asset,
+			value: item.count,
+		}));
 
 		const defaults: Partial<EChartsOption> = {
 			series: [{
@@ -254,18 +266,17 @@ export default class Chart {
 			}],
 		};
 
-		return new Chart("bar", data, getAssignOptions(defaults, customOptions));
+		return new Chart("bar", chartData, getAssignOptions(defaults, customOptions), !data.length);
 	}
 
-	// "Соотношение Win/Loss" - сколько закрытых сделок ушло в плюс/минус.
-	static fromOrdersWinLoss(orders: Order[], customOptions: Partial<EChartsOption> = {}): Chart {
-		const closed = orders.filter((o) => o.closedAt && typeof o.realizedPnl === "number");
-		const wins = closed.filter((o) => Number(o.realizedPnl) > 0);
-		const losses = closed.length - wins.length;
-
-		const data: ChartDataPoint[] = [
-			{ name: "Прибыльные", value: wins.length },
-			{ name: "Убыточные", value: losses },
+	// "Соотношение Win/Loss" - данные с бэкенда.
+	static fromOrdersWinLoss(
+		data: Partial<WinLossRatio>,
+		customOptions: Partial<EChartsOption> = {}
+	): Chart {
+		const chartData: ChartDataPoint[] = [
+			{ name: "Прибыльные", value: Number(data.profitable_count ?? 0) },
+			{ name: "Убыточные", value: Number(data.loss_count ?? 0) },
 		];
 
 		const defaults: Partial<EChartsOption> = {
@@ -334,7 +345,7 @@ export default class Chart {
 			}],
 		};
 
-		return new Chart("pie", data, getAssignOptions(defaults, customOptions));
+		return new Chart("pie", chartData, getAssignOptions(defaults, customOptions), !Object.values(data).every(Boolean));
 	}
 
 	// "Доля маржи" - какую часть используемой маржи занимает каждая активная позиция.

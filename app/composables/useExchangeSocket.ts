@@ -3,19 +3,13 @@ import Trade from "@/models/Trade";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useConnectionStore } from "@/store/useConnectionStore";
 import { useDashboardStore } from "@/store/useDashboardStore";
-import { useExchangeStore } from "@/store/useExchangeStore";
 import { useTradeStore } from "@/store/useTradeStore";
 
-/**
- * Composable для управления WebSocket-соединением.
- * Вызывается в layout default.vue для автоматического подключения
- * при навигации по страницам.
- */
+// Composable для управления WebSocket-соединением.
 export const useExchangeSocket = () => {
 	const connectionStore = useConnectionStore();
 	const authStore = useAuthStore();
 	const dashboardStore = useDashboardStore();
-	const exchangeStore = useExchangeStore();
 	const tradeStore = useTradeStore();
 
 	const socket = useState<Socket | null>("socket", () => null);
@@ -53,7 +47,8 @@ export const useExchangeSocket = () => {
 
 		// активные сделки
 		socket.value.on("deals", (data: Position[]) => {
-			connectionStore.errorMessage = "";
+			if (data.length) connectionStore.errorMessage = "";
+
 			isLoadedTrades.value = true;
 
 			// удаляем позиции, если их нет в приходящих сделках
@@ -90,7 +85,7 @@ export const useExchangeSocket = () => {
 
 		// обработка ошибок
 		socket.value.on("accountInfoError", (data) => {
-			const message = parseExchangeErrorMessage(data.message, exchangeStore.activeExchange ?? "");
+			const message = parseExchangeErrorMessage(data.message);
 
 			isLoadedTrades.value = true;
 			
@@ -112,17 +107,14 @@ export const useExchangeSocket = () => {
 		socket.value = null;
 	};
 
-	// общий payload для работы со всеми событиями
-	const payload = computed(() => ({ exchangeName: exchangeStore.activeExchange }));
-
 	const subscribeDeals = () => {
 		isLoadedTrades.value = false;
-		socket.value?.emit("subscribeDeals", payload.value);
+		socket.value?.emit("subscribeDeals");
 	};
 
-	const unsubscribeDeals = () => socket.value?.emit("unsubscribeDeals", payload.value);
-	const subscribeAccountInfo = () => socket.value?.emit("subscribeAccountInfo", payload.value);
-	const unsubscribeAccountInfo = () => socket.value?.emit("unsubscribeAccountInfo", payload.value);
+	const unsubscribeDeals = () => socket.value?.emit("unsubscribeDeals");
+	const subscribeAccountInfo = () => socket.value?.emit("subscribeAccountInfo");
+	const unsubscribeAccountInfo = () => socket.value?.emit("unsubscribeAccountInfo");
 
 	return {
 		isLoadedTrades,

@@ -9,7 +9,6 @@
 					:src="getURLFile(fileModel)"
 					fetchpriority="high"
 					:preset="ImagePreset.AVATAR"
-					:is-nuxt-img="false"
 					alt=""
 				/>
 			</div>

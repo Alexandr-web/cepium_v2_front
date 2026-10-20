@@ -5,6 +5,7 @@
 		:columns="ordersColumns"
 		:data="orders"
 	>
+		<template #cell-id="{ index }">{{ formatNum(index + (activePage - 1) * PER_PAGE_ORDERS + 1, { padZero: true }) }}</template>
 		<template #cell-side="{ value }">
 			<span
 				class="p-10 rounded-8 font-medium"
@@ -18,6 +19,7 @@
 			<NuxtTime
 				:datetime="String(value)"
 				locale="ru"
+				timezone="local"
 				date-style="medium"
 				time-style="medium"
 			/>
@@ -27,5 +29,5 @@
 <script setup lang="ts">
 import MTable from "@/components/molecules/common/MTable.vue";
 
-defineProps<{ orders: Order[] }>();
+defineProps<{ orders: Order[]; activePage: number; }>();
 </script>

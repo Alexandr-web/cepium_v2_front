@@ -16,7 +16,7 @@
 			</div>
 		</template>
 		<div v-else class="my-auto flex flex-col gap-10 items-center justify-center bg-black rounded-12 p-16 w-full lg:max-w-600 lg:mx-auto">
-			<Empty />
+			<Empty :is-pending="isPending" />
 			<NuxtLink class="group flex items-center justify-center rounded-8 p-8 bg-neutral-100" :to="{ name: 'add-config' }">
 				<IconAdd class="w-22 lg:w-24 h-22 lg:h-24 group-hover:text-white transition text-white/80" />
 			</NuxtLink>
@@ -28,7 +28,13 @@ import IconAdd from "@/assets/icons/add-rounded.svg";
 import Empty from "@/components/molecules/common/Empty.vue";
 import ConfigCard from "@/components/molecules/configs/Card.vue";
 
-defineProps<{
-	configs: ConfigResponse[];
-}>();
+withDefaults(
+	defineProps<{
+		configs: ConfigResponse[];
+		isPending?: boolean;
+	}>(),
+	{
+		isPending: false,
+	}
+);
 </script>

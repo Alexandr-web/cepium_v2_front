@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col gap-24">
-		<OrganismsProfileForm :exchanges="exchanges" />
+		<OrganismsProfileForm />
 		<OrganismsProfileExchanges :exchanges="exchanges" />
 	</div>
 </template>

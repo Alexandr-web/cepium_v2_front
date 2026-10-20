@@ -2,7 +2,7 @@
 	<section class="grid grid-cols-1 lg:grid-cols-3 gap-12">
 		<Card v-for="(card, idx) in cards" :key="idx" :card="card">
 			<IconTrendingUp
-				v-if="['winrate', 'profit'].includes(card.id)"
+				v-if="['winrate', 'profit'].includes(card.id) && card.value !== 0"
 				class="w-32 h-32 absolute bottom-10 right-20"
 				:class="[
 					Number(card.value) > 0 && 'text-tertiary-400',
@@ -16,27 +16,46 @@
 import IconTrendingUp from "@/assets/icons/material-symbols-trending-up.svg";
 import Card from "@/components/molecules/statistics/Card.vue";
 
+const props = withDefaults(
+	defineProps<{
+		statistics?: StatisticsResponse["data"];
+	}>(),
+	{
+		statistics: undefined,
+	}
+);
+
+const profit = computed(() => Number(props.statistics?.totalProfit || 0));
+const winrate = computed(() => Number(props.statistics?.winRate || 0));
+const deals = computed(() => Number(props.statistics?.totalTrades || 0));
+
 const cards = computed<StatisticsCard[]>(() => [
 	{
 		id: "profit",
 		title: "Общий профит",
-		value: 10000,
+		value: profit.value,
 		normalizer: (value) => formatNum(value, { currency: "USD", style: "currency" }),
 		icon: "arrows-more-up-rounded",
-		classesValue: "text-tertiary-700",
+		classesValue: [
+			profit.value > 0 ? "text-tertiary-700" : "",
+			profit.value < 0 ? "text-secondary-500" : "",
+		],
 	},
 	{
 		id: "winrate",
 		title: "Винрейт",
-		value: -0.212,
+		value: winrate.value,
 		normalizer: (value) => formatNum(value, { style: "percent" }),
 		icon: "money-bag-outline-rounded",
-		classesValue: "text-secondary-500",
+		classesValue: [
+			winrate.value > 0 ? "text-tertiary-700" : "",
+			winrate.value < 0 ? "text-secondary-500" : "",
+		],
 	},
 	{
 		id: "deals",
 		title: "Всего сделок",
-		value: 1,
+		value: deals.value,
 		normalizer: (value) => formatNum(value, { padZero: true }),
 		icon: "card-travel-outline-rounded",
 	},

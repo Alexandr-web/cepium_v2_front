@@ -89,9 +89,6 @@ const filters = ref<FilterItem[]>(createFilters());
 const showMobFilters = ref(false);
 
 watch(filters, (v) => {
-	filtersQuery.value = v.reduce<Record<string, string>>((query, filter) => {
-		query[filter.name] = String(filter.value);
-		return query;
-	}, {});
+	filtersQuery.value = getFiltersQuery(v);
 }, { immediate: true, deep: true });
 </script>
