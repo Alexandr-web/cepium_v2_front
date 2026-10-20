@@ -16,39 +16,39 @@
 import IconTrendingUp from "@/assets/icons/material-symbols-trending-up.svg";
 import Card from "@/components/molecules/statistics/Card.vue";
 
-const props = defineProps<{
-	profit: number;
-	winrate: number;
-	deals: number;
-}>();
+const props = defineProps<{ statistics?: StatisticsResponse["data"]; }>();
+
+const profit = computed(() => Number(props.statistics?.totalProfit || 0));
+const winrate = computed(() => Number(props.statistics?.winRate || 0));
+const deals = computed(() => Number(props.statistics?.totalTrades || 0));
 
 const cards = computed<StatisticsCard[]>(() => [
 	{
 		id: "profit",
 		title: "Общий профит",
-		value: props.profit,
+		value: profit.value,
 		normalizer: (value) => formatNum(value, { currency: "USD", style: "currency" }),
 		icon: "arrows-more-up-rounded",
 		classesValue: [
-			props.profit > 0 ? "text-tertiary-700" : "",
-			props.profit < 0 ? "text-secondary-500" : "",
+			profit.value > 0 ? "text-tertiary-700" : "",
+			profit.value < 0 ? "text-secondary-500" : "",
 		],
 	},
 	{
 		id: "winrate",
 		title: "Винрейт",
-		value: props.winrate,
+		value: winrate.value,
 		normalizer: (value) => formatNum(value, { style: "percent" }),
 		icon: "money-bag-outline-rounded",
 		classesValue: [
-			props.winrate > 0 ? "text-tertiary-700" : "",
-			props.winrate < 0 ? "text-secondary-500" : "",
+			winrate.value > 0 ? "text-tertiary-700" : "",
+			winrate.value < 0 ? "text-secondary-500" : "",
 		],
 	},
 	{
 		id: "deals",
 		title: "Всего сделок",
-		value: props.deals,
+		value: deals.value,
 		normalizer: (value) => formatNum(value, { padZero: true }),
 		icon: "card-travel-outline-rounded",
 	},

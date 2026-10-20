@@ -333,3 +333,33 @@ export type CoinGecko = {
 export type GeckoSearchResponse = {
 	coins: CoinGecko[];
 };
+
+export type StatisticsResponse = {
+	statusCode: number;
+	data: {
+		totalProfit: number;
+        winRate: number;
+        totalTrades: number;
+	};
+	message: string;
+};
+
+export type StatisticsChartsResponse = {
+	statusCode: number;
+	data: {
+		profit_dynamics: {
+			date: string;
+			day_of_week: string;
+			profit_usd: number;
+		}[];
+		trades_by_asset: {
+			asset: string;
+			count: number;
+		}[];
+		win_loss_ratio: {
+			profitable_count: number;
+			loss_count: number;
+		};
+	};
+	message: string;
+};
