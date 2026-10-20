@@ -29,11 +29,13 @@ export default class Chart {
 	type: ChartType;
 	data: ChartDataPoint[] = [];
 	customOptions: Partial<EChartsOption> = {};
+	isEmpty: boolean;
 
-	constructor(type: ChartType, data: ChartDataPoint[] = [], customOptions: Partial<EChartsOption> = {}) {
+	constructor(type: ChartType, data: ChartDataPoint[] = [], customOptions: Partial<EChartsOption> = {}, isEmpty = false) {
 		this.type = type;
 		this.data = data;
 		this.customOptions = customOptions;
+		this.isEmpty = isEmpty;
 	}
 
 	getComputedOptions(): EChartsOption {
@@ -232,7 +234,7 @@ export default class Chart {
 			}],
 		};
 
-		return new Chart("line", chartData, getAssignOptions(defaults, customOptions));
+		return new Chart("line", chartData, getAssignOptions(defaults, customOptions), !data.length);
 	}
 
 	// "Количество сделок" - сколько сделок по каждому активу, данные с бэкенда.
@@ -264,7 +266,7 @@ export default class Chart {
 			}],
 		};
 
-		return new Chart("bar", chartData, getAssignOptions(defaults, customOptions));
+		return new Chart("bar", chartData, getAssignOptions(defaults, customOptions), !data.length);
 	}
 
 	// "Соотношение Win/Loss" - данные с бэкенда.
@@ -343,7 +345,7 @@ export default class Chart {
 			}],
 		};
 
-		return new Chart("pie", chartData, getAssignOptions(defaults, customOptions));
+		return new Chart("pie", chartData, getAssignOptions(defaults, customOptions), !Object.values(data).every(Boolean));
 	}
 
 	// "Доля маржи" - какую часть используемой маржи занимает каждая активная позиция.

@@ -10,7 +10,8 @@
 			>
 				<h3 class="font-medium text-neutral-700">{{ item.label }}</h3>
 				<div class="h-200 lg:h-300 w-full">
-					<VChart :option="item.options" class="w-full h-full" />
+					<VChart v-if="!item.chart.isEmpty" :option="item.chart.getComputedOptions()" class="w-full h-full" />
+					<Empty v-else class="justify-start" />
 				</div>
 			</div>
 		</div>
@@ -21,6 +22,7 @@ import { useCharts } from "@/composables/api/useStatistics";
 import Filters from "@/components/molecules/common/Filters.vue";
 import Chart from "@/models/Chart";
 import ASelect from "@/components/atoms/ASelect.vue";
+import Empty from "@/components/molecules/common/Empty.vue";
 
 const props = withDefaults(
 	defineProps<{
@@ -49,6 +51,7 @@ const filters = ref<FilterItem[]>([
 		label: "Период",
 		value: String(PERIOD_LIST[0]?.value ?? ""),
 		items: PERIOD_LIST,
+		classes: "min-w-200",
 	},
 	{
 		name: "strategyName",
@@ -56,23 +59,28 @@ const filters = ref<FilterItem[]>([
 		label: "Стратегия",
 		value: String(props.strategies[0]?.id ?? ""),
 		items: props.strategies.map((s) => ({ label: s.name, value: s.id })),
+		classes: "min-w-200",
 	},
 ]);
+
+const chartOrdersProfitByDay = computed(() => Chart.fromOrdersProfitByDay(data.value.profit_dynamics ?? []));
+const chartOrdersBySymbol = computed(() => Chart.fromOrdersBySymbol(data.value.trades_by_asset ?? []));
+const chartOrdersWinLoss = computed(() => Chart.fromOrdersWinLoss(data.value.win_loss_ratio ?? {}));
 
 const charts = computed(() => [
 	{
 		label: "Динамика профита",
-		options: Chart.fromOrdersProfitByDay(data.value.profit_dynamics ?? []).getComputedOptions(),
 		classes: "lg:col-span-4",
+		chart: chartOrdersProfitByDay.value,
 	},
 	{
 		label: "Количество сделок",
-		options: Chart.fromOrdersBySymbol(data.value.trades_by_asset ?? []).getComputedOptions(),
 		classes: "lg:col-span-3",
+		chart: chartOrdersBySymbol.value,
 	},
 	{
 		label: "Соотношение Win/Loss",
-		options: Chart.fromOrdersWinLoss(data.value.win_loss_ratio ?? {}).getComputedOptions(),
+		chart: chartOrdersWinLoss.value,
 	},
 ]);
 
