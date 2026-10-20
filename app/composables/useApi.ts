@@ -9,10 +9,10 @@ export const useApi = () => {
 			headers.set("Authorization", `Bearer ${authStore.token ?? ""}`);
 			options.headers = headers;
 		},
-		onResponseError({ response }) {
+		async onResponseError({ response }) {
 			if (response.status === 401) {
 				authStore.clearToken();
-				navigateTo({ name: "login" });
+				await navigateTo({ name: "login" });
 			}
 		},
 	});
