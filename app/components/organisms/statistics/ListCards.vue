@@ -16,7 +16,14 @@
 import IconTrendingUp from "@/assets/icons/material-symbols-trending-up.svg";
 import Card from "@/components/molecules/statistics/Card.vue";
 
-const props = defineProps<{ statistics?: StatisticsResponse["data"]; }>();
+const props = withDefaults(
+	defineProps<{
+		statistics?: StatisticsResponse["data"];
+	}>(),
+	{
+		statistics: undefined,
+	}
+);
 
 const profit = computed(() => Number(props.statistics?.totalProfit || 0));
 const winrate = computed(() => Number(props.statistics?.winRate || 0));

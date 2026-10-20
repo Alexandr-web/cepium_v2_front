@@ -269,12 +269,12 @@ export default class Chart {
 
 	// "Соотношение Win/Loss" - данные с бэкенда.
 	static fromOrdersWinLoss(
-		data: WinLossRatio,
+		data: Partial<WinLossRatio>,
 		customOptions: Partial<EChartsOption> = {}
 	): Chart {
 		const chartData: ChartDataPoint[] = [
-			{ name: "Прибыльные", value: data.profitable_count },
-			{ name: "Убыточные", value: data.loss_count },
+			{ name: "Прибыльные", value: Number(data.profitable_count ?? 0) },
+			{ name: "Убыточные", value: Number(data.loss_count ?? 0) },
 		];
 
 		const defaults: Partial<EChartsOption> = {

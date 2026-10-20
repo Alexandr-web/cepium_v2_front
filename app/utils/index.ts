@@ -297,3 +297,10 @@ export const isCurrentDate = (_date: string) => {
 export const formatNumberSign = (val: number | string, output?: string | number) => {
 	return Number(val) > 0 ? "+" + (output ?? val) : String(output ?? val);
 };
+
+export const getFiltersQuery = (filters: FilterItem[]) => {
+	return filters.reduce<Record<string, string>>((query, filter) => {
+		query[filter.name] = String(filter.value);
+		return query;
+	}, {});
+};

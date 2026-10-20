@@ -347,19 +347,9 @@ export type StatisticsResponse = {
 export type StatisticsChartsResponse = {
 	statusCode: number;
 	data: {
-		profit_dynamics: {
-			date: string;
-			day_of_week: string;
-			profit_usd: number;
-		}[];
-		trades_by_asset: {
-			asset: string;
-			count: number;
-		}[];
-		win_loss_ratio: {
-			profitable_count: number;
-			loss_count: number;
-		};
+		profit_dynamics: ProfitDynamicsItem[];
+		trades_by_asset: TradeByAssetItem[];
+		win_loss_ratio: WinLossRatio;
 	};
 	message: string;
 };

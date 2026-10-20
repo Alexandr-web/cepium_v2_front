@@ -12,10 +12,10 @@ export const useSummary = () => {
 export const useCharts = () => {
 	const queryClient = useQueryClient();
 
-	const searchData = async (query = {}): Promise<StatisticsChartsResponse> => {
+	const searchData = async (options = {}): Promise<StatisticsChartsResponse> => {
 		return queryClient.fetchQuery({
-			queryKey: keys.getStatisticsCharts(query),
-			queryFn: () => getCharts({ query }),
+			queryKey: keys.getStatisticsCharts(options),
+			queryFn: () => getCharts(options),
 		});
 	};
 

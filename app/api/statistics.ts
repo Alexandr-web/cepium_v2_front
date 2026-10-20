@@ -4,4 +4,4 @@ export const getSummary = async (): Promise<StatisticsResponse> =>
 
 // данные для графиков
 export const getCharts = async (options = {}): Promise<StatisticsChartsResponse> =>
-	useNuxtApp().$api("/api/metrics/charts", options);
+	useNuxtApp().$api("/api/statistics/charts", options);
