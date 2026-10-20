@@ -5,7 +5,7 @@
 		:columns="ordersColumns"
 		:data="orders"
 	>
-		<template #cell-id="{ index }">{{ index + (activePage - 1) * PER_PAGE_ORDERS + 1 }}</template>
+		<template #cell-id="{ index }">{{ formatNum(index + (activePage - 1) * PER_PAGE_ORDERS + 1, { padZero: true }) }}</template>
 		<template #cell-side="{ value }">
 			<span
 				class="p-10 rounded-8 font-medium"
