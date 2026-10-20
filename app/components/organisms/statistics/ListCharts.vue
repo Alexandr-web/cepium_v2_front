@@ -1,6 +1,6 @@
 <template>
-	<section class="flex flex-col gap-12 p-12 lg:p-24 bg-black min-h-screen rounded-12">
-		<Filters :filters="filters" />
+	<section class="flex flex-col gap-36 lg:gap-12 p-12 lg:p-24 bg-black min-h-screen rounded-12">
+		<Filters :filters="filters" :disabled="isPendingStatistics || isPendingStrategy" />
 		<div class="grid grid-cols-1 lg:grid-cols-4 gap-24">
 			<div
 				v-for="(item, idx) in charts"
@@ -27,9 +27,13 @@ import Empty from "@/components/molecules/common/Empty.vue";
 const props = withDefaults(
 	defineProps<{
 		strategies?: StrategyEntity[];
+		isPendingStrategy?: boolean;
+		isPendingStatistics?: boolean;
 	}>(),
 	{
 		strategies: () => [],
+		isPendingStrategy: false,
+		isPendingStatistics: false,
 	}
 );
 

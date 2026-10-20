@@ -298,6 +298,20 @@ export const formatNumberSign = (val: number | string, output?: string | number)
 	return Number(val) > 0 ? "+" + (output ?? val) : String(output ?? val);
 };
 
+/**
+ * Преобразует массив фильтров в объект-запрос, где ключи - имена фильтров,
+ * а значения - их строковое представление.
+ *
+ * @param filters - массив объектов FilterItem с полями name и value
+ * @returns объект, маппящий имя фильтра на его строковое значение
+ *
+ * @example
+ * getFiltersQuery([
+ *   { name: "status", value: "active" },
+ *   { name: "days", value: true },
+ * ]);
+ * // Возвращает: { status: "active", days: "true" }
+ */
 export const getFiltersQuery = (filters: FilterItem[]) => {
 	return filters.reduce<Record<string, string>>((query, filter) => {
 		query[filter.name] = String(filter.value);
