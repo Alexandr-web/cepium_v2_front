@@ -2,7 +2,7 @@ export default defineEventHandler(async (event) => {
 	const config = useRuntimeConfig();
 	const { search, pathname } = getRequestURL(event);
 	const targetPath = pathname.replace(/^\/api/, "");
-	const apiUrl = import.meta.dev ? config.public.apiUrl.dev : config.public.apiUrl.prod;
+	const apiUrl = import.meta.dev ? config.apiUrl.dev : config.apiUrl.prod;
 
 	return proxyRequest(event, `${apiUrl}${targetPath}${search}`, {
 		fetchOptions: {

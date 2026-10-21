@@ -30,6 +30,10 @@ export default defineNuxtConfig({
 	],
 	runtimeConfig: {
 		geckoApiUrl: process.env.NUXT_GECKO_API_URL,
+		apiUrl: {
+			dev: process.env.NUXT_API_URL_DEV,
+			prod: process.env.NUXT_API_URL_PROD,
+		},
 		public: {
 			apiUrl: {
 				dev: process.env.NUXT_PUBLIC_API_URL_DEV,
