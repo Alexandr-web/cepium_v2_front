@@ -82,7 +82,7 @@ import { useTradeStore } from "@/store/useTradeStore";
 const dashboardStore = useDashboardStore();
 const tradeStore = useTradeStore();
 
-const { isDesktop } = useDevice();
+const isDesktop = useMediaQuery("(min-width: 1024px)");
 
 const showCharts = useState("show-margin-chart", () => false);
 

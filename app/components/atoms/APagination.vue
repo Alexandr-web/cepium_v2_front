@@ -58,9 +58,9 @@ const props = withDefaults(
 	}
 );
 
-const { isMobile } = useDevice();
+const isDesktop = useMediaQuery("(min-width: 1024px)");
 
-const sibling = computed(() => isMobile ? 0 : props.siblingCount);
+const sibling = computed(() => !isDesktop.value ? 0 : props.siblingCount);
 
 const SPACES_STRING = "...";
 

@@ -52,7 +52,7 @@ import IconEdit from "@/assets/icons/edit-outline-rounded.svg";
 
 const { card } = defineProps<{ card: ConfigResponse; }>();
 
-const { isDesktop } = useDevice();
+const isDesktop = useMediaQuery("(min-width: 1024px)");
 
 const activeLabel = computed(() => card.activate ? "Активно" : "Не активно");
 

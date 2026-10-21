@@ -92,7 +92,7 @@ enum TabsValues {
 	NEGATIVE_PNL = "negative-pnl",
 };
 
-const { isDesktop } = useDevice();
+const isDesktop = useMediaQuery("(min-width: 1024px)");
 const { findCoinId } = useCoinGeckoSearch();
 
 const tradeStore = useTradeStore();
@@ -187,7 +187,7 @@ const closeControlsModal = () => {
  * @param trade - Сделка, которую нужно удалить.
  */
 const removePosition = async (trade: Trade) => {
-	if (!isDesktop) closeControlsModal();
+	if (!isDesktop.value) closeControlsModal();
 	await mutateAsync(trade.id);
 };
 
@@ -196,7 +196,7 @@ const removePosition = async (trade: Trade) => {
  * модалку управления
  */
 const removePositions = async () => {
-	if (!isDesktop) closeControlsModal();
+	if (!isDesktop.value) closeControlsModal();
 
 	const prms = displayTrades.value.map((t) => mutateAsync(t.id));
 	await Promise.all(prms);

@@ -87,7 +87,7 @@ const props = withDefaults(
 	}
 );
 
-const { isDesktop } = useDevice();
+const isDesktop = useMediaQuery("(min-width: 1024px)");
 
 // Фиксированные границы уровней активности.
 const LEVEL_THRESHOLDS = [5, 10, 15, 20] as const;

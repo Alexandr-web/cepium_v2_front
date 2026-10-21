@@ -52,7 +52,7 @@ const { suspense } = useUser();
 
 await suspense();
 
-const { isDesktop } = useDevice();
+const isDesktop = useMediaQuery("(min-width: 1024px)");
 
 const route = useRoute();
 const router = useRouter();
@@ -73,7 +73,7 @@ const scrollToTop = async () => {
 };
 
 router.afterEach(async () => {
-	if (!isDesktop) showMobMenu.value = false;
+	if (!isDesktop.value) showMobMenu.value = false;
 	push.destroyAll();
 	await scrollToTop();
 });

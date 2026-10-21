@@ -19,7 +19,6 @@ export default defineNuxtConfig({
 	modules: [
 		"@nuxt/eslint",
 		"@nuxt/image",
-		"@nuxtjs/device",
 		"@peterbud/nuxt-query",
 		"@pinia/nuxt",
 		"@vueuse/nuxt",

@@ -42,7 +42,7 @@ const props = withDefaults(
 	}
 );
 
-const { isDesktop } = useDevice();
+const isDesktop = useMediaQuery("(min-width: 1024px)");
 
 const checked = defineModel<boolean>({ default: false });
 

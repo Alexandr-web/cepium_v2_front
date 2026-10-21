@@ -1731,13 +1731,6 @@
     ufo "^1.6.4"
     ultrahtml "^1.7.0"
 
-"@nuxtjs/device@4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/device/-/device-4.0.0.tgz#1ab5a96723690e9d0c33cf35b91edf1b7fac1f1d"
-  integrity sha512-Tkbvde/GInmigbS/n3X3X+qXJWi6hsYrViKpZrakaBBYY3NbGYJb0c8aVxd3vI636HBbOhu0I39rv7MSjP7w8Q==
-  dependencies:
-    defu "^6.1.4"
-
 "@one-ini/wasm@0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@one-ini/wasm/-/wasm-0.1.1.tgz#6013659736c9dbfccc96e8a9c2b3de317df39323"

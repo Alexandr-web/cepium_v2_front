@@ -33,7 +33,7 @@ import { useOrders } from "@/composables/api/useOrders";
 
 const { searchOrders } = useOrders();
 
-const { isDesktop } = useDevice();
+const isDesktop = useMediaQuery("(min-width: 1024px)");
 
 const filters = ref<Record<string, string>>({});
 
