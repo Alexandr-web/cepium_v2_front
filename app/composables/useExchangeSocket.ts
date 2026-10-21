@@ -19,9 +19,11 @@ export const useExchangeSocket = () => {
 		if (socket.value) return;
 	
 		const config = useRuntimeConfig();
+		const url = import.meta.dev ? config.public.wsUrl : undefined;
+		const path = import.meta.dev ? "/exchanges/socket.io" : config.public.wsUrl;
 
-		socket.value = io(undefined, {
-			path: config.public.wsUrl,
+		socket.value = io(url, {
+			path,
 			autoConnect: true,
 			withCredentials: true,
 			transports: ["websocket"],

@@ -1,3 +1,5 @@
+import { defineStore } from "pinia";
+
 export const useUserStore = defineStore("user-store", () => {
 	const user = ref<User>({
 		avatar: null,
@@ -7,10 +9,8 @@ export const useUserStore = defineStore("user-store", () => {
 	});
 
 	const config = useRuntimeConfig();
-	const avatar = computed(() => {
-		if (user.value.avatar?.startsWith("blob:")) return user.value.avatar;
-		return `${config.public.apiUrl}/users/me/avatars/${user.value.avatar || ""}`;
-	});
+	const apiUrl = import.meta.dev ? config.public.apiUrl.dev : config.public.apiUrl.prod;
+	const avatar = computed(() => getAvatarUrl(apiUrl, user.value.avatar));
 
 	const updateData = (data: User) => {
 		Object.keys(data).forEach((key) => {

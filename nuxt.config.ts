@@ -32,13 +32,21 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		geckoApiUrl: process.env.NUXT_GECKO_API_URL,
 		public: {
-			apiUrl: process.env.NUXT_PUBLIC_API_URL,
+			apiUrl: {
+				dev: process.env.NUXT_PUBLIC_API_URL_DEV,
+				prod: process.env.NUXT_PUBLIC_API_URL_PROD,
+			},
 			wsUrl: process.env.NUXT_PUBLIC_WS_URL,
 		},
 	},
 	css: ["@/assets/css/global.css", "notivue/notification.css", "notivue/animations.css"],
 	vite: {
 		plugins: [tailwindcss()],
+		// Держим Pinia в одном инстансе для SSR: иначе рантайм @pinia/nuxt
+		// и стор из app/ получают разные копии pinia и activePinia не находится.
+		ssr: {
+			noExternal: ["pinia"],
+		},
 	},
 	vue: {
 		compilerOptions: {

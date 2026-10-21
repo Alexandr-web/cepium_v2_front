@@ -63,14 +63,12 @@ export const useFormState = <T extends Record<string, FormField>>(initFields: T)
 	const values = computed(() => Object.keys(fields).map((key) => fields[key]?.value));
 
 	watch(values, (newValues, oldValues) => {
-		Object.keys(fields).forEach(async (key, index) => {
+		Object.keys(fields).forEach((key, index) => {
 			const field = fields[key];
 			if (!field) return;
 			if (newValues[index] === oldValues?.[index]) return;
-			
-			const error = !isEmpty(newValues[index]) ? getMessage(key) : "";
-			await nextTick();
-			field.error = error;
+
+			field.error = !isEmpty(newValues[index]) ? getMessage(key) : "";
 		});
 	});
 

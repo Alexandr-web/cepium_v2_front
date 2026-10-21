@@ -345,7 +345,7 @@ export default class Chart {
 			}],
 		};
 
-		return new Chart("pie", chartData, getAssignOptions(defaults, customOptions), !Object.values(data).every(Boolean));
+		return new Chart("pie", chartData, getAssignOptions(defaults, customOptions), !Object.values(data).some((v) => isNumber(v) && v > 0));
 	}
 
 	// "Доля маржи" - какую часть используемой маржи занимает каждая активная позиция.

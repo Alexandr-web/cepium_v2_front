@@ -1,3 +1,5 @@
+import { defineStore } from "pinia";
+
 export const useDashboardStore = defineStore("dashboard-store", () => {
 	const data = ref<Dashboard>({
 		balance: 0,

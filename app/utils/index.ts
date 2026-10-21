@@ -17,7 +17,7 @@ export const formatNum = (_value: number | string, options?: FormatNumOptions): 
 	const num = typeof _value === "string" ? parseFloat(_value.replace(",", ".")) : _value;
 	const { style, currency, padZero, defaultValue = "0" } = options ?? {};
 
-	if (isNaN(num) || !isFinite(num) || isNegativeZero(num) || !_value) return defaultValue;
+	if (!isNumber(num) || !isFinite(num) || isNegativeZero(num) || !_value) return defaultValue;
 
 	let minimumIntegerDigits = 1;
 	let maximumFractionDigits = 2;
@@ -71,6 +71,28 @@ export const getURLFile = (val: unknown): string => {
 	if (typeof val === "string") return val;
 	if (val instanceof File) return  URL.createObjectURL(val);
 	return "";
+};
+
+/**
+ * Собирает URL аватара пользователя.
+ *
+ * Бэкенд возвращает имя файла (например, `avatar-default.jpg`). Blob- и уже
+ * абсолютные URL возвращаются без изменений, чтобы не ломать локальное превью
+ * выбранного файла. Без имени файла возвращается пустая строка — тогда
+ * `AImage` покажет заглушку вместо битого пути.
+ *
+ * @param {string | undefined} apiUrl - База API (например, `/api`).
+ * @param {string | null | undefined} avatar - Имя файла или готовый URL.
+ * @returns {string} URL аватара либо пустая строка.
+ *
+ * @example
+ * getAvatarUrl("/api", "user.jpg"); // "/api/users/me/avatars/user.jpg"
+ * getAvatarUrl("/api", null);       // ""
+ */
+export const getAvatarUrl = (apiUrl: string | undefined, avatar?: string | null): string => {
+	if (!apiUrl || !avatar) return "";
+	if (avatar.startsWith("blob:") || avatar.startsWith("http")) return avatar;
+	return `${apiUrl}/users/me/avatars/${avatar}`;
 };
 
 /**
@@ -129,7 +151,7 @@ type FormatIsoToPrettyStrOptions = {
 export const formatIsoToPrettyStr = (isoString: string, options: FormatIsoToPrettyStrOptions = {}): string => {
 	const date = new Date(isoString);
 
-	if (isNaN(date.getTime())) return "";
+	if (!isNumber(date.getTime())) return "";
 
 	const year = date.getFullYear();
 	const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -318,3 +340,15 @@ export const getFiltersQuery = (filters: FilterItem[]) => {
 		return query;
 	}, {});
 };
+
+/**
+ * Проверяет, является ли значение конечным числом (не NaN, не Infinity, не -Infinity).
+ *
+ * @example
+ * isNumber(42)          // true
+ * isNumber(NaN)         // false
+ * isNumber("123")       // false — строка, а не number
+ * isNumber(Infinity)    // false
+ * isNumber(null)        // false
+ */
+export const isNumber = (v: unknown) => typeof v === "number" && isFinite(v);

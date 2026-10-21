@@ -1,3 +1,4 @@
+import { defineStore } from "pinia";
 import type Trade from "@/models/Trade";
 
 export const useTradeStore = defineStore("trade-store",	() => {
