@@ -9,7 +9,7 @@ export const useUserStore = defineStore("user-store", () => {
 	});
 
 	const config = useRuntimeConfig();
-	const apiUrl = import.meta.dev ? config.public.apiUrl.dev : config.public.apiUrl.prod;
+	const apiUrl = import.meta.env.DEV ? config.public.apiUrl.dev : config.public.apiUrl.prod;
 	const avatar = computed(() => getAvatarUrl(apiUrl, user.value.avatar));
 
 	const updateData = (data: User) => {

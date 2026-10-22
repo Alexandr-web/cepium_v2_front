@@ -9,8 +9,14 @@
 				:class="item.classes"
 			>
 				<h3 class="font-medium text-neutral-700">{{ item.label }}</h3>
-				<div class="h-200 lg:h-300 w-full">
-					<VChart v-if="!item.chart.isEmpty" :option="item.chart.getComputedOptions()" class="w-full h-full" />
+				<div class="h-200 lg:h-300 w-full rounded-12" :class="[isPendingCharts && 'overflow-hidden']">
+					<VChart
+						v-if="!item.chart.isEmpty"
+						:loading="isPendingCharts"
+						:loading-options="CHART_COLORS.loading"
+						:option="item.chart.getComputedOptions()"
+						class="w-full h-full"
+					/>
 					<Empty v-else class="justify-start" />
 				</div>
 			</div>
@@ -46,6 +52,7 @@ const PERIOD_LIST: SelectItem[] = [
 	{ label: "Год", value: "year" },
 ];
 
+const isPendingCharts = ref(false);
 const data = ref<Partial<StatisticsChartsResponse["data"]>>({});
 
 const filters = ref<FilterItem[]>([
@@ -88,16 +95,20 @@ const charts = computed(() => [
 	},
 ]);
 
-watch(
-	() => filters.value.map((i) => i.value),
-	async () => {
-		try {
-			const res = await searchData({ query: getFiltersQuery(filters.value) });
-			data.value = res.data;
-		} catch (err) {
-			console.error(err);
-		}
-	},
-	{ immediate: true }
-);
+const updateData = async () => {
+	isPendingCharts.value = true;
+
+	try {
+		const res = await searchData({ query: getFiltersQuery(filters.value) });
+		data.value = res.data;
+	} catch (err) {
+		console.error(err);
+	} finally {
+		isPendingCharts.value = false;
+	}
+};
+
+watch(() => filters.value.map((i) => i.value), updateData);
+
+onMounted(updateData);
 </script>
