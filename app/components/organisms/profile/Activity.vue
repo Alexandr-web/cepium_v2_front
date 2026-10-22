@@ -40,7 +40,7 @@
 					<tr v-for="(dayName, row) in WEEKDAY_LABELS" :key="dayName">
 						<td class="text-12 text-neutral-600 pr-2">{{ dayName }}</td>
 						<td v-for="(week, col) in weeks" :key="col">
-							<Tooltip v-if="week[row] && isDesktop" class="h-full">
+							<Tooltip v-if="week[row]" :disabled="!isDesktop" class="h-full">
 								<template #trigger>
 									<div
 										class="w-12 lg:w-16 h-12 lg:h-16 rounded-2"
@@ -57,14 +57,6 @@
 									</div>
 								</template>
 							</Tooltip>
-							<div
-								v-else-if="week[row]"
-								class="w-12 lg:w-16 h-12 lg:h-16 rounded-2"
-								:class="[
-									colorClasses[week[row]!.level],
-									week[row]?.isToday && 'border border-tertiary-400'
-								]"
-							/>
 							<div v-else class="w-12 lg:w-16 h-12 lg:h-16" />
 						</td>
 					</tr>

@@ -2,7 +2,7 @@
 	<section class="flex flex-col gap-24">
 		<OrdersFilters v-model="filters" />
 		<div class="flex flex-col justify-between gap-15 grow">
-			<template v-if="!isDesktop">
+			<div class="flex lg:hidden flex-col">
 				<div v-if="orders.length" class="flex flex-col gap-8">
 					<Card
 						v-for="(item, idx) in orders"
@@ -11,8 +11,8 @@
 					/>
 				</div>
 				<Empty v-else :is-pending="isPending" />
-			</template>
-			<Table v-else :orders="orders" :is-pending="isPending" :active-page="page" />
+			</div>
+			<Table class="hidden lg:flex" :orders="orders" :is-pending="isPending" :active-page="page" />
 			<APagination
 				v-if="orders.length"
 				v-model:page="page"
@@ -32,8 +32,6 @@ import OrdersFilters from "@/components/organisms/orders/Filters.vue";
 import { useOrders } from "@/composables/api/useOrders";
 
 const { searchOrders } = useOrders();
-
-const isDesktop = useMediaQuery("(min-width: 1024px)");
 
 const filters = ref<Record<string, string>>({});
 

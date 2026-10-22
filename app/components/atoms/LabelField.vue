@@ -13,9 +13,9 @@
 			</h3>
 			<p v-if="count" class="text-neutral-600 text-12 lg:text-14">({{ count }})</p>
 		</div>
-		<Tooltip v-if="tooltipText && isDesktop">
+		<Tooltip :disabled="!tooltipText || !isDesktop">
 			<template #trigger>
-				<IconHelpRounded class="w-16 h-16 text-white/80" />
+				<IconHelpRounded class="w-16 h-16 text-white/80 hidden lg:inline-block" />
 			</template>
 			<template #content>
 				{{ tooltipText }}

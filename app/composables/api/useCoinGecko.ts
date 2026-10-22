@@ -16,7 +16,9 @@ export const useCoinGeckoSearch = () => {
 			staleTime: 1000 * 60 * 60 * 24,
 		});
 
-		return data.coins.find((coin) => coin.symbol.toUpperCase() === baseSymbol)?.id ?? data.coins[0]?.id ?? null;
+		const coinsMap = new Map(data.coins.map((coin) => [coin.symbol.toUpperCase(), coin.id]));
+
+		return coinsMap.get(baseSymbol) ?? null;
 	};
 
 	return { findCoinId };
