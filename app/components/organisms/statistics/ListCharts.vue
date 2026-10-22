@@ -73,25 +73,34 @@ const filters = ref<FilterItem[]>([
 		classes: "min-w-200",
 	},
 ]);
+const filtersValues = computed(() => filters.value.map((i) => i.value));
 
-const chartOrdersProfitByDay = computed(() => Chart.fromOrdersProfitByDay(data.value.profit_dynamics ?? []));
-const chartOrdersBySymbol = computed(() => Chart.fromOrdersBySymbol(data.value.trades_by_asset ?? []));
-const chartOrdersWinLoss = computed(() => Chart.fromOrdersWinLoss(data.value.win_loss_ratio ?? {}));
+const chartOrdersProfitByDay = useMemoize((_data: Partial<StatisticsChartsResponse["data"]>, _filters: FilterItem["value"][]) => {
+	return Chart.fromOrdersProfitByDay(_data.profit_dynamics ?? []);
+});
+
+const chartOrdersBySymbol = useMemoize((_data: Partial<StatisticsChartsResponse["data"]>, _filters: FilterItem["value"][]) => {
+	return Chart.fromOrdersBySymbol(_data.trades_by_asset ?? []);
+});
+
+const chartOrdersWinLoss = useMemoize((_data: Partial<StatisticsChartsResponse["data"]>, _filters: FilterItem["value"][]) => {
+	return Chart.fromOrdersWinLoss(_data.win_loss_ratio ?? {});
+});
 
 const charts = computed(() => [
 	{
 		label: "Динамика профита",
 		classes: "lg:col-span-4",
-		chart: chartOrdersProfitByDay.value,
+		chart: chartOrdersProfitByDay(data.value, filtersValues.value),
 	},
 	{
 		label: "Количество сделок",
 		classes: "lg:col-span-3",
-		chart: chartOrdersBySymbol.value,
+		chart: chartOrdersBySymbol(data.value, filtersValues.value),
 	},
 	{
 		label: "Соотношение Win/Loss",
-		chart: chartOrdersWinLoss.value,
+		chart: chartOrdersWinLoss(data.value, filtersValues.value),
 	},
 ]);
 
@@ -108,7 +117,7 @@ const updateData = async () => {
 	}
 };
 
-watch(() => filters.value.map((i) => i.value), updateData);
+watch(filtersValues, updateData);
 
 onMounted(updateData);
 </script>

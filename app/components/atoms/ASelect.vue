@@ -36,14 +36,14 @@
 						<li
 							v-for="(item, idx) in items"
 							:key="idx"
-							class="flex items-center cursor-pointer p-10 text-neutral-800 text-14 lg:text-15 odd:bg-neutral-200 transition-colors duration-150 last:rounded-b-8"
+							class="odd:bg-neutral-200 transition-colors duration-150 last:rounded-b-8"
 							:class="[item.value === value && 'text-neutral-950']"
-							@click="select(item)"
 						>
 							<ACheckbox
+								class="flex items-center cursor-pointer p-10 text-neutral-800 text-14 lg:text-15"
 								:model-value="item.value === value"
 								:label="item.label"
-								@update:model-value="(v: boolean) => value = v ? item.value : ''"
+								@update:model-value="(v: boolean) => select(item, v)"
 							/>
 						</li>
 					</ul>
@@ -93,8 +93,9 @@ const selectedLabel = computed(() => props.items.find((i) => i.value === value.v
 const inputLabel = computed(() => selectedLabel.value || props.placeholder);
 const disabled = computed(() => props.disabled ?? !props.items.length);
 
-const select = (item: SelectItem) => {
+const select = (item: SelectItem, checked: boolean) => {
+	if (value.value === item.value) return;
 	error.value = "";
-	value.value = item.value;
+	value.value = checked ? item.value : "";
 };
 </script>
