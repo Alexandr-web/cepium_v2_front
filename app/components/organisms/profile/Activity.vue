@@ -140,7 +140,7 @@ const allDaysWithPadding = computed<(ActivityItemCell | null)[]>(() => {
 
 		days.push({
 			date: dateStr,
-			formatDate: currentDate.toLocaleDateString("ru-RU", { timeZone: "UTC" }),
+			formatDate: formatLocalDate(currentDate),
 			value,
 			level: getLevel(value),
 			month: currentDate.getUTCMonth(),
@@ -206,6 +206,6 @@ const monthLabels = computed(() => {
 
 // После гидрации уточняем до локального дня пользователя (sv-SE даёт формат YYYY-MM-DD)
 onMounted(() => {
-	today.value = new Date().toLocaleDateString("sv-SE");
+	today.value = formatLocalDate(new Date(), "sv-SE");
 });
 </script>

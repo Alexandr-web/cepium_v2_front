@@ -15,7 +15,7 @@
 		</div>
 		<Tooltip v-show="tooltipText && isDesktop">
 			<template #trigger>
-				<IconHelpRounded class="w-16 h-16 text-white/80 hidden lg:inline-block" />
+				<IconHelpRounded class="w-16 h-16 text-white/80" />
 			</template>
 			<template #content>
 				{{ tooltipText }}

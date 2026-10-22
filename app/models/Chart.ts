@@ -150,7 +150,7 @@ export default class Chart {
 		customOptions: Partial<EChartsOption> = {}
 	): Chart {
 		const chartData: ChartDataPoint[] = data.map((item) => ({
-			name: item.day_of_week,
+			name: item.date,
 			value: item.profit_usd,
 		}));
 
@@ -179,7 +179,7 @@ export default class Chart {
 			},
 			xAxis: {
 				type: "category",
-				data: data.map((item) => item.day_of_week),
+				data: data.map((item) => formatLocalDate(item.date)),
 				axisLine: { show: false },
 				axisTick: { show: false },
 				axisLabel: { color: CHART_COLORS.xAxis.axisLabel.color, margin: 12 },
