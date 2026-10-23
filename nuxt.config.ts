@@ -137,4 +137,9 @@ export default defineNuxtConfig({
 			},
 		],
 	},
+	nitro: {
+		externals: {
+			inline: ["@vue/devtools-api"],
+		},
+	},
 });
