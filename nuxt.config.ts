@@ -22,7 +22,6 @@ export default defineNuxtConfig({
 		"@peterbud/nuxt-query",
 		"@pinia/nuxt",
 		"@vueuse/nuxt",
-		"@nuxt/test-utils/module",
 		"nuxt-svgo",
 		"notivue/nuxt",
 		"nuxt-echarts",
