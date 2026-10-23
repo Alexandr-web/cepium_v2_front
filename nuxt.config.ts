@@ -3,9 +3,6 @@ import tailwindcss from "@tailwindcss/vite";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	compatibilityDate: "2026-10-10",
-	devtools: {
-		enabled: import.meta.dev,
-	},
 	app: {
 		head: {
 			title: "Cepium",
