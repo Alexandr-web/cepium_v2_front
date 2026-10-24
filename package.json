@@ -20,8 +20,7 @@
     "@nuxt/fonts": "^0.14.0",
     "@nuxt/image": "2.1.0",
     "@peterbud/nuxt-query": "1.12.0",
-    "@pinia/nuxt": "0.11.3",
-    "@vue/devtools-api": "^7.7.7",
+    "@pinia/nuxt": "1.0.3",
     "@vueform/slider": "^2.1.10",
     "@vueuse/nuxt": "14.3.0",
     "echarts": "^6.1.0",
@@ -32,9 +31,7 @@
     "nuxt-svgo": "5.3.0",
     "pinia": "^3.0.4",
     "socket.io-client": "^4.8.4",
-    "vue": "^3.5.43",
     "vue-echarts": "^8.3.2",
-    "vue-router": "^5.4.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
@@ -49,5 +46,8 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.71.1",
     "vitest": "^4.1.7"
+  },
+  "resolutions": {
+    "glob": "^13.0.6"
   }
 }

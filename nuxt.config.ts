@@ -43,11 +43,6 @@ export default defineNuxtConfig({
 	css: ["@/assets/css/global.css", "notivue/notification.css", "notivue/animations.css"],
 	vite: {
 		plugins: [tailwindcss()],
-		// Держим Pinia в одном инстансе для SSR: иначе рантайм @pinia/nuxt
-		// и стор из app/ получают разные копии pinia и activePinia не находится.
-		ssr: {
-			noExternal: ["pinia"],
-		},
 	},
 	vue: {
 		compilerOptions: {
@@ -136,10 +131,5 @@ export default defineNuxtConfig({
 				global: true,
 			},
 		],
-	},
-	nitro: {
-		externals: {
-			inline: ["@vue/devtools-api"],
-		},
 	},
 });
