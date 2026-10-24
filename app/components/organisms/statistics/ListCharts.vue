@@ -9,8 +9,14 @@
 				:class="item.classes"
 			>
 				<h3 class="font-medium text-neutral-700">{{ item.label }}</h3>
-				<div class="h-200 lg:h-300 w-full">
-					<VChart v-if="!item.chart.isEmpty" :option="item.chart.getComputedOptions()" class="w-full h-full" />
+				<div class="h-200 lg:h-300 w-full rounded-12" :class="[isPendingCharts && 'overflow-hidden']">
+					<VChart
+						v-if="!item.chart.isEmpty"
+						:loading="isPendingCharts"
+						:loading-options="CHART_COLORS.loading"
+						:option="item.chart.getComputedOptions()"
+						class="w-full h-full"
+					/>
 					<Empty v-else class="justify-start" />
 				</div>
 			</div>
@@ -46,6 +52,7 @@ const PERIOD_LIST: SelectItem[] = [
 	{ label: "Год", value: "year" },
 ];
 
+const isPendingCharts = ref(false);
 const data = ref<Partial<StatisticsChartsResponse["data"]>>({});
 
 const filters = ref<FilterItem[]>([
@@ -66,38 +73,51 @@ const filters = ref<FilterItem[]>([
 		classes: "min-w-200",
 	},
 ]);
+const filtersValues = computed(() => filters.value.map((i) => i.value));
 
-const chartOrdersProfitByDay = computed(() => Chart.fromOrdersProfitByDay(data.value.profit_dynamics ?? []));
-const chartOrdersBySymbol = computed(() => Chart.fromOrdersBySymbol(data.value.trades_by_asset ?? []));
-const chartOrdersWinLoss = computed(() => Chart.fromOrdersWinLoss(data.value.win_loss_ratio ?? {}));
+const chartOrdersProfitByDay = useMemoize((_data: Partial<StatisticsChartsResponse["data"]>, _filters: FilterItem["value"][]) => {
+	return Chart.fromOrdersProfitByDay(_data.profit_dynamics ?? []);
+});
+
+const chartOrdersBySymbol = useMemoize((_data: Partial<StatisticsChartsResponse["data"]>, _filters: FilterItem["value"][]) => {
+	return Chart.fromOrdersBySymbol(_data.trades_by_asset ?? []);
+});
+
+const chartOrdersWinLoss = useMemoize((_data: Partial<StatisticsChartsResponse["data"]>, _filters: FilterItem["value"][]) => {
+	return Chart.fromOrdersWinLoss(_data.win_loss_ratio ?? {});
+});
 
 const charts = computed(() => [
 	{
 		label: "Динамика профита",
 		classes: "lg:col-span-4",
-		chart: chartOrdersProfitByDay.value,
+		chart: chartOrdersProfitByDay(data.value, filtersValues.value),
 	},
 	{
 		label: "Количество сделок",
 		classes: "lg:col-span-3",
-		chart: chartOrdersBySymbol.value,
+		chart: chartOrdersBySymbol(data.value, filtersValues.value),
 	},
 	{
 		label: "Соотношение Win/Loss",
-		chart: chartOrdersWinLoss.value,
+		chart: chartOrdersWinLoss(data.value, filtersValues.value),
 	},
 ]);
 
-watch(
-	() => filters.value.map((i) => i.value),
-	async () => {
-		try {
-			const res = await searchData({ query: getFiltersQuery(filters.value) });
-			data.value = res.data;
-		} catch (err) {
-			console.error(err);
-		}
-	},
-	{ immediate: true }
-);
+const updateData = async () => {
+	isPendingCharts.value = true;
+
+	try {
+		const res = await searchData({ query: getFiltersQuery(filters.value) });
+		data.value = res.data;
+	} catch (err) {
+		console.error(err);
+	} finally {
+		isPendingCharts.value = false;
+	}
+};
+
+watch(filtersValues, updateData);
+
+onMounted(updateData);
 </script>

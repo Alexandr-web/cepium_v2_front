@@ -19,8 +19,8 @@ export const useExchangeSocket = () => {
 		if (socket.value) return;
 	
 		const config = useRuntimeConfig();
-		const url = import.meta.dev ? config.public.wsUrl : undefined;
-		const path = import.meta.dev ? "/exchanges/socket.io" : config.public.wsUrl;
+		const url = import.meta.env.DEV ? config.public.wsUrl : undefined;
+		const path = import.meta.env.DEV ? "/exchanges/socket.io" : config.public.wsUrl;
 
 		socket.value = io(url, {
 			path,

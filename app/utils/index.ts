@@ -352,3 +352,20 @@ export const getFiltersQuery = (filters: FilterItem[]) => {
  * isNumber(null)        // false
  */
 export const isNumber = (v: unknown) => typeof v === "number" && isFinite(v);
+
+/**
+ * Форматирует дату в локальную строку (только дата, без времени).
+ * 
+ * Использует `timeZone: "UTC"`, чтобы не сдвигать дату из-за часовых поясов пользователя.
+ * 
+ * @param {string | Date} date - Входная дата (строка ISO, timestamp или `Date`).
+ * @param {string} [locale="ru-RU"] - Язык форматирования (BCP 47 тег).
+ * @returns {string} Отформатированная дата, например `"22.10.2026"` для `"ru-RU"`.
+ * 
+ * @example
+ * formatLocalDate("2026-10-22T14:30:00Z") // "22.10.2026" (для locale="ru-RU")
+ * formatLocalDate(new Date(), "sv-SE")    // "2026-10-22"
+ */
+export const formatLocalDate = (date: string | Date, locale = "ru-RU") => {
+	return new Date(date).toLocaleDateString(locale, { timeZone: "UTC" });
+};

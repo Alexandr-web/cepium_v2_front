@@ -77,4 +77,10 @@ export const CHART_COLORS = {
 			},
 		},
 	},
+	loading: {
+		color: "white",
+		maskColor: "black",
+		lineWidth: 2,
+		text: "Загрузка",
+	},
 };

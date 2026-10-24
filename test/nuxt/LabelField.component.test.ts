@@ -64,6 +64,8 @@ describe("LabelField", () => {
 			global: { stubs },
 		});
 
-		expect(wrapper.find(".tooltip-stub").exists()).toBe(false);
+		const tooltip = wrapper.find(".tooltip-stub");
+		expect(tooltip.exists()).toBe(true);
+		expect(tooltip.attributes("style")).toContain("display: none");
 	});
 });

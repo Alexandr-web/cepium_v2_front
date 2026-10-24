@@ -1,7 +1,7 @@
 <template>
 	<section class="flex flex-col gap-16">
 		<div class="flex lg:hidden items-center justify-between">
-			<h2 class="font-bold text-20" data-allow-mismatch="">
+			<h2 class="font-bold text-20">
 				Активные сделки <span v-if="tradeStore.tradesMap.size" class="text-14 text-white/50">({{ tradeStore.tradesMap.size }})</span>
 			</h2>
 			<AButton
@@ -9,7 +9,6 @@
 				class="py-4 px-12 rounded-12 text-12"
 				:mode="ButtonMode.REMOVE_BORDER"
 				:disabled="isPendingRemovePosition || !displayTrades.length"
-				data-allow-mismatch=""
 				@click="openAllControls"
 			>Закрыть все</AButton>
 		</div>
@@ -29,8 +28,8 @@
 				@select="(v: TabsValues) => activeTab = v"
 			/>
 		</div>
-		<template v-if="!isDesktop">
-			<div v-if="displayTrades.length" class="flex flex-col gap-12" data-allow-mismatch="">
+		<div class="flex lg:hidden flex-col">
+			<div v-if="displayTrades.length" class="flex flex-col gap-12">
 				<MobTradeCard
 					v-for="trade in displayTrades"
 					:key="trade.id"
@@ -40,11 +39,10 @@
 				/>
 			</div>
 			<Empty v-else :is-pending="!isLoadedTrades" />
-		</template>
+		</div>
 		<TradesTable
-			v-else
+			class="hidden lg:flex"
 			:disabled="isPendingRemovePosition || !isLoadedTrades || !displayTrades.length"
-			data-allow-mismatch=""
 			:trades="displayTrades"
 			@remove-one="removePosition"
 			@remove-all="removePositions"

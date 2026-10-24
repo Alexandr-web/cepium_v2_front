@@ -7,7 +7,7 @@
 			<div class="flex flex-col justify-between gap-32 lg:grow">
 				<div class="flex items-center justify-between">
 					<h3 class="text-12 lg:text-16 uppercase">Активные позиции</h3>
-					<div v-if="isDesktop ? !showCharts : true" class="flex items-center gap-8">
+					<div v-show="isDesktop ? !showCharts : true" class="flex items-center gap-8">
 						<IconShelfPositionSharp class="w-22 lg:w-26 h-18 lg:h-22 text-primary-800" />
 						<AButton class="lg:hidden" :disabled="!tradeStore.tradesMap.size" @click="showCharts = !showCharts">
 							<IconArrowDown class="w-22 h-22" :class="[showCharts && 'rotate-x-180']" />

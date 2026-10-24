@@ -1,10 +1,17 @@
 import { mount } from "@vue/test-utils";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import ASelect from "../../app/components/atoms/ASelect.vue";
+
+vi.mock("@vueuse/core", async (importOriginal) => {
+	const actual = await importOriginal<typeof import("@vueuse/core")>();
+	return {
+		...actual,
+		useMediaQuery: vi.fn(() => ({ value: true })),
+	};
+});
 
 const stubs = {
 	LabelField: true,
-	ACheckbox: true,
 	IconKeyboardArrowDownRounded: true,
 	Transition: false,
 };
@@ -51,7 +58,9 @@ describe("ASelect", () => {
 		});
 
 		await wrapper.find(".p-12").trigger("click");
-		await wrapper.findAll("li").at(1)?.trigger("click");
+
+		const liElements = wrapper.findAll("li");
+		await liElements.at(1)?.find("div").trigger("click");
 
 		expect(wrapper.emitted("update:modelValue")).toEqual([["binance"]]);
 	});

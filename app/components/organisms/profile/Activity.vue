@@ -40,7 +40,7 @@
 					<tr v-for="(dayName, row) in WEEKDAY_LABELS" :key="dayName">
 						<td class="text-12 text-neutral-600 pr-2">{{ dayName }}</td>
 						<td v-for="(week, col) in weeks" :key="col">
-							<Tooltip v-if="week[row] && isDesktop" class="h-full">
+							<Tooltip v-if="week[row]" :disabled="!isDesktop" class="h-full">
 								<template #trigger>
 									<div
 										class="w-12 lg:w-16 h-12 lg:h-16 rounded-2"
@@ -57,14 +57,6 @@
 									</div>
 								</template>
 							</Tooltip>
-							<div
-								v-else-if="week[row]"
-								class="w-12 lg:w-16 h-12 lg:h-16 rounded-2"
-								:class="[
-									colorClasses[week[row]!.level],
-									week[row]?.isToday && 'border border-tertiary-400'
-								]"
-							/>
 							<div v-else class="w-12 lg:w-16 h-12 lg:h-16" />
 						</td>
 					</tr>
@@ -148,7 +140,7 @@ const allDaysWithPadding = computed<(ActivityItemCell | null)[]>(() => {
 
 		days.push({
 			date: dateStr,
-			formatDate: currentDate.toLocaleDateString("ru-RU", { timeZone: "UTC" }),
+			formatDate: formatLocalDate(currentDate),
 			value,
 			level: getLevel(value),
 			month: currentDate.getUTCMonth(),
@@ -214,6 +206,6 @@ const monthLabels = computed(() => {
 
 // После гидрации уточняем до локального дня пользователя (sv-SE даёт формат YYYY-MM-DD)
 onMounted(() => {
-	today.value = new Date().toLocaleDateString("sv-SE");
+	today.value = formatLocalDate(new Date(), "sv-SE");
 });
 </script>
