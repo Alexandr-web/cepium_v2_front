@@ -1,6 +1,6 @@
 <template>
-	<div class="flex flex-col lg:flex-row-reverse gap-8 w-full">
-		<div class="flex items-center lg:self-end gap-6">
+	<div class="flex flex-col gap-8 w-full">
+		<div class="flex items-center gap-6">
 			<p class="text-neutral-700 text-12 lg:text-14">Меньше</p>
 			<div class="flex items-center gap-3">
 				<Tooltip
@@ -21,8 +21,8 @@
 			</div>
 			<p class="text-neutral-700 text-12 lg:text-14">Больше</p>
 		</div>
-		<div class="w-full overflow-x-auto lg:max-w-1200 lg:mx-auto bg-black/80 p-12 rounded-8 border border-solid border-neutral-200">
-			<table class="w-max border-separate border-spacing-2">
+		<div class="w-full overflow-x-auto bg-black/80 p-12 rounded-8 border border-solid border-neutral-200">
+			<table class="w-max lg:w-full border-separate border-spacing-2">
 				<thead>
 					<tr>
 						<td />
@@ -30,7 +30,7 @@
 							v-for="label in monthLabels"
 							:key="label.colStart"
 							:colspan="label.colSpan"
-							class="text-12 text-neutral-600 pl-1"
+							class="text-12 text-neutral-600 pl-2"
 						>
 							{{ label.name }}
 						</td>
@@ -43,7 +43,7 @@
 							<Tooltip v-if="week[row]" :disabled="!isDesktop" class="h-full">
 								<template #trigger>
 									<div
-										class="w-12 lg:w-16 h-12 lg:h-16 rounded-2"
+										class="w-14 lg:w-18 h-14 lg:h-18 rounded-2"
 										:class="[
 											colorClasses[week[row]!.level],
 											week[row]?.isToday && 'border border-tertiary-400'
@@ -57,7 +57,7 @@
 									</div>
 								</template>
 							</Tooltip>
-							<div v-else class="w-12 lg:w-16 h-12 lg:h-16" />
+							<div v-else class="w-14 lg:w-18 h-14 lg:h-18" />
 						</td>
 					</tr>
 				</tbody>
