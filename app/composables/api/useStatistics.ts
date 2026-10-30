@@ -46,3 +46,17 @@ export const useReport = () => {
 
 	return { load };
 };
+
+export const useActivities = () => {
+	const { api } = useApi();
+	const queryClient = useQueryClient();
+
+	const load = async (options = {}): Promise<StatisticsProfileActivitiesResponse> => {
+		return queryClient.fetchQuery<StatisticsProfileActivitiesResponse>({
+			queryKey: keys.getProfileActivities(options),
+			queryFn: () => api("/api/statistics/activity", options),
+		});
+	};
+
+	return { load };
+};

@@ -355,3 +355,9 @@ export type StatisticsChartsResponse = {
 };
 
 export type StatisticsReportResponse = Blob;
+
+export type StatisticsProfileActivitiesResponse = {
+	statusCode: number;
+	data: ActivityItem[];
+	message: string;
+};

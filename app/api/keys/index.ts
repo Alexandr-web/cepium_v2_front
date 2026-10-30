@@ -10,5 +10,6 @@ export default {
 	getCoinGeckoId: (symbol: string) => ["gecko-coin-id", symbol],
 	getStatisticsCharts: (query = {}) => ["statistics-charts", ...Object.values(query)],
 	getStatisticsReport: (query = {}) => ["statistics-report", ...Object.values(query)],
+	getProfileActivities: (query = {}) => ["profile-activities", ...Object.values(query)],
 	getStatistics: ["statistics"],
 };
