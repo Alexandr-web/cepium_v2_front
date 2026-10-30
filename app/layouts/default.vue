@@ -29,7 +29,7 @@
 					>
 						<IconArrowBack class="text-neutral-700 w-16 h-16" />
 					</AButton>
-					<NuxtPage />
+					<slot />
 				</div>
 			</main>
 		</div>

@@ -74,28 +74,6 @@ export const getURLFile = (val: unknown): string => {
 };
 
 /**
- * Собирает URL аватара пользователя.
- *
- * Бэкенд возвращает имя файла (например, `avatar-default.jpg`). Blob- и уже
- * абсолютные URL возвращаются без изменений, чтобы не ломать локальное превью
- * выбранного файла. Без имени файла возвращается пустая строка — тогда
- * `AImage` покажет заглушку вместо битого пути.
- *
- * @param {string | undefined} apiUrl - База API (например, `/api`).
- * @param {string | null | undefined} avatar - Имя файла или готовый URL.
- * @returns {string} URL аватара либо пустая строка.
- *
- * @example
- * getAvatarUrl("/api", "user.jpg"); // "/api/users/me/avatars/user.jpg"
- * getAvatarUrl("/api", null);       // ""
- */
-export const getAvatarUrl = (apiUrl: string | undefined, avatar?: string | null): string => {
-	if (!apiUrl || !avatar) return "";
-	if (avatar.startsWith("blob:") || avatar.startsWith("http")) return avatar;
-	return `${apiUrl}/users/me/avatars/${avatar}`;
-};
-
-/**
  * Форматирует миллисекунды в строку минут и секунд вида "М:СС" или "ММ:СС".
  * 
  * @param {number} ms - Количество миллисекунд для форматирования.
