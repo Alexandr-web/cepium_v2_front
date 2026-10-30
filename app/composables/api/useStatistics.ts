@@ -24,3 +24,39 @@ export const useCharts = () => {
 
 	return { searchData };
 };
+
+export const useReport = () => {
+	const { api } = useApi();
+	const queryClient = useQueryClient();
+
+	const load = async (options = {}): Promise<StatisticsReportResponse> => {
+		return queryClient.fetchQuery<StatisticsReportResponse>({
+			queryKey: keys.getStatisticsReport(options),
+			queryFn: () => {
+				return api("/api/statistics/export", {
+					headers: {
+						Accept: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+					},
+					responseType: "blob",
+					...options,
+				});
+			},
+		});
+	};
+
+	return { load };
+};
+
+export const useActivities = () => {
+	const { api } = useApi();
+	const queryClient = useQueryClient();
+
+	const load = async (options = {}): Promise<StatisticsProfileActivitiesResponse> => {
+		return queryClient.fetchQuery<StatisticsProfileActivitiesResponse>({
+			queryKey: keys.getProfileActivities(options),
+			queryFn: () => api("/api/statistics/activity", options),
+		});
+	};
+
+	return { load };
+};

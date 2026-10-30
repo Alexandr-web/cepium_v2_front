@@ -6,6 +6,29 @@ export default defineNuxtConfig({
 	devtools: {
 		enabled: process.env.NODE_ENV !== "production",
 	},
+	devServer: {
+		port: 3000,
+	},
+	runtimeConfig: {
+		apiUrl: process.env.NUXT_API_URL,
+		public: {
+			geckoApiUrl: process.env.NUXT_PUBLIC_GECKO_API_URL,
+			apiUrl: process.env.NUXT_PUBLIC_API_URL,
+			wsUrl: process.env.NUXT_PUBLIC_WS_URL,
+		},
+	},
+	vite: {
+		plugins: [tailwindcss()],
+		server: {
+			proxy: {
+				"/api": {
+					target: process.env.NUXT_API_URL,
+					changeOrigin: true,
+					secure: false,
+				},
+			},
+		},
+	},
 	app: {
 		head: {
 			title: "Cepium",
@@ -30,24 +53,7 @@ export default defineNuxtConfig({
 		"nuxt-echarts",
 		"@nuxt/fonts",
 	],
-	runtimeConfig: {
-		geckoApiUrl: process.env.NUXT_GECKO_API_URL,
-		apiUrl: {
-			dev: process.env.NUXT_API_URL_DEV,
-			prod: process.env.NUXT_API_URL_PROD,
-		},
-		public: {
-			apiUrl: {
-				dev: process.env.NUXT_PUBLIC_API_URL_DEV,
-				prod: process.env.NUXT_PUBLIC_API_URL_PROD,
-			},
-			wsUrl: process.env.NUXT_PUBLIC_WS_URL,
-		},
-	},
 	css: ["@/assets/css/global.css", "notivue/notification.css", "notivue/animations.css"],
-	vite: {
-		plugins: [tailwindcss()],
-	},
 	vue: {
 		compilerOptions: {
 			isCustomElement: (tag) =>

@@ -9,8 +9,19 @@ export const useUserStore = defineStore("user-store", () => {
 	});
 
 	const config = useRuntimeConfig();
-	const apiUrl = import.meta.env.DEV ? config.public.apiUrl.dev : config.public.apiUrl.prod;
-	const avatar = computed(() => getAvatarUrl(apiUrl, user.value.avatar));
+	const apiUrl = config.public.apiUrl.replace("/api", "");
+
+	const avatar = computed(() => {
+		if (user.value.avatar?.includes("blob:")) {
+			return user.value.avatar;
+		}
+
+		if (typeof user.value.avatar === "string") {
+			return `${apiUrl}/api/users/me/avatars/${user.value.avatar}`;
+		}
+
+		return "";
+	});
 
 	const updateData = (data: User) => {
 		Object.keys(data).forEach((key) => {

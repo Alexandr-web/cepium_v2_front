@@ -6,7 +6,7 @@
 		>
 			<div class="w-full h-full rounded-full overflow-hidden">
 				<AImage
-					:src="getURLFile(userStore.avatar)"
+					:src="userStore.avatar"
 					:preset="ImagePreset.AVATAR"
 					fetchpriority="high"
 					:alt="userStore.user.name ?? ''"

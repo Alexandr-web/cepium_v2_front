@@ -38,7 +38,9 @@ export const useChangeData = () => {
 			const formData = new FormData();
 
 			Object.entries(data).forEach(([key, value]) => {
-				if (key && value) formData.append(key, value);
+				if (value !== undefined && value !== null) {
+					formData.append(key, value instanceof File ? value : String(value));
+				}
 			});
 
 			return api("/api/users/me", {
@@ -52,14 +54,13 @@ export const useChangeData = () => {
 			await queryClient.cancelQueries({ queryKey: keys.getDataProfile });
 
 			const previousData = queryClient.getQueryData<UserEditGeneralDataResponse>(keys.getDataProfile);
+
 			queryClient.setQueryData(keys.getDataProfile, (old: UserEditGeneralDataResponse) => ({
 				...old,
 				data: {
 					...old?.data,
-					...({
-						...data,
-						avatar: data.avatar ?? old.data?.avatar,
-					}),
+					...data,
+					avatar: data.avatar ?? old?.data?.avatar,
 				},
 			}));
 

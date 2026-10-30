@@ -353,3 +353,11 @@ export type StatisticsChartsResponse = {
 	};
 	message: string;
 };
+
+export type StatisticsReportResponse = Blob;
+
+export type StatisticsProfileActivitiesResponse = {
+	statusCode: number;
+	data: ActivityItem[];
+	message: string;
+};

@@ -1,9 +1,13 @@
 import { useAuthStore } from "@/store/useAuthStore";
 
-export const useApi = () => {
+export const useApi = (baseURL?: string) => {
 	const authStore = useAuthStore();
+	const config = useRuntimeConfig();
+
+	const serverBaseURL = import.meta.server ? config.apiUrl : undefined;
 
 	const api = $fetch.create({
+		baseURL: baseURL ?? serverBaseURL,
 		onRequest({ options }) {
 			const headers = new Headers(options.headers);
 			headers.set("Authorization", `Bearer ${authStore.token ?? ""}`);
@@ -15,6 +19,7 @@ export const useApi = () => {
 				await navigateTo({ name: "login" });
 			}
 		},
+		signal: AbortSignal.timeout(15000), // без этого зависший keyless-эндпоинт будет держать соединение вечно
 	});
 
 	return { api };

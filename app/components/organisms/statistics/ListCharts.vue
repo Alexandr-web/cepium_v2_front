@@ -1,6 +1,14 @@
 <template>
 	<section class="flex flex-col gap-36 lg:gap-12 p-12 lg:p-24 bg-black min-h-screen rounded-12">
-		<Filters :filters="filters" :disabled="isPendingStatistics || isPendingStrategy" />
+		<Filters :filters="filters" :disabled="isPendingStatistics || isPendingStrategy">
+			<template #footer>
+				<AButton
+					class="rounded-12 lg:ml-auto lg:self-start w-full lg:w-auto px-24 py-12 lg:py-8"
+					:mode="ButtonMode.PRIMARY_BORDER"
+					@click="loadReport"
+				>Скачать отчет</AButton>
+			</template>
+		</Filters>
 		<div class="grid grid-cols-1 lg:grid-cols-4 gap-24">
 			<div
 				v-for="(item, idx) in charts"
@@ -24,11 +32,12 @@
 	</section>
 </template>
 <script setup lang="ts">
-import { useCharts } from "@/composables/api/useStatistics";
+import { useCharts, useReport } from "@/composables/api/useStatistics";
 import Filters from "@/components/molecules/common/Filters.vue";
 import Chart from "@/models/Chart";
 import ASelect from "@/components/atoms/ASelect.vue";
 import Empty from "@/components/molecules/common/Empty.vue";
+import AButton from "@/components/atoms/AButton.vue";
 
 const props = withDefaults(
 	defineProps<{
@@ -43,6 +52,7 @@ const props = withDefaults(
 	}
 );
 
+const { load: loadStatReport } = useReport();
 const { searchData } = useCharts();
 
 const PERIOD_LIST: SelectItem[] = [
@@ -104,7 +114,7 @@ const charts = computed(() => [
 	},
 ]);
 
-const updateData = async () => {
+const loadData = async () => {
 	isPendingCharts.value = true;
 
 	try {
@@ -117,7 +127,24 @@ const updateData = async () => {
 	}
 };
 
-watch(filtersValues, updateData);
+const loadReport = async () => {
+	try {
+		const blob = await loadStatReport({ query: getFiltersQuery(filters.value) });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement("a");
 
-onMounted(updateData);
+		a.href = url;
+		a.download = "report.xlsx";
+		a.click();
+
+		URL.revokeObjectURL(url);
+		document.removeChild(a);
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+watch(filtersValues, loadData);
+
+onMounted(loadData);
 </script>

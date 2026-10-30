@@ -3,7 +3,8 @@ import { useQueryClient } from "@tanstack/vue-query";
 import { useApi } from "@/composables/useApi";
 
 export const useCoinGeckoSearch = () => {
-	const { api } = useApi();
+	const config = useRuntimeConfig();
+	const { api } = useApi(config.public.geckoApiUrl);
 	const queryClient = useQueryClient();
 
 	const findCoinId = async (symbolPair: string): Promise<string | null> => {
@@ -12,7 +13,7 @@ export const useCoinGeckoSearch = () => {
 
 		const data = await queryClient.fetchQuery<GeckoSearchResponse>({
 			queryKey: keys.getCoinGeckoId(baseSymbol),
-			queryFn: () => api("/api/gecko/search", { query: { query: baseSymbol } }),
+			queryFn: () => api("/search", { query: { query: baseSymbol } }),
 			staleTime: 1000 * 60 * 60 * 24,
 		});
 

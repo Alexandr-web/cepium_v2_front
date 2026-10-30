@@ -1,7 +1,7 @@
 <template>
 	<section class="flex flex-col gap-16 w-full lg:max-w-1200 lg:mx-auto">
 		<UploadAvatar v-model="avatar" />
-		<Activity :activities="testActivities" />
+		<Activity :activities="activities" />
 		<div class="flex flex-col gap-6 lg:gap-16">
 			<Collapse label="Общая информация" prepend-icon="person-edit-outline-rounded">
 				<GeneralFieldsForm :avatar="avatar" />
@@ -14,30 +14,27 @@
 </template>
 <script setup lang="ts">
 import { useUserStore } from "@/store/useUserStore";
+import { useActivities } from "@/composables/api/useStatistics";
 import UploadAvatar from "@/components/molecules/profile/UploadAvatar.vue";
 import GeneralFieldsForm from "@/components/molecules/profile/GeneralFieldsForm.vue";
 import SecurityFieldsForm from "@/components/molecules/profile/SecurityFieldsForm.vue";
 import Collapse from "@/components/molecules/common/Collapse.vue";
 import Activity from "@/components/organisms/profile/Activity.vue";
 
+const { load: loadActivities } = useActivities();
+
 const userStore = useUserStore();
 
 const avatar = ref<File | string | null>(userStore.avatar);
 
-// моковые данные
-const testActivities = [
-	{ date: "2026-01-01T00:00:00.000Z", value: 1 },
-	{ date: "2026-01-07T00:00:00.000Z", value: 7 },
-	{ date: "2026-01-09T00:00:00.000Z", value: 10 },
-	{ date: "2026-01-13T00:00:00.000Z", value: 8 },
-	{ date: "2026-02-18T00:00:00.000Z", value: 15 },
-	{ date: "2026-02-24T00:00:00.000Z", value: 15 },
-	{ date: "2026-02-25T00:00:00.000Z", value: 15 },
-	{ date: "2026-03-30T00:00:00.000Z", value: 15 },
-	{ date: "2026-06-09T00:00:00.000Z", value: 15 },
-	{ date: "2026-06-10T00:00:00.000Z", value: 15 },
-	{ date: "2026-06-11T00:00:00.000Z", value: 15 },
-	{ date: "2026-12-31T00:00:00.000Z", value: 6 },
-	{ date: "2026-11-30T00:00:00.000Z", value: 60 },
-];
+const activities = ref<StatisticsProfileActivitiesResponse["data"]>([]);
+
+onMounted(async () => {
+	try {
+		const res = await loadActivities();
+		activities.value = res.data;
+	} catch (err) {
+		console.error(err);
+	}
+});
 </script>
