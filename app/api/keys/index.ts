@@ -9,5 +9,6 @@ export default {
 	getOrders: (query = {}) => ["orders", ...Object.values(query)],
 	getCoinGeckoId: (symbol: string) => ["gecko-coin-id", symbol],
 	getStatisticsCharts: (query = {}) => ["statistics-charts", ...Object.values(query)],
+	getStatisticsReport: (query = {}) => ["statistics-report", ...Object.values(query)],
 	getStatistics: ["statistics"],
 };

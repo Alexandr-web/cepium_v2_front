@@ -353,3 +353,5 @@ export type StatisticsChartsResponse = {
 	};
 	message: string;
 };
+
+export type StatisticsReportResponse = Blob;
