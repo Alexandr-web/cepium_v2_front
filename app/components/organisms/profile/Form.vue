@@ -3,10 +3,10 @@
 		<UploadAvatar v-model="avatar" />
 		<Activity :activities="testActivities" />
 		<div class="flex flex-col gap-6 lg:gap-16">
-			<Collapse label="Общая информация" prepend-icon="person-edit-outline-rounded" is-open>
+			<Collapse label="Общая информация" prepend-icon="person-edit-outline-rounded">
 				<GeneralFieldsForm :avatar="avatar" />
 			</Collapse>
-			<Collapse label="Безопасность" prepend-icon="lock-outline" is-open>
+			<Collapse label="Безопасность" prepend-icon="lock-outline">
 				<SecurityFieldsForm />
 			</Collapse>
 		</div>
