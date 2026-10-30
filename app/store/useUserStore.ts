@@ -9,7 +9,7 @@ export const useUserStore = defineStore("user-store", () => {
 	});
 
 	const config = useRuntimeConfig();
-	const apiUrl = import.meta.dev ? config.public.apiUrl.dev : config.public.apiUrl.prod;
+	const apiUrl = config.public.apiUrl.replace("/api", "");
 
 	const avatar = computed(() => {
 		if (user.value.avatar?.includes("blob:")) {
@@ -17,7 +17,7 @@ export const useUserStore = defineStore("user-store", () => {
 		}
 
 		if (typeof user.value.avatar === "string") {
-			return `${apiUrl}/users/me/avatars/${user.value.avatar}`;
+			return `${apiUrl}/api/users/me/avatars/${user.value.avatar}`;
 		}
 
 		return "";
