@@ -19,7 +19,6 @@ export const useApi = (baseURL?: string) => {
 				await navigateTo({ name: "login" });
 			}
 		},
-		signal: AbortSignal.timeout(15000), // без этого зависший keyless-эндпоинт будет держать соединение вечно
 	});
 
 	return { api };
