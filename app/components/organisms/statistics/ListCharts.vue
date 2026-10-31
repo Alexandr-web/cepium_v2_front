@@ -130,15 +130,7 @@ const loadData = async () => {
 const loadReport = async () => {
 	try {
 		const blob = await loadStatReport({ query: getFiltersQuery(filters.value) });
-		const url = URL.createObjectURL(blob);
-		const a = document.createElement("a");
-
-		a.href = url;
-		a.download = "report.xlsx";
-		a.click();
-
-		URL.revokeObjectURL(url);
-		document.removeChild(a);
+		downloadBlob(blob, "report.xlsx");
 	} catch (err) {
 		console.error(err);
 	}

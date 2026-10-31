@@ -347,3 +347,30 @@ export const isNumber = (v: unknown) => typeof v === "number" && isFinite(v);
 export const formatLocalDate = (date: string | Date, locale = "ru-RU") => {
 	return new Date(date).toLocaleDateString(locale, { timeZone: "UTC" });
 };
+
+/**
+ * Инициирует скачивание Blob-объекта (файла) в браузере пользователя.
+ * 
+ * @param {Blob} blob - Объект Blob или File, который необходимо скачать.
+ * @param {string} fileName - Имя файла, под которым он будет сохранен (например, 'report.xlsx').
+ * 
+ * @example
+ * const excelBlob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+ * downloadBlob(excelBlob, 'monthly_report.xlsx');
+ */
+export const downloadBlob = (blob: Blob, fileName: string) => {
+	const url = URL.createObjectURL(blob);
+	const anchor = document.createElement("a");
+
+	anchor.href = url;
+	anchor.download = fileName;
+  
+	anchor.style.display = "none";
+  
+	document.body.appendChild(anchor);
+  
+	anchor.click();
+	anchor.remove();
+
+	URL.revokeObjectURL(url);
+};
