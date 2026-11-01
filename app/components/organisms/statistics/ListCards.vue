@@ -4,10 +4,7 @@
 			<IconTrendingUp
 				v-if="['winrate', 'profit'].includes(card.id) && card.value !== 0"
 				class="w-32 h-32 absolute bottom-10 right-20"
-				:class="[
-					Number(card.value) > 0 && 'text-tertiary-400',
-					Number(card.value) < 0 && 'text-secondary-400 rotate-x-180'
-				]"
+				:class="card.iconClasses"
 			/>
 		</Card>
 	</section>
@@ -40,6 +37,10 @@ const cards = computed<StatisticsCard[]>(() => [
 			profit.value > 0 ? "text-tertiary-700" : "",
 			profit.value < 0 ? "text-secondary-500" : "",
 		],
+		iconClasses: [
+			profit.value > 0 ? "text-tertiary-400" : "",
+			profit.value < 0 ? "text-secondary-400 rotate-x-180" : "",
+		],
 	},
 	{
 		id: "winrate",
@@ -50,6 +51,10 @@ const cards = computed<StatisticsCard[]>(() => [
 		classesValue: [
 			winrate.value >= 50 ? "text-tertiary-700" : "",
 			winrate.value < 50 ? "text-secondary-500" : "",
+		],
+		iconClasses: [
+			winrate.value >= 50 ? "text-tertiary-400" : "",
+			winrate.value < 50 ? "text-secondary-400 rotate-x-180" : "",
 		],
 	},
 	{
