@@ -39,21 +39,18 @@
 				<tbody>
 					<tr v-for="(dayName, row) in WEEKDAY_LABELS" :key="dayName">
 						<td class="text-12 text-neutral-600 pr-2">{{ dayName }}</td>
-						<td v-for="(week, col) in weeks" :key="col">
-							<Tooltip v-if="week[row]" :disabled="!isDesktop" class="h-full">
+						<td v-for="(day, col) in rows[row]" :key="col">
+							<Tooltip v-if="day" :disabled="!isDesktop" class="h-full">
 								<template #trigger>
 									<div
 										class="w-14 lg:w-18 h-14 lg:h-18 rounded-2"
-										:class="[
-											colorClasses[week[row]!.level],
-											week[row]?.isToday && 'border border-tertiary-400'
-										]"
+										:class="[colorClasses[day.level], day.isToday && 'border border-tertiary-400']"
 									/>
 								</template>
 								<template #content>
 									<div class="flex flex-col">
-										<p>{{ week[row]?.formatDate }}</p>
-										<span v-if="week[row]?.value" class="font-bold text-primary-600">{{ week[row]?.value }}</span>
+										<p>{{ day.formatDate }}</p>
+										<span v-if="day.value" class="font-bold text-primary-600">{{ day.value }}</span>
 									</div>
 								</template>
 							</Tooltip>
@@ -70,7 +67,7 @@ import Tooltip from "@/components/molecules/common/Tooltip.vue";
 
 const props = withDefaults(
 	defineProps<{
-		activities?: ActivityItem[]
+		activities?: ActivityItem[];
 		year?: number;
 	}>(),
 	{
@@ -81,7 +78,7 @@ const props = withDefaults(
 
 const isDesktop = useMediaQuery("(min-width: 1024px)");
 
-// Фиксированные границы уровней активности.
+// Верхние границы уровней 1-3; всё, что больше последней, - уровень 4.
 const LEVEL_THRESHOLDS = [5, 10, 15, 20] as const;
 
 const colorClasses = [
@@ -100,6 +97,7 @@ const legendRanges = [
 	`${LEVEL_THRESHOLDS[2] + 1}+`,
 ];
 
+// Дату на сервере считаем в UTC, после гидрации уточняем до локальной (см. onMounted).
 const today = useState<string>("activity-today", () => new Date().toISOString().slice(0, 10));
 const year = computed(() => props.year ?? Number(today.value.slice(0, 4)));
 
@@ -165,46 +163,28 @@ const weeks = computed<(ActivityItemCell | null)[][]>(() => {
 	return result;
 });
 
-/**
- * Подписи месяцев над таблицей.
- * Идём по неделям, у каждой недели смотрим на первый НЕПУСТОЙ день (не null)
- * и берём его .month — уже готовое число, без повторного парсинга даты.
- * Как только месяц меняется — начинается новая подпись, а colspan досчитывается
- * потом как "сколько недель прошло до следующей смены месяца".
- */
+// Те же данные по строкам таблицы: строка = день недели, столбец = неделя.
+const rows = computed(() => WEEKDAY_LABELS.map((_, row) => weeks.value.map((week) => week[row] ?? null)));
+
+// Подписи месяцев: новая подпись начинается, когда у первого дня недели меняется месяц,
+// colSpan - число недель до следующей подписи (для последней - до конца сетки).
 const monthLabels = computed(() => {
-	const labels: { name: string; colStart: number; colSpan: number }[] = [];
-	let lastMonth = -1;
+	const starts: { month: number; colStart: number }[] = [];
 
-	weeks.value.forEach((week, weekIndex) => {
-		const firstDay = week.find((d) => d !== null);
-		if (!firstDay) return;
+	weeks.value.forEach((week, colStart) => {
+		const month = week.find(Boolean)?.month;
 
-		// Если месяц этого дня отличается от последнего добавленного лейбла -
-		// значит, началась новая колонка месяца, добавляем новую подпись
-		if (firstDay.month !== lastMonth) {
-			labels.push({
-				name: String(MONTHS_LIST[firstDay.month]),
-				colStart: weekIndex,
-				colSpan: 0,
-			});
-
-			lastMonth = firstDay.month;
-		}
+		if (month !== undefined && month !== starts.at(-1)?.month) starts.push({ month, colStart });
 	});
 
-	// для каждой подписи вычисляем, сколько недель она должна накрыть (colspan).
-	// Это разница между стартом текущей подписи и стартом следующей.
-	// Для последней подписи - берём до самого конца сетки недель.
-	labels.forEach((label, i) => {
-		const next = labels[i + 1];
-		label.colSpan = (next ? next.colStart : weeks.value.length) - label.colStart;
-	});
-
-	return labels;
+	return starts.map(({ month, colStart }, i) => ({
+		name: String(MONTHS_LIST[month]),
+		colStart,
+		colSpan: (starts[i + 1]?.colStart ?? weeks.value.length) - colStart,
+	}));
 });
 
-// После гидрации уточняем до локального дня пользователя (sv-SE даёт формат YYYY-MM-DD)
+// После гидрации уточняем до локального дня пользователя (sv-SE даёт формат YYYY-MM-DD).
 onMounted(() => {
 	today.value = formatLocalDate(new Date(), "sv-SE");
 });

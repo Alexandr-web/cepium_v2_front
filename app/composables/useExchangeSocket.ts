@@ -5,20 +5,37 @@ import { useConnectionStore } from "@/store/useConnectionStore";
 import { useDashboardStore } from "@/store/useDashboardStore";
 import { useTradeStore } from "@/store/useTradeStore";
 
+type Topic = "Deals" | "AccountInfo";
+
 // Composable для управления WebSocket-соединением.
 export const useExchangeSocket = () => {
+	const config = useRuntimeConfig();
 	const connectionStore = useConnectionStore();
 	const authStore = useAuthStore();
 	const dashboardStore = useDashboardStore();
 	const tradeStore = useTradeStore();
 
+	// топики, на которые приложение хочет быть подписано
+	const activeTopics = new Set<Topic>();
+
 	const socket = useState<Socket | null>("socket", () => null);
 	const isLoadedTrades = useState<boolean>("isLoadedTrades", () => false); // получен первый пакет от "deals"
 
+	const handleDisconnect = () => {
+		connectionStore.errorMessage = "";
+		isLoadedTrades.value = true;
+		connectionStore.status = ConnectionStatuses.CLOSED;
+		tradeStore.tradesMap.clear();
+	};
+
+	const resubscribeActiveTopics = () => {
+		if (activeTopics.has("Deals")) socket.value?.emit("subscribeDeals");
+		if (activeTopics.has("AccountInfo")) socket.value?.emit("subscribeAccountInfo");
+	};
+
 	const connectSocket = () => {
-		if (socket.value) return;
-	
-		const config = useRuntimeConfig();
+		if (socket.value || !import.meta.client || import.meta.test) return;
+
 		const url = import.meta.env.DEV ? config.public.wsUrl : undefined;
 		const path = import.meta.env.DEV ? "/exchanges/socket.io" : config.public.wsUrl;
 
@@ -34,13 +51,10 @@ export const useExchangeSocket = () => {
 		socket.value.on("connect", () => {
 			connectionStore.errorMessage = "";
 			connectionStore.status = ConnectionStatuses.OPEN;
+			resubscribeActiveTopics();
 		});
-		
-		socket.value.on("disconnect", () => {
-			connectionStore.errorMessage = "";
-			isLoadedTrades.value = true;
-			connectionStore.status = ConnectionStatuses.CLOSED;
-		});
+
+		socket.value.on("disconnect", handleDisconnect);
 
 		socket.value.on("connect_error", () => {
 			isLoadedTrades.value = true;
@@ -90,7 +104,7 @@ export const useExchangeSocket = () => {
 			const message = parseExchangeErrorMessage(data.message);
 
 			isLoadedTrades.value = true;
-			
+
 			if (message && connectionStore.errorMessage !== message) {
 				connectionStore.errorMessage = message;
 				console.error(data);
@@ -101,22 +115,32 @@ export const useExchangeSocket = () => {
 	const disconnectSocket = () => {
 		connectionStore.errorMessage = "";
 
-		socket.value?.off("deals");
-		socket.value?.off("accountInfo");
-		socket.value?.off("accountInfoError");
-
+		socket.value?.off();
 		socket.value?.disconnect();
 		socket.value = null;
+
+		handleDisconnect();
+	};
+
+	const subscribe = (topic: Topic) => {
+		activeTopics.add(topic);
+		// если соединения нет, подписка отправится в обработчике "connect"
+		if (socket.value?.connected) socket.value.emit(`subscribe${topic}`);
+	};
+
+	const unsubscribe = (topic: Topic) => {
+		activeTopics.delete(topic);
+		if (socket.value?.connected) socket.value.emit(`unsubscribe${topic}`);
 	};
 
 	const subscribeDeals = () => {
 		isLoadedTrades.value = false;
-		socket.value?.emit("subscribeDeals");
+		subscribe("Deals");
 	};
 
-	const unsubscribeDeals = () => socket.value?.emit("unsubscribeDeals");
-	const subscribeAccountInfo = () => socket.value?.emit("subscribeAccountInfo");
-	const unsubscribeAccountInfo = () => socket.value?.emit("unsubscribeAccountInfo");
+	const unsubscribeDeals = () => unsubscribe("Deals");
+	const subscribeAccountInfo = () => subscribe("AccountInfo");
+	const unsubscribeAccountInfo = () => unsubscribe("AccountInfo");
 
 	return {
 		isLoadedTrades,
