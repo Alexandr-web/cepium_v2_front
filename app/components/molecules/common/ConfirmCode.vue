@@ -54,6 +54,7 @@
 import * as z from "zod";
 import AButton from "@/components/atoms/AButton.vue";
 import AError from "@/components/atoms/AError.vue";
+import { vMaska } from "maska/vue";
 
 const props = withDefaults(
 	defineProps<{
