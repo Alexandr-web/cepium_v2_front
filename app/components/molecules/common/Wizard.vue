@@ -13,29 +13,29 @@
 				/>
 				<div class="flex flex-col items-center gap-5">
 					<div
-						class="flex items-center justify-center transition w-36 lg:w-46 h-36 lg:h-46 rounded-full border"
+						class="flex items-center justify-center transition w-36 lg:w-66 h-36 lg:h-66 rounded-full border"
 						:class="[
 							step.active && 'border-primary-600 bg-primary-300',
 							(step.completed && !step.active) && 'border-tertiary-600 bg-tertiary-300',
 							!step.completed && 'border-neutral-200',
 						]"
 					>
-						<IconCheck v-if="step.completed && !step.active" class="w-18 lg:w-26 h-18 lg:h-26 text-white" />
+						<IconCheck v-if="step.completed && !step.active" class="w-18 lg:w-36 h-18 lg:h-36 text-white" />
 						<p
 							v-else
-							class="text-10 lg:text-14 transition"
+							class="text-10 lg:text-16 transition font-semibold"
 							:class="[(!step.completed && !step.active) && 'opacity-50']"
 						>{{ idx + 1 }}</p>
 					</div>
 					<p
 						v-if="step.label"
-						class="text-10 lg:text-12 text-center max-w-100 lg:max-w-200 transition"
+						class="text-10 lg:text-18 text-center max-w-100 lg:max-w-200 transition"
 						:class="[(!step.completed && !step.active) && 'opacity-50']"
 					>{{ step.label }}</p>
 				</div>
 			</div>
 		</div>
-		<div class="flex flex-col gap-24 relative lg:basis-[90%] bg-black/80 rounded-8 lg:rounded-12 p-12 lg:p-24 border border-neutral-200 min-h-100">
+		<div class="flex flex-col gap-24 relative lg:basis-[90%] bg-neutral-200 rounded-8 lg:rounded-12 p-12 lg:p-24 border border-neutral-200 min-h-100">
 			<div v-if="isPending" class="absolute top-0 left-0 w-full h-full flex justify-center items-center z-1">
 				<IconLoader class="w-16 lg:w-24 h-16 lg:h-24" />
 			</div>

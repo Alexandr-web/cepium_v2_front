@@ -1,9 +1,9 @@
 <template>
-	<section class="flex flex-col gap-36 lg:gap-12 p-12 lg:p-24 bg-black min-h-screen rounded-12">
+	<section class="flex flex-col gap-36 lg:gap-12 p-12 lg:p-24 bg-neutral-200 min-h-screen rounded-12">
 		<Filters :filters="filters" :disabled="isPendingStatistics || isPendingStrategy">
 			<template #footer>
 				<AButton
-					class="rounded-12 lg:ml-auto lg:self-start w-full lg:w-auto px-24 py-12 lg:py-8"
+					class="rounded-12 lg:ml-auto lg:self-start w-full lg:w-auto px-24 py-12 lg:py-8 lg:text-16"
 					:mode="ButtonMode.PRIMARY_BORDER"
 					@click="loadReport"
 				>Скачать отчет</AButton>
@@ -13,10 +13,10 @@
 			<div
 				v-for="(item, idx) in charts"
 				:key="idx"
-				class="flex flex-col bg-neutral-100/50 border border border-neutral-200 rounded-12 p-12 lg:p-20 gap-16"
+				class="flex flex-col bg-neutral-100 rounded-12 p-12 lg:p-20 gap-16"
 				:class="item.classes"
 			>
-				<h3 class="font-medium text-neutral-700">{{ item.label }}</h3>
+				<h3 class="font-medium text-neutral-700 lg:text-18">{{ item.label }}</h3>
 				<div class="h-200 lg:h-300 w-full rounded-12" :class="[isPendingCharts && 'overflow-hidden']">
 					<VChart
 						v-if="!item.chart.isEmpty"
@@ -80,7 +80,7 @@ const filters = ref<FilterItem[]>([
 		label: "Стратегия",
 		value: String(props.strategies[0]?.name ?? ""),
 		items: props.strategies.map((s) => ({ label: s.name, value: s.name })),
-		classes: "min-w-200",
+		classes: "min-w-300",
 	},
 ]);
 const filtersValues = computed(() => filters.value.map((i) => i.value));

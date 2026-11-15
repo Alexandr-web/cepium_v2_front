@@ -1,5 +1,5 @@
 <template>
-	<div class="flex items-center gap-6 max-w-full w-full lg:w-auto lg:mx-auto select-none bg-black p-12 rounded-8">
+	<div class="flex items-center gap-6 max-w-full w-full lg:w-auto lg:mx-auto select-none p-12">
 		<AButton
 			:disabled="isFirstPage || isPending"
 			class="flex items-center justify-center w-36 h-36"
@@ -7,19 +7,17 @@
 		>
 			<IconArrowDown class="w-20 h-20 rotate-90" />
 		</AButton>
-
 		<ul class="flex items-center justify-center gap-4 min-w-0 grow">
 			<li v-for="(item, index) in pages" :key="`${item}-${index}`" class="flex items-center">
 				<span
 					v-if="item === SPACES_STRING"
-					class="flex items-center justify-center w-36 h-36 text-12 text-neutral-500 tracking-widest"
+					class="flex items-center justify-center w-36 h-36 text-12 lg:text-14 text-neutral-700 tracking-widest"
 				>
 					{{ SPACES_STRING }}
 				</span>
-				
 				<AButton
 					v-else
-					class="flex items-center justify-center w-36 h-36 rounded-8 text-12! transition tap"
+					class="flex items-center justify-center w-36 h-36 rounded-8 text-12! lg:text-14! transition tap"
 					:class="[item === currentPage && 'cursor-default!']"
 					:mode="item === currentPage ? ButtonMode.PRIMARY_BORDER : ButtonMode.NEUTRAL_FILL"
 					:disabled="isPending"
@@ -29,7 +27,6 @@
 				</AButton>
 			</li>
 		</ul>
-
 		<AButton
 			:disabled="isLastPage || isPending"
 			class="flex items-center justify-center w-36 h-36"

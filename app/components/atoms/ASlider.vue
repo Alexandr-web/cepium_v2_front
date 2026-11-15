@@ -1,6 +1,13 @@
 <template>
 	<div class="flex flex-col gap-24">
-		<LabelField v-model:error="error" :label="label" :count="percent" :tooltip-text="tooltipText" />
+		<LabelField
+			v-model:error="error"
+			:label="label"
+			:count="percent"
+			:tooltip-text="tooltipText"
+			:label-classes="labelClasses"
+			:count-classes="countClasses"
+		/>
 		<Slider
 			v-model="value"
 			:min="min"
@@ -24,7 +31,9 @@ withDefaults(
 		min?: number;
 		showTooltip?: string;
 		tooltipText?: string;
-		format?: object|((v: number) => unknown)
+		format?: object|((v: number) => unknown);
+		countClasses?: string|string[];
+		labelClasses?: string|string[];
 	}>(),
 	{
 		max: 100,
@@ -32,6 +41,8 @@ withDefaults(
 		showTooltip: "always",
 		tooltipText: "",
 		format: undefined,
+		countClasses: "",
+		labelClasses: "",
 	}
 );
 
@@ -43,11 +54,11 @@ const percent = computed(() => formatNum(value.value / 100, { style: "percent" }
 
 <style scoped>
 .slider-blue {
-  --slider-connect-bg: var(--color-primary-400);
-  --slider-tooltip-bg: var(--color-primary-400);
+  --slider-connect-bg: var(--color-primary-500);
+  --slider-tooltip-bg: var(--color-primary-500);
   --slider-handle-width: calc(var(--spacing) * 16);
   --slider-handle-height: calc(var(--spacing) * 16);
-  --slider-tooltip-font-size: calc(var(--spacing) * 14);
+  --slider-tooltip-font-size: calc(var(--spacing) * 16);
   --slider-bg: var(--color-neutral-800);
   --slider-handle-shadow: none;
 }

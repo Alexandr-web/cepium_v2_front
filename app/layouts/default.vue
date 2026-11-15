@@ -10,7 +10,7 @@
 				>
 					<AButton
 						v-if="!route.meta.noBack"
-						class="flex lg:hidden items-center py-6 px-12 rounded-4 mr-auto mb-10"
+						class="flex lg:hidden items-center py-6 px-12 rounded-6 mr-auto mb-10 border border-neutral-300"
 						:mode="ButtonMode.NEUTRAL_FILL"
 						@click="router.back()"
 					>

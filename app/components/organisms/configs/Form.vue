@@ -21,6 +21,7 @@
 								:items="exchangesList"
 								:disabled="isPendingExchanges || !exchangesList.length"
 								tooltip-text="Укажите биржу, где будут исполняться торговые ордера. Убедитесь, что для неё подключены активные API-ключи."
+								label-classes="lg:text-18"
 							/>
 							<ASelect
 								v-model="fields.margin.value"
@@ -29,6 +30,7 @@
 								placeholder="Выберите режим маржи"
 								:items="MARGIN_MODE_LIST"
 								tooltip-text="Определяет, какими средствами вы рискуете. Кросс-маржа использует весь доступный баланс для удержания позиций. Изолированная маржа жестко ограничивает убыток размером самой сделки."
+								label-classes="lg:text-18"
 							/>
 							<ASelect
 								v-model="fields.strategyId.value"
@@ -38,6 +40,7 @@
 								:items="strategiesList"
 								:disabled="isPendingStrategy"
 								tooltip-text="Определяет алгоритм и правила, по которым сервис будет искать точки входа в рынок."
+								label-classes="lg:text-18"
 							/>
 						</template>
 						<template v-else-if="activeStep.name === 'risk-management'">
@@ -48,6 +51,8 @@
 								show-tooltip="focus"
 								:format="(v: number) => formatNum(v / 100, { style: 'percent' })"
 								tooltip-text="Ограничение максимальных потерь. При падении цены на указанный процент сервис автоматически закроет позицию в убыток, чтобы защитить оставшийся баланс от дальнейшего падения."
+								label-classes="lg:text-18"
+								count-classes="lg:text-16"
 							/>
 							<ASlider
 								v-model="fields.dailyGoalPercent.value"
@@ -56,6 +61,8 @@
 								show-tooltip="focus"
 								:format="(v: number) => formatNum(v / 100, { style: 'percent' })"
 								tooltip-text="Желаемая прибыль за сутки в процентах от баланса."
+								label-classes="lg:text-18"
+								count-classes="lg:text-16"
 							/>
 							<ASlider
 								v-model="fields.maxPositionSize.value"
@@ -64,6 +71,8 @@
 								show-tooltip="focus"
 								:format="(v: number) => formatNum(v / 100, { style: 'percent' })"
 								tooltip-text="Ограничивает максимальный размер одной сделки. Задает долю от вашего общего баланса, которую сервис может использовать в качестве стартовой маржи для входа в одну позицию."
+								label-classes="lg:text-18"
+								count-classes="lg:text-16"
 							/>
 							<AInput
 								v-model="fields.maxLeverage.value"
@@ -71,6 +80,7 @@
 								label="Максимальное плечо"
 								type="number"
 								tooltip-text="Верхний лимит кредитного плеча для сделок. Множитель заемных средств от биржи, который увеличивает объем позиции."
+								label-classes="lg:text-18"
 							/>
 						</template>
 						<template v-else>
@@ -84,6 +94,8 @@
 								:disabled="!selectedExchangeValue"
 								tooltip-text="Список активов, на которых сервис будет искать точки входа. Стратегия будет анализировать графики только выбранных вами монет."
 								class="lg:col-span-2"
+								label-classes="lg:text-18"
+								count-classes="lg:text-16"
 							/>
 							<ACheckbox
 								v-model="fields.activate.value"

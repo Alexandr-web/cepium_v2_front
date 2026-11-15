@@ -8,14 +8,14 @@
 			<div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
 				<ConfigCard v-for="card in configs" :key="card.id" :card="card" />
 				<NuxtLink
-					class="group hover:border-neutral-400 transition flex items-center justify-center rounded-8 px-8 py-12 border-solid border border-neutral-200 bg-black/80"
+					class="group hover:border-neutral-400 transition flex items-center justify-center rounded-8 px-8 py-12 border-solid border border-neutral-200 bg-neutral-200"
 					:to="{ name: 'add-config' }"
 				>
 					<IconAdd class="w-20 lg:w-24 h-20 lg:h-24 group-hover:text-white transition text-white/80" />
 				</NuxtLink>
 			</div>
 		</template>
-		<div v-else class="my-auto flex flex-col gap-10 items-center justify-center bg-black rounded-12 p-16 w-full lg:max-w-600 lg:mx-auto">
+		<div v-else class="my-auto flex flex-col gap-10 items-center justify-center bg-neutral-200 rounded-12 p-16 w-full lg:max-w-600 lg:mx-auto">
 			<Empty :is-pending="isPending" />
 			<NuxtLink class="group flex items-center justify-center rounded-8 p-8 bg-neutral-100" :to="{ name: 'add-config' }">
 				<IconAdd class="w-22 lg:w-24 h-22 lg:h-24 group-hover:text-white transition text-white/80" />

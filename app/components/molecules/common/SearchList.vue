@@ -1,6 +1,13 @@
 <template>
 	<div class="flex flex-col gap-6">
-		<LabelField v-model:error="error" :count="addedItemsMap.size" :label="label" :tooltip-text="tooltipText" />
+		<LabelField
+			v-model:error="error"
+			:count="addedItemsMap.size"
+			:label="label"
+			:tooltip-text="tooltipText"
+			:label-classes="labelClasses"
+			:count-classes="countClasses"
+		/>
 		<div class="flex flex-col gap-10">
 			<AInput v-model="input" :placeholder="placeholder" prepend-icon="search-rounded" :disabled="disabled" />
 			<div class="overflow-auto max-h-150 scroll-block">
@@ -16,12 +23,12 @@
 				</div>
 			</div>
 			<div
-				class="flex flex-col rounded-6 p-12 bg-black border border-neutral-100 h-150 overflow-auto scroll-block relative"
+				class="flex flex-col rounded-8 p-12 bg-neutral-300 border border-neutral-400 h-150 overflow-auto scroll-block relative"
 				:class="[(!foundItemsMap.size || isPending) && 'items-center justify-center']"
 			>
 				<IconLoader v-if="isPending" class="text-white absolute w-26 lg:w-36 h-26 lg:h-36" />
 				<template v-else>
-					<p v-if="!foundItemsMap.size" class="text-14 text-neutral-500 text-center">{{ message }}</p>
+					<p v-if="!foundItemsMap.size" class="text-14 text-neutral-700 text-center">{{ message }}</p>
 					<ul v-else-if="foundItemsMap.size && input.length" class="grid grid-cols-1 lg:grid-cols-3 gap-5">
 						<li
 							v-for="item in foundItemsMap.values()"
@@ -60,6 +67,8 @@ const props = withDefaults(
 		tooltipText?: string;
 		search: (value: string) => Promise<SelectItem[]>;
 		itemClickHandler?: (item: SelectItem) => Promise<void>;
+		countClasses?: string|string[];
+		labelClasses?: string|string[];
 	}>(),
 	{
 		label: "",
@@ -67,6 +76,8 @@ const props = withDefaults(
 		tooltipText: "",
 		disabled: false,
 		itemClickHandler: undefined,
+		countClasses: "",
+		labelClasses: "",
 	}
 );
 

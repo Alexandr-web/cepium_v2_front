@@ -9,6 +9,7 @@
 			:items="filter.items"
 			:disabled="disabled"
 			:class="filter.classes"
+			label-classes="lg:text-16"
 		/>
 		<slot name="footer" />
 	</div>

@@ -6,12 +6,15 @@
 				class="text-12 lg:text-14 transition"
 				:class="[
 					error && 'text-secondary-500',
-					!error && 'text-neutral-700'
+					!error && 'text-neutral-700',
+					labelClasses
 				]"
 			>
 				{{ label }}
 			</h3>
-			<p v-if="count" class="text-neutral-600 text-12 lg:text-14">({{ count }})</p>
+			<slot name="count">
+				<p v-if="count" class="text-neutral-600 text-12 lg:text-14" :class="countClasses">({{ count }})</p>
+			</slot>
 		</div>
 		<Tooltip v-show="tooltipText && isDesktop">
 			<template #trigger>
@@ -32,10 +35,14 @@ withDefaults(
 		label: string;
 		tooltipText?: string;
 		count?: number|string;
+		countClasses?: string|string[];
+		labelClasses?: string|string[];
 	}>(),
 	{
 		tooltipText: "",
 		count: 0,
+		countClasses: "",
+		labelClasses: "",
 	}
 );
 
