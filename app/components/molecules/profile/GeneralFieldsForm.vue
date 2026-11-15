@@ -1,6 +1,6 @@
 <template>
 	<form
-		class="flex flex-col rounded-12 border border-solid border-neutral-100 bg-black/80 p-20 gap-16"
+		class="flex flex-col rounded-12 bg-neutral-100 p-20 gap-16"
 		novalidate
 		@submit.prevent="validate() && sendChangeData(values)"
 	>

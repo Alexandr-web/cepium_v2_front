@@ -78,8 +78,8 @@ export const CHART_COLORS = {
 		},
 	},
 	loading: {
-		color: "white",
-		maskColor: "black",
+		color: "#6e7681",
+		maskColor: "#0d1117",
 		lineWidth: 2,
 		text: "Загрузка",
 	},

@@ -1,8 +1,8 @@
 <template>
-	<div class="flex items-center justify-between h-65 p-24 bg-black">
+	<div class="flex items-center justify-between h-65 p-24 bg-neutral-300">
 		<div class="flex items-center gap-8">
 			<component :is="icon" v-if="icon" class="text-primary-800 w-18 h-18" />
-			<h2 v-if="title" class="text-20 font-semibold leading-[1.2] text-neutral-800">{{ title }}</h2>
+			<h2 v-if="title" class="text-20 font-semibold leading-[1.2] text-neutral-950">{{ title }}</h2>
 		</div>
 		<slot />
 	</div>

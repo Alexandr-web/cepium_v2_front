@@ -4,11 +4,11 @@
 			<IconLogo class="w-auto h-40 lg:h-50 object-contain" />
 		</div>
 		<form
-			class="flex flex-col rounded-12 border border-solid border-neutral-100 bg-black/80 p-24 gap-20 lg:max-w-420 lg:mx-auto lg:w-full"
+			class="flex flex-col rounded-12 lg:rounded-24 border border-solid border-white/10 bg-white/5 p-16 lg:p-24 gap-20 lg:max-w-420 lg:mx-auto lg:w-full"
 			novalidate
 			@submit.prevent="execute"
 		>
-			<div class="flex flex-col gap-16">
+			<div class="flex flex-col gap-10">
 				<AInput
 					v-model="fields.email.value"
 					v-model:error="fields.email.error"
@@ -27,17 +27,17 @@
 				/>
 			</div>
 			<AButton
-				class="group flex items-center justify-center gap-8 rounded-4 lg:mt-16 py-10 px-24"
+				class="group flex items-center justify-center gap-8 rounded-8 lg:mt-16 py-10 px-24"
 				type="submit"
-				:mode="ButtonMode.PRIMARY_FILL"
+				:mode="ButtonMode.PRIMARY_BORDER"
 				:disabled="isPending"
 			>
-				<span class="uppercase text-primary-100 text-14 lg:text-16 font-medium">Войти</span>
-				<IconKeyboardDoubleArrowRight class="group-hover:translate-x-[50%] transition min-w-16 lg:min-w-18 max-w-16 lg:max-w-18 min-h-16 lg:min-h-18 max-h-16 lg:max-h-18 text-black" />
+				<span class="uppercase text-neutral-800 text-14 lg:text-16 font-medium">Войти</span>
+				<IconKeyboardDoubleArrowRight class="group-hover:translate-x-[50%] transition min-w-16 lg:min-w-18 max-w-16 lg:max-w-18 min-h-16 lg:min-h-18 max-h-16 lg:max-h-18 text-neutral-800" />
 			</AButton>
 			<div class="flex items-center">
 				<AError :message="errMessage" />
-				<p class="text-neutral-300 text-12 lg:text-14 ml-auto">{{ VERSION }}</p>
+				<p class="text-neutral-500 text-12 lg:text-14 ml-auto">{{ VERSION }}</p>
 			</div>
 		</form>
 	</section>

@@ -330,9 +330,7 @@ export default class Chart {
 				label: { show: false },
 				labelLine: { show: false },
 				itemStyle: {
-					borderRadius: 8,
-					borderColor: CHART_COLORS.series.pie.itemStyle.borderColor,
-					borderWidth: 3,
+					borderWidth: 0,
 				},
 				emphasis: {
 					scale: true,
@@ -403,9 +401,7 @@ export default class Chart {
 				label: { show: false },
 				labelLine: { show: false },
 				itemStyle: {
-					borderRadius: 6,
-					borderColor: CHART_COLORS.series.pie.itemStyle.borderColor,
-					borderWidth: 3,
+					borderWidth: 0,
 				},
 				emphasis: {
 					scale: true,

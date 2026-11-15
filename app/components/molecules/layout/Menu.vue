@@ -4,7 +4,7 @@
 			<ul class="flex flex-col" :class="listClasses">
 				<li v-for="item in menu" :key="item.route" :class="[preset === MenuPreset.DESKTOP && 'w-full']">
 					<NuxtLink
-						class="group flex items-center rounded-8 transition-all duration-200 text-14 text-neutral-600"
+						class="group flex items-center rounded-8 transition-all duration-200 text-14 lg:text-16 text-neutral-600"
 						:to="{ name: item.route }"
 						:class="linkClasses"
 						:active-class="activeClass"
@@ -68,7 +68,7 @@ const menu = [
 const menuClasses = computed(() => {
 	switch (props.preset) {
 		case MenuPreset.DESKTOP:
-			return "flex flex-col justify-between gap-24 py-16 px-12 bg-black border-r border-solid border-r-white/5 max-w-256 w-full transition-all";
+			return "flex flex-col justify-between gap-24 py-16 px-12 bg-neutral-200 border-r border-solid border-r-white/5 max-w-256 w-full transition-all";
 		case MenuPreset.MOBILE:
 			return "flex flex-col gap-24 w-full";
 		default:
@@ -112,9 +112,9 @@ const linkClasses = computed(() => {
 const activeClass = computed(() => {
 	switch (props.preset) {
 		case MenuPreset.DESKTOP:
-			return "text-primary-600 bg-primary-500/15 font-medium transition-colors duration-200";
+			return "text-primary-600 bg-primary-500/8 font-medium transition-colors duration-200";
 		case MenuPreset.MOBILE:
-			return "text-primary-700 bg-primary-500/5 font-medium transition-all duration-200";
+			return "text-primary-700 bg-primary-500/8 font-medium transition-all duration-200";
 		default:
 			return "";
 	}

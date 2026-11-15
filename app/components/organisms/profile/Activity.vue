@@ -1,7 +1,7 @@
 <template>
 	<div class="flex flex-col gap-8 w-full">
 		<div class="flex items-center gap-6">
-			<p class="text-neutral-700 text-12 lg:text-14">Меньше</p>
+			<p class="text-neutral-700 text-12 lg:text-16">Меньше</p>
 			<div class="flex items-center gap-3">
 				<Tooltip
 					v-for="i in colorClasses.length - 1"
@@ -19,9 +19,9 @@
 					</template>
 				</Tooltip>
 			</div>
-			<p class="text-neutral-700 text-12 lg:text-14">Больше</p>
+			<p class="text-neutral-700 text-12 lg:text-16">Больше</p>
 		</div>
-		<div class="w-full overflow-x-auto bg-black/80 p-12 rounded-8 border border-solid border-neutral-200">
+		<div class="w-full overflow-x-auto bg-neutral-200 p-12 rounded-8 border border-solid border-neutral-300">
 			<table class="w-max lg:w-full border-separate border-spacing-2">
 				<thead>
 					<tr>
@@ -50,7 +50,7 @@
 								<template #content>
 									<div class="flex flex-col">
 										<p>{{ day.formatDate }}</p>
-										<span v-if="day.value" class="font-bold text-primary-600">{{ day.value }}</span>
+										<span v-if="day.value" class="font-bold text-white">{{ day.value }}</span>
 									</div>
 								</template>
 							</Tooltip>
@@ -82,7 +82,7 @@ const isDesktop = useMediaQuery("(min-width: 1024px)");
 const LEVEL_THRESHOLDS = [5, 10, 15] as const;
 
 const colorClasses = [
-	"bg-neutral-100/65",
+	"bg-neutral-100",
 	"bg-primary-300",
 	"bg-primary-500",
 	"bg-primary-700",

@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="flex flex-col lg:flex-row justify-between lg:gap-6 rounded-8 bg-black border-solid border border-white/5"
+		class="flex flex-col lg:flex-row justify-between lg:gap-6 rounded-8 bg-neutral-200 border-solid border border-white/5"
 		:class="[showCharts && 'lg:col-start-2 lg:col-end-4']"
 	>
 		<div class="flex flex-col lg:flex-row justify-between gap-32 p-16 lg:grow">
@@ -45,12 +45,12 @@
 				class="flex flex-col lg:flex-row h-350 lg:h-250 lg:grow"
 			>
 				<VChart class="min-w-0 w-full min-h-0 h-full lg:w-1/2" :option="marginView.options" />
-				<ul class="grid w-full grid-cols-2 grid-rows-3 gap-x-16 gap-y-12 lg:gap-x-32 lg:w-1/2">
+				<ul class="grid w-full mt-12 lg:mt-0 border border-neutral-400 p-12 rounded-8 grid-cols-2 grid-rows-3 gap-x-16 gap-y-12 lg:gap-x-32 lg:w-1/2">
 					<li
 						v-for="item in marginView.legend"
 						:key="item.name"
 						:title="item.name"
-						class="flex items-center justify-center lg:justify-start gap-8 min-w-0"
+						class="flex items-center gap-8 min-w-0 even:justify-end lg:even:justify-start"
 					>
 						<span class="w-10 h-10 shrink-0 rounded-full" :style="{ backgroundColor: item.color }" />
 						<div class="flex flex-col min-w-0 text-12 lg:text-16 leading-tight">

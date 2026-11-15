@@ -29,7 +29,7 @@ const classesByMode = computed(() => {
 		case ButtonMode.REMOVE_FILL:
 			return "text-white/80 bg-secondary-300";
 		case ButtonMode.REMOVE_BORDER:
-			return "border border-solid border-secondary-400 text-secondary-500 bg-black transition hover:border-secondary-500 hover:text-secondary-600";
+			return "border border-solid border-secondary-600 text-secondary-600 bg-secondary-300 transition hover:border-secondary-700 hover:text-secondary-700";
 		case ButtonMode.NEUTRAL_FILL:
 			return "transition text-white/80 hover:text-white/90 hover:bg-neutral-200 bg-neutral-100";
 		case ButtonMode.BLACK_FILL:

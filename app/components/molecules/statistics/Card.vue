@@ -1,12 +1,12 @@
 <template>
-	<div class="group flex flex-col bg-black border border-solid border-neutral-100 rounded-12 p-20 gap-16 w-full hover:border-neutral-300/80 transition relative">
+	<div class="flex flex-col bg-neutral-200 border border-solid border-neutral-300 rounded-12 p-20 gap-16 w-full relative">
 		<div class="flex items-center justify-between gap-12 min-w-0">
-			<span class="text-13 font-medium text-neutral-500 truncate" :title="card.title">
+			<span class="text-13 lg:text-16 font-medium text-neutral-800 truncate" :title="card.title">
 				{{ card.title }}
 			</span>
 			<div 
 				v-if="icon" 
-				class="flex items-center justify-center p-8 rounded-8 bg-neutral-200/50 text-neutral-600 transition group-hover:scale-105 group-hover:bg-primary-50/50 group-hover:text-primary-600 shrink-0"
+				class="flex items-center justify-center p-8 rounded-8 bg-neutral-400 text-neutral-800 transition shrink-0"
 			>
 				<component
 					:is="icon"
@@ -15,7 +15,7 @@
 			</div>
 		</div>
 		<div
-			class="text-28 lg:text-34 font-bold text-neutral-950 leading-none tracking-tight transition-transform group-hover:translate-x-1"
+			class="text-28 lg:text-34 font-bold text-neutral-950 leading-none tracking-tight"
 			:class="card.classesValue"
 		>
 			{{ value }}

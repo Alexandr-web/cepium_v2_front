@@ -1,12 +1,12 @@
 <template>
-	<div class="flex flex-col rounded-8 max-w-full w-full min-w-0 overflow-hidden border border-solid border-white/5">
+	<div class="flex flex-col rounded-12 max-w-full w-full min-w-0 overflow-hidden border border-solid border-white/10">
 		<HeadTable v-if="headIcon || title || $slots['head-controls']" :title="title" :icon="headIcon">
 			<slot name="head-controls" />
 		</HeadTable>
 		<div class="w-full overflow-x-auto relative">
 			<table class="w-max min-w-full">
 				<thead>
-					<tr class="border-b-1 border-solid border-white/5 bg-black/90">
+					<tr class="border-b-1 border-solid border-white/5 bg-neutral-300">
 						<!-- @vue-generic {T} -->
 						<HeadTableItem
 							v-for="col in columns"
@@ -30,7 +30,7 @@
 					<tr 
 						v-for="(row, rowIndex) in sortedData" 
 						:key="rowIndex"
-						class="not-last:border-b-1 border-solid border-white/5 bg-black/70"
+						class="not-last:border-b-1 border-solid border-white/5 bg-neutral-200/70"
 					>
 						<!-- @vue-generic {T} -->
 						<ColTable v-for="col in columns" :key="String(col.key)" :col="col" :row="row" :row-index="rowIndex">
@@ -43,7 +43,7 @@
 			</table>
 			<div v-if="isPending" class="absolute top-0 left-0 w-full h-full">
 				<slot name="pending">
-					<div class="bg-black/60 flex justify-center items-center w-full h-full">
+					<div class="bg-neutral-200/60 flex justify-center items-center w-full h-full">
 						<IconLoader class="w-30 h-30" />
 					</div>
 				</slot>

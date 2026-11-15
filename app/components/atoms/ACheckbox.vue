@@ -2,7 +2,7 @@
 	<div class="flex items-center gap-10 cursor-pointer select-none group" @click="checked = !checked">
 		<div
 			v-if="!hideBox"
-			class="rounded-6 border-solid border border-neutral-400"
+			class="rounded-6 border-solid border border-neutral-600"
 			:class="wrapperClasses"
 		>
 			<IconCheckSmallRounded
