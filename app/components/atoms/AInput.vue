@@ -2,10 +2,10 @@
 	<div class="flex flex-col gap-6">
 		<LabelField v-if="label" v-model:error="error" :label="label" :tooltip-text="tooltipText" />
 		<div
-			class="group transition flex items-center px-16 bg-black h-48 rounded-4 border-solid border"
+			class="group transition flex items-center px-16 bg-neutral-200 h-48 rounded-8 border-solid border"
 			:class="[
 				error && 'border-secondary-500/50 hover:border-secondary-500/70',
-				!error && 'border-neutral-100 hover:border-neutral-200'
+				!error && 'border-white/5 hover:border-white/15'
 			]"
 		>
 			<component
@@ -14,11 +14,11 @@
 				class="transition min-w-15 lg:min-w-18 max-w-15 lg:max-w-18 min-h-15 lg:min-h-18 max-h-15 lg:max-h-18 block mr-8 transition"
 				:class="[
 					error && 'text-secondary-500',
-					!error && 'text-primary-700'
+					!error && 'text-neutral-700'
 				]"
 			/>
 			<input
-				class="grow min-w-0 h-full text-neutral-500 focus:text-neutral-600 transition text-14 lg:text-16"
+				class="grow min-w-0 h-full text-neutral-700 focus:text-neutral-800 transition text-14 lg:text-16"
 				:placeholder="placeholder"
 				:type="inputType"
 				:disabled="disabled"

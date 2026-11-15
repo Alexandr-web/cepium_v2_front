@@ -1,7 +1,7 @@
 <template>
 	<nav class="flex items-center gap-12 lg:gap-0">
 		<NuxtLink 
-			class="group flex justify-center items-center rounded-full p-2 border border-solid border-neutral-200 hover:border-primary-400 bg-neutral-400 transition w-32 lg:w-36 h-32 lg:h-36" 
+			class="group flex justify-center items-center rounded-full p-1 border border-solid border-neutral-400 hover:border-primary-400 bg-neutral-400 transition w-32 lg:w-36 h-32 lg:h-36" 
 			:to="{ name: 'profile' }"
 		>
 			<div class="w-full h-full rounded-full overflow-hidden">

@@ -6,7 +6,7 @@
 				class="text-12 lg:text-14 transition"
 				:class="[
 					error && 'text-secondary-500',
-					!error && 'text-primary-700'
+					!error && 'text-neutral-700'
 				]"
 			>
 				{{ label }}

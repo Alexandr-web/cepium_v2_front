@@ -111,8 +111,8 @@ const tabs = ref<SelectItem[]>([
 	{ label: "Все", value: TabsValues.ALL },
 	{ label: "Шорт", value: TabsValues.SHORT },
 	{ label: "Лонг", value: TabsValues.LONG },
-	{ label: "Положительный профит", value: TabsValues.POSITIVE_PNL },
-	{ label: "Отрицательный профит", value: TabsValues.NEGATIVE_PNL },
+	{ label: "Прибыльные", value: TabsValues.POSITIVE_PNL },
+	{ label: "Убыточные", value: TabsValues.NEGATIVE_PNL },
 ]);
 
 const displayTradesMemoize = useMemoize((trades: Trade[], _search: string, _activeTab: TabsValues) =>
