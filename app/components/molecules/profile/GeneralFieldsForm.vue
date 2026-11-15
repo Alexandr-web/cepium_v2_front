@@ -1,6 +1,7 @@
 <template>
 	<form
 		class="flex flex-col rounded-12 border border-solid border-neutral-100 bg-black/80 p-20 gap-16"
+		novalidate
 		@submit.prevent="validate() && sendChangeData(values)"
 	>
 		<div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -9,6 +10,7 @@
 				v-model:error="fields.email.error"
 				placeholder="Эл. почта"
 				label="Эл. почта"
+				type="email"
 			/>
 			<AInput
 				v-model="fields.name.value"

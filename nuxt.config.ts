@@ -142,4 +142,21 @@ export default defineNuxtConfig({
 			},
 		],
 	},
+	routeRules: {
+		"/fonts/**": {
+			headers: {
+				"Cache-Control": "public, max-age=31536000, immutable",
+			},
+		},
+		"/images/**": {
+			headers: {
+				"Cache-Control": "public, max-age=2592000, stale-while-revalidate=86400",
+			},
+		},
+		"/_ipx/**": {
+			headers: {
+				"Cache-Control": "public, max-age=31536000, immutable",
+			},
+		},
+	},
 });

@@ -44,7 +44,7 @@
 								<template #trigger>
 									<div
 										class="w-14 lg:w-18 h-14 lg:h-18 rounded-2"
-										:class="[colorClasses[day.level], day.isToday && 'border border-tertiary-400']"
+										:class="[colorClasses[day.level], day.date === today && 'border border-tertiary-400']"
 									/>
 								</template>
 								<template #content>
@@ -79,7 +79,7 @@ const props = withDefaults(
 const isDesktop = useMediaQuery("(min-width: 1024px)");
 
 // Верхние границы уровней 1-3; всё, что больше последней, - уровень 4.
-const LEVEL_THRESHOLDS = [5, 10, 15, 20] as const;
+const LEVEL_THRESHOLDS = [5, 10, 15] as const;
 
 const colorClasses = [
 	"bg-neutral-100/65",
@@ -117,32 +117,30 @@ const getLevel = (value: number): number => {
 };
 
 /**
- * Строим плоский список ячеек на весь год + null-паддинг по краям:
- * - в начале - чтобы 1 января встало в правильный день недели (под ПН/ВТ/...);
- * - в конце - чтобы последняя неделя дополнилась до полных 7 дней.
+ * Календарь года зависит только от года, поэтому строится отдельно от данных активности:
+ * даты и подписи форматируются один раз, а не при каждой загрузке активностей.
+ * null-паддинг в начале нужен, чтобы 1 января встало в правильный день недели.
+ * Недостающие ячейки в конце последней недели добираются в `rows` через `?? null`.
  *
- * month сохраняем сразу при переборе цикла - БЕЗ повторного new Date(dateString)
- * где-то дальше, который снова словил бы сдвиг из-за парсинга строки как UTC.
+ * month сохраняем сразу при переборе - БЕЗ повторного new Date(dateString),
+ * который снова словил бы сдвиг из-за парсинга строки как UTC.
  */
-const allDaysWithPadding = computed<(ActivityItemCell | null)[]>(() => {
+const calendarDays = computed(() => {
 	const start = new Date(Date.UTC(year.value, 0, 1));
 	const end = new Date(Date.UTC(year.value, 11, 31));
 	const mondayIndex = (start.getUTCDay() + 6) % 7;
 
-	const days: (ActivityItemCell | null)[] = Array.from({ length: mondayIndex }, () => null);
+	const days: ({ date: string; formatDate: string; month: number } | null)[] = Array.from(
+		{ length: mondayIndex },
+		() => null
+	);
 	const currentDate = new Date(start);
 
 	while (currentDate <= end) {
-		const dateStr = currentDate.toISOString().slice(0, 10);
-		const value = activitiesMap.value.get(dateStr) ?? 0;
-
 		days.push({
-			date: dateStr,
+			date: currentDate.toISOString().slice(0, 10),
 			formatDate: formatLocalDate(currentDate),
-			value,
-			level: getLevel(value),
 			month: currentDate.getUTCMonth(),
-			isToday: dateStr === today.value,
 		});
 
 		currentDate.setUTCDate(currentDate.getUTCDate() + 1);
@@ -150,6 +148,17 @@ const allDaysWithPadding = computed<(ActivityItemCell | null)[]>(() => {
 
 	return days;
 });
+
+// Накладываем значения активности на готовый календарь.
+const allDaysWithPadding = computed<(ActivityItemCell | null)[]>(() =>
+	calendarDays.value.map((day) => {
+		if (!day) return null;
+
+		const value = activitiesMap.value.get(day.date) ?? 0;
+
+		return { ...day, value, level: getLevel(value) };
+	})
+);
 
 // Режем плоский список дней на недели по 7 штук - это и есть столбцы таблицы
 const weeks = computed<(ActivityItemCell | null)[][]>(() => {

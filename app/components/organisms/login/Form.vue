@@ -5,6 +5,7 @@
 		</div>
 		<form
 			class="flex flex-col rounded-12 border border-solid border-neutral-100 bg-black/80 p-24 gap-20 lg:max-w-420 lg:mx-auto lg:w-full"
+			novalidate
 			@submit.prevent="execute"
 		>
 			<div class="flex flex-col gap-16">
@@ -13,6 +14,7 @@
 					v-model:error="fields.email.error"
 					placeholder="Эл. почта"
 					label="Эл. почта"
+					type="email"
 					prepend-icon="account-circle"
 				/>
 				<AInput
