@@ -1,5 +1,11 @@
 <template>
-	<div class="flex flex-col bg-neutral-100 h-dvh max-h-dvh">
+	<div class="flex flex-col bg-neutral-100 h-dvh max-h-dvh relative isolate overflow-hidden">
+		<div class="hidden lg:block pointer-events-none select-none fixed inset-0 -z-10 overflow-hidden">
+			<div class="absolute -top-140 -left-80 w-500 h-500 rounded-full bg-primary-500/13 blur-[130px]" />
+			<div class="absolute -top-180 left-[38%] w-520 h-400 rounded-full bg-tertiary-500/13 blur-[140px]" />
+			<div class="absolute top-[45%] -left-160 w-450 h-450 rounded-full bg-secondary-500/13 blur-[140px]" />
+			<div class="absolute -bottom-160 left-[120px] w-480 h-480 rounded-full bg-primary-400/13 blur-[150px]" />
+		</div>
 		<Header />
 		<div class="flex grow min-h-0">
 			<Menu class="hidden lg:flex" :preset="MenuPreset.DESKTOP" />

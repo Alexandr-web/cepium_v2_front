@@ -13,7 +13,7 @@
 			<div
 				v-for="(item, idx) in charts"
 				:key="idx"
-				class="flex flex-col bg-neutral-100 rounded-12 p-12 lg:p-20 gap-16"
+				class="flex flex-col bg-neutral-300/50 rounded-12 p-12 lg:p-20 gap-16"
 				:class="item.classes"
 			>
 				<h3 class="font-medium text-neutral-700 lg:text-18">{{ item.label }}</h3>

@@ -68,7 +68,7 @@ const menu = [
 const menuClasses = computed(() => {
 	switch (props.preset) {
 		case MenuPreset.DESKTOP:
-			return "flex flex-col justify-between gap-24 py-16 px-12 bg-neutral-200 border-r border-solid border-r-white/5 max-w-256 w-full transition-all";
+			return "flex flex-col justify-between gap-24 py-16 px-12 bg-neutral-200 border-r border-solid border-r-white/5 max-w-256 w-full transition-all lg:bg-neutral-200/70 lg:backdrop-blur-xl";
 		case MenuPreset.MOBILE:
 			return "flex flex-col gap-24 w-full";
 		default:
