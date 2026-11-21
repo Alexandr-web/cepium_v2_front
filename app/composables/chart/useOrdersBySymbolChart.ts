@@ -1,3 +1,4 @@
+import { useChartScroll } from "@/composables/chart/useChartScroll";
 import type { EChartsOption } from "echarts";
 
 /**
@@ -19,9 +20,12 @@ export const useOrdersBySymbolChart = (_data: MaybeRefOrGetter<StatisticsChartsR
 	})));
 
 	const xAxisData = computed(() => data.value.map((item) => item.name));
-	const seriesData = computed(() => data.value.map((item) => item.value));
+	const seriesData = computed(() => data.value.map((item) => item.value).reverse());
 
 	const isEmpty = computed(() => !data.value.length);
+
+	const { dataZoom, gridBottom, gridBottomMobile } = useChartScroll(() => data.value.length);
+
 	const options = computed<EChartsOption>(() => ({
 		tooltip: {
 			trigger: "axis",
@@ -34,7 +38,7 @@ export const useOrdersBySymbolChart = (_data: MaybeRefOrGetter<StatisticsChartsR
 			top: "15%",
 			left: "3%",
 			right: "3%",
-			bottom: "3%",
+			bottom: gridBottom.value,
 			containLabel: true,
 		},
 		xAxis: {
@@ -87,14 +91,21 @@ export const useOrdersBySymbolChart = (_data: MaybeRefOrGetter<StatisticsChartsR
 					},
 					grid: {
 						top: 30,
-						bottom: 20,
+						bottom: gridBottomMobile.value,
 						left: 0,
 						right: 0,
 						containLabel: false,
 					},
+					dataZoom: [
+						{},
+						{ left: 0, right: 0 },
+					],
 				},
 			},
 		],
+		dataZoom: dataZoom.value,
+		animationDurationUpdate: 300,
+		animationEasingUpdate: "cubicOut",
 		...opts.value,
 	}));
 

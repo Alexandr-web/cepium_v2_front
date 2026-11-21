@@ -77,6 +77,11 @@ export const CHART_COLORS = {
 			},
 		},
 	},
+	dataZoom: {
+		backgroundColor: "rgba(128, 128, 128, 0.12)",
+		fillerColor: "rgba(128, 128, 128, 0.45)",
+		borderColor: "transparent",
+	},
 	loading: {
 		color: "#6e7681",
 		maskColor: "#0d1117",
