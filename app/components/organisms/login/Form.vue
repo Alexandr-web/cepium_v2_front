@@ -4,7 +4,7 @@
 			<IconLogo class="w-auto h-40 lg:h-50 object-contain" />
 		</div>
 		<form
-			class="flex flex-col rounded-12 lg:rounded-24 border border-solid border-white/10 bg-white/5 p-16 lg:p-24 gap-20 lg:max-w-420 lg:mx-auto lg:w-full"
+			class="flex flex-col lg:rounded-24 lg:border-solid border-white/10 lg:bg-white/5 lg:p-24 gap-20 lg:max-w-420 lg:mx-auto lg:w-full"
 			novalidate
 			@submit.prevent="execute"
 		>
