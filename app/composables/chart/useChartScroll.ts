@@ -67,7 +67,7 @@ export const useChartScroll = (_total: MaybeRefOrGetter<number>, visible = CHART
 	// Нижний отступ сетки с учётом полосы прокрутки (десктоп)
 	const gridBottom = computed(() => (hasScroll.value ? CHART_SCROLLBAR_HEIGHT + 28 : "3%"));
 	// Нижний отступ сетки с учётом полосы прокрутки (мобильные)
-	const gridBottomMobile = computed(() => (hasScroll.value ? CHART_SCROLLBAR_HEIGHT + 24 : 20));
+	const gridBottomMobile = computed(() => (hasScroll.value ? CHART_SCROLLBAR_HEIGHT + 35 : 20));
 
 	return { hasScroll, dataZoom, gridBottom, gridBottomMobile };
 };

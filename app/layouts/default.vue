@@ -48,8 +48,9 @@ const showMobMenu = useState("show-mob-menu", () => false);
 
 const theme: NotivueTheme = {
 	...slateTheme,
-	"--nv-global-bg": "var(--color-primary-100)",
-	"--nv-global-border": "var(--color-primary-200)",
+	"--nv-global-bg": "var(--color-neutral-200)",
+	"--nv-global-border": "var(--color-neutral-300)",
+	"--nv-global-accent": "var(--color-neutral-200)",
 };
 
 const content = useTemplateRef("content");

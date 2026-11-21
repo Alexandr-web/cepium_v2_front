@@ -71,10 +71,13 @@ export default defineNuxtConfig({
 		pauseOnHover: true,
 		pauseOnTouch: true,
 		teleportTo: "body",
-		position: "top-center",
+		position: "top-right",
 		limit: 4,
-		enqueue: true,
-		avoidDuplicates: true,
+		animations: {
+			enter: "notivue-slide-in-right",
+			leave: "notivue-slide-out-right",
+			clearAll: "notivue-fade-out",
+		},
 		notifications: {
 			global: {
 				duration: 5000,

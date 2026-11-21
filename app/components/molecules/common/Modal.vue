@@ -61,7 +61,11 @@ const show = defineModel<boolean>({ default: false });
 
 const emits = defineEmits(["close"]);
 
-onClickOutside(target, () => {
+const close = () => {
 	if (show.value && !props.disabled) show.value = false;
-});
+};
+
+onClickOutside(target, close);
+
+onKeyDown("Escape", close);
 </script>

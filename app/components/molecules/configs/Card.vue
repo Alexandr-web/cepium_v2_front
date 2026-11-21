@@ -1,48 +1,44 @@
 <template>
-	<div class="flex flex-col p-16 lg:p-24 rounded-12 border border-solid border-neutral-300 bg-neutral-200 gap-16">
-		<div class="flex justify-between gap-10">
-			<div class="flex flex-col gap-3 min-w-0">
-				<span
-					class="text-12 lg:text-20 font-medium lg:font-bold truncate text-neutral-700"
-					:title="card.strategy.name"
-				>{{ card.strategy.name }}</span>
+	<div class="flex flex-col justify-between p-20 rounded-16 border border-neutral-300 bg-neutral-200/80 gap-20">
+		<div class="flex items-start justify-between gap-12">
+			<div class="flex flex-col gap-4 min-w-0">
+				<span class="text-11 uppercase tracking-wider text-neutral-600 font-semibold">{{ card.exchangeName }}</span>
+				<h3 class="text-16 lg:text-18 font-medium text-neutral-950 truncate" :title="card.strategy.name">{{ card.strategy.name }}</h3>
 			</div>
 			<div
-				class="text-10 lg:text-12 font-bold uppercase whitespace-nowrap"
+				class="flex items-center gap-6 px-8 py-4 rounded-full text-11 font-medium border shrink-0"
 				:class="[
-					card.activate && 'text-tertiary-500',
-					!card.activate && 'text-secondary-500',
+					card.activate && 'bg-tertiary-200/60 text-tertiary-700 border-tertiary-400/50',
+					!card.activate && 'bg-neutral-300/50 text-neutral-600 border-neutral-400/50'
 				]"
-			>{{ activeLabel }}</div>
-		</div>
-		<div class="grid grid-cols-2 gap-12 rounded-8 bg-neutral-100 p-12">
-			<div v-for="(item, idx) in info" :key="idx" class="flex flex-col">
-				<span class="text-10 lg:text-12 uppercase text-neutral-800">{{ item.label }}</span>
-				<span class="text-14 lg:text-16 text-neutral-900 font-medium" :class="item.valueClasses">{{ item.value }}</span>
+			>
+				<span class="w-6 h-6 rounded-full" :class="[card.activate && 'bg-tertiary-500', !card.activate && 'bg-neutral-600']" />
+				{{ activeLabel }}
 			</div>
 		</div>
-		<div class="scroll-block overflow-auto max-h-100">
-			<div class="flex flex-wrap gap-8">
+		<div class="grid grid-cols-2 gap-y-14 gap-x-16 py-14 border-y border-neutral-400/80">
+			<div v-for="(item, idx) in info" :key="idx" class="flex flex-col gap-2">
+				<span class="text-11 text-neutral-600">{{ item.label }}</span>
+				<span class="text-15 tracking-tight tabular-nums" :class="item.valueClasses || 'text-neutral-900'">{{ item.value }}</span>
+			</div>
+		</div>
+		<div class="flex items-center justify-between gap-12">
+			<div class="flex items-center gap-6 overflow-x-auto no-scrollbar max-w-[80%]">
 				<span
 					v-for="(s, idx) in card.allowedSymbols"
 					:key="idx"
-					class="inline-block py-4 px-8 text-neutral-800 text-10 lg:text-12 uppercase font-bold truncate bg-neutral-400/80 rounded-4 max-w-150"
+					class="px-6 py-2 text-11 font-medium text-neutral-800 bg-neutral-300/70 rounded-6 whitespace-nowrap"
 					:title="s"
 				>{{ s }}</span>
 			</div>
-		</div>
-		<div class="flex gap-12 justify-between items-center border-t-1 border-t-solid border-t-neutral-400 pt-16 mt-auto">
 			<Tooltip :disabled="!isDesktop">
 				<template #trigger>
-					<NuxtLink :to="{ name: 'edit-config', params: { id: card.id } }">
-						<IconEdit class="w-20 lg:w-24 h-20 lg:h-24 transition hover:text-white text-neutral-700" />
+					<NuxtLink :to="{ name: 'edit-config', params: { id: card.id } }" class="text-neutral-600">
+						<IconEdit class="w-18 h-18" />
 					</NuxtLink>
 				</template>
-				<template #content>
-					Редактировать конфиг
-				</template>
+				<template #content>Редактировать конфиг</template>
 			</Tooltip>
-			<span class="uppercase text-14 text-neutral-700">{{ card.exchangeName }}</span>
 		</div>
 	</div>
 </template>
@@ -54,7 +50,7 @@ const { card } = defineProps<{ card: ConfigResponse; }>();
 
 const isDesktop = useMediaQuery("(min-width: 1024px)");
 
-const activeLabel = computed(() => card.activate ? "Активно" : "Не активно");
+const activeLabel = computed(() => (card.activate ? "Активен" : "Остановлен"));
 
 const info = computed(() => [
 	{
@@ -62,19 +58,19 @@ const info = computed(() => [
 		value: card.margin,
 	},
 	{
-		label: "Макс плечо",
-		value: card.maxLeverage + "x",
-		valueClasses: "text-primary-800",
+		label: "Макс. плечо",
+		value: `${card.maxLeverage}x`,
+		valueClasses: "text-primary-700",
 	},
 	{
 		label: "Дневная цель",
 		value: "+" + formatNumberSign(formatNum(card.dailyGoalPercent / 100, { style: "percent" })),
-		valueClasses: "text-tertiary-800",
+		valueClasses: "text-tertiary-600",
 	},
 	{
-		label: "Макс убыток",
+		label: "Макс. убыток",
 		value: formatNum(-card.maxLossPercent / 100, { style: "percent" }),
-		valueClasses: "text-secondary-500",
+		valueClasses: "text-secondary-600",
 	},
 ]);
 </script>
