@@ -23,6 +23,7 @@
 						<p>
 							Закрыть все позиции<br>Общий профит:&nbsp;
 							<span
+								class="font-bold"
 								:class="[
 									totalSum > 0 && 'text-tertiary-600',
 									totalSum < 0 && 'text-secondary-600',
@@ -82,6 +83,7 @@
 						Закрыть позицию <span class="uppercase font-medium">{{ row.direction }} {{ row.shortSymbol }}</span><br>
 						Профит:&nbsp;
 						<span
+							class="font-bold"
 							:class="[
 								row.pnl > 0 && 'text-tertiary-600',
 								row.pnl < 0 && 'text-secondary-600',

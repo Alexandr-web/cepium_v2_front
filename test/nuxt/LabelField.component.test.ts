@@ -55,7 +55,7 @@ describe("LabelField", () => {
 			global: { stubs },
 		});
 
-		expect(wrapper.find("h3").classes()).toContain("text-primary-700");
+		expect(wrapper.find("h3").classes()).toContain("text-neutral-700");
 	});
 
 	it("не рендерит тултип без tooltipText", () => {

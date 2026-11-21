@@ -44,10 +44,10 @@
 				v-if="showCharts"
 				class="flex flex-col lg:flex-row h-350 lg:h-250 lg:grow"
 			>
-				<VChart class="min-w-0 w-full min-h-0 h-full lg:w-1/2" :option="marginView.options" />
+				<VChart class="min-w-0 w-full min-h-0 h-full lg:w-1/2" :option="options" />
 				<ul class="grid w-full mt-12 lg:mt-0 border border-neutral-400 p-12 rounded-8 grid-cols-2 grid-rows-3 gap-x-16 gap-y-12 lg:gap-x-32 lg:w-1/2">
 					<li
-						v-for="item in marginView.legend"
+						v-for="item in legend"
 						:key="item.name"
 						:title="item.name"
 						class="flex items-center gap-8 min-w-0 even:justify-end lg:even:justify-start"
@@ -75,9 +75,9 @@
 import IconShelfPositionSharp from "@/assets/icons/shelf-position-sharp.svg";
 import IconArrowDown from "@/assets/icons/keyboard-arrow-down-rounded.svg";
 import AButton from "@/components/atoms/AButton.vue";
-import Chart from "@/models/Chart";
 import { useDashboardStore } from "@/store/useDashboardStore";
 import { useTradeStore } from "@/store/useTradeStore";
+import { useMarginChart } from "@/composables/chart/useMarginChart";
 
 const dashboardStore = useDashboardStore();
 const tradeStore = useTradeStore();
@@ -86,38 +86,7 @@ const isDesktop = useMediaQuery("(min-width: 1024px)");
 
 const showCharts = useState("show-margin-chart", () => false);
 
-// Подпись состава позиций, используется как ключ кеша диаграммы.
-const signature = computed(() =>
-	tradeStore.getAllTrades()
-		.map((t) => `${t.symbol}:${t.amount}:${t.entryPrice}:${t.leverage}`)
-		.join("|") + String(dashboardStore.data.usedMargin)
-);
-
-/**
- * Собирает данные для диаграммы и легенды.
- *
- * Результат кешируется через `useMemoize`: пока подпись не изменилась, возвращается
- * тот же объект, и `VChart` не вызывает `setOption` повторно.
- *
- * @returns Объект с полями:
- * - `options`: опции ECharts для `VChart`;
- * - `legend`: элементы HTML-легенды (символ, доля в процентах, цвет сектора).
- */
-const getMarginView = useMemoize((_signature: string) => {
-	const chart = Chart.fromTradesByMargin(tradeStore.getAllTrades(), dashboardStore.data.usedMargin);
-	const total = dashboardStore.data.usedMargin;
-
-	return {
-		options: chart.getComputedOptions(),
-		legend: chart.data.map((item, idx) => ({
-			name: String(item.name),
-			percent: formatNum(total ? item.value / total : 0, { style: "percent" }),
-			color: CHART_COLORS.color.positions[idx] ?? "",
-		})),
-	};
-});
-
-const marginView = computed(() => getMarginView(signature.value));
+const { options, legend } = useMarginChart();
 
 const margin = computed(() => [
 	{
@@ -131,7 +100,4 @@ const margin = computed(() => [
 ]);
 
 const prettyCount = computed(() => formatNum(dashboardStore.data.activePositionsCount, { padZero: true }));
-
-// кеш живёт только пока жив компонент
-onUnmounted(() => getMarginView.clear());
 </script>

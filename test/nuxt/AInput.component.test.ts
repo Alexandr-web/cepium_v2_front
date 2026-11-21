@@ -127,19 +127,19 @@ describe("AInput", () => {
 
 			const container = wrapper.find(".group");
 
-			expect(container.classes()).toContain("border-neutral-100");
-			expect(container.classes()).toContain("hover:border-neutral-200");
+			expect(container.classes()).toContain("border-white/5");
+			expect(container.classes()).toContain("hover:border-white/15");
 
 			const label = wrapper.find("h3");
 
 			if (label.exists()) {
-				expect(label.classes()).toContain("text-primary-700");
+				expect(label.classes()).toContain("text-neutral-700");
 			}
 
 			const icon = wrapper.findComponent({ name: "Icon" });
 
 			if (icon.exists()) {
-				expect(icon.classes()).toContain("text-primary-700");
+				expect(icon.classes()).toContain("text-neutral-700");
 			}
 		});
 	});

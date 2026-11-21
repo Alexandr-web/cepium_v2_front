@@ -19,10 +19,10 @@
 				<h3 class="font-medium text-neutral-700 lg:text-18">{{ item.label }}</h3>
 				<div class="h-200 lg:h-300 w-full rounded-12" :class="[isPendingCharts && 'overflow-hidden']">
 					<VChart
-						v-if="!item.chart.isEmpty"
+						v-if="!item.isEmpty"
 						:loading="isPendingCharts"
 						:loading-options="CHART_COLORS.loading"
-						:option="item.chart.getComputedOptions()"
+						:option="item.options"
 						class="w-full h-full"
 					/>
 					<Empty v-else class="justify-start" />
@@ -33,8 +33,10 @@
 </template>
 <script setup lang="ts">
 import { useCharts, useReport } from "@/composables/api/useStatistics";
+import { useProfitByDayChart } from "@/composables/chart/useProfitByDayChart";
+import { useOrdersBySymbolChart } from "@/composables/chart/useOrdersBySymbolChart";
+import { useOrdersWinLossChart } from "@/composables/chart/useOrdersWinLossChart";
 import Filters from "@/components/molecules/common/Filters.vue";
-import Chart from "@/models/Chart";
 import ASelect from "@/components/atoms/ASelect.vue";
 import Empty from "@/components/molecules/common/Empty.vue";
 import AButton from "@/components/atoms/AButton.vue";
@@ -65,6 +67,10 @@ const PERIOD_LIST: SelectItem[] = [
 const isPendingCharts = ref(false);
 const data = ref<Partial<StatisticsChartsResponse["data"]>>({});
 
+const { isEmpty: isEmptyProfitByDay, options: profitByDayOptions } = useProfitByDayChart(() => data.value.profit_dynamics);
+const { isEmpty: isEmptyOrdersBySymbol, options: optionsOrdersBySymbol } = useOrdersBySymbolChart(() => data.value.trades_by_asset);
+const { isEmpty: isEmptyOrdersWinLoss, options: optionsOrdersWinLoss } = useOrdersWinLossChart(() => data.value.win_loss_ratio);
+
 const filters = ref<FilterItem[]>([
 	{
 		name: "period",
@@ -83,34 +89,26 @@ const filters = ref<FilterItem[]>([
 		classes: "min-w-300",
 	},
 ]);
+
 const filtersValues = computed(() => filters.value.map((i) => i.value));
-
-const chartOrdersProfitByDay = useMemoize((_data: Partial<StatisticsChartsResponse["data"]>, _filters: FilterItem["value"][]) => {
-	return Chart.fromOrdersProfitByDay(_data.profit_dynamics ?? []);
-});
-
-const chartOrdersBySymbol = useMemoize((_data: Partial<StatisticsChartsResponse["data"]>, _filters: FilterItem["value"][]) => {
-	return Chart.fromOrdersBySymbol(_data.trades_by_asset ?? []);
-});
-
-const chartOrdersWinLoss = useMemoize((_data: Partial<StatisticsChartsResponse["data"]>, _filters: FilterItem["value"][]) => {
-	return Chart.fromOrdersWinLoss(_data.win_loss_ratio ?? {});
-});
 
 const charts = computed(() => [
 	{
 		label: "Динамика профита",
 		classes: "lg:col-span-4",
-		chart: chartOrdersProfitByDay(data.value, filtersValues.value),
+		options: profitByDayOptions.value,
+		isEmpty: isEmptyProfitByDay.value,
 	},
 	{
 		label: "Количество сделок",
 		classes: "lg:col-span-3",
-		chart: chartOrdersBySymbol(data.value, filtersValues.value),
+		options: optionsOrdersBySymbol.value,
+		isEmpty: isEmptyOrdersBySymbol.value,
 	},
 	{
 		label: "Соотношение Win/Loss",
-		chart: chartOrdersWinLoss(data.value, filtersValues.value),
+		options: optionsOrdersWinLoss.value,
+		isEmpty: isEmptyOrdersWinLoss.value,
 	},
 ]);
 
