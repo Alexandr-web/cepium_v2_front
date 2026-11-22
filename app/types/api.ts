@@ -361,3 +361,14 @@ export type StatisticsProfileActivitiesResponse = {
 	data: ActivityItem[];
 	message: string;
 };
+
+export type TickerData = {
+	symbol: string;
+	lastPrice?: string;
+	price24hPcnt?: string;
+	highPrice24h?: string;
+	lowPrice24h?: string;
+	volume24h?: string;
+	turnover24h?: string;
+	[key: string]: unknown;
+};

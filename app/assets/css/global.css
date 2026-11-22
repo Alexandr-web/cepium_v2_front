@@ -102,52 +102,52 @@ body {
 	--default-font-family: "Inter", sans-serif;
 
 	/* Глубокий индиго/электрик (акценты, ссылки, уведомления) */
-	--color-primary-100: #090a0f;
-	--color-primary-200: #0f121d;
-	--color-primary-300: #161e36;
-	--color-primary-400: #223163;
-	--color-primary-500: #3b5bfd;
-	--color-primary-600: #5875ff;
-	--color-primary-700: #7c93ff;
-	--color-primary-800: #a3b3ff;
-	--color-primary-900: #cad4ff;
-	--color-primary-950: #edf0ff;
+	--color-primary-100: #10111a;
+	--color-primary-200: #151929;
+	--color-primary-300: #1b2543;
+	--color-primary-400: #283974;
+	--color-primary-500: #526efd;
+	--color-primary-600: #6f88ff;
+	--color-primary-700: #8ba0ff;
+	--color-primary-800: #b2c0ff;
+	--color-primary-900: #d2daff;
+	--color-primary-950: #f5f6ff;
 
 	/* Современный кораллово-рубиновый (Ветви, Закрытые PR, Ошибки) */
-	--color-secondary-100: #0d080a;
-	--color-secondary-200: #1a0e12;
-	--color-secondary-300: #33141d;
-	--color-secondary-400: #591c2d;
-	--color-secondary-500: #e11d48;
-	--color-secondary-600: #f43f5e;
-	--color-secondary-700: #fb7185;
-	--color-secondary-800: #fda4af;
-	--color-secondary-900: #fecdd3;
-	--color-secondary-950: #fff1f2;
+	--color-secondary-100: #180f12;
+	--color-secondary-200: #26141a;
+	--color-secondary-300: #401924;
+	--color-secondary-400: #6a2136;
+	--color-secondary-500: #e43158;
+	--color-secondary-600: #f55570;
+	--color-secondary-700: #fb8092;
+	--color-secondary-800: #fdb3bc;
+	--color-secondary-900: #fed4da;
+	--color-secondary-950: #fff9f9;
 
 	/* Изумрудно-неоновый (успешные тесты, графики коммитов) */
-	--color-tertiary-100: #050c09;
-	--color-tertiary-200: #0a1812;
-	--color-tertiary-300: #102e22;
-	--color-tertiary-400: #174f38;
-	--color-tertiary-500: #10b981;
-	--color-tertiary-600: #34d399;
-	--color-tertiary-700: #6ee7b7;
-	--color-tertiary-800: #a7f3d0;
-	--color-tertiary-900: #d1fae5;
-	--color-tertiary-950: #ecfdf5;
+	--color-tertiary-100: #0a1912;
+	--color-tertiary-200: #0f251b;
+	--color-tertiary-300: #153b2c;
+	--color-tertiary-400: #1c6145;
+	--color-tertiary-500: #12ce90;
+	--color-tertiary-600: #47d7a2;
+	--color-tertiary-700: #7be9be;
+	--color-tertiary-800: #b4f5d7;
+	--color-tertiary-900: #d8fbe9;
+	--color-tertiary-950: #f3fef9;
 
 	/* Ультра-темный обсидиан/цинк (нейтральные тона, фон, бордеры) */
-	--color-neutral-100: #09090b;
-	--color-neutral-200: #111114;
-	--color-neutral-300: #18181c;
-	--color-neutral-400: #27272d;
-	--color-neutral-500: #3f3f46;
-	--color-neutral-600: #63636e;
-	--color-neutral-700: #8e8e9a;
-	--color-neutral-800: #b8b8c2;
-	--color-neutral-900: #e4e4e9;
-	--color-neutral-950: #fafafa;
+	--color-neutral-100: #111115;
+	--color-neutral-200: #19191e;
+	--color-neutral-300: #202026;
+	--color-neutral-400: #323239;
+	--color-neutral-500: #4a4a52;
+	--color-neutral-600: #6e6e7a;
+	--color-neutral-700: #9696a1;
+	--color-neutral-800: #c0c0c9;
+	--color-neutral-900: #e8e8ec;
+	--color-neutral-950: #fcfcfc;
 }
 
 .scroll-block {

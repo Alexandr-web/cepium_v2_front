@@ -12,7 +12,7 @@ export default withNuxt([
 		],
 	},
 	{
-		files: ["app/**/*.ts", "test/**/*.ts"],
+		files: ["app/**/*.ts", "test/**/*.ts", "server/**/*.ts", "shared/**/*.ts"],
 		languageOptions: {
 			parser: tseslint.parser,
 		},
@@ -37,6 +37,8 @@ export default withNuxt([
 		files: [
 			"app/**/*.{js,ts,jsx,tsx,vue}",
 			"test/**/*.{js,ts,jsx,tsx,vue}",
+			"server/**/*.{js,ts,jsx,tsx,vue}",
+			"shared/**/*.{js,ts,jsx,tsx,vue}",
 			"eslint.config.mjs",
 			"nuxt.config.ts",
 			"vitest.config.ts",

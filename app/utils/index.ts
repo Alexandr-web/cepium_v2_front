@@ -372,3 +372,15 @@ export const downloadBlob = (blob: Blob, fileName: string) => {
 
 	URL.revokeObjectURL(url);
 };
+
+/**
+ * Преобразует любой формат тикера в формат Bybit (например, "btc/usdt" -> "BTCUSDT").
+ * Убирает разделители (/, -, _) и пробелы, приводит к верхнему регистру.
+ */
+export const formatBybitSymbol = (raw: string | null | undefined) => {
+	if (!raw) return "";
+	
+	return String(raw)
+		.toUpperCase()
+		.replace(/[^A-Z0-9]/g, "");
+};

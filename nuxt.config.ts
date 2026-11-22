@@ -118,6 +118,7 @@ export default defineNuxtConfig({
 	imports: {
 		dirs: [
 			"@/types/**",
+			"#shared/types/**",
 		],
 	},
 	fonts: {
@@ -160,6 +161,11 @@ export default defineNuxtConfig({
 			headers: {
 				"Cache-Control": "public, max-age=31536000, immutable",
 			},
+		},
+	},
+	nitro: {
+		experimental: {
+			websocket: true,
 		},
 	},
 });
