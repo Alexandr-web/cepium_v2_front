@@ -23,7 +23,7 @@
 			</div>
 		</div>
 		<div class="flex items-center justify-between gap-12">
-			<div class="flex items-center gap-6 overflow-x-auto no-scrollbar max-w-[80%]">
+			<div class="flex items-center gap-6 overflow-x-auto no-scrollbar scroll-block max-w-[80%]">
 				<span
 					v-for="(s, idx) in card.allowedSymbols"
 					:key="idx"

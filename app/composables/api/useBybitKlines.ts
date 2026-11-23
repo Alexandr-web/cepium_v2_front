@@ -1,5 +1,5 @@
 import keys from "@/api/keys";
-import { useQuery } from "@tanstack/vue-query";
+import { useQueryClient } from "@tanstack/vue-query";
 import { useApi } from "@/composables/useApi";
 
 type BybitKlineParams = {
@@ -36,14 +36,15 @@ const parseKlines = (list: string[][]): BybitKline[] => {
 	return result;
 };
 
-export const useBybitKlines = (query: BybitKlineParams) => {
-	const { symbol, interval } = query;
+export const useBybitKlines = () => {
 	const { api } = useApi();
+	const queryClient = useQueryClient();
 
-	return useQuery<BybitKline[]>({
-		queryKey: keys.getBybitKlines(symbol, interval),
-		queryFn: () =>
-			api<BybitKlineResponse>("/bybit/klines", { query }).then((response) => {
+	const fetchKlines = async (params: BybitKlineParams): Promise<BybitKline[]> => {
+		return queryClient.fetchQuery<BybitKline[]>({
+			queryKey: keys.getBybitKlines(params.symbol, params.interval),
+			queryFn: async () => {
+				const response = await api<BybitKlineResponse>("/bybit/klines", { query: params });
 				const klines = parseKlines(response.result.list);
 
 				klines.forEach((kline, index) => {
@@ -52,14 +53,15 @@ export const useBybitKlines = (query: BybitKlineParams) => {
 					} else {
 						kline.end = kline.start;
 					}
-
-					kline.symbol = symbol;
-					kline.interval = interval;
+					kline.symbol = params.symbol;
+					kline.interval = params.interval;
 					kline.confirm = true;
 				});
 
 				return klines.reverse();
-			}),
-		enabled: !!symbol && !!interval,
-	});
+			},
+		});
+	};
+
+	return { fetchKlines };
 };

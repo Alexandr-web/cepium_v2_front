@@ -115,8 +115,6 @@ export const useBybitSocket = (initialInterval = "15") => {
 		isConnected.value = false;
 	};
 
-	onScopeDispose(disconnect);
-
 	return {
 		data,
 		kline,

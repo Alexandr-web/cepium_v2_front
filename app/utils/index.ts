@@ -1,3 +1,4 @@
+import type { UTCTimestamp } from "lightweight-charts";
 import type { FetchError } from "ofetch";
 
 type FormatNumOptions = {
@@ -383,4 +384,14 @@ export const formatBybitSymbol = (raw: string | null | undefined) => {
 	return String(raw)
 		.toUpperCase()
 		.replace(/[^A-Z0-9]/g, "");
+};
+
+// lightweight-charts форматирует время как UTC.
+// Сдвигаем timestamp на смещение часового пояса пользователя,
+// чтобы на оси и в кроссхеере отображалось локальное время.
+export const toChartTime = (ms: number): UTCTimestamp => {
+	const offsetSeconds = -new Date(ms).getTimezoneOffset() * 60;
+	const seconds = (Math.floor(ms / 1000) + offsetSeconds) as UTCTimestamp;
+
+	return seconds;
 };

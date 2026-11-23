@@ -89,3 +89,15 @@ export const CHART_COLORS = {
 		text: "Загрузка",
 	},
 };
+
+export const TRADING_VIEW_THEME = {
+	bg: "transparent",
+	text: "#d1d4dc",
+	grid: "#1e222d",
+	border: "#2B2B43",
+	crosshair: "#758696",
+	up: "#26a69a",
+	down: "#ef5350",
+	upVolume: "rgba(38, 166, 154, 0.35)",
+	downVolume: "rgba(239, 83, 80, 0.35)",
+};
