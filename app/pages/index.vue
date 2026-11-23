@@ -15,10 +15,6 @@ useHead({
 			src: "https://widgets.coingecko.com/gecko-coin-price-marquee-widget.js",
 			async: true,
 		},
-		{
-			src: "https://widgets.coingecko.com/gecko-coin-price-chart-widget.js",
-			async: true,
-		},
 	],
 });
 

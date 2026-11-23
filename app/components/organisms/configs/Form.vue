@@ -90,7 +90,6 @@
 								label="Список отслеживаемых монет"
 								placeholder="Поиск отслеживаемых монет"
 								:search="searchSymbols"
-								:item-click-handler="onSymbolClick"
 								:disabled="!selectedExchangeValue"
 								tooltip-text="Список активов, на которых сервис будет искать точки входа. Стратегия будет анализировать графики только выбранных вами монет."
 								class="lg:col-span-2"
@@ -109,11 +108,6 @@
 			</template>
 		</Wizard>
 	</section>
-	<Teleport to="body">
-		<Modal :model-value="!!selectedSymbol" @close="selectedSymbol = null">
-			<CoinTicker v-if="selectedSymbol" :symbol="selectedSymbol" />
-		</Modal>
-	</Teleport>
 </template>
 <script setup lang="ts">
 import * as z from "zod";
@@ -122,11 +116,8 @@ import AInput from "@/components/atoms/AInput.vue";
 import SearchList from "@/components/molecules/common/SearchList.vue";
 import ASlider from "@/components/atoms/ASlider.vue";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
-import Modal from "@/components/molecules/common/Modal.vue";
-import CoinTicker from "@/components/molecules/widgets/CoinTicker.vue";
 import Wizard from "@/components/molecules/common/Wizard.vue";
 import { useMarketsSearch } from "@/composables/api/useExchanges";
-import { useCoinGeckoSearch } from "@/composables/api/useCoinGecko";
 
 const props = withDefaults(
 	defineProps<{
@@ -144,13 +135,11 @@ const props = withDefaults(
 	}
 );
 
-const { findCoinId } = useCoinGeckoSearch();
 const { searchMarkets } = useMarketsSearch();
 
 const emits = defineEmits(["execute"]);
 
 const wizardRef = ref<typeof Wizard | null>(null);
-const selectedSymbol = ref<string | null>(null);
 
 const strategiesList = computed<SelectItem[]>(() => props.strategies.map((s) => ({ label: s.name, value: s.id })) ?? []);
 const exchangesList = computed<SelectItem[]>(() =>
@@ -181,11 +170,6 @@ const selectedExchangeValue = computed(() => fields.exchange.value);
 const searchSymbols = async (search: string): Promise<SelectItem[]> => {
 	const res = await searchMarkets(selectedExchangeValue.value, search);
 	return res.data.map((s) => ({ label: s.symbol, value: s.symbol })) ?? [];
-};
-
-const onSymbolClick = async (item: SelectItem) => {
-	const id = await findCoinId(item.value);
-	if (id) selectedSymbol.value = id;
 };
 
 /**

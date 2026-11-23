@@ -320,20 +320,6 @@ export type Position = {
 	id: string;
 };
 
-export type CoinGecko = {
-	id: string;
-	name: string;
-	api_symbol: string;
-	symbol: string;
-	market_cap_rank: number | null;
-	thumb: string;
-	large: string;
-};
-
-export type GeckoSearchResponse = {
-	coins: CoinGecko[];
-};
-
 export type StatisticsResponse = {
 	statusCode: number;
 	data: {
@@ -371,4 +357,14 @@ export type TickerData = {
 	volume24h?: string;
 	turnover24h?: string;
 	[key: string]: unknown;
+};
+
+export type BybitKlineResponse = {
+	retCode: number;
+	retMsg: string;
+	result: {
+		category: string;
+		symbol: string;
+		list: string[][];
+	};
 };

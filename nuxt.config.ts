@@ -12,7 +12,6 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		apiUrl: process.env.NUXT_API_URL,
 		public: {
-			geckoApiUrl: process.env.NUXT_PUBLIC_GECKO_API_URL,
 			apiUrl: process.env.NUXT_PUBLIC_API_URL,
 			wsUrl: process.env.NUXT_PUBLIC_WS_URL,
 		},
@@ -56,12 +55,7 @@ export default defineNuxtConfig({
 	css: ["@/assets/css/global.css", "notivue/notification.css", "notivue/animations.css"],
 	vue: {
 		compilerOptions: {
-			isCustomElement: (tag) =>
-				[
-					"gecko-coin-price-marquee-widget",
-					"gecko-coin-ticker-widget",
-					"gecko-coin-price-chart-widget",
-				].includes(tag),
+			isCustomElement: (tag) => ["gecko-coin-price-marquee-widget"].includes(tag),
 		},
 	},
 	svgo: {

@@ -43,13 +43,4 @@ await Promise.all([suspenseStrategy(), suspenseExchanges()]);
 const config = computed(() => configData.value?.data ?? {});
 const strategies = computed(() => strategiesData.value?.data ?? []);
 const exchanges = computed(() => exchangesData.value?.data ?? []);
-
-useHead({
-	script: [
-		{
-			src: "https://widgets.coingecko.com/gecko-coin-ticker-widget.js",
-			async: true,
-		},
-	],
-});
 </script>

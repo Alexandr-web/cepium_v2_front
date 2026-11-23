@@ -7,9 +7,9 @@ export default {
 	getConfig: (id: string) => ["configs", id],
 	getCredentials: (exchangeName: string) => ["credentials", exchangeName],
 	getOrders: (query = {}) => ["orders", ...Object.values(query)],
-	getCoinGeckoId: (symbol: string) => ["gecko-coin-id", symbol],
 	getStatisticsCharts: (query = {}) => ["statistics-charts", ...Object.values(query)],
 	getStatisticsReport: (query = {}) => ["statistics-report", ...Object.values(query)],
 	getProfileActivities: (query = {}) => ["profile-activities", ...Object.values(query)],
 	getStatistics: ["statistics"],
+	getBybitKlines: (symbol: BybitKline["symbol"], interval: BybitKline["interval"]) => ["bybit-klines", symbol, interval],
 };
