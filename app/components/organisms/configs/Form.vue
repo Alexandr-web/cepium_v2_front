@@ -95,6 +95,7 @@
 								class="lg:col-span-2"
 								label-classes="lg:text-18"
 								count-classes="lg:text-16"
+								@select-item="(item: SelectItem) => selectSymbol = item.value"
 							/>
 							<ACheckbox
 								v-model="fields.activate.value"
@@ -107,6 +108,13 @@
 				</div>
 			</template>
 		</Wizard>
+		<Teleport to="body">
+			<Modal :model-value="!!selectSymbol" size="big" @close="selectSymbol = ''">
+				<div class="scroll-block max-h-350 lg:max-h-[90vh] overflow-auto">
+					<SymbolOverview :symbol="selectSymbol" :interval="BybitInterval.M15" />
+				</div>
+			</Modal>
+		</Teleport>
 	</section>
 </template>
 <script setup lang="ts">
@@ -117,6 +125,8 @@ import SearchList from "@/components/molecules/common/SearchList.vue";
 import ASlider from "@/components/atoms/ASlider.vue";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
 import Wizard from "@/components/molecules/common/Wizard.vue";
+import SymbolOverview from "@/components/molecules/common/SymbolOverview.vue";
+import Modal from "@/components/molecules/common/Modal.vue";
 import { useMarketsSearch } from "@/composables/api/useExchanges";
 
 const props = withDefaults(
@@ -138,6 +148,8 @@ const props = withDefaults(
 const { searchMarkets } = useMarketsSearch();
 
 const emits = defineEmits(["execute"]);
+
+const selectSymbol = ref("");
 
 const wizardRef = ref<typeof Wizard | null>(null);
 

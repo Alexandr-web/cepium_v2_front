@@ -1,10 +1,11 @@
 import { io, type Socket } from "socket.io-client";
 
-export const useBybitSocket = (initialInterval = "15") => {
-	const data = shallowRef<TickerData | null>(null);
+export const useBybitSocket = (_initialInterval: MaybeRefOrGetter<BybitInterval>) => {
+	const interval = computed(() => toValue(_initialInterval));
+
+	const ticker = shallowRef<TickerData | null>(null);
 	const kline = shallowRef<BybitKline | null>(null);
 	const currentSymbol = ref<string | null>(null);
-	const interval = ref(initialInterval);
 	const isConnected = ref(false);
 
 	let socket: Socket | null = null;
@@ -29,7 +30,7 @@ export const useBybitSocket = (initialInterval = "15") => {
 		const symbol = formatBybitSymbol(payload?.symbol);
 
 		if (!symbol || symbol !== currentSymbol.value) return;
-		data.value = payload;
+		ticker.value = payload;
 	};
 
 	// отбрасываем запоздавшие свечи прежнего символа или таймфрейма
@@ -70,7 +71,7 @@ export const useBybitSocket = (initialInterval = "15") => {
 		socket?.emit("unsubscribe", { symbol: target });
 		socket?.emit("unsubscribe", { symbol: target, interval: interval.value });
 		currentSymbol.value = null;
-		data.value = null;
+		ticker.value = null;
 		kline.value = null;
 	};
 
@@ -85,7 +86,7 @@ export const useBybitSocket = (initialInterval = "15") => {
 		if (!s) return;
 
 		currentSymbol.value = symbol;
-		data.value = null;
+		ticker.value = null;
 		kline.value = null;
 
 		// если сокет уже подключён - подписка уйдёт сразу
@@ -95,17 +96,15 @@ export const useBybitSocket = (initialInterval = "15") => {
 		}
 	};
 
-	const setTimeframe = (next: string) => {
-		if (next === interval.value) return;
+	watch(interval, (newInterval, oldInterval) => {
+		if (newInterval === oldInterval) return;
 
-		const prev = interval.value;
-		interval.value = next;
 		kline.value = null;
 
 		if (!currentSymbol.value || !socket?.connected) return;
-		socket.emit("unsubscribe", { symbol: currentSymbol.value, interval: prev });
-		socket.emit("subscribe", { symbol: currentSymbol.value, interval: next });
-	};
+		socket.emit("unsubscribe", { symbol: currentSymbol.value, interval: oldInterval });
+		socket.emit("subscribe", { symbol: currentSymbol.value, interval: newInterval });
+	});
 
 	const disconnect = () => {
 		unsubscribe();
@@ -116,14 +115,13 @@ export const useBybitSocket = (initialInterval = "15") => {
 	};
 
 	return {
-		data,
+		ticker,
 		kline,
 		interval,
 		currentSymbol,
 		isConnected,
 		subscribe,
 		unsubscribe,
-		setTimeframe,
 		disconnect,
 	};
 };

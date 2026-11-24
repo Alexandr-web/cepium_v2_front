@@ -6,6 +6,7 @@ type FormatNumOptions = {
 	style?: "decimal" | "currency" | "percent" | "unit";
 	defaultValue?: string;
 	padZero?: boolean;
+	maximumFractionDigits?: number;
 };
 
 /**
@@ -16,16 +17,19 @@ type FormatNumOptions = {
  */
 export const formatNum = (_value: number | string, options?: FormatNumOptions): string => {
 	const num = typeof _value === "string" ? parseFloat(_value.replace(",", ".")) : _value;
-	const { style, currency, padZero, defaultValue = "0" } = options ?? {};
+	const { style, currency, padZero, defaultValue = "0", maximumFractionDigits: customMaxFraction } = options ?? {};
 
-	if (!isNumber(num) || !isFinite(num) || isNegativeZero(num) || !_value) return defaultValue;
+	if (!isNumber(num) || !isFinite(num) || isNegativeZero(num) || _value === "" || _value === null || _value === undefined) {
+		return defaultValue;
+	}
 
 	let minimumIntegerDigits = 1;
-	let maximumFractionDigits = 2;
+	let maximumFractionDigits = customMaxFraction ?? 2;
 
 	if (padZero && Math.abs(num) >= 1) minimumIntegerDigits = 2;
 
-	if (Math.abs(num) < 0.01) {
+	// Автоматически расширяем знаки после запятой для мелких чисел, только если не передан кастомный лимит
+	if (customMaxFraction === undefined && Math.abs(num) < 0.01 && num !== 0) {
 		const absNum = Math.abs(num);
 		maximumFractionDigits = Math.min(20, Math.ceil(-Math.log10(absNum)) + 1);
 	}
@@ -335,7 +339,7 @@ export const isNumber = (v: unknown) => typeof v === "number" && isFinite(v);
 /**
  * Форматирует дату в локальную строку (только дата, без времени).
  * 
- * @param {string | Date} date - Входная дата (строка ISO, timestamp или `Date`).
+ * @param {number | string | Date} date - Входная дата (строка ISO, timestamp или `Date`).
  * @param {string} [locale="ru-RU"] - Язык форматирования (BCP 47 тег).
  * @returns {string} Отформатированная дата, например `"22.10.2026"` для `"ru-RU"`.
  * 
@@ -343,7 +347,7 @@ export const isNumber = (v: unknown) => typeof v === "number" && isFinite(v);
  * formatLocalDate(new Date()) // "22.10.2026" (для locale="ru-RU")
  * formatLocalDate(new Date(), "sv-SE") // "2026-10-22"
  */
-export const formatLocalDate = (date: string | Date, locale = "ru-RU") => {
+export const formatLocalDate = (date: number | string | Date, locale = "ru-RU") => {
 	return new Date(date).toLocaleDateString(locale);
 };
 
@@ -375,16 +379,20 @@ export const downloadBlob = (blob: Blob, fileName: string) => {
 };
 
 /**
- * Преобразует любой формат тикера в формат Bybit (например, "btc/usdt" -> "BTCUSDT").
- * Убирает разделители (/, -, _) и пробелы, приводит к верхнему регистру.
+ * Преобразует любой формат тикера в формат Bybit (например, "btc/usdt" или "btc/usdt:usdt" -> "BTCUSDT").
+ * Отбрасывает суффикс расчетной валюты после двоеточия, убирает разделители (/, -, _) и пробелы,
+ * приводит к верхнему регистру.
  */
-export const formatBybitSymbol = (raw: string | null | undefined) => {
+export const formatBybitSymbol = (raw?: string | null) => {
 	if (!raw) return "";
-	
-	return String(raw)
+
+	const basePair = String(raw).split(":")[0] ?? "";
+
+	return basePair
 		.toUpperCase()
 		.replace(/[^A-Z0-9]/g, "");
 };
+
 
 // lightweight-charts форматирует время как UTC.
 // Сдвигаем timestamp на смещение часового пояса пользователя,
@@ -394,4 +402,55 @@ export const toChartTime = (ms: number): UTCTimestamp => {
 	const seconds = (Math.floor(ms / 1000) + offsetSeconds) as UTCTimestamp;
 
 	return seconds;
+};
+
+type FormatDateTimeOptions = {
+	// Значение по умолчанию, если дата невалидна или не передана
+	defaultValue?: string;
+	// Часовой пояс (по умолчанию берется локальный часовой пояс браузера)
+	timeZone?: string;
+}
+
+/**
+ * Превращает timestamp (в сек или мс), Date или строку в формат "ДД.ММ.ГГГГ, ЧЧ:ММ:СС".
+ *
+ * @param {number | string | Date | null | undefined} value - Исходная дата или timestamp
+ * @param {FormatDateTimeOptions} options - Дополнительные опции
+ * @returns {string} Отформатированная строка даты и времени
+ */
+export const formatDateTime = (
+	value: number | string | Date | null | undefined,
+	options?: FormatDateTimeOptions
+): string => {
+	const { defaultValue = "-", timeZone } = options ?? {};
+
+	if (value === null || value === undefined || value === "") return defaultValue;
+
+	let date: Date;
+
+	if (value instanceof Date) {
+		date = value;
+	} else if (isNumber(value) || /^\d+(\.\d+)?$/.test(String(value).trim())) {
+		// Обрабатываем числовой timestamp (и числом, и строкой вида "1732477265000")
+		const num = Number(value);
+		if (!Number.isFinite(num)) return defaultValue;
+
+		// Если значение меньше 10^12 (порядка 10 цифр), значит это секунды - переводим в миллисекунды
+		const ms = Math.abs(num) < 1e12 ? num * 1000 : num;
+		date = new Date(ms);
+	} else {
+		date = new Date(String(value));
+	}
+
+	if (Number.isNaN(date.getTime())) return defaultValue;
+
+	return new Intl.DateTimeFormat("ru-RU", {
+		day: "2-digit",
+		month: "2-digit",
+		year: "numeric",
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+		timeZone,
+	}).format(date);
 };

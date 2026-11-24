@@ -16,9 +16,8 @@
 						v-for="item in addedItemsMap.values()"
 						:key="item.value"
 						:label="item.label"
-						:class="[!!itemClickHandler && 'hover:underline']"
 						@remove="removeItem(item)"
-						@click="itemClickHandler?.(item)"
+						@click="emits('select-item', item)"
 					/>
 				</div>
 			</div>
@@ -66,7 +65,6 @@ const props = withDefaults(
 		disabled?: boolean;
 		tooltipText?: string;
 		search: (value: string) => Promise<SelectItem[]>;
-		itemClickHandler?: (item: SelectItem) => Promise<void>;
 		countClasses?: string|string[];
 		labelClasses?: string|string[];
 	}>(),
@@ -75,11 +73,12 @@ const props = withDefaults(
 		placeholder: "Поиск",
 		tooltipText: "",
 		disabled: false,
-		itemClickHandler: undefined,
 		countClasses: "",
 		labelClasses: "",
 	}
 );
+
+const emits = defineEmits(["select-item"]);
 
 const value = defineModel<string[]>({ default: () => [] });
 const error = defineModel<string>("error", { default: "" });

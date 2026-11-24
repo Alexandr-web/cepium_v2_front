@@ -92,12 +92,17 @@ export const CHART_COLORS = {
 
 export const TRADING_VIEW_THEME = {
 	bg: "transparent",
-	text: "#d1d4dc",
-	grid: "#1e222d",
-	border: "#2B2B43",
-	crosshair: "#758696",
+	text: "#8b949e",
+	grid: "rgba(139, 148, 158, 0.06)",
+	border: "#30363d",
+	crosshair: "rgba(201, 209, 217, 0.35)",
 	up: "#26a69a",
 	down: "#ef5350",
-	upVolume: "rgba(38, 166, 154, 0.35)",
-	downVolume: "rgba(239, 83, 80, 0.35)",
+	upVolume: "rgba(38, 166, 154, 0.25)",
+	downVolume: "rgba(239, 83, 80, 0.25)",
+	tooltip: {
+		text: "#c9d1d9",
+		bg: "#161b22",
+		border: "#30363d",
+	},
 };
