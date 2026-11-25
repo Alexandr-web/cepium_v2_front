@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="absolute z-10 p-8 text-14 lg:text-16 leading-normal rounded-6 border-solid border-neutral-400 pointer-events-none text-neutral-800 bg-neutral-200"
+		class="absolute z-10 p-8 text-10 lg:text-16 leading-normal rounded-6 border-solid border-neutral-400 pointer-events-none text-neutral-800 bg-neutral-200"
 		:style="styles"
 	>
 		<div class="mb-4 opacity-70">{{ formattedTime }}</div>
