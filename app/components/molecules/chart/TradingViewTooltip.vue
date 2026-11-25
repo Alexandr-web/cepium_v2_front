@@ -5,7 +5,7 @@
 	>
 		<div class="mb-4 opacity-70">{{ formattedTime }}</div>
 		<ul class="flex flex-col gap-2">
-			<li v-for="item in list" :key="item.id" class="flex items-center gap-2">
+			<li v-for="item in list" :key="item.id" class="flex items-center gap-4 lg:gap-8">
 				<span>{{ item.label }}</span>
 				<span :class="item.classes">{{ item.value }}</span>
 			</li>

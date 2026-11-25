@@ -11,7 +11,9 @@ type BybitKlineParams = {
 };
 
 // Парсит сырой ответ Bybit REST API в массив BybitKline.
-const parseKlines = (list: string[][]): BybitKline[] => {
+const parseKlines = (list?: string[][]): BybitKline[] => {
+	if (!list?.length) return [];
+
 	const result: BybitKline[] = [];
 
 	list.forEach((raw) => {

@@ -24,7 +24,7 @@
 				</div>
 			</div>
 			<div class="flex flex-col gap-8 rounded-12 p-12 lg:grow bg-neutral-300 lg:min-h-0">
-				<Collapse v-for="collapse in info" :key="collapse.id" :label="collapse.label">
+				<Collapse v-for="collapse in info" :key="collapse.id" :label="collapse.label" :disabled="isEmpty">
 					<ul class="flex flex-col gap-8 px-16">
 						<li
 							v-for="(item, idx) in collapse.list"
@@ -39,16 +39,19 @@
 			</div>
 		</div>
 		<div class="flex flex-col relative lg:sticky lg:top-0 bg-neutral-300 p-12 gap-8 rounded-12 lg:basis-[65%] lg:self-start">
-			<IconLoader v-if="isLoading" class="absolute top-0 left-0 right-0 bottom-0 m-auto w-40 h-40 text-white" />
+			<IconLoader v-if="isLoading && !isEmpty" class="absolute top-0 left-0 right-0 bottom-0 m-auto w-40 h-40 text-white" />
 			<ATabs
 				class="self-start"
 				:items="intervalTabs"
 				:active-value="activeInterval"
-				:disabled="isLoading"
+				:disabled="isLoading || isEmpty"
 				@select="(v: BybitInterval) => activeInterval = v"
 			/>
 			<ClientOnly>
 				<div id="trading-view-chart" class="w-full h-350 lg:h-500"/>
+				<Empty v-if="isEmpty" class="absolute z-999 self-center my-auto top-0 bottom-0">
+					<p class="text-neutral-800">Монета не найдена</p>
+				</Empty>
 			</ClientOnly>
 		</div>
 	</div>
@@ -59,6 +62,7 @@ import { useTradingViewChart } from "@/composables/useTradingView";
 import AImage from "@/components/atoms/AImage.vue";
 import ATabs from "@/components/atoms/ATabs.vue";
 import Collapse from "@/components/molecules/common/Collapse.vue";
+import Empty from "@/components/molecules/common/Empty.vue";
 import IconLoader from "@/assets/icons/loader.svg";
 
 const props = withDefaults(
@@ -110,6 +114,7 @@ const info = computed(() => [
 	{ id: 2, label: "Данные текущей свечи", list: klineInfo.value },
 ]);
 
+const isEmpty = ref(false);
 const isPending = ref(false);
 
 const isLoading = computed(() => !isConnected.value || isPending.value);
@@ -137,10 +142,12 @@ watch(
 
 		if (!symbol) return;
 
+		isEmpty.value = false;
 		isPending.value = true;
 
 		try {
 			const data = await fetchKlines({ symbol: bybitSymbol.value, interval });
+			isEmpty.value = !data.length;
 			await build(data, bybitSymbol.value);
 		} catch (err) {
 			console.error(err);
