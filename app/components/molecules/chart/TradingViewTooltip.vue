@@ -4,11 +4,12 @@
 		:style="styles"
 	>
 		<div class="mb-4 opacity-70">{{ formattedTime }}</div>
-		<div>Цена открытия: <span :class="klineClasses">{{ formattedOpen }}</span></div>
-		<div>Макс цена: <span :class="klineClasses">{{ formattedHigh }}</span></div>
-		<div>Мин цена: <span :class="klineClasses">{{ formattedLow }}</span></div>
-		<div>Цена закрытия: <span :class="klineClasses">{{ formattedClose }}</span></div>
-		<div>Объем: {{ formattedVolume }}</div>
+		<ul class="flex flex-col gap-2">
+			<li v-for="item in list" :key="item.id" class="flex items-center gap-2">
+				<span>{{ item.label }}</span>
+				<span :class="item.classes">{{ item.value }}</span>
+			</li>
+		</ul>
 	</div>
 </template>
 <script setup lang="ts">
@@ -48,6 +49,14 @@ const formattedHigh = computed(() => formatNum(props.candle.high, priceOptions))
 const formattedLow = computed(() => formatNum(props.candle.low, priceOptions));
 const formattedClose = computed(() => formatNum(props.candle.close, priceOptions));
 const formattedVolume = computed(() => formatNum(String(props.volume), { style: "decimal", padZero: true }));
+
+const list = computed(() => [
+	{ id: 1, classes: klineClasses.value, label: "Цена открытия:", value: formattedOpen.value },
+	{ id: 2, classes: klineClasses.value, label: "Макс цена:", value: formattedHigh.value },
+	{ id: 3, classes: klineClasses.value, label: "Мин цена:", value: formattedLow.value },
+	{ id: 4, classes: klineClasses.value, label: "Цена закрытия:", value: formattedClose.value },
+	{ id: 5, label: "Объем:", value: formattedVolume.value },
+]);
 
 const styles = computed(() => ({
 	left: `${props.left}px`,

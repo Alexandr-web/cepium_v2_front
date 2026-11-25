@@ -41,14 +41,14 @@
 		<div class="flex flex-col relative lg:sticky lg:top-0 bg-neutral-300 p-12 gap-8 rounded-12 lg:basis-[65%] lg:self-start">
 			<IconLoader v-if="isLoading" class="absolute top-0 left-0 right-0 bottom-0 m-auto w-40 h-40 text-white" />
 			<ATabs
-				class="self-start sticky top-12 z-99"
+				class="self-start"
 				:items="intervalTabs"
 				:active-value="activeInterval"
 				:disabled="isLoading"
 				@select="(v: BybitInterval) => activeInterval = v"
 			/>
 			<ClientOnly>
-				<div id="trading-view-chart" class="w-full h-250 lg:h-500"/>
+				<div id="trading-view-chart" class="w-full h-350 lg:h-500"/>
 			</ClientOnly>
 		</div>
 	</div>
