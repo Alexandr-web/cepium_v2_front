@@ -110,7 +110,7 @@
 		</Wizard>
 		<Teleport to="body">
 			<Modal :model-value="!!selectSymbol" size="big" @close="selectSymbol = ''">
-				<div class="scroll-block max-h-350 lg:max-h-[90vh] overflow-auto">
+				<div class="scroll-block max-h-450 lg:max-h-[90vh] overflow-auto">
 					<SymbolOverview :symbol="selectSymbol" :interval="BybitInterval.M15" />
 				</div>
 			</Modal>
