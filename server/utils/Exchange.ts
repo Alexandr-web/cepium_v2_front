@@ -103,7 +103,9 @@ export abstract class Exchange<TTicker, TMessage = unknown, TKline = never> {
 
 	// Удаляет клиента из всех подписок. Вызывать при закрытии или ошибке соединения клиента.
 	removePeer(peer: ExchangePeer): void {
-		this.peers.keys().forEach((key) => this.release(peer, key));
+		Array.from(this.peers.keys()).forEach((key) => {
+			this.release(peer, key);
+		});
 	}
 
 	private release(peer: ExchangePeer, key: string): void {
@@ -143,7 +145,9 @@ export abstract class Exchange<TTicker, TMessage = unknown, TKline = never> {
 	// Сериализует сообщение один раз и отправляет всем указанным клиентам.
 	private send(peers: Iterable<ExchangePeer>, msg: TickerServerMessage<TTicker, TKline>): void {
 		const payload = JSON.stringify(msg);
-		Array.from(peers).forEach((peer) => peer.send(payload));
+		Array.from(peers).forEach((peer) => {
+			peer.send(payload);
+		});
 	}
 
 	// Если соединение ещё не открыто, подписки отправятся в `open`.
@@ -166,7 +170,9 @@ export abstract class Exchange<TTicker, TMessage = unknown, TKline = never> {
 			this.attempts = 0;
 
 			// При реконнекте биржа подписки не помнит
-			this.peers.keys().forEach((key) => this.sendOp("subscribe", key));
+			Array.from(this.peers.keys()).forEach((key) => {
+				this.sendOp("subscribe", key);
+			});
 
 			const { ping, pingInterval } = this.options;
 			if (ping !== undefined && pingInterval > 0) {
@@ -210,7 +216,10 @@ export abstract class Exchange<TTicker, TMessage = unknown, TKline = never> {
 			// Закрылся устаревший сокет, актуальное соединение уже другое
 			if (this.ws !== socket) return;
 
+			// cleanup() устанавливает this.ws = null, поэтому проверка выше
+			// при вызове из release() пройдёт и переподключение сработает
 			this.cleanup();
+
 			if (!this.peers.size) return;
 
 			const { reconnectBaseDelay, maxReconnectDelay } = this.options;
