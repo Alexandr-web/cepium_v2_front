@@ -6,37 +6,49 @@
 
 ## Стек
 
-Nuxt 4, Vue 3 (Composition API), TypeScript, Pinia, Tailwind CSS 4 (через @tailwindcss/vite),
-TanStack (@peterbud/nuxt-query), Zod 4, socket.io-client, ECharts (nuxt-echarts / vue-echarts),
-VueUse, Notivue (уведомления), Vitest + @nuxt/test-utils + happy-dom. Node.js 22+. Менеджер пакетов: **yarn** (есть yarn.lock).
+Nuxt 4 (4.6.1), Vue 3 (Composition API), TypeScript 6, Pinia 3, Tailwind CSS 4 (через @tailwindcss/vite),
+TanStack Query (@peterbud/nuxt-query), Zod 4, socket.io-client + socket.io (серверный WebSocket через Nitro),
+ECharts (nuxt-echarts / vue-echarts), lightweight-charts, VueUse, Notivue (уведомления), Vitest 4 + @nuxt/test-utils + happy-dom.
+Node.js 24. Менеджер пакетов: **yarn** (есть yarn.lock).
+
+Доп. зависимости: @nuxt/eslint, @nuxt/image (ipx), @nuxt/fonts (Inter local), nuxt-svgo (SVG-иконки),
+@vueform/slider, @floating-ui/vue, maska (маски ввода), engine.io, ws.
 
 ## Команды
 
 - Установка: `yarn install` (postinstall сам запускает `nuxt prepare`)
 - Dev: `yarn dev`
+- Dev (host): `yarn dev-host`
 - Сборка: `yarn build`
-- Тесты: `yarn test` (все), `yarn test-unit` (проект unit), `yarn test-nuxt` (проект nuxt)
+- Генерация: `yarn generate`
+- Превью: `yarn preview`
+- Тесты: `yarn test` (все), `yarn test-unit` (unit), `yarn test-nuxt` (nuxt), `yarn test-watch` (watch mode)
 - Линт с автоисправлением: `yarn lint:fix`
-- Только проверка линта без правок: `yarn eslint .`
-- Перед запуском eslint должна существовать папка `.nuxt/` (создаётся через `yarn nuxt prepare` или `yarn dev`), иначе конфиг не подхватится.
+- Перед запуском eslint должна существовать папка `.nuxt/` (создаётся через `yarn dev` или `yarn build`), иначе конфиг не подхватится.
 - Отдельного скрипта typecheck в package.json нет, vue-tsc не установлен. Не придумывай команду `typecheck`.
   Типы проверяй через eslint, тесты и внимательное чтение. Если нужна полноценная проверка, предложи пользователю добавить `vue-tsc`, но сам зависимость не ставь.
 - Проект запускается через Docker вместе с бэкендом. Не пытайся поднимать docker compose, если пользователь не попросил.
 
 ## Структура (проверяй по факту, README может отставать)
 
-Исходники лежат в `app/`, серверный слой в `server/`, тесты в `test/`.
+Исходники лежат в `app/`, серверный слой в `server/`, общий код в `shared/`, тесты в `test/`.
 
-- `app/components/` построены по Atomic Design: `atoms/` (кнопки, инпуты, заголовки), `molecules/` (поиск, карточки, формы), `organisms/` (Header, Dashboard, TradingPanel и т.д.)
-- `app/pages/`, `app/layouts/`, `app/middleware/`, `app/plugins/`
-- `app/composables/` (useApi, useWebSocket, useFormatter, useToast ...)
-- `app/store/` Pinia-хранилища (`useUser`, `useTrading`, `useExchanges`)
+- `app/components/` построены по Atomic Design: `atoms/` (AButton, AInput, ASelect, ACheckbox, ATag, ATabs, APagination, AImage, AError, ASlider, Connection, LabelField, ProgressLine), `molecules/` (поиск, карточки, формы, чарты, таблицы, layout-микрокомпоненты), `organisms/` (Header, Dashboard, TradingPanel, формы конфигов, профилей, статистики и т.д.)
+- `app/pages/` (index, login, profile, configs, add-config, edit-config, orders, statistics) — маршрутизация централизована через `app/router.options.ts`, не file-based.
+- `app/layouts/` (default)
+- `app/middleware/` (auth, login, socket.global)
+- `app/plugins/`
+- `app/composables/` (useApi, useWebSocket, useFormatter, useToast, useBybitSocket, useBybitSymbol, useChart, useExchangeSocket, useFormState, useTimer, useTradingView, useWizard)
+- `app/composables/api/` — TanStack Query composables (useAuth, useBybitKlines, useConfigs, useCredentials, useExchanges, useOrders, useStatistics, useStrategies, useUser)
+- `app/store/` Pinia-хранилища (useAuthStore, useConnectionStore, useDashboardStore, useTradeStore, useUserStore)
 - `app/api/` методы работы с API бэкенда
-- `app/models/` модели, собираемые из сырых данных бэкенда
+- `app/models/` модели, собираемые из сырых данных бэкенда (Trade.ts)
 - `app/types/` интерфейсы, type aliases, enum
 - `app/utils/` чистые функции-помощники
-- `server/` прослойка между фронтом и внешним бэкендом
-- `test/unit/` чистая логика и утилиты, `test/nuxt/` компоненты, composables, плагины (где нужны автоимпорты)
+- `app/assets/` глобальные стили и SVG-иконки
+- `server/` прослойка Nitro: socket.io плагин, маршруты (bybit/klines), утилиты (Exchange — абстрактный класс WebSocket-подключения, Bybit — реализация для USDT perpetuals)
+- `shared/` код, доступный и на сервере, и на клиенте: `types/` (Bybit types, API response/request types, типы компонентов), `utils/` (константы, index, tableColumns)
+- `test/unit/` чистая логика и утилиты, `test/nuxt/` компоненты, composables, плагины, `test/e2e/` e2e-тесты, `test/setup/`
 - `docs/` документация проекта, читай её перед крупными изменениями
 
 Перед созданием нового файла посмотри, где лежат похожие, и положи рядом по тем же правилам.
@@ -63,6 +75,7 @@ VueUse, Notivue (уведомления), Vitest + @nuxt/test-utils + happy-dom.
 - WebSocket-подписки (socket.io) обязательно отписывай при размонтировании (`onUnmounted` или `onScopeDispose`), иначе утечки и дублирующиеся события.
 - Новые компоненты кладёшь в нужный уровень atoms / molecules / organisms. Atoms не импортируют molecules и organisms.
 - Стили: Tailwind-классы. Не добавляй CSS-файлы и сторонние UI-библиотеки без необходимости.
+- Маршрутизация централизована в `app/router.options.ts` — не полагайся на file-based routing.
 
 ## Особенности предметной области (торговый бот)
 
@@ -70,12 +83,14 @@ VueUse, Notivue (уведомления), Vitest + @nuxt/test-utils + happy-dom.
 - Не логируй в консоль и не отправляй в UI API-ключи, токены, секреты бирж. Публичные значения в `runtimeConfig.public` не должны содержать секретов.
 - Любое действие, которое меняет позиции или ордера на реальной бирже, требует явного подтверждения пользователя в UI. Не добавляй автоматических опасных действий.
 - Различай биржи (Bybit, Binance, OKX) и спот/фьючерсы: не предполагай одинаковый формат данных, ищи существующие модели.
+- Серверный WebSocket-слой (`server/utils/Exchange.ts`, `server/utils/Bybit.ts`) — абстрактный класс с peer-подпиской, кэшированием и экспоненциальным реконнектом. Клиентский WebSocket (`app/composables/useExchangeSocket.ts`) подписывается на Deals и AccountInfo.
 
 ## Тесты
 
-- Новая чистая логика: unit-тест в `test/unit/`.
+- Чистая логика: unit-тест в `test/unit/`.
 - Компоненты, composables, плагины: тест в `test/nuxt/`.
-- После изменения логики запускай соответствующий набор: `yarn test-unit` или `yarn test-nuxt`.
+- E2E-тесты: `test/e2e/`.
+- После изменения логики запускай соответствующий набор: `yarn test-unit`, `yarn test-nuxt` или `yarn test`.
 - Не удаляй и не ослабляй существующие тесты, чтобы «позеленить» сборку.
 
 ## Как работать
@@ -107,5 +122,5 @@ VueUse, Notivue (уведомления), Vitest + @nuxt/test-utils + happy-dom.
 Если просят ревью, только читай и не правь код. Проверяй:
 типобезопасность (any, небезопасные приведения, null/undefined), реактивность, SSR-ошибки, утечки подписок (socket.io, watchers, таймеры),
 обработку ошибок и состояний загрузки, точность и форматирование чисел в торговых данных, утечку секретов, соответствие стилю ESLint,
-соблюдение структуры atoms / molecules / organisms и границ между api / models / types / utils, наличие тестов.
+соблюдение структуры atoms / molecules / organisms и границ между api / models / types / utils / shared, наличие тестов.
 Формат ответа: блокеры, затем важное, затем мелочи. К каждому замечанию: файл и строка, проблема, почему это плохо, как исправить.
