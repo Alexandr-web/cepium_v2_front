@@ -1,20 +1,13 @@
 <template>
 	<div
-		class="absolute w-160 z-10 box-border p-8 text-16 leading-normal rounded-4 border pointer-events-none"
-		:style="{
-			left: `${left}px`,
-			top: `${top}px`,
-			width: `${width}px`,
-			color: TRADING_VIEW_THEME.tooltip.text,
-			background: TRADING_VIEW_THEME.tooltip.bg,
-			borderColor: TRADING_VIEW_THEME.tooltip.border,
-		}"
+		class="absolute z-10 p-8 text-14 lg:text-16 leading-normal rounded-6 border-solid border-neutral-400 pointer-events-none text-neutral-800 bg-neutral-200"
+		:style="styles"
 	>
 		<div class="mb-4 opacity-70">{{ formattedTime }}</div>
-		<div>Цена открытия: <span :style="{ color }">{{ formattedOpen }}</span></div>
-		<div>Макс цена: <span :style="{ color }">{{ formattedHigh }}</span></div>
-		<div>Мин цена: <span :style="{ color }">{{ formattedLow }}</span></div>
-		<div>Цена закрытия: <span :style="{ color }">{{ formattedClose }}</span></div>
+		<div>Цена открытия: <span :class="klineClasses">{{ formattedOpen }}</span></div>
+		<div>Макс цена: <span :class="klineClasses">{{ formattedHigh }}</span></div>
+		<div>Мин цена: <span :class="klineClasses">{{ formattedLow }}</span></div>
+		<div>Цена закрытия: <span :class="klineClasses">{{ formattedClose }}</span></div>
 		<div>Объем: {{ formattedVolume }}</div>
 	</div>
 </template>
@@ -44,7 +37,10 @@ const props = withDefaults(
 
 const priceOptions = { currency: "USD", style: "currency", maximumFractionDigits: 6 } as const;
 
-const color = computed(() => props.candle.close >= props.candle.open ? TRADING_VIEW_THEME.up : TRADING_VIEW_THEME.down);
+const klineClasses = computed(() => [
+	props.candle.close >= props.candle.open && "text-tertiary-600",
+	props.candle.close < props.candle.open && "text-secondary-600",
+]);
 
 const formattedTime = computed(() => formatDateTime(props.time, { timeZone: "UTC" }));
 const formattedOpen = computed(() => formatNum(props.candle.open, priceOptions));
@@ -52,4 +48,10 @@ const formattedHigh = computed(() => formatNum(props.candle.high, priceOptions))
 const formattedLow = computed(() => formatNum(props.candle.low, priceOptions));
 const formattedClose = computed(() => formatNum(props.candle.close, priceOptions));
 const formattedVolume = computed(() => formatNum(String(props.volume), { style: "decimal", padZero: true }));
+
+const styles = computed(() => ({
+	left: `${props.left}px`,
+	top: `${props.top}px`,
+	width: `${props.width}px`,
+}));
 </script>

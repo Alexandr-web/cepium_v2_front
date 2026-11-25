@@ -77,7 +77,7 @@ import IconArrowDown from "@/assets/icons/keyboard-arrow-down-rounded.svg";
 import AButton from "@/components/atoms/AButton.vue";
 import { useDashboardStore } from "@/store/useDashboardStore";
 import { useTradeStore } from "@/store/useTradeStore";
-import { useMarginChart } from "@/composables/chart/useMarginChart";
+import { useMarginChart } from "@/composables/useChart";
 
 const dashboardStore = useDashboardStore();
 const tradeStore = useTradeStore();

@@ -4,6 +4,8 @@ export const PER_PAGE_ORDERS = 10;
 
 export const WEEKDAY_LABELS = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
 
+export const BYBIT_INTERVALS = ["1", "3", "5", "15", "30", "60", "120", "240", "360", "720", "D", "W", "M"];
+
 export const MONTHS_LIST = [
 	"Янв", "Фев", "Мар", "Апр", "Май", "Июн",
 	"Июл", "Авг", "Сен", "Окт", "Ноя", "Дек",
@@ -100,9 +102,4 @@ export const TRADING_VIEW_THEME = {
 	down: "#ef5350",
 	upVolume: "rgba(38, 166, 154, 0.25)",
 	downVolume: "rgba(239, 83, 80, 0.25)",
-	tooltip: {
-		text: "#c9d1d9",
-		bg: "#161b22",
-		border: "#30363d",
-	},
 };

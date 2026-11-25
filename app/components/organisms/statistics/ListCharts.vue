@@ -33,9 +33,7 @@
 </template>
 <script setup lang="ts">
 import { useCharts, useReport } from "@/composables/api/useStatistics";
-import { useProfitByDayChart } from "@/composables/chart/useProfitByDayChart";
-import { useOrdersBySymbolChart } from "@/composables/chart/useOrdersBySymbolChart";
-import { useOrdersWinLossChart } from "@/composables/chart/useOrdersWinLossChart";
+import { useProfitByDayChart, useOrdersBySymbolChart, useOrdersWinLossChart } from "@/composables/useChart";
 import Filters from "@/components/molecules/common/Filters.vue";
 import ASelect from "@/components/atoms/ASelect.vue";
 import Empty from "@/components/molecules/common/Empty.vue";

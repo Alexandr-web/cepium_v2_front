@@ -1,7 +1,5 @@
 import { Exchange } from "./Exchange";
 
-export const BYBIT_INTERVALS = ["1", "3", "5", "15", "30", "60", "120", "240", "360", "720", "D", "W", "M"];
-
 /**
  * Bybit (USDT-перпетуалы, топики `tickers.<symbol>` и `kline.<interval>.<symbol>`).
  *
@@ -19,14 +17,35 @@ export class Bybit extends Exchange<BybitTicker, BybitMessage, BybitKline> {
 		});
 	}
 
+	/**
+	 * Формирует название топика Bybit для подписки на свечи или тикер.
+	 *
+	 * @param symbol Торговая пара (например, `"BTCUSDT"`).
+	 * @param interval Таймфрейм свечи. Если не передан, возвращается топик тикера.
+	 * @returns Строка топика в формате `kline.<interval>.<symbol>` или `tickers.<symbol>`.
+	 */
 	protected topic(symbol: string, interval?: string) {
 		return interval ? `kline.${interval}.${symbol}` : `tickers.${symbol}`;
 	}
 
+	/**
+	 * Формирует payload сообщения для подписки или отписки от топика.
+	 *
+	 * @param op Тип операции (`"subscribe"` или `"unsubscribe"`).
+	 * @param topic Название топика.
+	 * @returns Объект запроса в формате API Bybit.
+	 */
 	protected buildSubscribeMessage(op: "subscribe" | "unsubscribe", topic: string) {
 		return { op, args: [topic] };
 	}
 
+	/**
+	 * Разбирает входящее сообщение от WebSocket-сервера Bybit.
+	 * Логирует ошибки подписки и игнорирует сервисные сообщения (например, `pong`).
+	 *
+	 * @param msg Сырое входящее сообщение от биржи.
+	 * @returns Нормализованный объект с данными тикера или свечи, либо `null`, если сообщение не содержит рыночных данных.
+	 */
 	protected parseMessage(msg: BybitMessage) {
 		if ("op" in msg && msg.op === "subscribe" && !msg.success) {
 			console.error(msg);
@@ -37,7 +56,7 @@ export class Bybit extends Exchange<BybitTicker, BybitMessage, BybitKline> {
 
 		// kline.<interval>.<symbol>, у свечей data это массив
 		if (Array.isArray(msg.data)) {
-			const [, interval, symbol] = msg.topic.split(".");
+			const [_, interval, symbol] = msg.topic.split(".");
 			const candle = msg.data[0];
 			if (!candle || !interval || !symbol) return null;
 

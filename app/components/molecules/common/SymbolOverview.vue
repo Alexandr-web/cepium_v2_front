@@ -55,7 +55,7 @@
 </template>
 <script setup lang="ts">
 import { useBybitKlines } from "@/composables/api/useBybitKlines";
-import { useTradingViewChart } from "@/composables/chart/useTradingViewChart";
+import { useTradingViewChart } from "@/composables/useTradingView";
 import AImage from "@/components/atoms/AImage.vue";
 import ATabs from "@/components/atoms/ATabs.vue";
 import Collapse from "@/components/molecules/common/Collapse.vue";
