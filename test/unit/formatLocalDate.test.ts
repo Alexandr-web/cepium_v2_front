@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { formatLocalDate } from "../../app/utils/index";
+import { formatLocalDate } from "../../shared/utils/index";
 
 describe("formatLocalDate", () => {
 	describe("базовое форматирование", () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { isCurrentDate } from "../../app/utils/index";
+import { isCurrentDate } from "../../shared/utils/index";
 
 describe("isCurrentDate", () => {
 	beforeEach(() => {

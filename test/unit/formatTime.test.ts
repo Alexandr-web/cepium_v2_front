@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { formatTime } from "../../app/utils/index";
+import { formatTime } from "../../shared/utils/index";
 
 describe("formatTime", () => {
 	it("должна корректно форматировать 0 миллисекунд", () => {

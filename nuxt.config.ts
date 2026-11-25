@@ -109,12 +109,6 @@ export default defineNuxtConfig({
 		components: ["GridComponent", "TooltipComponent", "LegendComponent", "TitleComponent", "DataZoomComponent"],
 		features: ["LabelLayout", "UniversalTransition", "LegacyGridContainLabel"],
 	},
-	imports: {
-		dirs: [
-			"@/types/**",
-			"#shared/types/**",
-		],
-	},
 	fonts: {
 		defaults: {
 			fallbacks: {

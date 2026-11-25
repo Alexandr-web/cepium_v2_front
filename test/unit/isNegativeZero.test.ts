@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isNegativeZero } from "../../app/utils/index";
+import { isNegativeZero } from "../../shared/utils/index";
 
 describe("isNegativeZero", () => {
 	it("должен возвращать true для -0", () => {

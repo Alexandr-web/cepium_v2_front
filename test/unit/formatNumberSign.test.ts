@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { formatNumberSign } from "../../app/utils/index";
+import { formatNumberSign } from "../../shared/utils/index";
 
 describe("formatNumberSign", () => {
 	describe("без параметра output (используется val)", () => {

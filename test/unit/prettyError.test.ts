@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { prettyError } from "../../app/utils/index";
+import { prettyError } from "../../shared/utils/index";
 
 describe("prettyError", () => {
 	it("должна возвращать сообщение о сбое TLS для ошибок secure tls connection", () => {

@@ -87,3 +87,16 @@ export type ExchangeOptions = {
 	// Допустимые таймфреймы для свечей. По умолчанию пусто.
 	intervals?: readonly string[];
 };
+
+export enum ConnectionStatuses {
+	CONNECTING = 0,
+	OPEN = 1,
+	CLOSING = 2,
+	CLOSED = 3,
+	NONE = 4
+};
+
+export enum TradeDirection {
+	LONG = "long",
+	SHORT = "short",
+};

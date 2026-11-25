@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { downloadBlob } from "../../app/utils/index";
+import { downloadBlob } from "../../shared/utils/index";
 
 describe("downloadBlob", () => {
 	let createObjectURLSpy: ReturnType<typeof vi.spyOn>;

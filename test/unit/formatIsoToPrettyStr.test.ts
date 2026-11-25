@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { formatIsoToPrettyStr } from "../../app/utils/index";
+import { formatIsoToPrettyStr } from "../../shared/utils/index";
 
 describe("formatIsoToPrettyStr", () => {
 	beforeEach(() => {

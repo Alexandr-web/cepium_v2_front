@@ -10,48 +10,60 @@
 * Мониторинг состояния профиля выбранной биржи (баланс, активные позиции, реализованный PNL)
 * Мониторинг активных позиций (цена ликвидации, стоп, тейк, PNL и тд)
 * Создание и редактирование конфигов
+* История ордеров
+* Статистика и графики
 
 ## Архитектура
 
 Структура папок:
 
-- **components/**
-  - **atoms/** – кнопки, инпуты, заголовки
-  - **molecules/** – поисковая строка, карточка актива, форма входа
-  - **organisms/** – Header, Dashboard, TradingPanel, OrderBook
-- **pages/** – страницы (index.vue, strategies.vue, logs.vue)
-- **layouts/** – default.vue, auth.vue
-- **store/** – Pinia-хранилища (useUser.ts, useTrading.ts, useExchanges.ts)
-- **middleware/** – auth.global.ts, logger.ts
-- **composables/** – useApi, useWebSocket, useFormatter, useToast
-- **plugins/** – pinia, api-client, websocket client
-- **server/** - слой сервера между фронтом и внешним беком
-- **router.options.ts** – кастомизация маршрутизатора (добавление мета-полей, защита)
-- **assets/** – стили
-- **public/** – статика
-- **models/** - модели созданные из сырых данных с бека
-- **types/** - типы (интерфейсы, type aliases, enum) ts
-- **utils/** - функции-помощники
-- **api** - содержит ключи для работы с api бека через Tanstack
+- **app/components/** – компоненты по методологии Atomic Design:
+  - **atoms/** – базовые UI-элементы (13 компонентов: AButton, AInput, ASelect, ACheckbox, AImage, AError, APagination, ASlider, ATab, ATag, Connection, LabelField, ProgressLine)
+  - **molecules/** – комбинации атомов (32 компонента в подпапках: chart/, common/, configs/, index/, layout/, orders/, profile/, statistics/, table/, trade/, widgets/)
+  - **organisms/** – сложные секции (13 компонентов в подпапках: configs/, index/, login/, orders/, profile/, statistics/)
+- **app/pages/** – страницы (index.vue, login.vue, profile.vue, configs.vue, add-config.vue, edit-config.vue, orders.vue, statistics.vue)
+- **app/layouts/** – default.vue
+- **app/router.options.ts** – кастомная маршрутизация через vue-router (именованные маршруты с мета-полями, middleware, SEO)
+- **app/middleware/** – auth.ts, login.ts, socket.global.ts
+- **app/composables/** – composables в подпапках: api/ (useAuth, useConfigs, useCredentials, useExchanges, useOrders, useStatistics, useStrategies, useUser), chart/ (useChartScroll, useMarginChart, useOrdersBySymbolChart, useOrdersWinLossChart, useProfitByDayChart, useTradingViewChart), root-level (useApi, useBybitSocket, useBybitSymbol, useExchangeSocket, useFormState, useTimer, useWizard)
+- **app/store/** – Pinia-хранилища (useAuthStore.ts, useConnectionStore.ts, useDashboardStore.ts, useTradeStore.ts, useUserStore.ts)
+- **app/plugins/** – плагины не используются (папка пустая)
+- **app/models/** – Trade.ts
+- **app/api/keys/** – query key генераторы для TanStack Query
+- **app/assets/** – стили (global.css) и SVG-иконки
+- **app/public/** – статика
+- **server/** – прослойка между фронтом и бэкендом (routes/bybit/klines.ts, plugins/socket.io.ts, utils/Bybit.ts, utils/Exchange.ts)
+- **shared/types/** – типы (index.ts, api.ts, components.ts, router.d.ts)
+- **shared/utils/** – утилиты (index.ts, constants.ts, tableColumns.ts)
 
 Тесты (папка `test/`)
 
-- **nuxt/** - Для компонентов, composables и плагинов, где жизненно важны автоимпорты (ref, computed, useFetch и т.д.)
-- **unit/** - Для «чистых» хелперов, чистой бизнес-логики и утилит. Они работают молниеносно.
+- **unit/** – Для «чистых» хелперов, чистой бизнес-логики и утилит. Окружение: node.
+- **nuxt/** – Для компонентов, composables и плагинов, где жизненно важны автоимпорты (`ref`, `computed`, `useFetch` и т.д.). Окружение: nuxt.
 
 Технологический стек:
 
-- **Node.js** (версия 24.22.1)
-- **TypeScript**
-- **Docker**
-- **socket.io**
-- **Vue**
-- **Nuxt**
-- **Tailwind**
-- **Pinia**
-- **Vitest**
-- **Tanstack**
-- **Echarts**
+- **Node.js** 24.22.1
+- **TypeScript** 6.0.3
+- **Nuxt** 4.6.1 (Nuxt 4)
+- **Vue** 3 (Composition API, `<script setup>`)
+- **Tailwind CSS** 4.3.3 (через @tailwindcss/vite)
+- **Pinia** 3.0.4 (@pinia/nuxt)
+- **TanStack Query** 1.12.0 (@peterbud/nuxt-query)
+- **Zod** 4.6.5
+- **socket.io** 4.8.4 + socket.io-client
+- **ECharts** 6.1.0 + vue-echarts + nuxt-echarts
+- **lightweight-charts** 5.3.0
+- **VueUse** 14.3.0 (@vueuse/nuxt)
+- **Notivue** 2.4.5 (уведомления)
+- **Vitest** 4.1.7 + @nuxt/test-utils 4.0.3 + happy-dom
+- **@nuxt/image** 2.1.0 (ipx provider, webp)
+- **nuxt-svgo** 5.3.0 (SVG-иконки как компоненты)
+- **@nuxt/fonts** 0.14.0 (Inter)
+- **@floating-ui/vue** 2.0.1
+- **@vueform/slider** 2.1.10
+- **maska** 3.2.2 (маски ввода)
+- **Docker** (общий запуск с бэкендом)
 
 ## Установка и запуск
 
@@ -61,6 +73,7 @@
 
 - Docker и Docker Compose
 - Node.js 24.22.1 (нужен только для локальной разработки без Docker)
+- yarn (1.22.22) — менеджер пакетов
 
 ### Структура общей директории
 
@@ -130,21 +143,8 @@ docker compose down
 Если нужно запустить только фронт без Docker, для разработки/отладки:
 
 ```bash
-# npm
-npm install
-npm run dev
-
-# pnpm
-pnpm install
-pnpm dev
-
-# yarn
 yarn install
 yarn dev
-
-# bun
-bun install
-bun run dev
 ```
 
 Обратите внимание: для корректной работы с REST API и WebSocket в этом режиме также необходим файл `.env` внутри `frontend`, созданный по примеру `.env.example`.

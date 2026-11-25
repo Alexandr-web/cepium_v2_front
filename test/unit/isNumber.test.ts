@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isNumber } from "../../app/utils/index";
+import { isNumber } from "../../shared/utils/index";
 
 describe("isNumber", () => {
 	it("должен возвращать true для конечных чисел", () => {

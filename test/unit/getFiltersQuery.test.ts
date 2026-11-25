@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getFiltersQuery } from "../../app/utils/index";
+import { getFiltersQuery } from "../../shared/utils/index";
 
 describe("getFiltersQuery", () => {
 	it("возвращает пустой объект для пустого массива", () => {

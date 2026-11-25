@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { hasKey } from "../../app/utils/index";
+import { hasKey } from "../../shared/utils/index";
 
 describe("hasKey", () => {
 	it("должна возвращать true, если ключ существует в объекте", () => {

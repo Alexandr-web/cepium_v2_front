@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { formatDateTime } from "../../app/utils/index";
+import { formatDateTime } from "../../shared/utils/index";
 
 describe("formatDateTime", () => {
 	describe("базовое форматирование", () => {

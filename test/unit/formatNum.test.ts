@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { formatNum } from "../../app/utils/index";
+import { formatNum } from "../../shared/utils/index";
 
 const replaceSpaces = (s: string) => s.replace(/\s/g, " ");
 

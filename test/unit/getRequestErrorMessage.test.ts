@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import type { FetchError } from "ofetch";
-import { getRequestErrorMessage } from "../../app/utils/index";
+import { getRequestErrorMessage } from "../../shared/utils/index";
 
 describe("getRequestErrorMessage", () => {
 	it("должна возвращать строку message, если data.message — строка", () => {

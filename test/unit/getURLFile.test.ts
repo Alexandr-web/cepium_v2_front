@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { getURLFile } from "../../app/utils/index";
+import { getURLFile } from "../../shared/utils/index";
 
 describe("getURLFile", () => {
 	it("должна возвращать строку без изменений, если передана строка", () => {
