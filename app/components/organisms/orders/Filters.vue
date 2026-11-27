@@ -1,36 +1,12 @@
 <template>
-	<div class="flex flex-col gap-24">
-		<div class="flex items-center justify-between gap-10">
-			<h2 class="text-20 lg:text-24 font-semibold">Ордера</h2>
-			<AButton
-				class="flex lg:hidden items-center justify-center p-8 rounded-8 border border-solid border-neutral-300"
-				:mode="ButtonMode.NEUTRAL_FILL"
-				:disabled="disabled"
-				@click="showMobFilters = true"
-			>
-				<IconFilter class="w-22 h-22 text-white/50" />
-			</AButton>
-		</div>
-		<div class="hidden lg:flex justify-between gap-16 bg-neutral-200 rounded-8 p-16 border border-solid border-white/10">
-			<Filters :filters="filters" :disabled="disabled" />
-		</div>
-	</div>
-	<Teleport to="body">
-		<Modal v-model="showMobFilters">
-			<div class="scroll-block max-h-450 overflow-auto">
-				<Filters
-					class="lg:hidden"
-					:filters="filters"
-				/>
-			</div>
-		</Modal>
-	</Teleport>
+	<Filters
+		:filters="filters"
+		filter-classes="gap-16 bg-neutral-200 rounded-8 p-16 border border-solid border-white/10"
+		title="Ордера"
+	/>
 </template>
 <script setup lang="ts">
 import Filters from "@/components/molecules/common/Filters.vue";
-import AButton from "@/components/atoms/AButton.vue";
-import Modal from "@/components/molecules/common/Modal.vue";
-import IconFilter from "@/assets/icons/filter-big.svg";
 import ACheckbox from "@/components/atoms/ACheckbox.vue";
 import ASelect from "@/components/atoms/ASelect.vue";
 
@@ -86,7 +62,6 @@ const createFilters = (): FilterItem[] => [
 ];
 
 const filters = ref<FilterItem[]>(createFilters());
-const showMobFilters = ref(false);
 
 watch(filters, (v) => {
 	filtersQuery.value = getFiltersQuery(v);

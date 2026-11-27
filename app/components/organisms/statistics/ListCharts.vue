@@ -1,31 +1,45 @@
 <template>
-	<section class="flex flex-col gap-36 lg:gap-12 p-12 lg:p-24 bg-neutral-200 min-h-screen rounded-12">
-		<Filters :filters="filters" :disabled="isPendingStatistics || isPendingStrategy">
-			<template #footer>
-				<AButton
-					class="rounded-12 lg:ml-auto lg:self-start w-full lg:w-auto px-24 py-12 lg:py-8 lg:text-16"
-					:mode="ButtonMode.PRIMARY_BORDER"
-					@click="loadReport"
-				>Скачать отчет</AButton>
-			</template>
-		</Filters>
-		<div class="grid grid-cols-1 lg:grid-cols-4 gap-24">
-			<div
-				v-for="(item, idx) in charts"
-				:key="idx"
-				class="flex flex-col bg-neutral-300/50 rounded-12 p-12 lg:p-20 gap-16"
-				:class="item.classes"
-			>
-				<h3 class="font-medium text-neutral-700 lg:text-18">{{ item.label }}</h3>
-				<div class="h-200 lg:h-300 w-full rounded-12" :class="[isPendingCharts && 'overflow-hidden']">
-					<VChart
-						v-if="!item.isEmpty"
-						:loading="isPendingCharts"
-						:loading-options="CHART_COLORS.loading"
-						:option="item.options"
-						class="w-full h-full"
-					/>
-					<Empty v-else class="justify-start" />
+	<section class="flex flex-col gap-12">
+		<div class="flex lg:flex-row-reverse justify-between gap-12">
+			<Tooltip :disabled="!isDesktop">
+				<template #trigger>
+					<AButton
+						class="rounded-12 p-8 lg:self-start"
+						:mode="ButtonMode.PRIMARY_BORDER"
+						:disabled="isPendingReport"
+						@click="loadReport"
+					>
+						<IconReport class="w-22 lg:w-26 h-22 lg:h-26 text-white/80" />
+					</AButton>
+				</template>
+				<template #content>
+					<p>Скачать отчет за выбранный период</p>
+				</template>
+			</Tooltip>
+			<Filters
+				:filters="filters"
+				:disabled="isPendingStatistics || isPendingStrategy"
+			/>
+		</div>
+		<div class="flex flex-col gap-12">
+			<div class="grid grid-cols-1 lg:grid-cols-4 gap-24">
+				<div
+					v-for="(item, idx) in charts"
+					:key="idx"
+					class="flex flex-col bg-neutral-300/50 rounded-12 p-12 lg:p-20 gap-16"
+					:class="item.classes"
+				>
+					<h3 class="font-medium text-neutral-700 lg:text-18">{{ item.label }}</h3>
+					<div class="h-200 lg:h-300 w-full rounded-12" :class="[isPendingCharts && 'overflow-hidden']">
+						<VChart
+							v-if="!item.isEmpty"
+							:loading="isPendingCharts"
+							:loading-options="CHART_COLORS.loading"
+							:option="item.options"
+							class="w-full h-full"
+						/>
+						<Empty v-else class="justify-start" />
+					</div>
 				</div>
 			</div>
 		</div>
@@ -38,6 +52,8 @@ import Filters from "@/components/molecules/common/Filters.vue";
 import ASelect from "@/components/atoms/ASelect.vue";
 import Empty from "@/components/molecules/common/Empty.vue";
 import AButton from "@/components/atoms/AButton.vue";
+import Tooltip from "@/components/molecules/common/Tooltip.vue";
+import IconReport from "@/assets/icons/report.svg";
 
 const props = withDefaults(
 	defineProps<{
@@ -55,6 +71,8 @@ const props = withDefaults(
 const { load: loadStatReport } = useReport();
 const { searchData } = useCharts();
 
+const isDesktop = useMediaQuery("(min-width: 1024px)");
+
 const PERIOD_LIST: SelectItem[] = [
 	{ label: "За все время", value: "all" },
 	{ label: "Неделя", value: "week" },
@@ -62,6 +80,7 @@ const PERIOD_LIST: SelectItem[] = [
 	{ label: "Год", value: "year" },
 ];
 
+const isPendingReport = ref(false);
 const isPendingCharts = ref(false);
 const data = ref<Partial<StatisticsChartsResponse["data"]>>({});
 
@@ -124,11 +143,15 @@ const loadData = async () => {
 };
 
 const loadReport = async () => {
+	isPendingReport.value = true;
+
 	try {
 		const blob = await loadStatReport({ query: getFiltersQuery(filters.value) });
 		downloadBlob(blob, "report.xlsx");
 	} catch (err) {
 		console.error(err);
+	} finally {
+		isPendingReport.value = false;
 	}
 };
 

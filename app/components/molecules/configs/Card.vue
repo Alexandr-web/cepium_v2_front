@@ -23,14 +23,6 @@
 			</div>
 		</div>
 		<div class="flex items-center justify-between gap-12">
-			<div class="flex items-center gap-6 overflow-x-auto no-scrollbar scroll-block max-w-[80%]">
-				<span
-					v-for="(s, idx) in card.allowedSymbols"
-					:key="idx"
-					class="px-6 py-2 text-11 font-medium text-neutral-800 bg-neutral-300/70 rounded-6 whitespace-nowrap"
-					:title="s"
-				>{{ s }}</span>
-			</div>
 			<Tooltip :disabled="!isDesktop">
 				<template #trigger>
 					<NuxtLink :to="{ name: 'edit-config', params: { id: card.id } }" class="text-neutral-600">
