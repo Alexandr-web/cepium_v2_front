@@ -132,3 +132,7 @@ export enum BybitInterval {
 	M = "M",
 };
 
+export enum SelectMode {
+	DEFAULT = "default",
+	SMALL = "small"
+};

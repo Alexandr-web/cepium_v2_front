@@ -9,15 +9,24 @@
 		/>
 		<div
 			ref="selectRef"
-			class="relative h-50 bg-neutral-300 flex flex-col"
+			class="relative bg-neutral-300 flex flex-col"
 			:class="[
 				isOpen && 'rounded-t-4 lg:rounded-t-8',
 				!isOpen && 'rounded-4 lg:rounded-8',
 				disabled && 'opacity-50',
-				!disabled && 'cursor-pointer'
+				!disabled && 'cursor-pointer',
+				mode === SelectMode.DEFAULT && 'h-50',
 			]"
 		>
-			<div ref="reference" class="p-12 flex items-center justify-between gap-10" @click="!disabled && (isOpen = !isOpen)">
+			<div
+				ref="reference"
+				class="flex items-center justify-between gap-10"
+				:class="[
+					mode === SelectMode.DEFAULT && 'p-12',
+					mode === SelectMode.SMALL && 'p-6',
+				]"
+				@click="!disabled && (isOpen = !isOpen)"
+			>
 				<span v-if="inputLabel" class="text-neutral-800 select-none truncate" :title="inputLabel">{{ inputLabel }}</span>
 				<IconKeyboardArrowDownRounded
 					class="text-neutral-800 w-24 h-24 transition"
@@ -73,6 +82,7 @@ const props = withDefaults(
 		items: SelectItem[];
 		countClasses?: string|string[];
 		labelClasses?: string|string[];
+		mode?: SelectMode;
 	}>(),
 	{
 		placeholder: "",
@@ -81,6 +91,7 @@ const props = withDefaults(
 		disabled: false,
 		countClasses: "",
 		labelClasses: "",
+		mode: SelectMode.DEFAULT,
 	}
 );
 

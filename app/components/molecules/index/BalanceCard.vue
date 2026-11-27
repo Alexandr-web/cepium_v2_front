@@ -32,8 +32,10 @@ import { useDashboardStore } from "@/store/useDashboardStore";
 
 const showMarginChart = useState("show-margin-chart", () => false);
 
+const { formatNumCurrency } = useCurrency();
+
 const dashboardStore = useDashboardStore();
 
 const dailyBalancePercentage = computed(() => formatNum(dashboardStore.data.balanceDailyChangePercent, { style: "percent" }));
-const formattedValue = computed(() => formatNum(dashboardStore.data.balance, { currency: "USD", style: "currency" }));
+const formattedValue = computed(() => formatNumCurrency(dashboardStore.data.balance));
 </script>

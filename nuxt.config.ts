@@ -14,6 +14,7 @@ export default defineNuxtConfig({
 		public: {
 			apiUrl: process.env.NUXT_PUBLIC_API_URL,
 			wsUrl: process.env.NUXT_PUBLIC_WS_URL,
+			currencyApiUrl: process.env.NUXT_PUBLIC_CURRENCY_API,
 		},
 	},
 	vite: {

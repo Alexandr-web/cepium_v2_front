@@ -87,6 +87,7 @@ const getChartScrollOptions = (_total: MaybeRefOrGetter<number>, visible = CHART
  */
 export const useMarginChart = (_options: MaybeRefOrGetter = {}) => {
 	const tradeStore = useTradeStore();
+	const { formatNumCurrency } = useCurrency();
 
 	const trades = computed(() => tradeStore.getAllTrades());
 	const opts = computed(() => toValue(_options));
@@ -127,7 +128,7 @@ export const useMarginChart = (_options: MaybeRefOrGetter = {}) => {
 		color: CHART_COLORS.color.positions,
 		// сумма в центре кольца
 		title: {
-			text: formatNum(totalSum.value, { currency: "USD", style: "currency" }),
+			text: formatNumCurrency(totalSum.value),
 			subtext: "Всего",
 			left: "center",
 			top: "middle",
@@ -143,7 +144,7 @@ export const useMarginChart = (_options: MaybeRefOrGetter = {}) => {
 			textStyle: { color: CHART_COLORS.tooltip.textStyle.color },
 			formatter: (params) => {
 				const item = Array.isArray(params) ? params[0] : params;
-				const value = formatNum(Number(item?.value), { currency: "USD", style: "currency" });
+				const value = formatNumCurrency(Number(item?.value));
 				const percent = formatNum(Number(item?.percent) / 100, { style: "percent" });
 				return `${item?.name}: <span class="font-semibold">${value} (${percent})</span>`;
 			},
@@ -404,6 +405,8 @@ export const useOrdersWinLossChart = (_data: MaybeRefOrGetter<StatisticsChartsRe
  * @returns Объект с флагом отсутствия данных (`isEmpty`) и реактивными опциями графика (`options`)
  */
 export const useProfitByDayChart = (_data: MaybeRefOrGetter<StatisticsChartsResponse["data"]["profit_dynamics"] | undefined>, _options: MaybeRefOrGetter = {}) => {
+	const { formatNumCurrency } = useCurrency();
+
 	const opts = computed(() => toValue(_options));
 	const data = computed(() => (toValue(_data) ?? []).map((item) => ({
 		name: item.date,
@@ -427,7 +430,7 @@ export const useProfitByDayChart = (_data: MaybeRefOrGetter<StatisticsChartsResp
 			formatter: (params) => {
 				const item = Array.isArray(params) ? params[0] : params;
 				const n = Number(item?.value);
-				const currency = formatNum(n, { currency: "USD", style: "currency" });
+				const currency = formatNumCurrency(n);
 				const formatCurrency = formatNumberSign(n, currency);
 				const className = n > 0 ? "text-tertiary-700" : (n < 0 ? "text-secondary-500" : "");
 				return `${item?.name}: <span class="font-medium ${className}">${formatCurrency}</span>`;
@@ -462,7 +465,7 @@ export const useProfitByDayChart = (_data: MaybeRefOrGetter<StatisticsChartsResp
 			},
 			axisLabel: {
 				color: CHART_COLORS.yAxis.axisLabel.color,
-				formatter: (value) => formatNum(Number(value), { currency: "USD", style: "currency" }),
+				formatter: (value) => formatNumCurrency(Number(value)),
 				fontSize: 11,
 			},
 		},
@@ -479,7 +482,7 @@ export const useProfitByDayChart = (_data: MaybeRefOrGetter<StatisticsChartsResp
 				color: CHART_COLORS.series.line.label.color,
 				fontSize: 11,
 				formatter: (params) => {
-					const n = formatNum(Number(params.value), { currency: "USD", style: "currency" });
+					const n = formatNumCurrency(Number(params.value));
 					return formatNumberSign(Number(params.value), n);
 				},
 			},

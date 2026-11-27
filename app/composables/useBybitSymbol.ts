@@ -53,19 +53,19 @@ export const useBybitSymbol = (_ticker: MaybeRefOrGetter<TickerData | null>, _kl
 	const klineTurnover = computed(() => parseFloat(String(kline.value?.turnover)));
 
 	// форматированные данные ticker
-	const formatLastPrice = computed(() => formatNum(lastPrice.value, { maximumFractionDigits: 4, currency: "USD", style: "currency", defaultValue: "-" }));
+	const formatLastPrice = computed(() => formatNum(lastPrice.value, { maximumFractionDigits: 4, currency: DEFAULT_CURRENCY, style: "currency", defaultValue: "-" }));
 	const formatPrice24hPcnt = computed(() => formatNumberSign(price24hPcnt.value, formatNum(price24hPcnt.value, { padZero: true, style: "percent", defaultValue: "-" })));
-	const formatHighPrice24h = computed(() => formatNum(highPrice24h.value, { maximumFractionDigits: 4, currency: "USD", style: "currency", defaultValue: "-" }));
-	const formatLowPrice24h = computed(() => formatNum(lowPrice24h.value, { maximumFractionDigits: 4, currency: "USD", style: "currency", defaultValue: "-" }));
+	const formatHighPrice24h = computed(() => formatNum(highPrice24h.value, { maximumFractionDigits: 4, currency: DEFAULT_CURRENCY, style: "currency", defaultValue: "-" }));
+	const formatLowPrice24h = computed(() => formatNum(lowPrice24h.value, { maximumFractionDigits: 4, currency: DEFAULT_CURRENCY, style: "currency", defaultValue: "-" }));
 	const formatVolume24h = computed(() => formatNum(volume24h.value, { padZero: true, style: "decimal", defaultValue: "-" }));
-	const formatTurnover24h = computed(() => formatNum(turnover24h.value, { maximumFractionDigits: 4, currency: "USD", style: "currency", defaultValue: "-" }));
+	const formatTurnover24h = computed(() => formatNum(turnover24h.value, { maximumFractionDigits: 4, currency: DEFAULT_CURRENCY, style: "currency", defaultValue: "-" }));
 
 	// форматированные данные ticker
-	const formatKlineOpen = computed(() => formatNum(klineOpen.value, { maximumFractionDigits: 4, currency: "USD", style: "currency", defaultValue: "-" }));
-	const formatKlineHigh = computed(() => formatNum(klineHigh.value, { maximumFractionDigits: 4, currency: "USD", style: "currency", defaultValue: "-" }));
-	const formatKlineLow = computed(() => formatNum(klineLow.value, { maximumFractionDigits: 4, currency: "USD", style: "currency", defaultValue: "-" }));
+	const formatKlineOpen = computed(() => formatNum(klineOpen.value, { maximumFractionDigits: 4, currency: DEFAULT_CURRENCY, style: "currency", defaultValue: "-" }));
+	const formatKlineHigh = computed(() => formatNum(klineHigh.value, { maximumFractionDigits: 4, currency: DEFAULT_CURRENCY, style: "currency", defaultValue: "-" }));
+	const formatKlineLow = computed(() => formatNum(klineLow.value, { maximumFractionDigits: 4, currency: DEFAULT_CURRENCY, style: "currency", defaultValue: "-" }));
 	const formatKlineVolume = computed(() => formatNum(klineVolume.value, { padZero: true, style: "decimal", defaultValue: "-" }));
-	const formatKlineTurnover = computed(() => formatNum(klineTurnover.value, { maximumFractionDigits: 4, currency: "USD", style: "currency", defaultValue: "-" }));
+	const formatKlineTurnover = computed(() => formatNum(klineTurnover.value, { maximumFractionDigits: 4, currency: DEFAULT_CURRENCY, style: "currency", defaultValue: "-" }));
 
 	return {
 		lastPrice,

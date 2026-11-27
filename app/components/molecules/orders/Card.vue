@@ -48,10 +48,12 @@ const { card } = defineProps<{
 	card: Order;
 }>();
 
-const enterPrice = computed(() => formatNum(Number(card.entryPrice), { currency: "USD", style: "currency", defaultValue: "-" }));
+const { formatNumCurrency } = useCurrency();
+
+const enterPrice = computed(() => formatNum(Number(card.entryPrice), { currency: DEFAULT_CURRENCY, style: "currency", defaultValue: "-" }));
 const amount = computed(() => formatNum(Number(card.size), { padZero: true }));
 const pnl = computed(() => {
-	const n = formatNum(Number(card.realizedPnl), { currency: "USD", style: "currency", defaultValue: "0" });
+	const n = formatNumCurrency(Number(card.realizedPnl), { defaultValue: "0" });
 	return formatNumberSign(Number(card.realizedPnl), n);
 });
 

@@ -33,11 +33,13 @@ import { useDashboardStore } from "@/store/useDashboardStore";
 
 const dashboardStore = useDashboardStore();
 
+const { formatNumCurrency } = useCurrency();
+
 const showMarginChart = useState("show-margin-chart", () => false);
 
-const dailyGoalPNL = computed(() => formatNum(dashboardStore.data.dailyGoalPNL, { currency: "USD", style: "currency" }));
+const dailyGoalPNL = computed(() => formatNumCurrency(dashboardStore.data.dailyGoalPNL));
 const formattedValue = computed(() => {
-	const n = formatNum(dashboardStore.data.pnl24h, { currency: "USD", style: "currency" });
+	const n = formatNumCurrency(dashboardStore.data.pnl24h);
 	return formatNumberSign(dashboardStore.data.pnl24h, n);
 });
 </script>

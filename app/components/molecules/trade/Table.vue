@@ -114,6 +114,7 @@ const props = withDefaults(
 );
 
 const { isLoadedTrades } = useExchangeSocket();
+const { formatNumCurrency } = useCurrency();
 
 const tradeStore = useTradeStore();
 
@@ -121,7 +122,7 @@ const emits = defineEmits(["removeOne", "removeAll", "selectSymbol"]);
 
 const totalSum = computed(() => props.trades.reduce<number>((sum, trade) => sum += trade.pnl, 0));
 const prettyTotalProfit = computed(() => {
-	const n = formatNum(totalSum.value, { currency: "USD", style: "currency" });
+	const n = formatNumCurrency(totalSum.value);
 	return formatNumberSign(totalSum.value, n);
 });
 </script>

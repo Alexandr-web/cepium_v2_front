@@ -40,10 +40,12 @@ import AButton from "@/components/atoms/AButton.vue";
 import IconArrowBack from "@/assets/icons/material-symbols-arrow-back.svg";
 import { slateTheme, type NotivueTheme } from "notivue";
 import { useUser } from "@/composables/api/useUser";
+import { useCurrency } from "@/composables/api/useCurrency";
 
-const { suspense } = useUser();
+const { suspense: suspenseUser } = useUser();
+const { suspense: suspenseCurrency } = useCurrency();
 
-await suspense();
+await Promise.all([suspenseUser(), suspenseCurrency()]);
 
 const isDesktop = useMediaQuery("(min-width: 1024px)");
 

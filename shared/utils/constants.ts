@@ -11,6 +11,10 @@ export const MONTHS_LIST = [
 	"Июл", "Авг", "Сен", "Окт", "Ноя", "Дек",
 ];
 
+export const DEFAULT_CURRENCY = "USD";
+
+export const ALLOWED_CURRENCIES = ["USD", "RUB", "EUR"];
+
 export const MAX_SIZE_FILE_AVATAR = 5 * 1024 * 1024; // 5 мб
 
 export const CHART_COLORS = {
