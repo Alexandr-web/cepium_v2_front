@@ -14,4 +14,7 @@
  * const { api } = useLocalApi();
  * const data = await api<CurrencyResponse>("/currency");
  */
-export const useLocalApi = () => useApi(LOCAL_API);
+export const useLocalApi = () => {
+	const baseURL = import.meta.server ? useRequestURL().origin : undefined;
+	return useApi(baseURL);
+};

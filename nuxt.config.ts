@@ -10,13 +10,13 @@ export default defineNuxtConfig({
 		port: 3000,
 	},
 	runtimeConfig: {
-		apiUrl: process.env.NUXT_API_URL,
+		apiUrl: "",
 		public: {
-			apiUrl: process.env.NUXT_PUBLIC_API_URL,
-			wsUrl: process.env.NUXT_PUBLIC_WS_URL,
-			currencyApiUrl: process.env.NUXT_PUBLIC_CURRENCY_API,
-			bybitApiUrl: process.env.NUXT_PUBLIC_BYBIT_API,
-			bybitWsUrl: process.env.NUXT_PUBLIC_BYBIT_WS,
+			apiUrl: "",
+			wsUrl: "",
+			currencyApiUrl: "",
+			bybitApiUrl: "",
+			bybitWsUrl: "",
 		},
 	},
 	vite: {
