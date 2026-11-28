@@ -6,8 +6,9 @@
 		<div class="flex items-center gap-12 lg:gap-24">
 			<Connection class="hidden lg:flex" />
 			<ASelect
+				v-if="items.length"
 				v-model="currencyStore.activeCurrency"
-				class="w-90"
+				class="w-90 lg:w-120"
 				:mode="SelectMode.SMALL"
 				:items="items"
 			/>
