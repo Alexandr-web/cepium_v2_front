@@ -15,6 +15,8 @@ export const DEFAULT_CURRENCY = "USD";
 
 export const ALLOWED_CURRENCIES = ["USD", "RUB", "EUR"];
 
+export const LOCAL_API = "";
+
 export const MAX_SIZE_FILE_AVATAR = 5 * 1024 * 1024; // 5 мб
 
 export const CHART_COLORS = {

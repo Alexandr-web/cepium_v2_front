@@ -47,12 +47,10 @@
 				:disabled="isLoading || isEmpty"
 				@select="(v: BybitInterval) => activeInterval = v"
 			/>
-			<ClientOnly>
-				<div id="trading-view-chart" class="w-full h-350 lg:h-500"/>
-				<Empty v-if="isEmpty" class="absolute z-999 self-center my-auto top-0 bottom-0">
-					<p class="text-neutral-800">Монета не найдена</p>
-				</Empty>
-			</ClientOnly>
+			<div id="trading-view-chart" class="w-full h-350 lg:h-500"/>
+			<Empty v-if="isEmpty" class="absolute z-999 self-center my-auto top-0 bottom-0">
+				<p class="text-neutral-800">Монета не найдена</p>
+			</Empty>
 		</div>
 	</div>
 </template>
