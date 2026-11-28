@@ -44,7 +44,7 @@
 				/>
 				<span
 					class="text-14 text-white font-bold cursor-pointer hover:underline"
-					@click="emits('selectSymbol', row.symbol)"
+					@click="emits('selectTrade', row)"
 				>{{ row.symbol }}</span>
 			</div>
 		</template>
@@ -118,7 +118,7 @@ const { formatNumCurrency } = useCurrency();
 
 const tradeStore = useTradeStore();
 
-const emits = defineEmits(["removeOne", "removeAll", "selectSymbol"]);
+const emits = defineEmits(["removeOne", "removeAll", "selectTrade"]);
 
 const totalSum = computed(() => props.trades.reduce<number>((sum, trade) => sum += trade.pnl, 0));
 const prettyTotalProfit = computed(() => {

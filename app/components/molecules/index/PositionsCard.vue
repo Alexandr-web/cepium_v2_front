@@ -35,7 +35,7 @@
 							]"
 						>
 							<span class="text-white/80">{{ item.title }}</span>
-							<span class="text-primary-800">{{ item.value }}</span>
+							<span class="text-primary-800 truncate inline-block max-w-full">{{ item.value }}</span>
 						</li>
 					</ul>
 				</div>

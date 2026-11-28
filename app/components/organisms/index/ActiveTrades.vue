@@ -44,14 +44,17 @@
 			class="hidden lg:flex"
 			:disabled="isPendingRemovePosition || !isLoadedTrades || !displayTrades.length"
 			:trades="displayTrades"
+			@select-trade="openTradeControls"
 			@remove-one="removePosition"
 			@remove-all="removePositions"
 		/>
 	</section>
 	<Teleport to="body">
-		<Modal :model-value="showControlsModal && !isDesktop" @close="closeControlsModal">
-			<div class="flex flex-col gap-5">
+		<Modal :model-value="showControlsModal" size="big" @close="closeControlsModal">
+			<div class="flex flex-col gap-25 max-h-450 lg:max-h-[90vh] scroll-block overflow-auto">
+				<SymbolOverview :symbol="selectedTrade?.symbol" :interval="BybitInterval.M15" />
 				<TradeControlsList
+					class="lg:hidden"
 					:preset-menu="presetControlsList"
 					:trade="selectedTrade"
 					@remove-one="removePosition"
@@ -72,6 +75,7 @@ import TradesTable from "@/components/molecules/trade/Table.vue";
 import Empty from "@/components/molecules/common/Empty.vue";
 import ATabs from "@/components/atoms/ATabs.vue";
 import AInput from "@/components/atoms/AInput.vue";
+import SymbolOverview from "@/components/molecules/common/SymbolOverview.vue";
 import { useRemoveOne } from "@/composables/api/useOrders";
 import { useTradeStore } from "@/store/useTradeStore";
 
