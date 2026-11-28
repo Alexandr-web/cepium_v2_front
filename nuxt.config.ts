@@ -12,9 +12,11 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		apiUrl: process.env.NUXT_API_URL,
 		public: {
-			geckoApiUrl: process.env.NUXT_PUBLIC_GECKO_API_URL,
 			apiUrl: process.env.NUXT_PUBLIC_API_URL,
 			wsUrl: process.env.NUXT_PUBLIC_WS_URL,
+			currencyApiUrl: process.env.NUXT_PUBLIC_CURRENCY_API,
+			bybitApiUrl: process.env.NUXT_PUBLIC_BYBIT_API,
+			bybitWsUrl: process.env.NUXT_PUBLIC_BYBIT_WS,
 		},
 	},
 	vite: {
@@ -56,12 +58,7 @@ export default defineNuxtConfig({
 	css: ["@/assets/css/global.css", "notivue/notification.css", "notivue/animations.css"],
 	vue: {
 		compilerOptions: {
-			isCustomElement: (tag) =>
-				[
-					"gecko-coin-price-marquee-widget",
-					"gecko-coin-ticker-widget",
-					"gecko-coin-price-chart-widget",
-				].includes(tag),
+			isCustomElement: (tag) => ["gecko-coin-price-marquee-widget"].includes(tag),
 		},
 	},
 	svgo: {
@@ -115,11 +112,6 @@ export default defineNuxtConfig({
 		components: ["GridComponent", "TooltipComponent", "LegendComponent", "TitleComponent", "DataZoomComponent"],
 		features: ["LabelLayout", "UniversalTransition", "LegacyGridContainLabel"],
 	},
-	imports: {
-		dirs: [
-			"@/types/**",
-		],
-	},
 	fonts: {
 		defaults: {
 			fallbacks: {
@@ -160,6 +152,11 @@ export default defineNuxtConfig({
 			headers: {
 				"Cache-Control": "public, max-age=31536000, immutable",
 			},
+		},
+	},
+	nitro: {
+		experimental: {
+			websocket: true,
 		},
 	},
 });

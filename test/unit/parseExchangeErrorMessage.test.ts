@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseExchangeErrorMessage } from "../../app/utils/index";
+import { parseExchangeErrorMessage } from "../../shared/utils/index";
 
 describe("parseExchangeErrorMessage", () => {
 	it("должна возвращать пустую строку, если rawData не является строкой", () => {

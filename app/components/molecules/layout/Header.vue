@@ -5,6 +5,13 @@
 		</NuxtLink>
 		<div class="flex items-center gap-12 lg:gap-24">
 			<Connection class="hidden lg:flex" />
+			<ASelect
+				v-if="items.length"
+				v-model="currencyStore.activeCurrency"
+				class="w-90 lg:w-120"
+				:mode="SelectMode.SMALL"
+				:items="items"
+			/>
 			<Menu />
 		</div>
 	</header>
@@ -14,4 +21,16 @@
 import Menu from "@/components/molecules/layout/HeaderMenu.vue";
 import IconLogo from "@/assets/icons/logo.svg";
 import Connection from "@/components/atoms/Connection.vue";
+import ASelect from "@/components/atoms/ASelect.vue";
+import { useCurrencyStore } from "@/store/useCurrencyStore";
+
+const currencyStore = useCurrencyStore();
+
+const items = computed<SelectItem[]>(() =>
+	Object.keys(currencyStore.rates)
+		.map((key) => ({
+			label: key,
+			value: key,
+		}))
+);
 </script>

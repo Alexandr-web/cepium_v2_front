@@ -9,16 +9,30 @@
 		/>
 		<div
 			ref="selectRef"
-			class="relative h-50 bg-neutral-300 flex flex-col"
+			class="relative bg-neutral-300 flex flex-col"
 			:class="[
 				isOpen && 'rounded-t-4 lg:rounded-t-8',
 				!isOpen && 'rounded-4 lg:rounded-8',
 				disabled && 'opacity-50',
-				!disabled && 'cursor-pointer'
+				!disabled && 'cursor-pointer',
+				mode === SelectMode.DEFAULT && 'h-50',
 			]"
 		>
-			<div ref="reference" class="p-12 flex items-center justify-between gap-10" @click="!disabled && (isOpen = !isOpen)">
-				<span v-if="inputLabel" class="text-neutral-800 select-none truncate" :title="inputLabel">{{ inputLabel }}</span>
+			<div
+				ref="reference"
+				class="flex items-center justify-between gap-10"
+				:class="[
+					mode === SelectMode.DEFAULT && 'p-12',
+					mode === SelectMode.SMALL && 'p-6',
+				]"
+				@click="!disabled && (isOpen = !isOpen)"
+			>
+				<span
+					v-if="inputLabel"
+					class="text-neutral-800 select-none truncate"
+					:class="[mode === SelectMode.SMALL && 'text-14']"
+					:title="inputLabel"
+				>{{ inputLabel }}</span>
 				<IconKeyboardArrowDownRounded
 					class="text-neutral-800 w-24 h-24 transition"
 					:class="[isOpen && 'rotate-x-180']"
@@ -46,9 +60,11 @@
 							:class="[item.value === value && 'text-neutral-950']"
 						>
 							<ACheckbox
-								class="flex items-center cursor-pointer p-10 text-neutral-800 text-14 lg:text-15"
+								class="flex items-center cursor-pointer p-10 text-14 text-neutral-800"
+								:class="[mode === SelectMode.DEFAULT && 'lg:text-15']"
 								:model-value="item.value === value"
 								:label="item.label"
+								:theme="checkboxTheme"
 								@update:model-value="(v: boolean) => select(item, v)"
 							/>
 						</li>
@@ -73,6 +89,7 @@ const props = withDefaults(
 		items: SelectItem[];
 		countClasses?: string|string[];
 		labelClasses?: string|string[];
+		mode?: SelectMode;
 	}>(),
 	{
 		placeholder: "",
@@ -81,6 +98,7 @@ const props = withDefaults(
 		disabled: false,
 		countClasses: "",
 		labelClasses: "",
+		mode: SelectMode.DEFAULT,
 	}
 );
 
@@ -102,6 +120,7 @@ onClickOutside(selectRef, () => isOpen.value = false, { ignore: [floating] });
 const selectedLabel = computed(() => props.items.find((i) => i.value === value.value)?.label);
 const inputLabel = computed(() => selectedLabel.value || props.placeholder);
 const disabled = computed(() => props.disabled ?? !props.items.length);
+const checkboxTheme = computed(() => props.mode === SelectMode.SMALL ? CheckboxTheme.NEUTRAL : CheckboxTheme.PRIMARY);
 
 const select = (item: SelectItem, checked: boolean) => {
 	if (value.value === item.value) return;

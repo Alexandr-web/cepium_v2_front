@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { extractBaseSymbol } from "../../app/utils/index";
+import { extractBaseSymbol } from "../../shared/utils/index";
 
 describe("extractBaseSymbol", () => {
 	it("должна извлекать базовый символ из пары с слэшем", () => {

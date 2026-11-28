@@ -1,8 +1,8 @@
 <template>
-	<div class="flex flex-col rounded-8 border border-solid bg-neutral-200 border-neutral-300">
+	<div class="flex flex-col rounded-8 border border-solid bg-neutral-200 border-neutral-300" :class="[disabled && 'opacity-60']">
 		<div
-			class="flex items-center justify-between gap-10 cursor-pointer p-16 transition-colors duration-200 hover:bg-neutral-100/70 rounded-8"
-			:class="[isActive && 'bg-neutral-300/30']"
+			class="flex items-center justify-between gap-10 p-16 transition-colors duration-200 hover:bg-neutral-100/70 rounded-8"
+			:class="[isActive && 'bg-neutral-300/30', !disabled && 'cursor-pointer', disabled && 'cursor-default']"
 			@click="toggleAccordion"
 		>
 			<div class="flex items-center gap-10">
@@ -42,9 +42,11 @@ const props = withDefaults(
 		isOpen?: boolean;
 		label: string;
 		prependIcon?: string;
+		disabled?: boolean;
 	}>(),
 	{
 		isOpen: false,
+		disabled: false,
 		prependIcon: "",
 	}
 );
@@ -66,6 +68,7 @@ const isActive = ref(props.isOpen);
 const isContentVisible = ref(props.isOpen);
 
 const toggleAccordion = () => {
+	if (props.disabled) return;
 	// при закрытии сразу включаем обрезку, чтобы контент не протекал во время сворачивания
 	if (isActive.value) isContentVisible.value = false;
 	isActive.value = !isActive.value;

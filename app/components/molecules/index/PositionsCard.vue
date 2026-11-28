@@ -35,7 +35,7 @@
 							]"
 						>
 							<span class="text-white/80">{{ item.title }}</span>
-							<span class="text-primary-800">{{ item.value }}</span>
+							<span class="text-primary-800 truncate inline-block max-w-full">{{ item.value }}</span>
 						</li>
 					</ul>
 				</div>
@@ -77,7 +77,7 @@ import IconArrowDown from "@/assets/icons/keyboard-arrow-down-rounded.svg";
 import AButton from "@/components/atoms/AButton.vue";
 import { useDashboardStore } from "@/store/useDashboardStore";
 import { useTradeStore } from "@/store/useTradeStore";
-import { useMarginChart } from "@/composables/chart/useMarginChart";
+import { useMarginChart } from "@/composables/useChart";
 
 const dashboardStore = useDashboardStore();
 const tradeStore = useTradeStore();
@@ -86,16 +86,17 @@ const isDesktop = useMediaQuery("(min-width: 1024px)");
 
 const showCharts = useState("show-margin-chart", () => false);
 
+const { formatNumCurrency } = useCurrency();
 const { options, legend } = useMarginChart();
 
 const margin = computed(() => [
 	{
 		title: "Маржи используется",
-		value: formatNum(dashboardStore.data.usedMargin, { currency: "USD", style: "currency" }),
+		value: formatNumCurrency(dashboardStore.data.usedMargin),
 	},
 	{
 		title: "Маржи доступно",
-		value: formatNum(dashboardStore.data.availableMargin, { currency: "USD", style: "currency" }),
+		value: formatNumCurrency(dashboardStore.data.availableMargin),
 	},
 ]);
 

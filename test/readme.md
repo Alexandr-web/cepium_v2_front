@@ -2,28 +2,43 @@
 
 Папка `test/` предназначена для хранения всех возможных тестов (unit, nuxt, e2e). Работает через [vitest](https://nuxt.com/docs/4.x/getting-started/testing)
 
-В Nuxt 4 рекомендуется делить тесты по типу окружения, чтобы избежать лишней инициализации тяжелого рантайма Nuxt там, где нужны обычные изоляционные Node.js тесты:
+## Конфигурация
 
-- **test/unit/** (Окружение Node): Для «чистых» хелперов, чистой бизнес-логики и утилит. Они работают молниеносно.
-- **test/nuxt/** или **test/components/** (Окружение Nuxt): Для компонентов, composables и плагинов, где жизненно важны автоимпорты (`ref`, `computed`, `useFetch` и т.д.).
+В `vitest.config.ts` настроены три проекта:
 
-Вы можете настроить это разделение через секцию workspace в `vitest.config.ts`
+| Проект | Окружение | Путь к тестам | Скрипт |
+|--------|-----------|---------------|--------|
+| `unit` | `node` | `test/unit/*.{test,spec}.ts` | `yarn test-unit` |
+| `e2e` | `node` | `test/e2e/*.{test,spec}.ts` | `yarn test` |
+| `nuxt` | `nuxt` | `test/nuxt/*.{test,spec}.ts` | `yarn test-nuxt` |
 
-*Примеры*:
+Запуск всех тестов: `yarn test`
+
+## Unit-тесты (`test/unit/`)
+
+Для «чистых» хелперов, чистой бизнес-логики и утилит. Работают в окружении Node.js, без инициализации Nuxt.
+
+*Примеры*: форматирование чисел (`formatNum`), дат (`formatTime`, `formatIsoToPrettyStr`), обработка ошибок (`getRequestErrorMessage`, `prettyError`, `parseExchangeErrorMessage`), утилиты (`hasKey`, `isNumber`, `isNegativeZero`, `extractBaseSymbol`, `getURLFile`, `isCurrentDate`, `formatNumberSign`, `getFiltersQuery`, `getUrlCoinIcon`, `formatLocalDate`).
 
 **unit-тест**
 
 ```ts
 // test/unit/currency.test.ts
 import { describe, it, expect } from 'vitest';
-import { formatPrice } from '~/app/utils/currency';
+import { formatNum } from '~/shared/utils/index';
 
-describe('formatPrice', () => {
-  it('должен корректно форматировать число в рубли', () => {
-    expect(formatPrice(1500)).toBe('1 500 ₽');
+describe('formatNum', () => {
+  it('должен корректно форматировать число', () => {
+    expect(formatNum(1500)).toBe('1 500');
   });
 });
 ```
+
+## Nuxt-тесты (`test/nuxt/`)
+
+Для компонентов, composables и плагинов, где жизненно важны автоимпорты (`ref`, `computed`, `useFetch` и т.д.). Окружение `nuxt` через `@nuxt/test-utils`.
+
+*Примеры*: тесты атомов (`AButton`, `AInput`, `ASelect`, `ACheckbox`, `AImage`, `AError`, `APagination`, `ASlider`, `ATab`, `ATag`, `Connection`, `LabelField`, `ProgressLine`), composables (`useFormState`).
 
 **nuxt-тест**
 
@@ -31,11 +46,11 @@ describe('formatPrice', () => {
 // test/nuxt/BaseButton.test.ts
 import { mount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
-import BaseButton from '~/app/components/BaseButton.vue';
+import AButton from '~/app/components/atoms/AButton.vue';
 
-describe('BaseButton', () => {
+describe('AButton', () => {
   it('рендерит переданный текст и реагирует на клик', async () => {
-    const wrapper = mount(BaseButton, {
+    const wrapper = mount(AButton, {
       slots: { default: 'Отправить' }
     });
     
@@ -47,7 +62,9 @@ describe('BaseButton', () => {
 });
 ```
 
-Для создания заглушек (моков) глобальных функций Nuxt (таких как `useRuntimeConfig` или `useRouter`), в пакете `@nuxt/test-utils` предусмотрен специальный метод `mockNuxtImport`
+## Моки Nuxt-функций
+
+Для создания заглушек (моков) глобальных функций Nuxt (таких как `useRuntimeConfig` или `useRouter`) в пакете `@nuxt/test-utils` предусмотрен специальный метод `mockNuxtImport`.
 
 *Пример*:
 
@@ -70,3 +87,7 @@ describe('useUserAuth', () => {
   });
 });
 ```
+
+## Моковые данные (`test/setup/`)
+
+Папка `test/setup/` предназначена для хранения моковых данных, которые могут использоваться в разных тестах. При создании файла в этой директории подключите его через свойство `setupFiles` в конфигурации `vitest.config.ts`.

@@ -19,6 +19,8 @@ export const useOrders = () => {
 
 export const useRemoveOne = (onSuccess?: (id: string) => void) => {
 	const { api } = useApi();
+	const { formatNumCurrency } = useCurrency();
+
 	const errMessage = ref("");
 
 	const { mutateAsync, isPending } = useMutation<
@@ -28,7 +30,7 @@ export const useRemoveOne = (onSuccess?: (id: string) => void) => {
 	>({
 		mutationFn: (id) => api(`/api/orders/${id}`, { method: "DELETE" }),
 		onSuccess: (data) => {
-			const pnl = formatNum(Number(data.data.realizedPnl), { currency: "USD", style: "currency" });
+			const pnl = formatNumCurrency(Number(data.data.realizedPnl));
 			push.success(`Позиция ${data.data.side?.toUpperCase()} ${data.data.symbol} закрыта. Профит ${pnl}`);
 
 			onSuccess?.(String(data.data.id));

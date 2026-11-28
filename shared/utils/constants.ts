@@ -4,10 +4,18 @@ export const PER_PAGE_ORDERS = 10;
 
 export const WEEKDAY_LABELS = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
 
+export const BYBIT_INTERVALS = ["1", "3", "5", "15", "30", "60", "120", "240", "360", "720", "D", "W", "M"];
+
 export const MONTHS_LIST = [
 	"Янв", "Фев", "Мар", "Апр", "Май", "Июн",
 	"Июл", "Авг", "Сен", "Окт", "Ноя", "Дек",
 ];
+
+export const DEFAULT_CURRENCY = "USD";
+
+export const ALLOWED_CURRENCIES = ["USD", "RUB", "EUR"];
+
+export const LOCAL_API = "";
 
 export const MAX_SIZE_FILE_AVATAR = 5 * 1024 * 1024; // 5 мб
 
@@ -88,4 +96,16 @@ export const CHART_COLORS = {
 		lineWidth: 2,
 		text: "Загрузка",
 	},
+};
+
+export const TRADING_VIEW_THEME = {
+	bg: "transparent",
+	text: "#8b949e",
+	grid: "rgba(139, 148, 158, 0.06)",
+	border: "#30363d",
+	crosshair: "rgba(201, 209, 217, 0.35)",
+	up: "#26a69a",
+	down: "#ef5350",
+	upVolume: "rgba(38, 166, 154, 0.25)",
+	downVolume: "rgba(239, 83, 80, 0.25)",
 };

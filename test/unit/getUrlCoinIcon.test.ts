@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getUrlCoinIcon } from "../../app/utils/index";
+import { getUrlCoinIcon } from "../../shared/utils/index";
 
 describe("getUrlCoinIcon", () => {
 	it("должна генерировать корректный URL для иконки монеты", () => {

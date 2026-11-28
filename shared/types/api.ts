@@ -320,20 +320,6 @@ export type Position = {
 	id: string;
 };
 
-export type CoinGecko = {
-	id: string;
-	name: string;
-	api_symbol: string;
-	symbol: string;
-	market_cap_rank: number | null;
-	thumb: string;
-	large: string;
-};
-
-export type GeckoSearchResponse = {
-	coins: CoinGecko[];
-};
-
 export type StatisticsResponse = {
 	statusCode: number;
 	data: {
@@ -360,4 +346,39 @@ export type StatisticsProfileActivitiesResponse = {
 	statusCode: number;
 	data: ActivityItem[];
 	message: string;
+};
+
+export type TickerData = {
+	symbol: string;
+	lastPrice?: string;
+	price24hPcnt?: string;
+	highPrice24h?: string;
+	lowPrice24h?: string;
+	volume24h?: string;
+	turnover24h?: string;
+	[key: string]: unknown;
+};
+
+export type BybitKlineResponse = {
+	retCode: number;
+	retMsg: string;
+	result: {
+		category: string;
+		symbol: string;
+		list: string[][];
+	};
+};
+
+export type CurrencyResponse = {
+	base_code: string;
+	documentation: string;
+	provider: string;
+	rates: Record<string, number>;
+	result: string;
+	terms_of_use: string;
+	time_eol_unix: number;
+	time_last_update_unix: number;
+	time_last_update_utc: string;
+	time_next_update_unix: number;
+	time_next_update_utc: string;
 };

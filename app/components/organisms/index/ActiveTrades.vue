@@ -44,25 +44,23 @@
 			class="hidden lg:flex"
 			:disabled="isPendingRemovePosition || !isLoadedTrades || !displayTrades.length"
 			:trades="displayTrades"
+			@select-trade="openTradeControls"
 			@remove-one="removePosition"
 			@remove-all="removePositions"
-			@select-symbol="selectSymbol"
 		/>
 	</section>
 	<Teleport to="body">
-		<Modal :model-value="showControlsModal && !isDesktop" @close="closeControlsModal">
-			<div class="flex flex-col gap-5">
+		<Modal :model-value="showControlsModal" size="big" @close="closeControlsModal">
+			<div class="flex flex-col gap-25 max-h-450 lg:max-h-[90vh] scroll-block overflow-auto">
+				<SymbolOverview :symbol="selectedTrade?.symbol" :interval="BybitInterval.M15" />
 				<TradeControlsList
+					class="lg:hidden"
 					:preset-menu="presetControlsList"
 					:trade="selectedTrade"
 					@remove-one="removePosition"
 					@remove-all="removePositions"
 				/>
-				<CoinChart v-if="selectedSymbol" :symbol="selectedSymbol" />
 			</div>
-		</Modal>
-		<Modal :model-value="!!selectedSymbol && isDesktop" @close="selectedSymbol = null">
-			<CoinChart v-if="selectedSymbol" :symbol="selectedSymbol" />
 		</Modal>
 	</Teleport>
 </template>
@@ -75,12 +73,11 @@ import AButton from "@/components/atoms/AButton.vue";
 import TradeControlsList from "@/components/molecules/trade/ControlsList.vue";
 import TradesTable from "@/components/molecules/trade/Table.vue";
 import Empty from "@/components/molecules/common/Empty.vue";
-import CoinChart from "@/components/molecules/widgets/CoinChart.vue";
 import ATabs from "@/components/atoms/ATabs.vue";
 import AInput from "@/components/atoms/AInput.vue";
+import SymbolOverview from "@/components/molecules/common/SymbolOverview.vue";
 import { useRemoveOne } from "@/composables/api/useOrders";
 import { useTradeStore } from "@/store/useTradeStore";
-import { useCoinGeckoSearch } from "@/composables/api/useCoinGecko";
 
 enum TabsValues {
 	ALL = "all",
@@ -91,7 +88,6 @@ enum TabsValues {
 };
 
 const isDesktop = useMediaQuery("(min-width: 1024px)");
-const { findCoinId } = useCoinGeckoSearch();
 
 const tradeStore = useTradeStore();
 
@@ -138,7 +134,6 @@ const displayTradesMemoize = useMemoize((trades: Trade[], _search: string, _acti
 
 const displayTrades = computed(() => displayTradesMemoize(tradeStore.getAllTrades(), search.value, activeTab.value));
 
-const selectedSymbol = ref<string | null>(null);
 const selectedTrade = ref<Trade | null>(null);
 const showControlsModal = ref(false);
 
@@ -153,7 +148,6 @@ const presetControlsList = computed(() => selectedTrade.value ? ControlsListPres
 const openTradeControls = async (trade: Trade) => {
 	selectedTrade.value = trade;
 	showControlsModal.value = true;
-	await selectSymbol(trade.symbol);
 };
 
 /**
@@ -165,7 +159,6 @@ const openTradeControls = async (trade: Trade) => {
 const openAllControls = () => {
 	selectedTrade.value = null;
 	showControlsModal.value = true;
-	selectedSymbol.value = null;
 };
 
 /**
@@ -175,7 +168,6 @@ const openAllControls = () => {
 const closeControlsModal = () => {
 	showControlsModal.value = false;
 	selectedTrade.value = null;
-	selectedSymbol.value = null;
 };
 
 /**
@@ -198,16 +190,5 @@ const removePositions = async () => {
 
 	const prms = displayTrades.value.map((t) => mutateAsync(t.id));
 	await Promise.all(prms);
-};
-
-/**
- * Находит id монеты в CoinGecko по её символу и, если найден,
- * устанавливает его как выбранный для отображения графика.
- *
- * @param s - Символ монеты (например, "BTC/USDT:USDT").
- */
-const selectSymbol = async (s: string) => {
-	const id = await findCoinId(s);
-	if (id) selectedSymbol.value = id;
 };
 </script>

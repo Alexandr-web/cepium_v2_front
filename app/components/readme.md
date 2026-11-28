@@ -2,133 +2,130 @@
 
 Папка `app/components/` — это центральное место для всех Vue-компонентов в проекте. В Nuxt 4 она поддерживает **автоимпорт** (не нужно вручную импортировать компоненты перед использованием), а также позволяет использовать вложенные папки и префиксы для удобной организации.
 
-В этом проекте принята методология **Atomic Design**, которая делит компоненты на пять уровней:
+В этом проекте принята методология **Atomic Design**, которая делит компоненты на три уровня:
 
 - components/
-  - atoms/ # Атомы – базовые строительные блоки (кнопка, инпут, иконка)
-  - molecules/ # Молекулы – комбинации атомов (форма поиска, карточка товара)
-  - organisms/ # Организмы – сложные секции (шапка, футер, слайдер)
+  - atoms/ — Атомы – базовые строительные блоки (кнопка, инпут, чекбокс, слайдер и т.д.)
+  - molecules/ — Молекулы – комбинации атомов, сгруппированные по доменам
+  - organisms/ — Организмы – сложные секции, также сгруппированные по доменам
 
+Все компоненты используют `<script setup lang="ts">` и Composition API.
 
-> **Примечание:** Страницы (`app/pages/*.vue`) обычно находятся вне `app/components/`, но в методологии они являются высшим уровнем – **страницами**, собранными из организмов.
+## Атомы (`app/components/atoms/`)
 
-## Что такое Atomic Design?
+13 базовых UI-компонентов:
 
-**Atomic Design** – это методология создания интерфейсных систем, предложенная Брэдом Фростом. Она помогает создавать масштабируемые, переиспользуемые и легко поддерживаемые компоненты.
+| Компонент | Описание |
+|-----------|----------|
+| `AButton.vue` | Кнопка с вариантами стилей |
+| `AInput.vue` | Поле ввода |
+| `ASelect.vue` | Выпадающий список |
+| `ACheckbox.vue` | Чекбокс с темами и размерами |
+| `AImage.vue` | Обёртка над NuxtImg с пресетами (coin, avatar) |
+| `AError.vue` | Отображение ошибок |
+| `APagination.vue` | Пагинация |
+| `ASlider.vue` | Слайдер (на базе @vueform/slider) |
+| `ATab.vue` | Вкладка |
+| `ATag.vue` | Тег |
+| `Connection.vue` | Индикатор подключения |
+| `LabelField.vue` | Поле с меткой |
+| `ProgressLine.vue` | Прогресс-бар |
 
-| Уровень       | Описание                                                                 | Примеры                                      |
-|---------------|--------------------------------------------------------------------------|----------------------------------------------|
-| **Атомы**     | Базовые HTML-элементы с минимальной логикой и стилями. Не зависят от контекста. | `Button.vue`, `Input.vue`, `Icon.vue`, `Heading.vue` |
-| **Молекулы**  | Комбинации атомов, формирующие простой функциональный блок.              | `SearchForm.vue`, `ProductCard.vue`, `UserAvatar.vue` |
-| **Организмы** | Сложные секции, составленные из молекул и атомов. Могут содержать бизнес-логику. | `Header.vue`, `ProductList.vue`, `Footer.vue`, `Modal.vue` |
-| **Шаблоны**   | Каркасы страниц, определяющие расположение организмов без конкретного содержимого. | `DefaultLayout.vue`, `CheckoutTemplate.vue` |
-| **Страницы**  | (вне app/components/) – конкретные страницы, использующие шаблоны и организмы. | `index.vue`, `product-id.vue`              |
+Атомы не содержат бизнес-логики, принимают пропсы для кастомизации и не зависят от внешнего состояния.
 
-## Структура папок
+## Молекулы (`app/components/molecules/`)
 
-### Атомы (`app/components/atoms/`)
+32 компонента, сгруппированные по доменам:
 
-Самые маленькие и простые компоненты. Они:
+### chart/
+- `TradingViewTooltip.vue` — тултип для TradingView-чарта
 
-- Не содержат бизнес-логики.
-- Принимают пропсы для кастомизации.
-- Не зависят от внешнего состояния (в идеале чисто презентационные).
+### common/
+- `Collapse.vue` — сворачиваемый блок
+- `ConfirmCode.vue` — подтверждение кодом
+- `Empty.vue` — заглушка для пустого состояния
+- `Filters.vue` — панель фильтров
+- `MTable.vue` — таблица
+- `Modal.vue` — модальное окно
+- `SearchList.vue` — поиск по списку
+- `SymbolOverview.vue` — обзор символа
+- `Tooltip.vue` — тултип
+- `Wizard.vue` — пошаговый визард
 
-- atoms/
-  - Button.vue
-  - Input.vue
-  - Checkbox.vue
-  - Icon.vue
-  - Typography/
-    - Heading.vue
-    - Text.vue
+### configs/
+- `Card.vue` — карточка конфига
 
-**Пример `atoms/Button.vue`**
+### index/
+- `BalanceCard.vue` — карточка баланса
+- `PnlCard.vue` — карточка PNL
+- `PositionsCard.vue` — карточка позиций
 
-```vue
-<template>
-  <button :class="['btn', `btn--${variant}`]" :disabled="disabled" @click="$emit('click')">
-    <slot />
-  </button>
-</template>
+### layout/
+- `Header.vue` — шапка (импортируется как MoleculesHeader)
+- `HeaderMenu.vue` — меню шапки
+- `Menu.vue` — боковое меню
 
-<script setup lang="ts">
-defineProps<{
-  variant?: 'primary' | 'secondary' | 'danger'
-  disabled?: boolean
-}>();
+### orders/
+- `Card.vue` — карточка ордера
+- `Table.vue` — таблица ордеров
 
-defineEmits<{
-  (e: 'click'): void
-}>();
-</script>
-```
+### profile/
+- `ExchangeCard.vue` — карточка биржи
+- `ExchangeForm.vue` — форма биржи
+- `GeneralFieldsForm.vue` — форма общих полей профиля
+- `SecurityFieldsForm.vue` — форма безопасности профиля
+- `UploadAvatar.vue` — загрузка аватара
 
-### Молекулы (`app/components/molecules/`)
+### statistics/
+- `Card.vue` — карточка статистики
 
-Состоят из 2+ атомов и формируют повторяемый блок. Молекулы могут иметь небольшую логику, но не должны управлять глобальным состоянием.
+### table/
+- `Col.vue` — колонка таблицы
+- `Head.vue` — заголовок таблицы
+- `HeadItem.vue` — элемент заголовка
 
-- molecules/
-  - SearchBar.vue      (Input + Button)
-  - ProductCard.vue    (Image + Heading + Text + Button)
-  - UserMenu.vue       (Avatar + Text + Dropdown)
-  - FormField.vue      (Label + Input + ErrorMessage)
+### trade/
+- `ControlsList.vue` — список элементов управления
+- `MobCard.vue` — мобильная карточка
+- `Table.vue` — таблица торговли
 
-**Пример `molecules/SearchBar.vue`**
+### widgets/
+- `CoinsMarquee.vue` — бегущая строка монет
 
-```vue
-<template>
-  <div class="search-bar">
-    <AtomsInput v-model="query" placeholder="Поиск..." @keyup.enter="search" />
-    <AtomsButton variant="primary" @click="search">Найти</AtomsButton>
-  </div>
-</template>
+## Организмы (`app/components/organisms/`)
 
-<script setup lang="ts">
-const query = ref("");
-const emit = defineEmits<{ (e: "search", value: string): void }>();
-const search = () => emit("search", query.value);
-</script>
-```
+13 сложных компонентов:
 
-### Организмы (`app/components/organisms/`)
+### configs/
+- `Form.vue` — форма создания/редактирования конфига
+- `List.vue` — список конфигов
 
-Крупные составные блоки, формирующие секции страницы. Могут содержать бизнес-логику, работать с хранилищем (Pinia) и API. Организмы часто являются "умными" компонентами.
+### index/
+- `ActiveTrades.vue` — активные сделки
+- `Errors.vue` — блок ошибок
+- `Summary.vue` — сводка
 
-- organisms/
-  - Header.vue          (Logo + Navigation + UserMenu)
-  - ProductGrid.vue     (загружает товары и рендерит ProductCard)
-  - Footer.vue
-  - CheckoutForm.vue    (сложная форма с валидацией)
-  - CartSidebar.vue     (работает с корзиной из store)
+### login/
+- `Form.vue` — форма входа
 
-**Пример `organisms/ProductGrid.vue`**
+### orders/
+- `Filters.vue` — фильтры ордеров
+- `List.vue` — список ордеров
 
-```vue
-<template>
-  <div class="product-reviews">
-    <h3>Отзывы ({{ reviews.length }})</h3>
-    <div v-for="review in reviews" :key="review.id" class="review">
-      <MoleculesRatingStars :rating="review.rating" />
-      <p>{{ review.text }}</p>
-      <AtomsText size="sm">{{ review.author }}</AtomsText>
-    </div>
-    <AtomsButton @click="loadMore">Загрузить ещё</AtomsButton>
-  </div>
-</template>
+### profile/
+- `Activity.vue` — активность профиля
+- `Form.vue` — форма профиля
+- `Exchanges.vue` — список бирж
 
-<script setup lang="ts">
-const props = defineProps<{ productId: number }>()
-const { data: reviews, refresh } = await useFetch(`/api/products/${props.productId}/reviews`)
-function loadMore() { /* пагинация */ }
-</script>
-```
+### statistics/
+- `ListCards.vue` — список карточек статистики
+- `ListCharts.vue` — список графиков
 
 ## Лучшие практики
 
 - Следуйте иерархии – атомы не импортируют молекулы, молекулы не импортируют организмы.
-- Документируйте компоненты – используйте Storybook или JSDoc-комментарии.
-- Тестируйте изолированно – атомы и молекулы легко тестировать без бекенда.
-- Избегайте глубокой вложенности – более 3 уровней (atoms → molecules → organisms) усложняют поддержку.
+- Компоненты используют автоимпорт Nuxt — явные импорты не нужны.
+- Тестируйте изолированно – атомы и молекулы легко тестировать без бекенда (тесты в `test/nuxt/`).
+- Избегайте глубокой вложенности – более 3 уровней усложняют поддержку.
 - Не бойтесь создавать много атомов – чем мельче, тем переиспользуемее.
-- Шаблоны и страницы – не пишите сложную логику в шаблонах; страницы должны быть "тонкими".
+- Страницы (`app/pages/`) собираются из организмов и молекул.

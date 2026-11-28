@@ -26,6 +26,7 @@
 					class="bg-neutral-200 rounded-t-8 lg:rounded-8 border-t-1 w-full lg:border border-solid border-t-white/10 lg:border-white/10 pb-32 pt-50 lg:pt-32 px-16 relative lg:m-auto"
 					:class="[
 						size === 'small' && 'lg:max-w-500',
+						size === 'big' && 'lg:max-w-1520',
 						size === 'default' && 'lg:max-w-900'
 					]"
 				>
@@ -47,7 +48,7 @@ import { onClickOutside } from "@vueuse/core";
 const props = withDefaults(
 	defineProps<{
 		disabled?: boolean;
-		size?: "default" | "small";
+		size?: "default" | "small" | "big";
 	}>(),
 	{
 		disabled: false,
