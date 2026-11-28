@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import IconTrendingUp from "@/assets/icons/material-symbols-trending-up.svg";
 import Card from "@/components/molecules/statistics/Card.vue";
+import { useCurrency } from "@/composables/useCurrency";
 
 const props = withDefaults(
 	defineProps<{
@@ -22,6 +23,8 @@ const props = withDefaults(
 	}
 );
 
+const { formatNumCurrency } = useCurrency();
+
 const profit = computed(() => Number(props.statistics?.totalProfit || 0));
 const winrate = computed(() => Number(props.statistics?.winRate || 0));
 const deals = computed(() => Number(props.statistics?.totalTrades || 0));
@@ -31,7 +34,7 @@ const cards = computed<StatisticsCard[]>(() => [
 		id: "profit",
 		title: "Общий профит",
 		value: profit.value,
-		normalizer: (value) => formatNum(value, { currency: "USD", style: "currency" }),
+		normalizer: formatNumCurrency,
 		icon: "arrows-more-up-rounded",
 		classesValue: [
 			profit.value > 0 ? "text-tertiary-700" : "",

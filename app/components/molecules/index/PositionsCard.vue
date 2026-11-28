@@ -86,16 +86,17 @@ const isDesktop = useMediaQuery("(min-width: 1024px)");
 
 const showCharts = useState("show-margin-chart", () => false);
 
+const { formatNumCurrency } = useCurrency();
 const { options, legend } = useMarginChart();
 
 const margin = computed(() => [
 	{
 		title: "Маржи используется",
-		value: formatNum(dashboardStore.data.usedMargin, { currency: "USD", style: "currency" }),
+		value: formatNumCurrency(dashboardStore.data.usedMargin),
 	},
 	{
 		title: "Маржи доступно",
-		value: formatNum(dashboardStore.data.availableMargin, { currency: "USD", style: "currency" }),
+		value: formatNumCurrency(dashboardStore.data.availableMargin),
 	},
 ]);
 

@@ -88,10 +88,6 @@ export const ordersColumns: TableColumn<Order>[] = [
 		key: "realizedPnl",
 		label: "Профит",
 		sort: true,
-		normalizer: (v) => {
-			const n = formatNum(Number(v), { currency: "USD", style: "currency", defaultValue: "-" });
-			return formatNumberSign(Number(v), n);
-		},
 		classes: (row) => [
 			"font-bold",
 			(row.realizedPnl ?? 0) > 0 ? "text-tertiary-600" : "",
@@ -108,7 +104,7 @@ export const ordersColumns: TableColumn<Order>[] = [
 		key: "entryPrice",
 		label: "Цена входа",
 		sort: true,
-		normalizer: (v) => formatNum(Number(v), { currency: "USD", style: "currency" }),
+		normalizer: (v) => formatNum(Number(v), { currency: DEFAULT_CURRENCY, style: "currency" }),
 		classes: "text-primary-600",
 	},
 	{

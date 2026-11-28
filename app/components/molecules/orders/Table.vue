@@ -24,10 +24,15 @@
 				time-style="medium"
 			/>
 		</template>
+		<template #cell-realizedPnl="{ value }">
+			{{ formatNumberSign(Number(value), formatNumCurrency(Number(value))) }}
+		</template>
 	</MTable>
 </template>
 <script setup lang="ts">
 import MTable from "@/components/molecules/common/MTable.vue";
 
 defineProps<{ orders: Order[]; activePage: number; }>();
+
+const { formatNumCurrency } = useCurrency();
 </script>

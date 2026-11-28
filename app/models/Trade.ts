@@ -49,27 +49,27 @@ export default class Trade {
 	}
 
 	get prettyLiquidationPrice() {
-		return formatNum(this.liquidationPrice, { currency: "USD", style: "currency", defaultValue: "-" });
+		return formatNum(this.liquidationPrice, { currency: DEFAULT_CURRENCY, style: "currency", defaultValue: "-" });
 	}
 
 	get prettyTakeProfitPrice() {
-		return formatNum(Number(this.takeProfitPrice), { currency: "USD", style: "currency", defaultValue: "-" });
+		return formatNum(Number(this.takeProfitPrice), { currency: DEFAULT_CURRENCY, style: "currency", defaultValue: "-" });
 	}
 
 	get prettyStopLossPrice() {
-		return formatNum(Number(this.stopLossPrice), { currency: "USD", style: "currency", defaultValue: "-" });
+		return formatNum(Number(this.stopLossPrice), { currency: DEFAULT_CURRENCY, style: "currency", defaultValue: "-" });
 	}
 
 	get prettyCurrentPrice() {
-		return formatNum(this.markPrice, { currency: "USD", style: "currency" });
+		return formatNum(this.markPrice, { currency: DEFAULT_CURRENCY, style: "currency" });
 	}
 
 	get prettyEntryPrice() {
-		return formatNum(this.entryPrice, { currency: "USD", style: "currency" });
+		return formatNum(this.entryPrice, { currency: DEFAULT_CURRENCY, style: "currency" });
 	}
 
 	get prettyPnl() {
-		const n = formatNum(this.pnl, { currency: "USD", style: "currency" });
+		const n = formatNum(this.pnl, { currency: DEFAULT_CURRENCY, style: "currency" });
 		return formatNumberSign(this.pnl, n);
 	}
 

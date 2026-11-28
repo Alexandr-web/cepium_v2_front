@@ -36,7 +36,7 @@ const props = withDefaults(
 	}
 );
 
-const priceOptions = { currency: "USD", style: "currency", maximumFractionDigits: 6 } as const;
+const priceOptions = { currency: DEFAULT_CURRENCY, style: "currency", maximumFractionDigits: 6 } as const;
 
 const klineClasses = computed(() => [
 	props.candle.close >= props.candle.open && "text-tertiary-600",

@@ -1,6 +1,5 @@
 import keys from "@/api/keys";
 import { useQueryClient } from "@tanstack/vue-query";
-import { useApi } from "@/composables/useApi";
 
 type BybitKlineParams = {
 	symbol: string;
@@ -39,7 +38,7 @@ const parseKlines = (list?: string[][]): BybitKline[] => {
 };
 
 export const useBybitKlines = () => {
-	const { api } = useApi();
+	const { api } = useLocalApi();
 	const queryClient = useQueryClient();
 
 	const fetchKlines = async (params: BybitKlineParams): Promise<BybitKline[]> => {
