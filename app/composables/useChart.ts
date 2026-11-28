@@ -1,5 +1,6 @@
 import type { EChartsOption } from "echarts";
 import { useTradeStore } from "@/store/useTradeStore";
+import { useCurrencyStore } from "@/store/useCurrencyStore";
 
 // Максимальное количество категорий, видимых одновременно
 const CHART_VISIBLE_POINTS = 3;
@@ -87,6 +88,8 @@ const getChartScrollOptions = (_total: MaybeRefOrGetter<number>, visible = CHART
  */
 export const useMarginChart = (_options: MaybeRefOrGetter = {}) => {
 	const tradeStore = useTradeStore();
+	const currencyStore = useCurrencyStore();
+
 	const { formatNumCurrency } = useCurrency();
 
 	const trades = computed(() => tradeStore.getAllTrades());
@@ -124,7 +127,7 @@ export const useMarginChart = (_options: MaybeRefOrGetter = {}) => {
 		trades.value.reduce((sum, trade) => sum + trade.margin, 0)
 	);
 
-	const options = computed<EChartsOption>(() => ({
+	const optionsMemoize = useMemoize<EChartsOption, [string, { name: string; value: number; }[]]>((_currency, _data) => ({
 		color: CHART_COLORS.color.positions,
 		// сумма в центре кольца
 		title: {
@@ -171,6 +174,8 @@ export const useMarginChart = (_options: MaybeRefOrGetter = {}) => {
 		}],
 		...opts.value,
 	}));
+
+	const options = computed<EChartsOption>(() => optionsMemoize(currencyStore.activeCurrency, seriesData.value));
 
 	const legend = computed(() =>
 		seriesData.value.map((item, idx) => ({
@@ -405,6 +410,8 @@ export const useOrdersWinLossChart = (_data: MaybeRefOrGetter<StatisticsChartsRe
  * @returns Объект с флагом отсутствия данных (`isEmpty`) и реактивными опциями графика (`options`)
  */
 export const useProfitByDayChart = (_data: MaybeRefOrGetter<StatisticsChartsResponse["data"]["profit_dynamics"] | undefined>, _options: MaybeRefOrGetter = {}) => {
+	const currencyStore = useCurrencyStore();
+
 	const { formatNumCurrency } = useCurrency();
 
 	const opts = computed(() => toValue(_options));
@@ -420,7 +427,7 @@ export const useProfitByDayChart = (_data: MaybeRefOrGetter<StatisticsChartsResp
 
 	const { dataZoom, gridBottom, gridBottomMobile } = getChartScrollOptions(() => data.value.length);
 
-	const options = computed<EChartsOption>(() => ({
+	const optionsMemoize = useMemoize<EChartsOption, [string, number[]]>((_currency, _data) => ({
 		tooltip: {
 			trigger: "axis",
 			backgroundColor: CHART_COLORS.tooltip.backgroundColor,
@@ -533,6 +540,8 @@ export const useProfitByDayChart = (_data: MaybeRefOrGetter<StatisticsChartsResp
 		dataZoom: dataZoom.value,
 		...opts.value,
 	}));
+
+	const options = computed<EChartsOption>(() => optionsMemoize(currencyStore.activeCurrency, seriesData.value));
 
 	return { isEmpty, options };
 };
