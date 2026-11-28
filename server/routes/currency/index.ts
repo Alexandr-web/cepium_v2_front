@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-	const config = useRuntimeConfig();
+	const config = useRuntimeConfig(event);
 	const { base = DEFAULT_CURRENCY } = getQuery(event);
 	const response = await $fetch<CurrencyResponse>(`${config.public.currencyApiUrl}/latest/${base}`);
 

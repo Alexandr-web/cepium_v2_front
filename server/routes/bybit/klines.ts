@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
 		});
 	}
 
-	const config = useRuntimeConfig();
+	const config = useRuntimeConfig(event);
 
 	const normalizedLimit = Math.min(200, Math.max(1, Number(limit)));
 	const normalizedSymbol = String(symbol).trim().toUpperCase();
