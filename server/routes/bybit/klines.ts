@@ -32,6 +32,8 @@ export default defineEventHandler(async (event) => {
 		});
 	}
 
+	const config = useRuntimeConfig();
+
 	const normalizedLimit = Math.min(200, Math.max(1, Number(limit)));
 	const normalizedSymbol = String(symbol).trim().toUpperCase();
 
@@ -46,7 +48,7 @@ export default defineEventHandler(async (event) => {
 	if (end) params.set("end", String(end));
 
 	const response = await $fetch(
-		`https://api.bybit.com/v5/market/kline?${params.toString()}`,
+		`${config.public.bybitApiUrl}/market/kline?${params.toString()}`,
 		{
 			method: "GET",
 			headers: {

@@ -8,8 +8,10 @@ import { Exchange } from "./Exchange";
  */
 export class Bybit extends Exchange<BybitTicker, BybitMessage, BybitKline> {
 	constructor(options?: Partial<ExchangeOptions>) {
+		const config = useRuntimeConfig();
+
 		super({
-			url: "wss://stream.bybit.com/v5/public/linear",
+			url: `${config.public.bybitWsUrl}/public/linear`,
 			// Bybit закрывает соединение без активности
 			ping: { op: "ping" },
 			intervals: BYBIT_INTERVALS,
