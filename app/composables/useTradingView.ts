@@ -8,6 +8,7 @@ import {
 	type HistogramData,
 	type IChartApi,
 	type ISeriesApi,
+	type LogicalRange,
 	type MouseEventParams,
 	type Time,
 } from "lightweight-charts";
@@ -17,12 +18,17 @@ import TradingViewTooltip from "@/components/molecules/chart/TradingViewTooltip.
 type TradingViewOptions = {
 	// CSS-селектор DOM-элемента, в который будет вмонтирован график.
 	containerSelector: string;
+	// Загружает более старые свечи. Вызывается при подходе к левой границе графика.
+	onLoadMore?: (currentKlines: BybitKline[]) => Promise<BybitKline[]>;
 };
 
 // Размеры и отступ плавающего тултипа (px)
 const TOOLTIP_WIDTH = 200;
 const TOOLTIP_HEIGHT = 130;
 const TOOLTIP_MARGIN = 15;
+
+// Порог левой границы видимого диапазона, при котором запускается подгрузка
+const LOAD_MORE_THRESHOLD = 10;
 
 /**
  * Композабл для управления свечным графиком на базе `lightweight-charts`
@@ -33,7 +39,7 @@ const TOOLTIP_MARGIN = 15;
  * @returns Объект с инстансом графика, реактивными данными сокета и методами управления жизненным циклом.
  */
 export const useTradingViewChart = (_interval: MaybeRefOrGetter<BybitInterval>, options: TradingViewOptions) => {
-	const { containerSelector } = options;
+	const { containerSelector, onLoadMore } = options;
 
 	const interval = computed(() => toValue(_interval));
 
@@ -42,6 +48,11 @@ export const useTradingViewChart = (_interval: MaybeRefOrGetter<BybitInterval>, 
 	const chart = ref<IChartApi | null>(null);
 	const candlestickSeries = ref<ISeriesApi<"Candlestick"> | null>(null);
 	const volumeSeries = ref<ISeriesApi<"Histogram"> | null>(null);
+
+	// Текущий набор свечей, загруженных в график
+	const klines = ref<BybitKline[]>([]);
+	const isLoadingMore = ref(false);
+	const hasMore = ref(true);
 
 	// Создаёт инстанс графика `lightweight-charts` в контейнере, указанном в опциях
 	const createChartInstance = () => {
@@ -209,9 +220,51 @@ export const useTradingViewChart = (_interval: MaybeRefOrGetter<BybitInterval>, 
 		);
 	};
 
+	/**
+	 * Подгружает более старые свечи при подходе к левой границе графика.
+	 * После получения данных позиция видимого диапазона сдвигается на их количество,
+	 * чтобы пользователь остался на тех же свечах, которые просматривал.
+	 */
+	const handleVisibleRangeChange = async (logicalRange: LogicalRange | null) => {
+		if (!logicalRange || !onLoadMore || !hasMore.value || isLoadingMore.value) return;
+		if (logicalRange.from >= LOAD_MORE_THRESHOLD) return;
+
+		const currentKlines = klines.value;
+		isLoadingMore.value = true;
+
+		try {
+			const olderKlines = await onLoadMore(currentKlines);
+
+			if (!olderKlines.length) {
+				hasMore.value = false;
+				return;
+			}
+
+			klines.value = [...olderKlines, ...currentKlines];
+
+			const prevRange = chart.value?.timeScale().getVisibleLogicalRange();
+
+			applyCandlestickData(klines.value);
+			applyVolumeData(klines.value);
+
+			if (prevRange && chart.value) {
+				chart.value.timeScale().setVisibleLogicalRange({
+					from: prevRange.from + olderKlines.length,
+					to: prevRange.to + olderKlines.length,
+				});
+			}
+		} catch (err) {
+			console.error(err);
+		} finally {
+			isLoadingMore.value = false;
+		}
+	};
+
 	// Удаляет предыдущий инстанс графика вместе с подпиской и тултипом
 	const destroyChartInstance = () => {
 		chart.value?.unsubscribeCrosshairMove(crosshairMove);
+		chart.value?.timeScale().unsubscribeVisibleLogicalRangeChange(handleVisibleRangeChange);
+
 		hideTooltip();
 
 		candlestickSeries.value = null;
@@ -227,6 +280,10 @@ export const useTradingViewChart = (_interval: MaybeRefOrGetter<BybitInterval>, 
 
 		destroyChartInstance();
 
+		klines.value = data;
+		hasMore.value = true;
+		isLoadingMore.value = false;
+
 		createChartInstance();
 		createCandlestickSeries();
 		createVolumeSeries();
@@ -236,6 +293,7 @@ export const useTradingViewChart = (_interval: MaybeRefOrGetter<BybitInterval>, 
 
 		chart.value?.subscribeCrosshairMove(crosshairMove);
 		chart.value?.timeScale().fitContent();
+		chart.value?.timeScale().subscribeVisibleLogicalRangeChange(handleVisibleRangeChange);
 
 		subscribe(symbol);
 	};
@@ -266,6 +324,10 @@ export const useTradingViewChart = (_interval: MaybeRefOrGetter<BybitInterval>, 
 
 	const reset = () => {
 		destroyChartInstance();
+
+		klines.value = [];
+		hasMore.value = true;
+		isLoadingMore.value = false;
 
 		unsubscribe();
 		disconnect();

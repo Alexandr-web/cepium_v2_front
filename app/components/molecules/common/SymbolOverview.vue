@@ -71,9 +71,31 @@ const props = withDefaults(
 );
 
 const activeInterval = ref(props.interval);
+const bybitSymbol = computed(() => formatBybitSymbol(props.symbol));
+const urlIconSymbol = computed(() => getUrlCoinIcon(String(props.symbol)));
 
 const { fetchKlines } = useBybitKlines();
-const { isConnected, ticker, kline, build, reset } = useTradingViewChart(activeInterval, { containerSelector: "trading-view-chart" });
+
+// Загружает свечи, предшествующие самому раннему загруженному
+const loadMore = async (currentKlines: BybitKline[]) => {
+	const earliest = currentKlines[0]?.start;
+	if (!earliest) return [];
+
+	return fetchKlines({
+		symbol: bybitSymbol.value,
+		interval: activeInterval.value,
+		end: earliest - 1,
+	});
+};
+
+const { isConnected, ticker, kline, build, reset } = useTradingViewChart(
+	activeInterval,
+	{
+		containerSelector: "trading-view-chart",
+		onLoadMore: loadMore,
+	}
+);
+
 const {
 	formatHighPrice24h,
 	formatLowPrice24h,
@@ -88,9 +110,6 @@ const {
 	formatPrice24hPcnt,
 	price24hPcnt,
 } = useBybitSymbol(ticker, kline);
-
-const bybitSymbol = computed(() => formatBybitSymbol(props.symbol));
-const urlIconSymbol = computed(() => getUrlCoinIcon(String(props.symbol)));
 
 const info24h = computed(() => [
 	{ label: "Максимальная цена", value: formatHighPrice24h.value },

@@ -43,7 +43,7 @@ export const useBybitKlines = () => {
 
 	const fetchKlines = async (params: BybitKlineParams): Promise<BybitKline[]> => {
 		return queryClient.fetchQuery<BybitKline[]>({
-			queryKey: keys.getBybitKlines(params.symbol, params.interval),
+			queryKey: keys.getBybitKlines(params),
 			queryFn: async () => {
 				const response = await api<BybitKlineResponse>("/bybit/klines", { query: params });
 				const klines = parseKlines(response.result.list);

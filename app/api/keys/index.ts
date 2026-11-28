@@ -11,6 +11,6 @@ export default {
 	getStatisticsReport: (query = {}) => ["statistics-report", ...Object.values(query)],
 	getProfileActivities: (query = {}) => ["profile-activities", ...Object.values(query)],
 	getStatistics: ["statistics"],
-	getBybitKlines: (symbol: BybitKline["symbol"], interval: BybitKline["interval"]) => ["bybit-klines", symbol, interval],
+	getBybitKlines: (query = {}) => ["bybit-klines", ...Object.values(query)],
 	getCurrency: ["currency"],
 };
